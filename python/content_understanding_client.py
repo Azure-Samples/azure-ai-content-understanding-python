@@ -309,5 +309,5 @@ class AzureContentUnderstandingClient:
                 raise RuntimeError("Request failed.")
             else:
                 self._logger.info(
-                    f"Request {operation_location} in progress ...")
+                    f"Request {operation_location.split('/')[-1].split('?')[0]} in progress ...")
             time.sleep(polling_interval_seconds)

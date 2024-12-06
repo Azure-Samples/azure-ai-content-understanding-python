@@ -26,12 +26,21 @@ Azure AI Content Understanding is a new Generative AI based [Azure AI service](h
 
 
 
-## Getting Started
+## Getting Started with GitHub Codespaces
 
-### GitHub Codespaces
 You can run this repo virtually by using GitHub Codespaces, which will open a web-based VS Code in your browser:
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?skip_quickstart=true&machine=basicLinux32gb&repo=899687170&ref=main&geo=UsEast&devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
+
+### Configure Setup Azure Content Understanding Resource
+1. Copy `notebooks/.env.sample` to `notebooks/.env`
+1. Fill **AZURE_CU_ENDPOINT** and ** AZURE_CU_API_KEY** with your resource
+
+
+### Open jupyter notebooks and follow the step-by-step guidance
+Go into `notebooks` and find the samples that interesting to you. Codespaces prepare essential environment fo you, simply execute steps.
+
 
 ### Note
 
