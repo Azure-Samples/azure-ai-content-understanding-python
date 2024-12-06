@@ -31,7 +31,7 @@ Azure AI Content Understanding is a new Generative AI based [Azure AI service](h
 ### GitHub Codespaces
 You can run this repo virtually by using GitHub Codespaces, which will open a web-based VS Code in your browser:
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?skip_quickstart=true&machine=basicLinux32gb&repo=879881662&ref=main&geo=UsEast)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?skip_quickstart=true&machine=basicLinux32gb&repo=899687170&ref=main&geo=UsEast)
 
 ### Note
 
