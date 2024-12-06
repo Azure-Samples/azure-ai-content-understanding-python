@@ -1,0 +1,33 @@
+{
+  "analyzerId": "sample_chart_analyzer",
+  "description": "Sample call transcript analyzer",
+  "scenario": "callCenter",
+  "config": {
+    "returnDetails": true,
+    "locales": ["en-US"]
+  },
+  "fieldSchema": {
+    "fields": {
+      "Summary": {
+        "type": "string",
+        "method": "generate"
+      },
+      "Sentiment": {
+        "type": "string",
+        "method": "classify",
+        "enum": [ "Positive", "Neutral", "Negative" ]
+      },
+      "People": {
+        "type": "array",
+        "description": "List of people mentioned",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Name": { "type": "string" },
+            "Role": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

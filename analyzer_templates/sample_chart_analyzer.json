@@ -1,0 +1,17 @@
+{
+  "analyzerId": "sample_chart_analyzer",
+  "description": "Sample chart analyzer",
+  "scenario": "image",
+  "fieldSchema": {
+    "fields": {
+      "Title": {
+        "type": "string"
+      },
+      "ChartType": {
+        "type": "string",
+        "method": "classify",
+        "enum": [ "bar", "line", "pie" ]
+      }
+    }
+  }
+}
