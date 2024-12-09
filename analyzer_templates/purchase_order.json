@@ -1,0 +1,29 @@
+{
+    "name": "PurchaseOrder_Extraction_Sample",
+    "description": "Extract useful information from purchase order",
+    "scenario": "document",
+    "fieldSchema": {
+        "fields": {
+            "PurchaseOrderNumber": {
+                "type": "string",
+                "method": "extract",
+                "description": ""
+            },
+            "PurchaseDate": {
+                "type": "date",
+                "method": "extract",
+                "description": ""
+            },
+            "TotalPayment": {
+                "type": "number",
+                "method": "extract",
+                "description": ""
+            },
+            "ShippedToAddress": {
+                "type": "string",
+                "method": "extract",
+                "description": ""
+            }
+        }
+    }
+}

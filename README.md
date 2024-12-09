@@ -18,7 +18,7 @@ Azure AI Content Understanding is a new Generative AI-based [Azure AI service](h
 
 ## Prerequisites
 
-To use Content Understanding, you need an [Azure AI Services resource](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/how-to/create-multi-service-resource).
+To use Content Understanding, you need an [Azure AI Services resource](docs/create_azure_ai_service.md).
 
 ## Getting started with GitHub Codespaces
 
@@ -26,7 +26,7 @@ You can run this repo virtually by using GitHub Codespaces, which will open a we
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?skip_quickstart=true&machine=basicLinux32gb&repo=899687170&ref=main&geo=UsEast&devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
-### Configure Azure Content Understanding resource
+### Configure Azure AI service resource
 
 1. Copy `notebooks/.env.sample` to `notebooks/.env`
 2. Fill **AZURE_AI_ENDPOINT** and **AZURE_AI_API_KEY** with the endpoint and key values from your Azure portal Azure AI Services instance.
