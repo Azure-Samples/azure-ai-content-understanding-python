@@ -12,8 +12,8 @@ class AzureContentUnderstandingClient:
                  endpoint: str,
                  api_version: str,
                  subscription_key: str = None,
-                 api_token: str = None,
                  x_ms_useragent: str = "cu-sample-code"):
+        api_token = ''
         if not subscription_key:
             api_token = DefaultAzureCredential().get_token("https://cognitiveservices.azure.com/.default").token
         if not api_version:
