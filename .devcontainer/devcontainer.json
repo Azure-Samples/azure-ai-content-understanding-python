@@ -1,6 +1,9 @@
 {
     "name": "Azure AI Content Understanding Demo",
     "image": "mcr.microsoft.com/devcontainers/python:3.11",
+    "features": {
+        "ghcr.io/azure/azure-dev/azd:latest": {}
+    },
     "customizations": {
         "vscode": {
             "extensions": [
@@ -9,7 +12,9 @@
                 "ms-python.python",
                 "ms-toolsai.jupyter",
                 "esbenp.prettier-vscode"
-            ]
+            ],
+            "python.defaultInterpreterPath": "/usr/local/bin/python"
         }
-    }
+    },
+    "postCreateCommand": "pip install -r requirements.txt"
 }
