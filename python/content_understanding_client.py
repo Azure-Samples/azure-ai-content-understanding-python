@@ -106,8 +106,8 @@ class AzureContentUnderstandingClient:
     def begin_create_analyzer(
             self,
             analyzer_id: str,
-            analyzer_schema: dict = None,
-            analyzer_schema_path: str = "",
+            analyzer_template: dict = None,
+            analyzer_template_path: str = "",
             training_storage_container_sas_url: str = "",
             training_storage_container_path_prefix: str = "",
     ):
@@ -116,28 +116,28 @@ class AzureContentUnderstandingClient:
 
         Args:
             analyzer_id (str): The unique identifier for the analyzer.
-            analyzer_schema (dict, optional): The schema definition for the analyzer. Defaults to None.
-            analyzer_schema_path (str, optional): The file path to the analyzer schema JSON file. Defaults to "".
+            analyzer_template (dict, optional): The schema definition for the analyzer. Defaults to None.
+            analyzer_template_path (str, optional): The file path to the analyzer schema JSON file. Defaults to "".
             training_storage_container_sas_url (str, optional): The SAS URL for the training storage container. Defaults to "".
             training_storage_container_path_prefix (str, optional): The path prefix within the training storage container. Defaults to "".
 
         Raises:
-            ValueError: If neither `analyzer_schema` nor `analyzer_schema_path` is provided.
+            ValueError: If neither `analyzer_template` nor `analyzer_template_path` is provided.
             requests.exceptions.HTTPError: If the HTTP request to create the analyzer fails.
 
         Returns:
             requests.Response: The response object from the HTTP request.
         """
-        if analyzer_schema_path and Path(analyzer_schema_path).exists():
-            with open(analyzer_schema_path, "r") as file:
-                analyzer_schema = json.load(file)
+        if analyzer_template_path and Path(analyzer_template_path).exists():
+            with open(analyzer_template_path, "r") as file:
+                analyzer_template = json.load(file)
 
-        if not analyzer_schema:
+        if not analyzer_template:
             raise ValueError("Analyzer schema must be provided.")
 
         if (training_storage_container_sas_url
                 and training_storage_container_path_prefix):  # noqa
-            analyzer_schema["trainingData"] = self._get_training_data_config(
+            analyzer_template["trainingData"] = self._get_training_data_config(
                 training_storage_container_sas_url,
                 training_storage_container_path_prefix,
             )
@@ -149,7 +149,7 @@ class AzureContentUnderstandingClient:
             url=self._get_analyzer_url(self._endpoint, self._api_version,
                                        analyzer_id),
             headers=headers,
-            json=analyzer_schema,
+            json=analyzer_template,
         )
         response.raise_for_status()
         self._logger.info(f"Analyzer {analyzer_id} create request accepted.")
