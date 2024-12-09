@@ -1,2 +1,3 @@
+azure-identity
 python-dotenv
 requests

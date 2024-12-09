@@ -4,6 +4,7 @@ import logging
 import json
 import time
 from pathlib import Path
+from azure.identity import DefaultAzureCredential
 
 
 class AzureContentUnderstandingClient:
@@ -13,9 +14,8 @@ class AzureContentUnderstandingClient:
                  subscription_key: str = None,
                  api_token: str = None,
                  x_ms_useragent: str = "cu-sample-code"):
-        if not subscription_key and not api_token:
-            raise ValueError(
-                "Either subscription key or API token must be provided.")
+        if not subscription_key:
+            api_token = DefaultAzureCredential().get_token("https://cognitiveservices.azure.com/.default").token
         if not api_version:
             raise ValueError("API version must be provided.")
         if not endpoint:

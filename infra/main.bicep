@@ -34,7 +34,10 @@ var principalType = empty(runningOnGitHub) ? 'User' : 'ServicePrincipal'
 
 var uniqueId = toLower(uniqueString(subscription().id, environmentName, location))
 var resourcePrefix = '${environmentName}${uniqueId}'
-var tags = { 'azd-env-name': environmentName }
+var tags = { 
+    'azd-env-name': environmentName
+    owner: 'azure-ai-sample'
+}
 
 // Organize resources in a resource group
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
@@ -44,7 +47,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
 }
 
 var aiServiceName = '${resourcePrefix}-aiservice'
-module aiService 'br/public:avm/res/cognitive-services/account:0.9' = {
+module aiService 'br/public:avm/res/cognitive-services/account:0.8.1' = {
   name: 'aiService'
   scope: resourceGroup
   params: {
@@ -59,12 +62,12 @@ module aiService 'br/public:avm/res/cognitive-services/account:0.9' = {
       bypass: 'AzureServices'
     }
     roleAssignments: [
-      {
-        principalId: principalId
-        roleDefinitionIdOrName: 'Cognitive Services User'
-        principalType: principalType
-      }
-    ]
+        {
+          principalId: principalId
+          roleDefinitionIdOrName: 'Cognitive Services User'
+          principalType: principalType
+        }
+      ]
   }
 }
 
@@ -72,5 +75,4 @@ output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
 output AZURE_RESOURCE_GROUP string = resourceGroup.name
 
-output AZURE_AI_ENDPOINT string = aiService.properties.endpoint
-output AZURE_AI_API_KEY string = aiService.listKeys().key1
+output AZURE_AI_ENDPOINT string = aiService.outputs.endpoint
