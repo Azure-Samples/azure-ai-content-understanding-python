@@ -1,5 +1,5 @@
 {
-    "name": "Azure Content Understanding Demo",
+    "name": "Azure AI Content Understanding Demo",
     "image": "mcr.microsoft.com/devcontainers/python:3.11",
     "customizations": {
         "vscode": {

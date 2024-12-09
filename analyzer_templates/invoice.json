@@ -1,5 +1,4 @@
 {
-  "analyzerId": "sample_invoice_analyzer",
   "description": "Sample invoice analyzer",
   "scenario": "document",
   "fieldSchema": {

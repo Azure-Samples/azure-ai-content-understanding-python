@@ -1,47 +1,42 @@
 # Azure AI Content Understanding Samples (Python)
 
-Welcome! Content Understanding is a solution that analyzes and comprehends various media content, such as **document, images, audio, and video**, transforming it into structured, organized, and searchable data.
+Welcome! Content Understanding is a solution that analyzes and comprehends various media content, such as **documents, images, audio, and video**, transforming it into structured, organized, and searchable data.
 
-- The contents of this repository default to the latest preview version: **(2024-12-01-preview)**.
-
+- The samples in this repository default to the latest preview API version: **(2024-12-01-preview)**.
 
 ## Features
 
-Azure AI Content Understanding is a new Generative AI based [Azure AI service](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview), designed to process/ingest content of any types (document, image, audio, and video) into an user-defined output format. Content Understanding offers a streamlined process to reason over large amounts of unstructured data, accelerating time-to-value by generating an output that can be integrated into automation and analytical workflows.
+Azure AI Content Understanding is a new Generative AI-based [Azure AI service](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview), designed to process/ingest content of any type (documents, images, audio, and video) into a user-defined output format. Content Understanding offers a streamlined process to reason over large amounts of unstructured data, accelerating time-to-value by generating an output that can be integrated into automation and analytical workflows.
 
+## Samples
 
-## Sample List
 | File | Description |
 | --- | --- |
-| [field_extraction.ipynb](notebooks/field_extraction.ipynb) | Extract customized fields defined in analyzer templates |
-| [content_extraction.ipynb](notebooks/content_extraction.ipynb) | Extract structrued content understanding result from your input files |
-| [analyzer_training.ipynb](notebooks/analyzer_training.ipynb) | Provide training data to improve quality of your analyzer |
-
-
+| [field_extraction.ipynb](notebooks/field_extraction.ipynb) | Extract custom fields with sample analyzer templates |
+| [content_extraction.ipynb](notebooks/content_extraction.ipynb) | Extract structured content from your input files |
+| [analyzer_training.ipynb](notebooks/analyzer_training.ipynb) | Provide training data to improve the quality of your analyzer |
 
 ## Prerequisites
 
-1. To get started, you need an active [Azure account](https://azure.microsoft.com/free/cognitive-services/). If you don't have one, you can [create a free subscription](https://azure.microsoft.com/free/).
-1. Once you have Azure subscription, create an [Content Understanding Service and Get endpoint and keys](Create_Content_Understanding_Service.md).
+To use Content Understanding, you need an [Azure AI Services resource](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/how-to/create-multi-service-resource).
 
+## Getting started with GitHub Codespaces
 
-
-## Getting Started with GitHub Codespaces
-
-You can run this repo virtually by using GitHub Codespaces, which will open a web-based VS Code in your browser:
+You can run this repo virtually by using GitHub Codespaces, which will open a web-based VS Code in your browser.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?skip_quickstart=true&machine=basicLinux32gb&repo=899687170&ref=main&geo=UsEast&devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
+### Configure Azure Content Understanding resource
 
-### Configure Setup Azure Content Understanding Resource
 1. Copy `notebooks/.env.sample` to `notebooks/.env`
-1. Fill **AZURE_CU_ENDPOINT** and ** AZURE_CU_API_KEY** with your resource
+2. Fill **AZURE_AI_ENDPOINT** and **AZURE_AI_API_KEY** with the endpoint and key values from your Azure portal Azure AI Services instance.
 
+### Open a Jupyter notebook and follow the step-by-step guidance
 
-### Open jupyter notebooks and follow the step-by-step guidance
-Go into `notebooks` and find the samples that interesting to you. Codespaces prepare essential environment fo you, simply execute steps.
+Navigate to the `notebooks` directory and select the sample notebook you are interested in. Since Codespaces is pre-configured with the necessary environment, you can directly execute each step in the notebook.
 
+### Notes
 
-### Note
+* **Trademarks** - This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft trademarks or logos is subject to and must follow [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general). Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship. Any use of third-party trademarks or logos is subject to those third-party’s policies.
 
->Trademarks This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft trademarks or logos is subject to and must follow [Microsoft’s Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general). Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship. Any use of third-party trademarks or logos are subject to those third-party’s policies.
+* **Data Collection** - The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described in the repository. There are also some features in the software that may enable you and Microsoft to collect data from users of your applications. If you use these features, you must comply with applicable law, including providing appropriate notices to users of your applications together with a copy of Microsoft’s privacy statement. Our privacy statement is located at https://go.microsoft.com/fwlink/?LinkID=824704. You can learn more about data collection and use in the help documentation and our privacy statement. Your use of the software operates as your consent to these practices.

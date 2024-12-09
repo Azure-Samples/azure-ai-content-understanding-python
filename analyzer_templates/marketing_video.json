@@ -1,5 +1,4 @@
 {
-  "analyzerId": "sample_marketing_video_analyzer",
   "description": "Sample marketing video analyzer",
   "scenario": "videoShot",
   "config": {

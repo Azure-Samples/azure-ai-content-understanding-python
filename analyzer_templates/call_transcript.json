@@ -1,5 +1,4 @@
 {
-  "analyzerId": "sample_chart_analyzer",
   "description": "Sample call transcript analyzer",
   "scenario": "callCenter",
   "config": {

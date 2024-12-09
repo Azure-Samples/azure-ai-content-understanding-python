@@ -1,0 +1,94 @@
+{
+  "name": "Chart and diagram understanding",
+  "description": "Extract detailed structured information from charts and diagrams.",
+  "scenario": "image",
+  "config": {
+      "returnDetails": false
+  },
+  "fieldSchema": {
+      "name": "ChartAndDiagram",
+      "description": "Structured information from charts and diagrams.",
+      "fields": {
+          "Title": {
+              "type": "string",
+              "method": "generate",
+              "description": "Verbatim title of the chart."
+          },
+          "ChartType": {
+              "type": "string",
+              "method": "classify",
+              "description": "The type of chart.",
+              "enum": [
+                  "area",
+                  "bar",
+                  "box",
+                  "bubble",
+                  "candlestick",
+                  "funnel",
+                  "heatmap",
+                  "histogram",
+                  "line",
+                  "pie",
+                  "radar",
+                  "rings",
+                  "rose",
+                  "treemap"
+              ],
+              "enumDescriptions": {
+                  "histogram": "Continuous values on the x-axis, which distinguishes it from bar.",
+                  "rose": "In contrast to pie charts, the sectors are of equal angles and differ in how far each sector extends from the center of the circle."
+              }
+          },
+          "TopicKeywords": {
+              "type": "array",
+              "method": "generate",
+              "description": "Relevant topics associated with the chart, used for tagging.",
+              "items": {
+                  "type": "string",
+                  "method": "generate",
+                  "examples": [
+                      "Business and finance",
+                      "Arts and culture",
+                      "Education and academics"
+                  ]
+              }
+          },
+          "DetailedDescription": {
+              "type": "string",
+              "method": "generate",
+              "description": "Detailed description of the chart or diagram, not leaving out any key information. Include numbers, trends, and other details."
+          },
+          "Summary": {
+              "type": "string",
+              "method": "generate",
+              "description": "Detailed summary of the chart, including highlights and takeaways."
+          },
+          "MarkdownDataTable": {
+              "type": "string",
+              "method": "generate",
+              "description": "Underlying data of the chart in tabular markdown format. Give markdown output with valid syntax and accurate numbers, and fill any uncertain values with empty cells. If not applicable, output an empty string."
+          },
+          "AxisTitles": {
+              "type": "object",
+              "method": "generate",
+              "description": "Titles of the x and y axes.",
+              "properties": {
+                  "xAxisTitle": {
+                      "type": "string",
+                      "method": "generate"
+                  },
+                  "yAxisTitle": {
+                      "type": "string",
+                      "method": "generate"
+                  }
+              }
+          },
+          "FootnotesAndAnnotations": {
+              "type": "string",
+              "method": "generate",
+              "description": "All footnotes and textual annotations in the chart or diagram."
+          }
+      },
+      "definitions": {}
+  }
+}
