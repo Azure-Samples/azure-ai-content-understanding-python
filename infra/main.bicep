@@ -29,7 +29,7 @@ var principalType = empty(runningOnGitHub) ? 'User' : 'ServicePrincipal'
 
 var uniqueId = toLower(uniqueString(subscription().id, environmentName, location))
 var resourcePrefix = '${environmentName}${uniqueId}'
-var tags = { 
+var tags = {
     'azd-env-name': environmentName
     owner: 'azure-ai-sample'
 }

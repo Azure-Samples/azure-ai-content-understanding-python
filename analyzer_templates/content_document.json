@@ -1,0 +1,5 @@
+{
+    "description": "Sample document content analyzer",
+    "scenario": "document",
+    "fieldSchema": {}
+}

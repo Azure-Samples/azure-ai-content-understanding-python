@@ -1,0 +1,9 @@
+{
+    "scenario": "conversation",
+    "description": "Sample audio transcript analyzer",
+    "config": {
+      "returnDetails": true,
+      "locales": ["en-US"]
+    },
+    "fieldSchema": {}
+  }
