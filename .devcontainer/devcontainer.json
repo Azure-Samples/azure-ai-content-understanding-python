@@ -13,9 +13,15 @@
                 "ms-toolsai.jupyter",
                 "esbenp.prettier-vscode"
             ],
-            "python.defaultInterpreterPath": "/usr/local/bin/python"
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python"
+            }
         }
     },
-    "postCreateCommand": "pip install -r requirements.txt",
-    "remoteUser": "vscode"
+    "postCreateCommand": [
+        "apt-get install -y git-lfs",
+        "git lfs install",
+        "git lfs pull",
+        "pip install -r requirements.txt"
+    ]
 }

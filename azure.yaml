@@ -12,6 +12,6 @@ hooks:
       continueOnError: false
     posix:
       shell: sh
-      run: ./infra/write_dot_env.sh
+      run: sh infra/write_dot_env.sh
       interactive: false
       continueOnError: false
