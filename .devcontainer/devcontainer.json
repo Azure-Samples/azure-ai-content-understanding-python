@@ -18,10 +18,5 @@
             }
         }
     },
-    "postCreateCommand": [
-        "apt-get install -y git-lfs",
-        "git lfs install",
-        "git lfs pull",
-        "pip install -r requirements.txt"
-    ]
+    "postCreateCommand": "apt-get install -y git-lfs && git-lfs pull && pip install -r requirements.txt"
 }
