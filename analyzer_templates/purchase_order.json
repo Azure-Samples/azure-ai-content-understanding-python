@@ -1,5 +1,4 @@
 {
-    "name": "PurchaseOrder_Extraction_Sample",
     "description": "Extract useful information from purchase order",
     "scenario": "document",
     "fieldSchema": {

@@ -52,6 +52,7 @@ module aiService 'br/public:avm/res/cognitive-services/account:0.8.1' = {
     kind: 'AIServices'
     sku: 'S0'
     customSubDomainName: aiServiceName
+    restrictOutboundNetworkAccess: false
     networkAcls: {
       defaultAction: 'Allow'
       bypass: 'AzureServices'

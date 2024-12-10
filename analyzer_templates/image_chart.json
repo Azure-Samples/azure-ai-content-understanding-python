@@ -1,5 +1,4 @@
 {
-  "name": "Chart and diagram understanding",
   "description": "Extract detailed structured information from charts and diagrams.",
   "scenario": "image",
   "config": {
