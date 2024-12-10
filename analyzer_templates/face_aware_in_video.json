@@ -1,0 +1,39 @@
+{
+    "description": "Generate face-aware content understanding from video.",
+    "config": {
+        "enableFace": true,
+        "returnDetails": true,
+        "locales": [
+            "en-US",
+            "es-ES",
+            "es-MX",
+            "fr-FR",
+            "hi-IN",
+            "it-IT",
+            "ja-JP",
+            "ko-KR",
+            "pt-BR",
+            "zh-CN"
+        ]
+    },
+    "fieldSchema": {
+        "description": "Analyze videos to extract faces",
+        "fields": {
+            "description": {
+                "type": "string",
+                "description": "Describe what happened in the video segment. Include all significant details and be specific where possible. For example, use 'man,' 'woman,' 'child,' etc., rather than 'person,' and specify animals like 'dog' or 'cat.' For recognizable movie or animation characters, use their names if known.",
+                "examples": [
+                    "A close-up of a brown, leaf-like insect camouflaged against a green background."
+                ]
+            },
+            "audio_description": {
+                "type": "string",
+                "description": "Generate a first-person audio description that narrates changes across scenes. Use 'we' and omit the movie title. Mention popular actors if known, and only include information that differs from the previous scene.",
+                "examples": [
+                    "We see a man adjusting his hat in a mirror, looking straight at us."
+                ]
+            }
+        }
+    },
+    "scenario": "videoShot"
+}
