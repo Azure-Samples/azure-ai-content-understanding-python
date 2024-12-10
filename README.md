@@ -24,11 +24,10 @@ You can run this repo virtually by using GitHub Codespaces, which will open a we
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?skip_quickstart=true&machine=basicLinux32gb&repo=899687170&ref=main&geo=UsEast&devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
 ### Local environment
-
 1. Make sure the following tools are installed:
 
     * [Azure Developer CLI (azd)](https://aka.ms/install-azd)
-    * [Python 3.9+](https://www.python.org/downloads/)
+    * [Python 3.11+](https://www.python.org/downloads/)
 
 2. Make a new directory called `azure-ai-content-understanding-python` and clone this template into it using the `azd` CLI:
 
@@ -40,6 +39,7 @@ You can run this repo virtually by using GitHub Codespaces, which will open a we
 
 ## Configure Azure AI service resource
 ### (Option 1) Use `azd` commands to auto create temporal resources to run sample
+1. Make sure you have permission to grant roles under subscription
 1. Login Azure
     ```shell
     azd auth login

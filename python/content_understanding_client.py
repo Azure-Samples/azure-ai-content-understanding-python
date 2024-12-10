@@ -4,18 +4,21 @@ import logging
 import json
 import time
 from pathlib import Path
-from azure.identity import DefaultAzureCredential
 
 
 class AzureContentUnderstandingClient:
-    def __init__(self,
-                 endpoint: str,
-                 api_version: str,
-                 subscription_key: str = None,
-                 x_ms_useragent: str = "cu-sample-code"):
-        api_token = ''
-        if not subscription_key:
-            api_token = DefaultAzureCredential().get_token("https://cognitiveservices.azure.com/.default").token
+    def __init__(
+        self,
+        endpoint: str,
+        api_version: str,
+        subscription_key: str = None,
+        token_provider: callable = None,
+        x_ms_useragent: str = "cu-sample-code",
+    ):
+        if not subscription_key and not token_provider:
+            raise ValueError(
+                "Either subscription key or token provider must be provided."
+            )
         if not api_version:
             raise ValueError("API version must be provided.")
         if not endpoint:
@@ -24,7 +27,9 @@ class AzureContentUnderstandingClient:
         self._endpoint = endpoint.rstrip("/")
         self._api_version = api_version
         self._logger = logging.getLogger(__name__)
-        self._headers = self._get_headers(subscription_key, api_token, x_ms_useragent)
+        self._headers = self._get_headers(
+            subscription_key, token_provider(), x_ms_useragent
+        )
 
     def _get_analyzer_url(self, endpoint, api_version, analyzer_id):
         return f"{endpoint}/contentunderstanding/analyzers/{analyzer_id}?api-version={api_version}"  # noqa
@@ -35,8 +40,9 @@ class AzureContentUnderstandingClient:
     def _get_analyze_url(self, endpoint, api_version, analyzer_id):
         return f"{endpoint}/contentunderstanding/analyzers/{analyzer_id}:analyze?api-version={api_version}"  # noqa
 
-    def _get_training_data_config(self, storage_container_sas_url,
-                                  storage_container_path_prefix):
+    def _get_training_data_config(
+        self, storage_container_sas_url, storage_container_path_prefix
+    ):
         return {
             "containerUrl": storage_container_sas_url,
             "kind": "blob",
@@ -44,7 +50,7 @@ class AzureContentUnderstandingClient:
         }
 
     def _get_headers(self, subscription_key, api_token, x_ms_useragent):
-        """ Returns the headers for the HTTP requests. 
+        """Returns the headers for the HTTP requests.
         Args:
             subscription_key (str): The subscription key for the service.
             api_token (str): The API token for the service.
@@ -52,11 +58,11 @@ class AzureContentUnderstandingClient:
         Returns:
             dict: A dictionary containing the headers for the HTTP requests.
         """
-        headers = {
-            "Ocp-Apim-Subscription-Key": subscription_key
-        } if subscription_key else {
-            "Authorization": f"Bearer {api_token}"
-        }
+        headers = (
+            {"Ocp-Apim-Subscription-Key": subscription_key}
+            if subscription_key
+            else {"Authorization": f"Bearer {api_token}"}
+        )
         headers["x-ms-useragent"] = x_ms_useragent
         return headers
 
@@ -96,20 +102,19 @@ class AzureContentUnderstandingClient:
             HTTPError: If the request fails.
         """
         response = requests.get(
-            url=self._get_analyzer_url(self._endpoint, self._api_version,
-                                       analyzer_id),
+            url=self._get_analyzer_url(self._endpoint, self._api_version, analyzer_id),
             headers=self._headers,
         )
         response.raise_for_status()
         return response.json()
 
     def begin_create_analyzer(
-            self,
-            analyzer_id: str,
-            analyzer_template: dict = None,
-            analyzer_template_path: str = "",
-            training_storage_container_sas_url: str = "",
-            training_storage_container_path_prefix: str = "",
+        self,
+        analyzer_id: str,
+        analyzer_template: dict = None,
+        analyzer_template_path: str = "",
+        training_storage_container_sas_url: str = "",
+        training_storage_container_path_prefix: str = "",
     ):
         """
         Initiates the creation of an analyzer with the given ID and schema.
@@ -135,8 +140,10 @@ class AzureContentUnderstandingClient:
         if not analyzer_template:
             raise ValueError("Analyzer schema must be provided.")
 
-        if (training_storage_container_sas_url
-                and training_storage_container_path_prefix):  # noqa
+        if (
+            training_storage_container_sas_url
+            and training_storage_container_path_prefix
+        ):  # noqa
             analyzer_template["trainingData"] = self._get_training_data_config(
                 training_storage_container_sas_url,
                 training_storage_container_path_prefix,
@@ -146,8 +153,7 @@ class AzureContentUnderstandingClient:
         headers.update(self._headers)
 
         response = requests.put(
-            url=self._get_analyzer_url(self._endpoint, self._api_version,
-                                       analyzer_id),
+            url=self._get_analyzer_url(self._endpoint, self._api_version, analyzer_id),
             headers=headers,
             json=analyzer_template,
         )
@@ -169,8 +175,7 @@ class AzureContentUnderstandingClient:
             HTTPError: If the delete request fails.
         """
         response = requests.delete(
-            url=self._get_analyzer_url(self._endpoint, self._api_version,
-                                       analyzer_id),
+            url=self._get_analyzer_url(self._endpoint, self._api_version, analyzer_id),
             headers=self._headers,
         )
         response.raise_for_status()
@@ -206,44 +211,48 @@ class AzureContentUnderstandingClient:
         headers.update(self._headers)
         if isinstance(data, dict):
             response = requests.post(
-                url=self._get_analyze_url(self._endpoint, self._api_version,
-                                          analyzer_id),
+                url=self._get_analyze_url(
+                    self._endpoint, self._api_version, analyzer_id
+                ),
                 headers=headers,
                 json=data,
             )
         else:
             response = requests.post(
-                url=self._get_analyze_url(self._endpoint, self._api_version,
-                                          analyzer_id),
+                url=self._get_analyze_url(
+                    self._endpoint, self._api_version, analyzer_id
+                ),
                 headers=headers,
                 data=data,
             )
 
         response.raise_for_status()
         self._logger.info(
-            f"Analyzing file {file_location} with analyzer: {analyzer_id}")
+            f"Analyzing file {file_location} with analyzer: {analyzer_id}"
+        )
         return response
 
-    def get_image_from_analyze_operation(self, analyze_response: Response,
-                                         image_id: str):
-        """ Retrieves an image from the analyze operation using the image ID.
-            Args:
-                analyze_response (Response): The response object from the analyze operation.
-                image_id (str): The ID of the image to retrieve.
-            Returns:
-                bytes: The image content as a byte string.
+    def get_image_from_analyze_operation(
+        self, analyze_response: Response, image_id: str
+    ):
+        """Retrieves an image from the analyze operation using the image ID.
+        Args:
+            analyze_response (Response): The response object from the analyze operation.
+            image_id (str): The ID of the image to retrieve.
+        Returns:
+            bytes: The image content as a byte string.
         """
-        operation_location = analyze_response.headers.get(
-            "operation-location", "")
+        operation_location = analyze_response.headers.get("operation-location", "")
         if not operation_location:
             raise ValueError(
                 "Operation location not found in the analyzer response header."
             )
         operation_location = operation_location.split("?api-version")[0]
-        image_retrieval_url = f"{operation_location}/images/{image_id}?api-version={self._api_version}"
+        image_retrieval_url = (
+            f"{operation_location}/images/{image_id}?api-version={self._api_version}"
+        )
         try:
-            response = requests.get(url=image_retrieval_url,
-                                    headers=self._headers)
+            response = requests.get(url=image_retrieval_url, headers=self._headers)
             response.raise_for_status()
 
             assert response.headers.get("Content-Type") == "image/jpeg"
@@ -254,10 +263,10 @@ class AzureContentUnderstandingClient:
             return None
 
     def poll_result(
-            self,
-            response: Response,
-            timeout_seconds: int = 120,
-            polling_interval_seconds: int = 2,
+        self,
+        response: Response,
+        timeout_seconds: int = 120,
+        polling_interval_seconds: int = 2,
     ):
         """
         Polls the result of an asynchronous operation until it completes or times out.
@@ -277,8 +286,7 @@ class AzureContentUnderstandingClient:
         """
         operation_location = response.headers.get("operation-location", "")
         if not operation_location:
-            raise ValueError(
-                "Operation location not found in response headers.")
+            raise ValueError("Operation location not found in response headers.")
 
         headers = {"Content-Type": "application/json"}
         headers.update(self._headers)
@@ -300,10 +308,10 @@ class AzureContentUnderstandingClient:
                 )
                 return response.json()
             elif status == "failed":
-                self._logger.error(
-                    f"Request failed. Reason: {response.json()}")
+                self._logger.error(f"Request failed. Reason: {response.json()}")
                 raise RuntimeError("Request failed.")
             else:
                 self._logger.info(
-                    f"Request {operation_location.split('/')[-1].split('?')[0]} in progress ...")
+                    f"Request {operation_location.split('/')[-1].split('?')[0]} in progress ..."
+                )
             time.sleep(polling_interval_seconds)
