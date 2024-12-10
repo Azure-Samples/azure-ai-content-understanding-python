@@ -17,13 +17,28 @@ Azure AI Content Understanding is a new Generative AI-based [Azure AI service](h
 | [analyzer_training.ipynb](notebooks/analyzer_training.ipynb) | Provide training data to improve the quality of your analyzer |
 
 
-## Getting started with GitHub Codespaces
-
+## Getting started
+### GitHub Codespaces
 You can run this repo virtually by using GitHub Codespaces, which will open a web-based VS Code in your browser.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?skip_quickstart=true&machine=basicLinux32gb&repo=899687170&ref=main&geo=UsEast&devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
-### Configure Azure AI service resource
+### Local environment
+
+1. Make sure the following tools are installed:
+
+    * [Azure Developer CLI (azd)](https://aka.ms/install-azd)
+    * [Python 3.9+](https://www.python.org/downloads/)
+
+2. Make a new directory called `azure-ai-content-understanding-python` and clone this template into it using the `azd` CLI:
+
+    ```shell
+    azd init -t azure-ai-content-understanding-python
+    ```
+
+    You can also use git to clone the repository if you prefer.
+
+## Configure Azure AI service resource
 ### (Option 1) Use `azd` commands to auto create temporal resources to run sample
 1. Login Azure
     ```shell
@@ -41,7 +56,7 @@ You can run this repo virtually by using GitHub Codespaces, which will open a we
 1. Copy `notebooks/.env.sample` to `notebooks/.env`
 1. Fill **AZURE_AI_ENDPOINT** with the endpoint from your Azure portal Azure AI Services instance.
 
-### Open a Jupyter notebook and follow the step-by-step guidance
+## Open a Jupyter notebook and follow the step-by-step guidance
 
 Navigate to the `notebooks` directory and select the sample notebook you are interested in. Since Codespaces is pre-configured with the necessary environment, you can directly execute each step in the notebook.
 
