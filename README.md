@@ -16,9 +16,6 @@ Azure AI Content Understanding is a new Generative AI-based [Azure AI service](h
 | [content_extraction.ipynb](notebooks/content_extraction.ipynb) | Extract structured content from your input files |
 | [analyzer_training.ipynb](notebooks/analyzer_training.ipynb) | Provide training data to improve the quality of your analyzer |
 
-## Prerequisites
-
-To use Content Understanding, you need an [Azure AI Services resource](docs/create_azure_ai_service.md).
 
 ## Getting started with GitHub Codespaces
 
@@ -27,9 +24,22 @@ You can run this repo virtually by using GitHub Codespaces, which will open a we
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?skip_quickstart=true&machine=basicLinux32gb&repo=899687170&ref=main&geo=UsEast&devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
 ### Configure Azure AI service resource
+### (Option 1) Use `azd` commands to auto create temporal resources to run sample
+1. Login Azure
+    ```shell
+    azd auth login
+    ```
+1. Setting up environment, following prompts to choose location
+    ```shell
+    azd up
+    ```
 
+
+### (Option 2) Manually create resources and set environment variables
+1. Create [Azure AI Services resource](docs/create_azure_ai_service.md)
+1. Go to `Access Control (IAM)` in resource, grant yourself role `Cognitive Services User`
 1. Copy `notebooks/.env.sample` to `notebooks/.env`
-2. Fill **AZURE_AI_ENDPOINT** and **AZURE_AI_API_KEY** with the endpoint and key values from your Azure portal Azure AI Services instance.
+1. Fill **AZURE_AI_ENDPOINT** with the endpoint from your Azure portal Azure AI Services instance.
 
 ### Open a Jupyter notebook and follow the step-by-step guidance
 
