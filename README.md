@@ -12,9 +12,9 @@ Azure AI Content Understanding is a new Generative AI-based [Azure AI service](h
 
 | File | Description |
 | --- | --- |
-| [field_extraction.ipynb](notebooks/field_extraction.ipynb) | Extract custom fields with sample analyzer templates |
-| [content_extraction.ipynb](notebooks/content_extraction.ipynb) | Extract structured content from your input files |
-| [analyzer_training.ipynb](notebooks/analyzer_training.ipynb) | Provide training data to improve the quality of your analyzer |
+| [content_extraction.ipynb](notebooks/content_extraction.ipynb) | In this sample we will show content understanding API can help you get semantic information from your file. For example OCR with table in document, audio transcription, and face analysis in video. |
+| [field_extraction.ipynb](notebooks/field_extraction.ipynb) | In this sample we will show how to create an analyzer to extract fields in your file. For example invoice amount in the document, how many people in an image, names mentioned in an audio, or summary of a video. You can customize the fields by creating your own analyzer template.  |
+| [analyzer_training.ipynb](notebooks/analyzer_training.ipynb) | If you want to futher boost the performance for field extraction, we can do training when you provide few labeled samples to the API. Note: This feature is available to document scenario now. |
 
 
 ## Getting started
