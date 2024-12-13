@@ -1,0 +1,44 @@
+{
+    "description": "Extract useful information from receipt",
+    "scenario": "document",
+    "fieldSchema": {
+        "fields": {
+            "MerchantName": {
+                "type": "string",
+                "method": "extract",
+                "description": ""
+            },
+            "Items": {
+                "type": "array",
+                "method": "generate",
+                "description": "",
+                "items": {
+                    "type": "object",
+                    "method": "extract",
+                    "properties": {
+                        "Quantity": {
+                            "type": "string",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "Name": {
+                            "type": "string",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "Price": {
+                            "type": "string",
+                            "method": "extract",
+                            "description": ""
+                        }
+                    }
+                }
+            },
+            "TotalPrice": {
+                "type": "string",
+                "method": "extract",
+                "description": ""
+            }
+        }
+    }
+}
