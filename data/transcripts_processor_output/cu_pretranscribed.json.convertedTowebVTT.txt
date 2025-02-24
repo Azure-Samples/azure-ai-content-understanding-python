@@ -1,0 +1,100 @@
+```WEBVTT
+
+00:00.080 --> 00:02.240
+<v Agent>Hi there, thank you for calling Contoso.
+
+00:02.240 --> 00:03.200
+<v Agent>My name is Sam.
+
+00:03.440 --> 00:04.720
+<v Agent>How can I help you today?
+
+00:05.520 --> 00:07.680
+<v Customer>Good afternoon, my name is Mary Adams.
+
+00:08.560 --> 00:10.720
+<v Customer>I want to buy life insurance for my husband.
+
+00:11.520 --> 00:13.520
+<v Customer>Can you please tell me how much it costs?
+
+00:14.400 --> 00:17.200
+<v Agent>I'm going to help you right now with your life insurance needs.
+
+00:18.080 --> 00:19.760
+<v Agent>Are you the owner of the policy?
+
+00:20.560 --> 00:28.960
+<v Customer>My husband and I are the owners of the policy, so I will be paying for the policy myself, but I want him to be protected in case something happens to me.
+
+00:29.840 --> 00:30.120
+<v Agent>Good.
+
+00:30.120 --> 00:32.320
+<v Agent>What type of policy are you looking for?
+
+00:33.200 --> 00:36.720
+<v Agent>We have term life, whole life, universal life, etc.
+
+00:37.520 --> 00:44.560
+<v Customer>Term would be perfect for us, but can you please tell me how much the monthly payment would be for term life with $500,000 of coverage?
+
+00:45.360 --> 00:53.440
+<v Agent>If you pay $30 each month, your husband will be insured for a total of $500,000 of coverage with a monthly premium of $30.
+
+00:54.320 --> 00:56.320
+<v Customer>How often would we have to pay this premium?
+
+00:57.200 --> 01:04.240
+<v Agent>You will pay this premium every month until you reach age 100 or your husband dies, whichever happens first.
+
+01:05.040 --> 01:10.000
+<v Agent>Would you like to schedule a payment date so that your husband can start receiving his insurance coverage?
+
+01:10.880 --> 01:11.280
+<v Customer>Yes.
+
+01:11.280 --> 01:12.720
+<v Customer>How soon can you schedule it?
+
+01:13.520 --> 01:16.640
+<v Agent>Let me see if there are any open dates for today or tomorrow.
+
+01:17.520 --> 01:18.560
+<v Agent>Would that work for you?
+
+01:19.440 --> 01:20.640
+<v Customer>That is fine with me.
+
+01:21.440 --> 01:22.160
+<v Agent>OK, Mrs.
+
+01:22.160 --> 01:26.000
+<v Agent>Adams, I have an opening tomorrow morning at 10:00 AM and 1:00 PM.
+
+01:26.880 --> 01:28.720
+<v Agent>Would either of those times work for you?
+
+01:29.600 --> 01:31.040
+<v Customer>Yes, I can do 10 a.m.
+
+01:31.040 --> 01:31.920
+<v Customer>tomorrow morning.
+
+01:32.720 --> 01:33.200
+<v Agent>Great.
+
+01:34.080 --> 01:36.960
+<v Agent>I will call you tomorrow morning at 9:45 a.m.
+
+01:36.960 --> 01:39.840
+<v Agent>with payment instructions and confirmation information.
+
+01:40.640 --> 01:41.520
+<v Agent>Is that okay?
+
+01:42.400 --> 01:43.520
+<v Customer>That sounds great.
+
+01:44.320 --> 01:47.200
+<v Customer>I'll talk to you tomorrow morning at 9:45 a.m.```
