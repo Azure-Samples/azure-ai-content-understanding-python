@@ -1,0 +1,80 @@
+{
+  "description": "Sample call recording analytics",
+  "scenario": "text",
+  "config": {
+    "returnDetails": true
+  },
+  "fieldSchema": {
+    "fields": {
+      "Summary": {
+        "type": "string",
+        "method": "generate",
+        "description": "A one-paragraph summary"
+      },
+      "Topics": {
+        "type": "array",
+        "method": "generate",
+        "description": "Top 5 topics mentioned",
+        "items": {
+          "type": "string"
+        }
+      },
+      "Companies": {
+        "type": "array",
+        "method": "generate",
+        "description": "List of companies mentioned",
+        "items": {
+          "type": "string"
+        }
+      },
+      "People": {
+        "type": "array",
+        "method": "generate",
+        "description": "List of people mentioned",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Name": {
+              "type": "string",
+              "description": "Person's name"
+            },
+            "Role": {
+              "type": "string",
+              "description": "Person's title/role"
+            }
+          }
+        }
+      },
+      "Sentiment": {
+        "type": "string",
+        "method": "classify",
+        "description": "Overall sentiment",
+        "enum": [
+          "Positive",
+          "Neutral",
+          "Negative"
+        ]
+      },
+      "Categories": {
+        "type": "array",
+        "method": "classify",
+        "description": "List of relevant categories",
+        "items": {
+          "type": "string",
+          "enum": [
+            "Agriculture",
+            "Business",
+            "Finance",
+            "Health",
+            "Insurance",
+            "Mining",
+            "Pharmaceutical",
+            "Retail",
+            "Technology",
+            "Transportation"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1929 @@
+{
+  "id": "d61a8c86-67f5-455c-a458-d1ddddc6df92",
+  "status": "Succeeded",
+  "result": {
+    "analyzerId": "field-extraction-sample-8a572a91-7e32-47fb-af22-279bc535288e",
+    "apiVersion": "2024-12-01-preview",
+    "createdAt": "2025-02-04T00:58:07Z",
+    "warnings": [],
+    "contents": [
+      {
+        "markdown": "```WEBVTT\n\n00:00.080 --> 00:02.240\n<v Agent>Hi there, thank you for calling Contoso.\n\n00:02.240 --> 00:03.200\n<v Agent>My name is Sam.\n\n00:03.440 --> 00:04.720\n<v Agent>How can I help you today?\n\n00:05.520 --> 00:07.680\n<v Customer>Good afternoon, my name is Mary Adams.\n\n00:08.560 --> 00:10.720\n<v Customer>I want to buy life insurance for my husband.\n\n00:11.520 --> 00:13.520\n<v Customer>Can you please tell me how much it costs?\n\n00:14.400 --> 00:17.200\n<v Agent>I'm going to help you right now with your life insurance needs.\n\n00:18.080 --> 00:19.760\n<v Agent>Are you the owner of the policy?\n\n00:20.560 --> 00:28.960\n<v Customer>My husband and I are the owners of the policy, so I will be paying for the policy myself, but I want him to be protected in case something happens to me.\n\n00:29.840 --> 00:30.120\n<v Agent>Good.\n\n00:30.120 --> 00:32.320\n<v Agent>What type of policy are you looking for?\n\n00:33.200 --> 00:36.720\n<v Agent>We have term life, whole life, universal life, etc.\n\n00:37.520 --> 00:44.560\n<v Customer>Term would be perfect for us, but can you please tell me how much the monthly payment would be for term life with $500,000 of coverage?\n\n00:45.360 --> 00:53.440\n<v Agent>If you pay $30 each month, your husband will be insured for a total of $500,000 of coverage with a monthly premium of $30.\n\n00:54.320 --> 00:56.320\n<v Customer>How often would we have to pay this premium?\n\n00:57.200 --> 01:04.240\n<v Agent>You will pay this premium every month until you reach age 100 or your husband dies, whichever happens first.\n\n01:05.040 --> 01:10.000\n<v Agent>Would you like to schedule a payment date so that your husband can start receiving his insurance coverage?\n\n01:10.880 --> 01:11.280\n<v Customer>Yes.\n\n01:11.280 --> 01:12.720\n<v Customer>How soon can you schedule it?\n\n01:13.520 --> 01:16.640\n<v Agent>Let me see if there are any open dates for today or tomorrow.\n\n01:17.520 --> 01:18.560\n<v Agent>Would that work for you?\n\n01:19.440 --> 01:20.640\n<v Customer>That is fine with me.\n\n01:21.440 --> 01:22.160\n<v Agent>OK, Mrs.\n\n01:22.160 --> 01:26.000\n<v Agent>Adams, I have an opening tomorrow morning at 10:00 AM and 1:00 PM.\n\n01:26.880 --> 01:28.720\n<v Agent>Would either of those times work for you?\n\n01:29.600 --> 01:31.040\n<v Customer>Yes, I can do 10 a.m.\n\n01:31.040 --> 01:31.920\n<v Customer>tomorrow morning.\n\n01:32.720 --> 01:33.200\n<v Agent>Great.\n\n01:34.080 --> 01:36.960\n<v Agent>I will call you tomorrow morning at 9:45 a.m.\n\n01:36.960 --> 01:39.840\n<v Agent>with payment instructions and confirmation information.\n\n01:40.640 --> 01:41.520\n<v Agent>Is that okay?\n\n01:42.400 --> 01:43.520\n<v Customer>That sounds great.\n\n01:44.320 --> 01:47.200\n<v Customer>I'll talk to you tomorrow morning at 9:45 a.m.```",
+        "fields": {
+          "Sentiment": {
+            "type": "string",
+            "valueString": "Positive"
+          },
+          "Summary": {
+            "type": "string",
+            "valueString": "Mary Adams called Contoso to inquire about purchasing a life insurance policy for her husband. She decided on a term life insurance policy with $500,000 coverage, costing $30 per month. The agent, Sam, scheduled a payment setup call for the next day at 9:45 a.m. to finalize the details."
+          },
+          "Categories": {
+            "type": "array",
+            "valueArray": [
+              {
+                "type": "string",
+                "valueString": "Insurance"
+              }
+            ]
+          },
+          "Companies": {
+            "type": "array",
+            "valueArray": [
+              {
+                "type": "string",
+                "valueString": "Contoso"
+              }
+            ]
+          },
+          "People": {
+            "type": "array",
+            "valueArray": [
+              {
+                "type": "object",
+                "valueObject": {
+                  "Name": {
+                    "type": "string",
+                    "valueString": "Sam"
+                  },
+                  "Role": {
+                    "type": "string",
+                    "valueString": "Agent"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "valueObject": {
+                  "Name": {
+                    "type": "string",
+                    "valueString": "Mary Adams"
+                  },
+                  "Role": {
+                    "type": "string",
+                    "valueString": "Customer"
+                  }
+                }
+              }
+            ]
+          },
+          "Topics": {
+            "type": "array",
+            "valueArray": [
+              {
+                "type": "string",
+                "valueString": "Life Insurance"
+              },
+              {
+                "type": "string",
+                "valueString": "Term Life Policy"
+              },
+              {
+                "type": "string",
+                "valueString": "Payment Schedule"
+              },
+              {
+                "type": "string",
+                "valueString": "Insurance Coverage"
+              },
+              {
+                "type": "string",
+                "valueString": "Customer Service"
+              }
+            ]
+          }
+        },
+        "kind": "audioVisual",
+        "startTimeMs": 0,
+        "endTimeMs": 108045,
+        "transcriptPhrases": [
+          {
+            "speaker": "Agent",
+            "startTimeMs": 80,
+            "endTimeMs": 2240,
+            "text": "Hi there, thank you for calling Contoso.",
+            "confidence": 0.924,
+            "words": [
+              {
+                "startTimeMs": 80,
+                "endTimeMs": 320,
+                "text": "Hi"
+              },
+              {
+                "startTimeMs": 320,
+                "endTimeMs": 640,
+                "text": "there,"
+              },
+              {
+                "startTimeMs": 640,
+                "endTimeMs": 960,
+                "text": "thank"
+              },
+              {
+                "startTimeMs": 960,
+                "endTimeMs": 1040,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 1040,
+                "endTimeMs": 1200,
+                "text": "for"
+              },
+              {
+                "startTimeMs": 1200,
+                "endTimeMs": 1560,
+                "text": "calling"
+              },
+              {
+                "startTimeMs": 1560,
+                "endTimeMs": 2240,
+                "text": "Contoso."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 2240,
+            "endTimeMs": 3200,
+            "text": "My name is Sam.",
+            "confidence": 0.924,
+            "words": [
+              {
+                "startTimeMs": 2240,
+                "endTimeMs": 2400,
+                "text": "My"
+              },
+              {
+                "startTimeMs": 2400,
+                "endTimeMs": 2640,
+                "text": "name"
+              },
+              {
+                "startTimeMs": 2640,
+                "endTimeMs": 2720,
+                "text": "is"
+              },
+              {
+                "startTimeMs": 2720,
+                "endTimeMs": 3200,
+                "text": "Sam."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 3440,
+            "endTimeMs": 4720,
+            "text": "How can I help you today?",
+            "confidence": 0.924,
+            "words": [
+              {
+                "startTimeMs": 3440,
+                "endTimeMs": 3600,
+                "text": "How"
+              },
+              {
+                "startTimeMs": 3600,
+                "endTimeMs": 3760,
+                "text": "can"
+              },
+              {
+                "startTimeMs": 3760,
+                "endTimeMs": 3840,
+                "text": "I"
+              },
+              {
+                "startTimeMs": 3840,
+                "endTimeMs": 4080,
+                "text": "help"
+              },
+              {
+                "startTimeMs": 4080,
+                "endTimeMs": 4240,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 4240,
+                "endTimeMs": 4720,
+                "text": "today?"
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 5520,
+            "endTimeMs": 7680,
+            "text": "Good afternoon, my name is Mary Adams.",
+            "confidence": 0.924,
+            "words": [
+              {
+                "startTimeMs": 5520,
+                "endTimeMs": 5760,
+                "text": "Good"
+              },
+              {
+                "startTimeMs": 5760,
+                "endTimeMs": 6320,
+                "text": "afternoon,"
+              },
+              {
+                "startTimeMs": 6320,
+                "endTimeMs": 6480,
+                "text": "my"
+              },
+              {
+                "startTimeMs": 6480,
+                "endTimeMs": 6720,
+                "text": "name"
+              },
+              {
+                "startTimeMs": 6720,
+                "endTimeMs": 6880,
+                "text": "is"
+              },
+              {
+                "startTimeMs": 6880,
+                "endTimeMs": 7120,
+                "text": "Mary"
+              },
+              {
+                "startTimeMs": 7120,
+                "endTimeMs": 7680,
+                "text": "Adams."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 8560,
+            "endTimeMs": 10720,
+            "text": "I want to buy life insurance for my husband.",
+            "confidence": 0.924,
+            "words": [
+              {
+                "startTimeMs": 8560,
+                "endTimeMs": 8720,
+                "text": "I"
+              },
+              {
+                "startTimeMs": 8720,
+                "endTimeMs": 8920,
+                "text": "want"
+              },
+              {
+                "startTimeMs": 8920,
+                "endTimeMs": 9000,
+                "text": "to"
+              },
+              {
+                "startTimeMs": 9000,
+                "endTimeMs": 9200,
+                "text": "buy"
+              },
+              {
+                "startTimeMs": 9200,
+                "endTimeMs": 9440,
+                "text": "life"
+              },
+              {
+                "startTimeMs": 9440,
+                "endTimeMs": 9880,
+                "text": "insurance"
+              },
+              {
+                "startTimeMs": 9880,
+                "endTimeMs": 10000,
+                "text": "for"
+              },
+              {
+                "startTimeMs": 10000,
+                "endTimeMs": 10160,
+                "text": "my"
+              },
+              {
+                "startTimeMs": 10160,
+                "endTimeMs": 10720,
+                "text": "husband."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 11520,
+            "endTimeMs": 13520,
+            "text": "Can you please tell me how much it costs?",
+            "confidence": 0.924,
+            "words": [
+              {
+                "startTimeMs": 11520,
+                "endTimeMs": 11760,
+                "text": "Can"
+              },
+              {
+                "startTimeMs": 11760,
+                "endTimeMs": 11840,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 11840,
+                "endTimeMs": 12160,
+                "text": "please"
+              },
+              {
+                "startTimeMs": 12160,
+                "endTimeMs": 12320,
+                "text": "tell"
+              },
+              {
+                "startTimeMs": 12320,
+                "endTimeMs": 12480,
+                "text": "me"
+              },
+              {
+                "startTimeMs": 12480,
+                "endTimeMs": 12600,
+                "text": "how"
+              },
+              {
+                "startTimeMs": 12600,
+                "endTimeMs": 12800,
+                "text": "much"
+              },
+              {
+                "startTimeMs": 12800,
+                "endTimeMs": 12880,
+                "text": "it"
+              },
+              {
+                "startTimeMs": 12880,
+                "endTimeMs": 13520,
+                "text": "costs?"
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 14400,
+            "endTimeMs": 17200,
+            "text": "I'm going to help you right now with your life insurance needs.",
+            "confidence": 0.924,
+            "words": [
+              {
+                "startTimeMs": 14400,
+                "endTimeMs": 14640,
+                "text": "I'm"
+              },
+              {
+                "startTimeMs": 14640,
+                "endTimeMs": 14800,
+                "text": "going"
+              },
+              {
+                "startTimeMs": 14800,
+                "endTimeMs": 14880,
+                "text": "to"
+              },
+              {
+                "startTimeMs": 14880,
+                "endTimeMs": 15120,
+                "text": "help"
+              },
+              {
+                "startTimeMs": 15120,
+                "endTimeMs": 15200,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 15200,
+                "endTimeMs": 15440,
+                "text": "right"
+              },
+              {
+                "startTimeMs": 15440,
+                "endTimeMs": 15680,
+                "text": "now"
+              },
+              {
+                "startTimeMs": 15680,
+                "endTimeMs": 15880,
+                "text": "with"
+              },
+              {
+                "startTimeMs": 15880,
+                "endTimeMs": 16000,
+                "text": "your"
+              },
+              {
+                "startTimeMs": 16000,
+                "endTimeMs": 16280,
+                "text": "life"
+              },
+              {
+                "startTimeMs": 16280,
+                "endTimeMs": 16760,
+                "text": "insurance"
+              },
+              {
+                "startTimeMs": 16760,
+                "endTimeMs": 17200,
+                "text": "needs."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 18080,
+            "endTimeMs": 19760,
+            "text": "Are you the owner of the policy?",
+            "confidence": 0.924,
+            "words": [
+              {
+                "startTimeMs": 18080,
+                "endTimeMs": 18240,
+                "text": "Are"
+              },
+              {
+                "startTimeMs": 18240,
+                "endTimeMs": 18400,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 18400,
+                "endTimeMs": 18520,
+                "text": "the"
+              },
+              {
+                "startTimeMs": 18560,
+                "endTimeMs": 18880,
+                "text": "owner"
+              },
+              {
+                "startTimeMs": 18880,
+                "endTimeMs": 18960,
+                "text": "of"
+              },
+              {
+                "startTimeMs": 18960,
+                "endTimeMs": 19040,
+                "text": "the"
+              },
+              {
+                "startTimeMs": 19040,
+                "endTimeMs": 19760,
+                "text": "policy?"
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 20560,
+            "endTimeMs": 28960,
+            "text": "My husband and I are the owners of the policy, so I will be paying for the policy myself, but I want him to be protected in case something happens to me.",
+            "confidence": 0.924,
+            "words": [
+              {
+                "startTimeMs": 20560,
+                "endTimeMs": 20800,
+                "text": "My"
+              },
+              {
+                "startTimeMs": 20800,
+                "endTimeMs": 21200,
+                "text": "husband"
+              },
+              {
+                "startTimeMs": 21240,
+                "endTimeMs": 21360,
+                "text": "and"
+              },
+              {
+                "startTimeMs": 21360,
+                "endTimeMs": 21440,
+                "text": "I"
+              },
+              {
+                "startTimeMs": 21480,
+                "endTimeMs": 21600,
+                "text": "are"
+              },
+              {
+                "startTimeMs": 21600,
+                "endTimeMs": 21720,
+                "text": "the"
+              },
+              {
+                "startTimeMs": 21760,
+                "endTimeMs": 22080,
+                "text": "owners"
+              },
+              {
+                "startTimeMs": 22080,
+                "endTimeMs": 22160,
+                "text": "of"
+              },
+              {
+                "startTimeMs": 22160,
+                "endTimeMs": 22240,
+                "text": "the"
+              },
+              {
+                "startTimeMs": 22240,
+                "endTimeMs": 22880,
+                "text": "policy,"
+              },
+              {
+                "startTimeMs": 23680,
+                "endTimeMs": 24000,
+                "text": "so"
+              },
+              {
+                "startTimeMs": 24000,
+                "endTimeMs": 24040,
+                "text": "I"
+              },
+              {
+                "startTimeMs": 24040,
+                "endTimeMs": 24160,
+                "text": "will"
+              },
+              {
+                "startTimeMs": 24160,
+                "endTimeMs": 24320,
+                "text": "be"
+              },
+              {
+                "startTimeMs": 24320,
+                "endTimeMs": 24560,
+                "text": "paying"
+              },
+              {
+                "startTimeMs": 24560,
+                "endTimeMs": 24720,
+                "text": "for"
+              },
+              {
+                "startTimeMs": 24720,
+                "endTimeMs": 24800,
+                "text": "the"
+              },
+              {
+                "startTimeMs": 24800,
+                "endTimeMs": 25280,
+                "text": "policy"
+              },
+              {
+                "startTimeMs": 25280,
+                "endTimeMs": 25840,
+                "text": "myself,"
+              },
+              {
+                "startTimeMs": 26000,
+                "endTimeMs": 26240,
+                "text": "but"
+              },
+              {
+                "startTimeMs": 26240,
+                "endTimeMs": 26320,
+                "text": "I"
+              },
+              {
+                "startTimeMs": 26320,
+                "endTimeMs": 26480,
+                "text": "want"
+              },
+              {
+                "startTimeMs": 26480,
+                "endTimeMs": 26640,
+                "text": "him"
+              },
+              {
+                "startTimeMs": 26640,
+                "endTimeMs": 26720,
+                "text": "to"
+              },
+              {
+                "startTimeMs": 26720,
+                "endTimeMs": 26880,
+                "text": "be"
+              },
+              {
+                "startTimeMs": 26880,
+                "endTimeMs": 27360,
+                "text": "protected"
+              },
+              {
+                "startTimeMs": 27360,
+                "endTimeMs": 27480,
+                "text": "in"
+              },
+              {
+                "startTimeMs": 27480,
+                "endTimeMs": 27720,
+                "text": "case"
+              },
+              {
+                "startTimeMs": 27720,
+                "endTimeMs": 28080,
+                "text": "something"
+              },
+              {
+                "startTimeMs": 28080,
+                "endTimeMs": 28480,
+                "text": "happens"
+              },
+              {
+                "startTimeMs": 28480,
+                "endTimeMs": 28600,
+                "text": "to"
+              },
+              {
+                "startTimeMs": 28600,
+                "endTimeMs": 28960,
+                "text": "me."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 29840,
+            "endTimeMs": 30120,
+            "text": "Good.",
+            "confidence": 0.926,
+            "words": [
+              {
+                "startTimeMs": 29840,
+                "endTimeMs": 30120,
+                "text": "Good."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 30120,
+            "endTimeMs": 32320,
+            "text": "What type of policy are you looking for?",
+            "confidence": 0.926,
+            "words": [
+              {
+                "startTimeMs": 30120,
+                "endTimeMs": 30360,
+                "text": "What"
+              },
+              {
+                "startTimeMs": 30360,
+                "endTimeMs": 30640,
+                "text": "type"
+              },
+              {
+                "startTimeMs": 30640,
+                "endTimeMs": 30720,
+                "text": "of"
+              },
+              {
+                "startTimeMs": 30720,
+                "endTimeMs": 31320,
+                "text": "policy"
+              },
+              {
+                "startTimeMs": 31320,
+                "endTimeMs": 31440,
+                "text": "are"
+              },
+              {
+                "startTimeMs": 31440,
+                "endTimeMs": 31520,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 31520,
+                "endTimeMs": 31920,
+                "text": "looking"
+              },
+              {
+                "startTimeMs": 31920,
+                "endTimeMs": 32320,
+                "text": "for?"
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 33200,
+            "endTimeMs": 36720,
+            "text": "We have term life, whole life, universal life, etc.",
+            "confidence": 0.926,
+            "words": [
+              {
+                "startTimeMs": 33200,
+                "endTimeMs": 33360,
+                "text": "We"
+              },
+              {
+                "startTimeMs": 33360,
+                "endTimeMs": 33520,
+                "text": "have"
+              },
+              {
+                "startTimeMs": 33520,
+                "endTimeMs": 33760,
+                "text": "term"
+              },
+              {
+                "startTimeMs": 33760,
+                "endTimeMs": 34160,
+                "text": "life,"
+              },
+              {
+                "startTimeMs": 34320,
+                "endTimeMs": 34480,
+                "text": "whole"
+              },
+              {
+                "startTimeMs": 34480,
+                "endTimeMs": 34960,
+                "text": "life,"
+              },
+              {
+                "startTimeMs": 35040,
+                "endTimeMs": 35640,
+                "text": "universal"
+              },
+              {
+                "startTimeMs": 35640,
+                "endTimeMs": 36000,
+                "text": "life,"
+              },
+              {
+                "startTimeMs": 36080,
+                "endTimeMs": 36720,
+                "text": "etc."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 37520,
+            "endTimeMs": 44560,
+            "text": "Term would be perfect for us, but can you please tell me how much the monthly payment would be for term life with $500,000 of coverage?",
+            "confidence": 0.926,
+            "words": [
+              {
+                "startTimeMs": 37520,
+                "endTimeMs": 37800,
+                "text": "Term"
+              },
+              {
+                "startTimeMs": 37800,
+                "endTimeMs": 37920,
+                "text": "would"
+              },
+              {
+                "startTimeMs": 37920,
+                "endTimeMs": 38080,
+                "text": "be"
+              },
+              {
+                "startTimeMs": 38080,
+                "endTimeMs": 38480,
+                "text": "perfect"
+              },
+              {
+                "startTimeMs": 38480,
+                "endTimeMs": 38720,
+                "text": "for"
+              },
+              {
+                "startTimeMs": 38720,
+                "endTimeMs": 38960,
+                "text": "us,"
+              },
+              {
+                "startTimeMs": 39040,
+                "endTimeMs": 39200,
+                "text": "but"
+              },
+              {
+                "startTimeMs": 39200,
+                "endTimeMs": 39360,
+                "text": "can"
+              },
+              {
+                "startTimeMs": 39360,
+                "endTimeMs": 39520,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 39520,
+                "endTimeMs": 39840,
+                "text": "please"
+              },
+              {
+                "startTimeMs": 39840,
+                "endTimeMs": 40000,
+                "text": "tell"
+              },
+              {
+                "startTimeMs": 40000,
+                "endTimeMs": 40160,
+                "text": "me"
+              },
+              {
+                "startTimeMs": 40160,
+                "endTimeMs": 40280,
+                "text": "how"
+              },
+              {
+                "startTimeMs": 40280,
+                "endTimeMs": 40480,
+                "text": "much"
+              },
+              {
+                "startTimeMs": 40480,
+                "endTimeMs": 40640,
+                "text": "the"
+              },
+              {
+                "startTimeMs": 40640,
+                "endTimeMs": 40960,
+                "text": "monthly"
+              },
+              {
+                "startTimeMs": 40960,
+                "endTimeMs": 41440,
+                "text": "payment"
+              },
+              {
+                "startTimeMs": 41440,
+                "endTimeMs": 41560,
+                "text": "would"
+              },
+              {
+                "startTimeMs": 41560,
+                "endTimeMs": 41680,
+                "text": "be"
+              },
+              {
+                "startTimeMs": 41680,
+                "endTimeMs": 41840,
+                "text": "for"
+              },
+              {
+                "startTimeMs": 41840,
+                "endTimeMs": 42160,
+                "text": "term"
+              },
+              {
+                "startTimeMs": 42160,
+                "endTimeMs": 42640,
+                "text": "life"
+              },
+              {
+                "startTimeMs": 42640,
+                "endTimeMs": 42760,
+                "text": "with"
+              },
+              {
+                "startTimeMs": 42760,
+                "endTimeMs": 42800,
+                "text": "$500,000"
+              },
+              {
+                "startTimeMs": 42800,
+                "endTimeMs": 42880,
+                "text": "of"
+              },
+              {
+                "startTimeMs": 42880,
+                "endTimeMs": 44560,
+                "text": "coverage?"
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 45360,
+            "endTimeMs": 53440,
+            "text": "If you pay $30 each month, your husband will be insured for a total of $500,000 of coverage with a monthly premium of $30.",
+            "confidence": 0.926,
+            "words": [
+              {
+                "startTimeMs": 45360,
+                "endTimeMs": 45600,
+                "text": "If"
+              },
+              {
+                "startTimeMs": 45600,
+                "endTimeMs": 45680,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 45680,
+                "endTimeMs": 45840,
+                "text": "pay"
+              },
+              {
+                "startTimeMs": 45840,
+                "endTimeMs": 45880,
+                "text": "$30"
+              },
+              {
+                "startTimeMs": 45880,
+                "endTimeMs": 46800,
+                "text": "each"
+              },
+              {
+                "startTimeMs": 46800,
+                "endTimeMs": 47120,
+                "text": "month,"
+              },
+              {
+                "startTimeMs": 47280,
+                "endTimeMs": 47440,
+                "text": "your"
+              },
+              {
+                "startTimeMs": 47440,
+                "endTimeMs": 47880,
+                "text": "husband"
+              },
+              {
+                "startTimeMs": 47880,
+                "endTimeMs": 48000,
+                "text": "will"
+              },
+              {
+                "startTimeMs": 48000,
+                "endTimeMs": 48160,
+                "text": "be"
+              },
+              {
+                "startTimeMs": 48160,
+                "endTimeMs": 48640,
+                "text": "insured"
+              },
+              {
+                "startTimeMs": 48640,
+                "endTimeMs": 48840,
+                "text": "for"
+              },
+              {
+                "startTimeMs": 48840,
+                "endTimeMs": 48880,
+                "text": "a"
+              },
+              {
+                "startTimeMs": 48880,
+                "endTimeMs": 50640,
+                "text": "total"
+              },
+              {
+                "startTimeMs": 50680,
+                "endTimeMs": 50760,
+                "text": "of"
+              },
+              {
+                "startTimeMs": 50760,
+                "endTimeMs": 50800,
+                "text": "$500,000"
+              },
+              {
+                "startTimeMs": 50800,
+                "endTimeMs": 50880,
+                "text": "of"
+              },
+              {
+                "startTimeMs": 50880,
+                "endTimeMs": 51440,
+                "text": "coverage"
+              },
+              {
+                "startTimeMs": 51440,
+                "endTimeMs": 51600,
+                "text": "with"
+              },
+              {
+                "startTimeMs": 51600,
+                "endTimeMs": 51640,
+                "text": "a"
+              },
+              {
+                "startTimeMs": 51640,
+                "endTimeMs": 52080,
+                "text": "monthly"
+              },
+              {
+                "startTimeMs": 52080,
+                "endTimeMs": 53320,
+                "text": "premium"
+              },
+              {
+                "startTimeMs": 53320,
+                "endTimeMs": 53400,
+                "text": "of"
+              },
+              {
+                "startTimeMs": 53400,
+                "endTimeMs": 53440,
+                "text": "$30."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 54320,
+            "endTimeMs": 56320,
+            "text": "How often would we have to pay this premium?",
+            "confidence": 0.926,
+            "words": [
+              {
+                "startTimeMs": 54320,
+                "endTimeMs": 54560,
+                "text": "How"
+              },
+              {
+                "startTimeMs": 54560,
+                "endTimeMs": 54880,
+                "text": "often"
+              },
+              {
+                "startTimeMs": 54880,
+                "endTimeMs": 55000,
+                "text": "would"
+              },
+              {
+                "startTimeMs": 55000,
+                "endTimeMs": 55120,
+                "text": "we"
+              },
+              {
+                "startTimeMs": 55120,
+                "endTimeMs": 55280,
+                "text": "have"
+              },
+              {
+                "startTimeMs": 55280,
+                "endTimeMs": 55400,
+                "text": "to"
+              },
+              {
+                "startTimeMs": 55400,
+                "endTimeMs": 55560,
+                "text": "pay"
+              },
+              {
+                "startTimeMs": 55560,
+                "endTimeMs": 55760,
+                "text": "this"
+              },
+              {
+                "startTimeMs": 55760,
+                "endTimeMs": 56320,
+                "text": "premium?"
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 57200,
+            "endTimeMs": 64240,
+            "text": "You will pay this premium every month until you reach age 100 or your husband dies, whichever happens first.",
+            "confidence": 0.928,
+            "words": [
+              {
+                "startTimeMs": 57200,
+                "endTimeMs": 57320,
+                "text": "You"
+              },
+              {
+                "startTimeMs": 57320,
+                "endTimeMs": 57440,
+                "text": "will"
+              },
+              {
+                "startTimeMs": 57440,
+                "endTimeMs": 57680,
+                "text": "pay"
+              },
+              {
+                "startTimeMs": 57680,
+                "endTimeMs": 57840,
+                "text": "this"
+              },
+              {
+                "startTimeMs": 57840,
+                "endTimeMs": 58400,
+                "text": "premium"
+              },
+              {
+                "startTimeMs": 58400,
+                "endTimeMs": 58680,
+                "text": "every"
+              },
+              {
+                "startTimeMs": 58680,
+                "endTimeMs": 58960,
+                "text": "month"
+              },
+              {
+                "startTimeMs": 58960,
+                "endTimeMs": 59280,
+                "text": "until"
+              },
+              {
+                "startTimeMs": 59280,
+                "endTimeMs": 59400,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 59400,
+                "endTimeMs": 59680,
+                "text": "reach"
+              },
+              {
+                "startTimeMs": 59680,
+                "endTimeMs": 59920,
+                "text": "age"
+              },
+              {
+                "startTimeMs": 59920,
+                "endTimeMs": 60640,
+                "text": "100"
+              },
+              {
+                "startTimeMs": 60640,
+                "endTimeMs": 60840,
+                "text": "or"
+              },
+              {
+                "startTimeMs": 60840,
+                "endTimeMs": 61040,
+                "text": "your"
+              },
+              {
+                "startTimeMs": 61040,
+                "endTimeMs": 61400,
+                "text": "husband"
+              },
+              {
+                "startTimeMs": 61400,
+                "endTimeMs": 61920,
+                "text": "dies,"
+              },
+              {
+                "startTimeMs": 62720,
+                "endTimeMs": 63280,
+                "text": "whichever"
+              },
+              {
+                "startTimeMs": 63280,
+                "endTimeMs": 63680,
+                "text": "happens"
+              },
+              {
+                "startTimeMs": 63680,
+                "endTimeMs": 64240,
+                "text": "first."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 65040,
+            "endTimeMs": 70000,
+            "text": "Would you like to schedule a payment date so that your husband can start receiving his insurance coverage?",
+            "confidence": 0.928,
+            "words": [
+              {
+                "startTimeMs": 65040,
+                "endTimeMs": 65280,
+                "text": "Would"
+              },
+              {
+                "startTimeMs": 65280,
+                "endTimeMs": 65360,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 65360,
+                "endTimeMs": 65560,
+                "text": "like"
+              },
+              {
+                "startTimeMs": 65560,
+                "endTimeMs": 65640,
+                "text": "to"
+              },
+              {
+                "startTimeMs": 65640,
+                "endTimeMs": 66120,
+                "text": "schedule"
+              },
+              {
+                "startTimeMs": 66120,
+                "endTimeMs": 66160,
+                "text": "a"
+              },
+              {
+                "startTimeMs": 66160,
+                "endTimeMs": 66600,
+                "text": "payment"
+              },
+              {
+                "startTimeMs": 66600,
+                "endTimeMs": 66880,
+                "text": "date"
+              },
+              {
+                "startTimeMs": 66880,
+                "endTimeMs": 67040,
+                "text": "so"
+              },
+              {
+                "startTimeMs": 67040,
+                "endTimeMs": 67240,
+                "text": "that"
+              },
+              {
+                "startTimeMs": 67240,
+                "endTimeMs": 67360,
+                "text": "your"
+              },
+              {
+                "startTimeMs": 67360,
+                "endTimeMs": 67760,
+                "text": "husband"
+              },
+              {
+                "startTimeMs": 67760,
+                "endTimeMs": 68000,
+                "text": "can"
+              },
+              {
+                "startTimeMs": 68000,
+                "endTimeMs": 68320,
+                "text": "start"
+              },
+              {
+                "startTimeMs": 68320,
+                "endTimeMs": 68800,
+                "text": "receiving"
+              },
+              {
+                "startTimeMs": 68800,
+                "endTimeMs": 68960,
+                "text": "his"
+              },
+              {
+                "startTimeMs": 68960,
+                "endTimeMs": 69440,
+                "text": "insurance"
+              },
+              {
+                "startTimeMs": 69440,
+                "endTimeMs": 70000,
+                "text": "coverage?"
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 70880,
+            "endTimeMs": 71280,
+            "text": "Yes.",
+            "confidence": 0.928,
+            "words": [
+              {
+                "startTimeMs": 70880,
+                "endTimeMs": 71280,
+                "text": "Yes."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 71280,
+            "endTimeMs": 72720,
+            "text": "How soon can you schedule it?",
+            "confidence": 0.928,
+            "words": [
+              {
+                "startTimeMs": 71280,
+                "endTimeMs": 71520,
+                "text": "How"
+              },
+              {
+                "startTimeMs": 71520,
+                "endTimeMs": 71760,
+                "text": "soon"
+              },
+              {
+                "startTimeMs": 71760,
+                "endTimeMs": 71920,
+                "text": "can"
+              },
+              {
+                "startTimeMs": 71920,
+                "endTimeMs": 72040,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 72040,
+                "endTimeMs": 72480,
+                "text": "schedule"
+              },
+              {
+                "startTimeMs": 72480,
+                "endTimeMs": 72720,
+                "text": "it?"
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 73520,
+            "endTimeMs": 76640,
+            "text": "Let me see if there are any open dates for today or tomorrow.",
+            "confidence": 0.928,
+            "words": [
+              {
+                "startTimeMs": 73520,
+                "endTimeMs": 73720,
+                "text": "Let"
+              },
+              {
+                "startTimeMs": 73720,
+                "endTimeMs": 73840,
+                "text": "me"
+              },
+              {
+                "startTimeMs": 73840,
+                "endTimeMs": 74080,
+                "text": "see"
+              },
+              {
+                "startTimeMs": 74080,
+                "endTimeMs": 74200,
+                "text": "if"
+              },
+              {
+                "startTimeMs": 74200,
+                "endTimeMs": 74400,
+                "text": "there"
+              },
+              {
+                "startTimeMs": 74400,
+                "endTimeMs": 74560,
+                "text": "are"
+              },
+              {
+                "startTimeMs": 74560,
+                "endTimeMs": 74800,
+                "text": "any"
+              },
+              {
+                "startTimeMs": 74800,
+                "endTimeMs": 75120,
+                "text": "open"
+              },
+              {
+                "startTimeMs": 75120,
+                "endTimeMs": 75400,
+                "text": "dates"
+              },
+              {
+                "startTimeMs": 75400,
+                "endTimeMs": 75520,
+                "text": "for"
+              },
+              {
+                "startTimeMs": 75520,
+                "endTimeMs": 75920,
+                "text": "today"
+              },
+              {
+                "startTimeMs": 75920,
+                "endTimeMs": 76080,
+                "text": "or"
+              },
+              {
+                "startTimeMs": 76080,
+                "endTimeMs": 76640,
+                "text": "tomorrow."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 77520,
+            "endTimeMs": 78560,
+            "text": "Would that work for you?",
+            "confidence": 0.928,
+            "words": [
+              {
+                "startTimeMs": 77520,
+                "endTimeMs": 77680,
+                "text": "Would"
+              },
+              {
+                "startTimeMs": 77680,
+                "endTimeMs": 77920,
+                "text": "that"
+              },
+              {
+                "startTimeMs": 77920,
+                "endTimeMs": 78160,
+                "text": "work"
+              },
+              {
+                "startTimeMs": 78160,
+                "endTimeMs": 78320,
+                "text": "for"
+              },
+              {
+                "startTimeMs": 78320,
+                "endTimeMs": 78560,
+                "text": "you?"
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 79440,
+            "endTimeMs": 80640,
+            "text": "That is fine with me.",
+            "confidence": 0.928,
+            "words": [
+              {
+                "startTimeMs": 79440,
+                "endTimeMs": 79720,
+                "text": "That"
+              },
+              {
+                "startTimeMs": 79720,
+                "endTimeMs": 79840,
+                "text": "is"
+              },
+              {
+                "startTimeMs": 79840,
+                "endTimeMs": 80080,
+                "text": "fine"
+              },
+              {
+                "startTimeMs": 80080,
+                "endTimeMs": 80240,
+                "text": "with"
+              },
+              {
+                "startTimeMs": 80240,
+                "endTimeMs": 80640,
+                "text": "me."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 81440,
+            "endTimeMs": 82160,
+            "text": "OK, Mrs.",
+            "confidence": 0.928,
+            "words": [
+              {
+                "startTimeMs": 81440,
+                "endTimeMs": 81760,
+                "text": "OK,"
+              },
+              {
+                "startTimeMs": 81760,
+                "endTimeMs": 82160,
+                "text": "Mrs."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 82160,
+            "endTimeMs": 86000,
+            "text": "Adams, I have an opening tomorrow morning at 10:00 AM and 1:00 PM.",
+            "confidence": 0.928,
+            "words": [
+              {
+                "startTimeMs": 82160,
+                "endTimeMs": 82560,
+                "text": "Adams,"
+              },
+              {
+                "startTimeMs": 82640,
+                "endTimeMs": 82800,
+                "text": "I"
+              },
+              {
+                "startTimeMs": 82800,
+                "endTimeMs": 82960,
+                "text": "have"
+              },
+              {
+                "startTimeMs": 82960,
+                "endTimeMs": 83120,
+                "text": "an"
+              },
+              {
+                "startTimeMs": 83120,
+                "endTimeMs": 83520,
+                "text": "opening"
+              },
+              {
+                "startTimeMs": 83520,
+                "endTimeMs": 83920,
+                "text": "tomorrow"
+              },
+              {
+                "startTimeMs": 83920,
+                "endTimeMs": 84320,
+                "text": "morning"
+              },
+              {
+                "startTimeMs": 84320,
+                "endTimeMs": 84480,
+                "text": "at"
+              },
+              {
+                "startTimeMs": 84480,
+                "endTimeMs": 84520,
+                "text": "10:00"
+              },
+              {
+                "startTimeMs": 84520,
+                "endTimeMs": 85040,
+                "text": "AM"
+              },
+              {
+                "startTimeMs": 85040,
+                "endTimeMs": 85320,
+                "text": "and"
+              },
+              {
+                "startTimeMs": 85320,
+                "endTimeMs": 85360,
+                "text": "1:00"
+              },
+              {
+                "startTimeMs": 85440,
+                "endTimeMs": 86000,
+                "text": "PM."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 86880,
+            "endTimeMs": 88720,
+            "text": "Would either of those times work for you?",
+            "confidence": 0.929,
+            "words": [
+              {
+                "startTimeMs": 86880,
+                "endTimeMs": 87040,
+                "text": "Would"
+              },
+              {
+                "startTimeMs": 87160,
+                "endTimeMs": 87360,
+                "text": "either"
+              },
+              {
+                "startTimeMs": 87360,
+                "endTimeMs": 87440,
+                "text": "of"
+              },
+              {
+                "startTimeMs": 87440,
+                "endTimeMs": 87680,
+                "text": "those"
+              },
+              {
+                "startTimeMs": 87680,
+                "endTimeMs": 88080,
+                "text": "times"
+              },
+              {
+                "startTimeMs": 88080,
+                "endTimeMs": 88320,
+                "text": "work"
+              },
+              {
+                "startTimeMs": 88320,
+                "endTimeMs": 88480,
+                "text": "for"
+              },
+              {
+                "startTimeMs": 88480,
+                "endTimeMs": 88720,
+                "text": "you?"
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 89600,
+            "endTimeMs": 91040,
+            "text": "Yes, I can do 10 a.m.",
+            "confidence": 0.929,
+            "words": [
+              {
+                "startTimeMs": 89600,
+                "endTimeMs": 90080,
+                "text": "Yes,"
+              },
+              {
+                "startTimeMs": 90080,
+                "endTimeMs": 90240,
+                "text": "I"
+              },
+              {
+                "startTimeMs": 90240,
+                "endTimeMs": 90360,
+                "text": "can"
+              },
+              {
+                "startTimeMs": 90360,
+                "endTimeMs": 90480,
+                "text": "do"
+              },
+              {
+                "startTimeMs": 90480,
+                "endTimeMs": 90800,
+                "text": "10"
+              },
+              {
+                "startTimeMs": 90800,
+                "endTimeMs": 91040,
+                "text": "a.m."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 91040,
+            "endTimeMs": 91920,
+            "text": "tomorrow morning.",
+            "confidence": 0.929,
+            "words": [
+              {
+                "startTimeMs": 91040,
+                "endTimeMs": 91440,
+                "text": "tomorrow"
+              },
+              {
+                "startTimeMs": 91440,
+                "endTimeMs": 91920,
+                "text": "morning."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 92720,
+            "endTimeMs": 93200,
+            "text": "Great.",
+            "confidence": 0.929,
+            "words": [
+              {
+                "startTimeMs": 92720,
+                "endTimeMs": 93200,
+                "text": "Great."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 94080,
+            "endTimeMs": 96960,
+            "text": "I will call you tomorrow morning at 9:45 a.m.",
+            "confidence": 0.929,
+            "words": [
+              {
+                "startTimeMs": 94080,
+                "endTimeMs": 94240,
+                "text": "I"
+              },
+              {
+                "startTimeMs": 94240,
+                "endTimeMs": 94400,
+                "text": "will"
+              },
+              {
+                "startTimeMs": 94400,
+                "endTimeMs": 94720,
+                "text": "call"
+              },
+              {
+                "startTimeMs": 94720,
+                "endTimeMs": 94840,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 94840,
+                "endTimeMs": 95280,
+                "text": "tomorrow"
+              },
+              {
+                "startTimeMs": 95280,
+                "endTimeMs": 96160,
+                "text": "morning"
+              },
+              {
+                "startTimeMs": 96200,
+                "endTimeMs": 96400,
+                "text": "at"
+              },
+              {
+                "startTimeMs": 96520,
+                "endTimeMs": 96560,
+                "text": "9:45"
+              },
+              {
+                "startTimeMs": 96560,
+                "endTimeMs": 96960,
+                "text": "a.m."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 96960,
+            "endTimeMs": 99840,
+            "text": "with payment instructions and confirmation information.",
+            "confidence": 0.929,
+            "words": [
+              {
+                "startTimeMs": 96960,
+                "endTimeMs": 97160,
+                "text": "with"
+              },
+              {
+                "startTimeMs": 97200,
+                "endTimeMs": 97560,
+                "text": "payment"
+              },
+              {
+                "startTimeMs": 97560,
+                "endTimeMs": 98240,
+                "text": "instructions"
+              },
+              {
+                "startTimeMs": 98320,
+                "endTimeMs": 98480,
+                "text": "and"
+              },
+              {
+                "startTimeMs": 98480,
+                "endTimeMs": 99120,
+                "text": "confirmation"
+              },
+              {
+                "startTimeMs": 99120,
+                "endTimeMs": 99840,
+                "text": "information."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Agent",
+            "startTimeMs": 100640,
+            "endTimeMs": 101520,
+            "text": "Is that okay?",
+            "confidence": 0.929,
+            "words": [
+              {
+                "startTimeMs": 100640,
+                "endTimeMs": 100880,
+                "text": "Is"
+              },
+              {
+                "startTimeMs": 100880,
+                "endTimeMs": 101040,
+                "text": "that"
+              },
+              {
+                "startTimeMs": 101040,
+                "endTimeMs": 101520,
+                "text": "okay?"
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 102400,
+            "endTimeMs": 103520,
+            "text": "That sounds great.",
+            "confidence": 0.929,
+            "words": [
+              {
+                "startTimeMs": 102400,
+                "endTimeMs": 102640,
+                "text": "That"
+              },
+              {
+                "startTimeMs": 102640,
+                "endTimeMs": 102960,
+                "text": "sounds"
+              },
+              {
+                "startTimeMs": 102960,
+                "endTimeMs": 103520,
+                "text": "great."
+              }
+            ],
+            "locale": "en-US"
+          },
+          {
+            "speaker": "Customer",
+            "startTimeMs": 104320,
+            "endTimeMs": 107200,
+            "text": "I'll talk to you tomorrow morning at 9:45 a.m.",
+            "confidence": 0.929,
+            "words": [
+              {
+                "startTimeMs": 104320,
+                "endTimeMs": 104480,
+                "text": "I'll"
+              },
+              {
+                "startTimeMs": 104480,
+                "endTimeMs": 104720,
+                "text": "talk"
+              },
+              {
+                "startTimeMs": 104720,
+                "endTimeMs": 104880,
+                "text": "to"
+              },
+              {
+                "startTimeMs": 104880,
+                "endTimeMs": 104960,
+                "text": "you"
+              },
+              {
+                "startTimeMs": 104960,
+                "endTimeMs": 105360,
+                "text": "tomorrow"
+              },
+              {
+                "startTimeMs": 105360,
+                "endTimeMs": 106240,
+                "text": "morning"
+              },
+              {
+                "startTimeMs": 106280,
+                "endTimeMs": 106480,
+                "text": "at"
+              },
+              {
+                "startTimeMs": 106560,
+                "endTimeMs": 106600,
+                "text": "9:45"
+              },
+              {
+                "startTimeMs": 106720,
+                "endTimeMs": 107200,
+                "text": "a.m."
+              }
+            ],
+            "locale": "en-US"
+          }
+        ]
+      }
+    ]
+  }
+}

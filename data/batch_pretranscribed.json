@@ -1,0 +1,1869 @@
+{
+    "durationMilliseconds": 108045,
+    "combinedPhrases": [
+        {
+            "channel": 0,
+            "text": "Hi there, thank you for calling Contoso. My name is Sam. How can I help you today? Good afternoon, my name is Mary Adams. I want to buy life insurance for my husband. Can you please tell me how much it costs? I'm going to help you right now with your life insurance needs. Are you the owner of the policy? My husband and I are the owners of the policy, so I will be paying for the policy myself, but I want him to be protected in case something happens to me. Good. What type of policy are you looking for? We have term life, whole life, universal life, etc. Term would be perfect for us, but can you please tell me how much the monthly payment would be for term life with $500,000 of coverage? If you pay $30 each month, your husband will be insured for a total of $500,000 of coverage with a monthly premium of $30. How often would we have to pay this premium? You will pay this premium every month until you reach age 100 or your husband dies, whichever happens first. Would you like to schedule a payment date so that your husband can start receiving his insurance coverage? Yes. How soon can you schedule it? Let me see if there are any open dates for today or tomorrow. Would that work for you? That is fine with me. OK, Mrs. Adams, I have an opening tomorrow morning at 10:00 AM and 1:00 PM. Would either of those times work for you? Yes, I can do 10 a.m. tomorrow morning. Great. I will call you tomorrow morning at 9:45 a.m. with payment instructions and confirmation information. Is that okay? That sounds great. I'll talk to you tomorrow morning at 9:45 a.m."
+        }
+    ],
+    "phrases": [
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 80,
+            "durationMilliseconds": 2160,
+            "text": "Hi there, thank you for calling Contoso.",
+            "words": [
+                {
+                    "text": "Hi",
+                    "offsetMilliseconds": 80,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "there,",
+                    "offsetMilliseconds": 320,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "thank",
+                    "offsetMilliseconds": 640,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 960,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "for",
+                    "offsetMilliseconds": 1040,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "calling",
+                    "offsetMilliseconds": 1200,
+                    "durationMilliseconds": 360
+                },
+                {
+                    "text": "Contoso.",
+                    "offsetMilliseconds": 1560,
+                    "durationMilliseconds": 680
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9236097
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 2240,
+            "durationMilliseconds": 960,
+            "text": "My name is Sam.",
+            "words": [
+                {
+                    "text": "My",
+                    "offsetMilliseconds": 2240,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "name",
+                    "offsetMilliseconds": 2400,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "is",
+                    "offsetMilliseconds": 2640,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "Sam.",
+                    "offsetMilliseconds": 2720,
+                    "durationMilliseconds": 480
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9236097
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 3440,
+            "durationMilliseconds": 1280,
+            "text": "How can I help you today?",
+            "words": [
+                {
+                    "text": "How",
+                    "offsetMilliseconds": 3440,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "can",
+                    "offsetMilliseconds": 3600,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "I",
+                    "offsetMilliseconds": 3760,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "help",
+                    "offsetMilliseconds": 3840,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 4080,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "today?",
+                    "offsetMilliseconds": 4240,
+                    "durationMilliseconds": 480
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9236097
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 5520,
+            "durationMilliseconds": 2160,
+            "text": "Good afternoon, my name is Mary Adams.",
+            "words": [
+                {
+                    "text": "Good",
+                    "offsetMilliseconds": 5520,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "afternoon,",
+                    "offsetMilliseconds": 5760,
+                    "durationMilliseconds": 560
+                },
+                {
+                    "text": "my",
+                    "offsetMilliseconds": 6320,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "name",
+                    "offsetMilliseconds": 6480,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "is",
+                    "offsetMilliseconds": 6720,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "Mary",
+                    "offsetMilliseconds": 6880,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "Adams.",
+                    "offsetMilliseconds": 7120,
+                    "durationMilliseconds": 560
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9236097
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 8560,
+            "durationMilliseconds": 2160,
+            "text": "I want to buy life insurance for my husband.",
+            "words": [
+                {
+                    "text": "I",
+                    "offsetMilliseconds": 8560,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "want",
+                    "offsetMilliseconds": 8720,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "to",
+                    "offsetMilliseconds": 8920,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "buy",
+                    "offsetMilliseconds": 9000,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "life",
+                    "offsetMilliseconds": 9200,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "insurance",
+                    "offsetMilliseconds": 9440,
+                    "durationMilliseconds": 440
+                },
+                {
+                    "text": "for",
+                    "offsetMilliseconds": 9880,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "my",
+                    "offsetMilliseconds": 10000,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "husband.",
+                    "offsetMilliseconds": 10160,
+                    "durationMilliseconds": 560
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9236097
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 11520,
+            "durationMilliseconds": 2000,
+            "text": "Can you please tell me how much it costs?",
+            "words": [
+                {
+                    "text": "Can",
+                    "offsetMilliseconds": 11520,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 11760,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "please",
+                    "offsetMilliseconds": 11840,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "tell",
+                    "offsetMilliseconds": 12160,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "me",
+                    "offsetMilliseconds": 12320,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "how",
+                    "offsetMilliseconds": 12480,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "much",
+                    "offsetMilliseconds": 12600,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "it",
+                    "offsetMilliseconds": 12800,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "costs?",
+                    "offsetMilliseconds": 12880,
+                    "durationMilliseconds": 640
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9236097
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 14400,
+            "durationMilliseconds": 2800,
+            "text": "I'm going to help you right now with your life insurance needs.",
+            "words": [
+                {
+                    "text": "I'm",
+                    "offsetMilliseconds": 14400,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "going",
+                    "offsetMilliseconds": 14640,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "to",
+                    "offsetMilliseconds": 14800,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "help",
+                    "offsetMilliseconds": 14880,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 15120,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "right",
+                    "offsetMilliseconds": 15200,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "now",
+                    "offsetMilliseconds": 15440,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "with",
+                    "offsetMilliseconds": 15680,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "your",
+                    "offsetMilliseconds": 15880,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "life",
+                    "offsetMilliseconds": 16000,
+                    "durationMilliseconds": 280
+                },
+                {
+                    "text": "insurance",
+                    "offsetMilliseconds": 16280,
+                    "durationMilliseconds": 480
+                },
+                {
+                    "text": "needs.",
+                    "offsetMilliseconds": 16760,
+                    "durationMilliseconds": 440
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9236097
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 18080,
+            "durationMilliseconds": 1680,
+            "text": "Are you the owner of the policy?",
+            "words": [
+                {
+                    "text": "Are",
+                    "offsetMilliseconds": 18080,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 18240,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "the",
+                    "offsetMilliseconds": 18400,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "owner",
+                    "offsetMilliseconds": 18560,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "of",
+                    "offsetMilliseconds": 18880,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "the",
+                    "offsetMilliseconds": 18960,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "policy?",
+                    "offsetMilliseconds": 19040,
+                    "durationMilliseconds": 720
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9236097
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 20560,
+            "durationMilliseconds": 8400,
+            "text": "My husband and I are the owners of the policy, so I will be paying for the policy myself, but I want him to be protected in case something happens to me.",
+            "words": [
+                {
+                    "text": "My",
+                    "offsetMilliseconds": 20560,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "husband",
+                    "offsetMilliseconds": 20800,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "and",
+                    "offsetMilliseconds": 21240,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "I",
+                    "offsetMilliseconds": 21360,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "are",
+                    "offsetMilliseconds": 21480,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "the",
+                    "offsetMilliseconds": 21600,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "owners",
+                    "offsetMilliseconds": 21760,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "of",
+                    "offsetMilliseconds": 22080,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "the",
+                    "offsetMilliseconds": 22160,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "policy,",
+                    "offsetMilliseconds": 22240,
+                    "durationMilliseconds": 640
+                },
+                {
+                    "text": "so",
+                    "offsetMilliseconds": 23680,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "I",
+                    "offsetMilliseconds": 24000,
+                    "durationMilliseconds": 40
+                },
+                {
+                    "text": "will",
+                    "offsetMilliseconds": 24040,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "be",
+                    "offsetMilliseconds": 24160,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "paying",
+                    "offsetMilliseconds": 24320,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "for",
+                    "offsetMilliseconds": 24560,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "the",
+                    "offsetMilliseconds": 24720,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "policy",
+                    "offsetMilliseconds": 24800,
+                    "durationMilliseconds": 480
+                },
+                {
+                    "text": "myself,",
+                    "offsetMilliseconds": 25280,
+                    "durationMilliseconds": 560
+                },
+                {
+                    "text": "but",
+                    "offsetMilliseconds": 26000,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "I",
+                    "offsetMilliseconds": 26240,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "want",
+                    "offsetMilliseconds": 26320,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "him",
+                    "offsetMilliseconds": 26480,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "to",
+                    "offsetMilliseconds": 26640,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "be",
+                    "offsetMilliseconds": 26720,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "protected",
+                    "offsetMilliseconds": 26880,
+                    "durationMilliseconds": 480
+                },
+                {
+                    "text": "in",
+                    "offsetMilliseconds": 27360,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "case",
+                    "offsetMilliseconds": 27480,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "something",
+                    "offsetMilliseconds": 27720,
+                    "durationMilliseconds": 360
+                },
+                {
+                    "text": "happens",
+                    "offsetMilliseconds": 28080,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "to",
+                    "offsetMilliseconds": 28480,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "me.",
+                    "offsetMilliseconds": 28600,
+                    "durationMilliseconds": 360
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9236097
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 29840,
+            "durationMilliseconds": 280,
+            "text": "Good.",
+            "words": [
+                {
+                    "text": "Good.",
+                    "offsetMilliseconds": 29840,
+                    "durationMilliseconds": 280
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9263096
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 30120,
+            "durationMilliseconds": 2200,
+            "text": "What type of policy are you looking for?",
+            "words": [
+                {
+                    "text": "What",
+                    "offsetMilliseconds": 30120,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "type",
+                    "offsetMilliseconds": 30360,
+                    "durationMilliseconds": 280
+                },
+                {
+                    "text": "of",
+                    "offsetMilliseconds": 30640,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "policy",
+                    "offsetMilliseconds": 30720,
+                    "durationMilliseconds": 600
+                },
+                {
+                    "text": "are",
+                    "offsetMilliseconds": 31320,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 31440,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "looking",
+                    "offsetMilliseconds": 31520,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "for?",
+                    "offsetMilliseconds": 31920,
+                    "durationMilliseconds": 400
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9263096
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 33200,
+            "durationMilliseconds": 3520,
+            "text": "We have term life, whole life, universal life, etc.",
+            "words": [
+                {
+                    "text": "We",
+                    "offsetMilliseconds": 33200,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "have",
+                    "offsetMilliseconds": 33360,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "term",
+                    "offsetMilliseconds": 33520,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "life,",
+                    "offsetMilliseconds": 33760,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "whole",
+                    "offsetMilliseconds": 34320,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "life,",
+                    "offsetMilliseconds": 34480,
+                    "durationMilliseconds": 480
+                },
+                {
+                    "text": "universal",
+                    "offsetMilliseconds": 35040,
+                    "durationMilliseconds": 600
+                },
+                {
+                    "text": "life,",
+                    "offsetMilliseconds": 35640,
+                    "durationMilliseconds": 360
+                },
+                {
+                    "text": "etc.",
+                    "offsetMilliseconds": 36080,
+                    "durationMilliseconds": 640
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9263096
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 37520,
+            "durationMilliseconds": 7040,
+            "text": "Term would be perfect for us, but can you please tell me how much the monthly payment would be for term life with $500,000 of coverage?",
+            "words": [
+                {
+                    "text": "Term",
+                    "offsetMilliseconds": 37520,
+                    "durationMilliseconds": 280
+                },
+                {
+                    "text": "would",
+                    "offsetMilliseconds": 37800,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "be",
+                    "offsetMilliseconds": 37920,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "perfect",
+                    "offsetMilliseconds": 38080,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "for",
+                    "offsetMilliseconds": 38480,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "us,",
+                    "offsetMilliseconds": 38720,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "but",
+                    "offsetMilliseconds": 39040,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "can",
+                    "offsetMilliseconds": 39200,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 39360,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "please",
+                    "offsetMilliseconds": 39520,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "tell",
+                    "offsetMilliseconds": 39840,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "me",
+                    "offsetMilliseconds": 40000,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "how",
+                    "offsetMilliseconds": 40160,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "much",
+                    "offsetMilliseconds": 40280,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "the",
+                    "offsetMilliseconds": 40480,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "monthly",
+                    "offsetMilliseconds": 40640,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "payment",
+                    "offsetMilliseconds": 40960,
+                    "durationMilliseconds": 480
+                },
+                {
+                    "text": "would",
+                    "offsetMilliseconds": 41440,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "be",
+                    "offsetMilliseconds": 41560,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "for",
+                    "offsetMilliseconds": 41680,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "term",
+                    "offsetMilliseconds": 41840,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "life",
+                    "offsetMilliseconds": 42160,
+                    "durationMilliseconds": 480
+                },
+                {
+                    "text": "with",
+                    "offsetMilliseconds": 42640,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "$500,000",
+                    "offsetMilliseconds": 42760,
+                    "durationMilliseconds": 40
+                },
+                {
+                    "text": "of",
+                    "offsetMilliseconds": 42800,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "coverage?",
+                    "offsetMilliseconds": 42880,
+                    "durationMilliseconds": 1680
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9263096
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 45360,
+            "durationMilliseconds": 8080,
+            "text": "If you pay $30 each month, your husband will be insured for a total of $500,000 of coverage with a monthly premium of $30.",
+            "words": [
+                {
+                    "text": "If",
+                    "offsetMilliseconds": 45360,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 45600,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "pay",
+                    "offsetMilliseconds": 45680,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "$30",
+                    "offsetMilliseconds": 45840,
+                    "durationMilliseconds": 40
+                },
+                {
+                    "text": "each",
+                    "offsetMilliseconds": 45880,
+                    "durationMilliseconds": 920
+                },
+                {
+                    "text": "month,",
+                    "offsetMilliseconds": 46800,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "your",
+                    "offsetMilliseconds": 47280,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "husband",
+                    "offsetMilliseconds": 47440,
+                    "durationMilliseconds": 440
+                },
+                {
+                    "text": "will",
+                    "offsetMilliseconds": 47880,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "be",
+                    "offsetMilliseconds": 48000,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "insured",
+                    "offsetMilliseconds": 48160,
+                    "durationMilliseconds": 480
+                },
+                {
+                    "text": "for",
+                    "offsetMilliseconds": 48640,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "a",
+                    "offsetMilliseconds": 48840,
+                    "durationMilliseconds": 40
+                },
+                {
+                    "text": "total",
+                    "offsetMilliseconds": 48880,
+                    "durationMilliseconds": 1760
+                },
+                {
+                    "text": "of",
+                    "offsetMilliseconds": 50680,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "$500,000",
+                    "offsetMilliseconds": 50760,
+                    "durationMilliseconds": 40
+                },
+                {
+                    "text": "of",
+                    "offsetMilliseconds": 50800,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "coverage",
+                    "offsetMilliseconds": 50880,
+                    "durationMilliseconds": 560
+                },
+                {
+                    "text": "with",
+                    "offsetMilliseconds": 51440,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "a",
+                    "offsetMilliseconds": 51600,
+                    "durationMilliseconds": 40
+                },
+                {
+                    "text": "monthly",
+                    "offsetMilliseconds": 51640,
+                    "durationMilliseconds": 440
+                },
+                {
+                    "text": "premium",
+                    "offsetMilliseconds": 52080,
+                    "durationMilliseconds": 1240
+                },
+                {
+                    "text": "of",
+                    "offsetMilliseconds": 53320,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "$30.",
+                    "offsetMilliseconds": 53400,
+                    "durationMilliseconds": 40
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9263096
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 54320,
+            "durationMilliseconds": 2000,
+            "text": "How often would we have to pay this premium?",
+            "words": [
+                {
+                    "text": "How",
+                    "offsetMilliseconds": 54320,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "often",
+                    "offsetMilliseconds": 54560,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "would",
+                    "offsetMilliseconds": 54880,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "we",
+                    "offsetMilliseconds": 55000,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "have",
+                    "offsetMilliseconds": 55120,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "to",
+                    "offsetMilliseconds": 55280,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "pay",
+                    "offsetMilliseconds": 55400,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "this",
+                    "offsetMilliseconds": 55560,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "premium?",
+                    "offsetMilliseconds": 55760,
+                    "durationMilliseconds": 560
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.9263096
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 57200,
+            "durationMilliseconds": 7040,
+            "text": "You will pay this premium every month until you reach age 100 or your husband dies, whichever happens first.",
+            "words": [
+                {
+                    "text": "You",
+                    "offsetMilliseconds": 57200,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "will",
+                    "offsetMilliseconds": 57320,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "pay",
+                    "offsetMilliseconds": 57440,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "this",
+                    "offsetMilliseconds": 57680,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "premium",
+                    "offsetMilliseconds": 57840,
+                    "durationMilliseconds": 560
+                },
+                {
+                    "text": "every",
+                    "offsetMilliseconds": 58400,
+                    "durationMilliseconds": 280
+                },
+                {
+                    "text": "month",
+                    "offsetMilliseconds": 58680,
+                    "durationMilliseconds": 280
+                },
+                {
+                    "text": "until",
+                    "offsetMilliseconds": 58960,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 59280,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "reach",
+                    "offsetMilliseconds": 59400,
+                    "durationMilliseconds": 280
+                },
+                {
+                    "text": "age",
+                    "offsetMilliseconds": 59680,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "100",
+                    "offsetMilliseconds": 59920,
+                    "durationMilliseconds": 720
+                },
+                {
+                    "text": "or",
+                    "offsetMilliseconds": 60640,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "your",
+                    "offsetMilliseconds": 60840,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "husband",
+                    "offsetMilliseconds": 61040,
+                    "durationMilliseconds": 360
+                },
+                {
+                    "text": "dies,",
+                    "offsetMilliseconds": 61400,
+                    "durationMilliseconds": 520
+                },
+                {
+                    "text": "whichever",
+                    "offsetMilliseconds": 62720,
+                    "durationMilliseconds": 560
+                },
+                {
+                    "text": "happens",
+                    "offsetMilliseconds": 63280,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "first.",
+                    "offsetMilliseconds": 63680,
+                    "durationMilliseconds": 560
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.927714
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 65040,
+            "durationMilliseconds": 4960,
+            "text": "Would you like to schedule a payment date so that your husband can start receiving his insurance coverage?",
+            "words": [
+                {
+                    "text": "Would",
+                    "offsetMilliseconds": 65040,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 65280,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "like",
+                    "offsetMilliseconds": 65360,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "to",
+                    "offsetMilliseconds": 65560,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "schedule",
+                    "offsetMilliseconds": 65640,
+                    "durationMilliseconds": 480
+                },
+                {
+                    "text": "a",
+                    "offsetMilliseconds": 66120,
+                    "durationMilliseconds": 40
+                },
+                {
+                    "text": "payment",
+                    "offsetMilliseconds": 66160,
+                    "durationMilliseconds": 440
+                },
+                {
+                    "text": "date",
+                    "offsetMilliseconds": 66600,
+                    "durationMilliseconds": 280
+                },
+                {
+                    "text": "so",
+                    "offsetMilliseconds": 66880,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "that",
+                    "offsetMilliseconds": 67040,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "your",
+                    "offsetMilliseconds": 67240,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "husband",
+                    "offsetMilliseconds": 67360,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "can",
+                    "offsetMilliseconds": 67760,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "start",
+                    "offsetMilliseconds": 68000,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "receiving",
+                    "offsetMilliseconds": 68320,
+                    "durationMilliseconds": 480
+                },
+                {
+                    "text": "his",
+                    "offsetMilliseconds": 68800,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "insurance",
+                    "offsetMilliseconds": 68960,
+                    "durationMilliseconds": 480
+                },
+                {
+                    "text": "coverage?",
+                    "offsetMilliseconds": 69440,
+                    "durationMilliseconds": 560
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.927714
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 70880,
+            "durationMilliseconds": 400,
+            "text": "Yes.",
+            "words": [
+                {
+                    "text": "Yes.",
+                    "offsetMilliseconds": 70880,
+                    "durationMilliseconds": 400
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.927714
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 71280,
+            "durationMilliseconds": 1440,
+            "text": "How soon can you schedule it?",
+            "words": [
+                {
+                    "text": "How",
+                    "offsetMilliseconds": 71280,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "soon",
+                    "offsetMilliseconds": 71520,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "can",
+                    "offsetMilliseconds": 71760,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 71920,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "schedule",
+                    "offsetMilliseconds": 72040,
+                    "durationMilliseconds": 440
+                },
+                {
+                    "text": "it?",
+                    "offsetMilliseconds": 72480,
+                    "durationMilliseconds": 240
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.927714
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 73520,
+            "durationMilliseconds": 3120,
+            "text": "Let me see if there are any open dates for today or tomorrow.",
+            "words": [
+                {
+                    "text": "Let",
+                    "offsetMilliseconds": 73520,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "me",
+                    "offsetMilliseconds": 73720,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "see",
+                    "offsetMilliseconds": 73840,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "if",
+                    "offsetMilliseconds": 74080,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "there",
+                    "offsetMilliseconds": 74200,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "are",
+                    "offsetMilliseconds": 74400,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "any",
+                    "offsetMilliseconds": 74560,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "open",
+                    "offsetMilliseconds": 74800,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "dates",
+                    "offsetMilliseconds": 75120,
+                    "durationMilliseconds": 280
+                },
+                {
+                    "text": "for",
+                    "offsetMilliseconds": 75400,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "today",
+                    "offsetMilliseconds": 75520,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "or",
+                    "offsetMilliseconds": 75920,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "tomorrow.",
+                    "offsetMilliseconds": 76080,
+                    "durationMilliseconds": 560
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.927714
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 77520,
+            "durationMilliseconds": 1040,
+            "text": "Would that work for you?",
+            "words": [
+                {
+                    "text": "Would",
+                    "offsetMilliseconds": 77520,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "that",
+                    "offsetMilliseconds": 77680,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "work",
+                    "offsetMilliseconds": 77920,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "for",
+                    "offsetMilliseconds": 78160,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "you?",
+                    "offsetMilliseconds": 78320,
+                    "durationMilliseconds": 240
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.927714
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 79440,
+            "durationMilliseconds": 1200,
+            "text": "That is fine with me.",
+            "words": [
+                {
+                    "text": "That",
+                    "offsetMilliseconds": 79440,
+                    "durationMilliseconds": 280
+                },
+                {
+                    "text": "is",
+                    "offsetMilliseconds": 79720,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "fine",
+                    "offsetMilliseconds": 79840,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "with",
+                    "offsetMilliseconds": 80080,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "me.",
+                    "offsetMilliseconds": 80240,
+                    "durationMilliseconds": 400
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.927714
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 81440,
+            "durationMilliseconds": 720,
+            "text": "OK, Mrs.",
+            "words": [
+                {
+                    "text": "OK,",
+                    "offsetMilliseconds": 81440,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "Mrs.",
+                    "offsetMilliseconds": 81760,
+                    "durationMilliseconds": 400
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.927714
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 82160,
+            "durationMilliseconds": 3840,
+            "text": "Adams, I have an opening tomorrow morning at 10:00 AM and 1:00 PM.",
+            "words": [
+                {
+                    "text": "Adams,",
+                    "offsetMilliseconds": 82160,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "I",
+                    "offsetMilliseconds": 82640,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "have",
+                    "offsetMilliseconds": 82800,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "an",
+                    "offsetMilliseconds": 82960,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "opening",
+                    "offsetMilliseconds": 83120,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "tomorrow",
+                    "offsetMilliseconds": 83520,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "morning",
+                    "offsetMilliseconds": 83920,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "at",
+                    "offsetMilliseconds": 84320,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "10:00",
+                    "offsetMilliseconds": 84480,
+                    "durationMilliseconds": 40
+                },
+                {
+                    "text": "AM",
+                    "offsetMilliseconds": 84520,
+                    "durationMilliseconds": 520
+                },
+                {
+                    "text": "and",
+                    "offsetMilliseconds": 85040,
+                    "durationMilliseconds": 280
+                },
+                {
+                    "text": "1:00",
+                    "offsetMilliseconds": 85320,
+                    "durationMilliseconds": 40
+                },
+                {
+                    "text": "PM.",
+                    "offsetMilliseconds": 85440,
+                    "durationMilliseconds": 560
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.927714
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 86880,
+            "durationMilliseconds": 1840,
+            "text": "Would either of those times work for you?",
+            "words": [
+                {
+                    "text": "Would",
+                    "offsetMilliseconds": 86880,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "either",
+                    "offsetMilliseconds": 87160,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "of",
+                    "offsetMilliseconds": 87360,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "those",
+                    "offsetMilliseconds": 87440,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "times",
+                    "offsetMilliseconds": 87680,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "work",
+                    "offsetMilliseconds": 88080,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "for",
+                    "offsetMilliseconds": 88320,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "you?",
+                    "offsetMilliseconds": 88480,
+                    "durationMilliseconds": 240
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.92917806
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 89600,
+            "durationMilliseconds": 1440,
+            "text": "Yes, I can do 10 a.m.",
+            "words": [
+                {
+                    "text": "Yes,",
+                    "offsetMilliseconds": 89600,
+                    "durationMilliseconds": 480
+                },
+                {
+                    "text": "I",
+                    "offsetMilliseconds": 90080,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "can",
+                    "offsetMilliseconds": 90240,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "do",
+                    "offsetMilliseconds": 90360,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "10",
+                    "offsetMilliseconds": 90480,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "a.m.",
+                    "offsetMilliseconds": 90800,
+                    "durationMilliseconds": 240
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.92917806
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 91040,
+            "durationMilliseconds": 880,
+            "text": "tomorrow morning.",
+            "words": [
+                {
+                    "text": "tomorrow",
+                    "offsetMilliseconds": 91040,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "morning.",
+                    "offsetMilliseconds": 91440,
+                    "durationMilliseconds": 480
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.92917806
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 92720,
+            "durationMilliseconds": 480,
+            "text": "Great.",
+            "words": [
+                {
+                    "text": "Great.",
+                    "offsetMilliseconds": 92720,
+                    "durationMilliseconds": 480
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.92917806
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 94080,
+            "durationMilliseconds": 2880,
+            "text": "I will call you tomorrow morning at 9:45 a.m.",
+            "words": [
+                {
+                    "text": "I",
+                    "offsetMilliseconds": 94080,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "will",
+                    "offsetMilliseconds": 94240,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "call",
+                    "offsetMilliseconds": 94400,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 94720,
+                    "durationMilliseconds": 120
+                },
+                {
+                    "text": "tomorrow",
+                    "offsetMilliseconds": 94840,
+                    "durationMilliseconds": 440
+                },
+                {
+                    "text": "morning",
+                    "offsetMilliseconds": 95280,
+                    "durationMilliseconds": 880
+                },
+                {
+                    "text": "at",
+                    "offsetMilliseconds": 96200,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "9:45",
+                    "offsetMilliseconds": 96520,
+                    "durationMilliseconds": 40
+                },
+                {
+                    "text": "a.m.",
+                    "offsetMilliseconds": 96560,
+                    "durationMilliseconds": 400
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.92917806
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 96960,
+            "durationMilliseconds": 2880,
+            "text": "with payment instructions and confirmation information.",
+            "words": [
+                {
+                    "text": "with",
+                    "offsetMilliseconds": 96960,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "payment",
+                    "offsetMilliseconds": 97200,
+                    "durationMilliseconds": 360
+                },
+                {
+                    "text": "instructions",
+                    "offsetMilliseconds": 97560,
+                    "durationMilliseconds": 680
+                },
+                {
+                    "text": "and",
+                    "offsetMilliseconds": 98320,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "confirmation",
+                    "offsetMilliseconds": 98480,
+                    "durationMilliseconds": 640
+                },
+                {
+                    "text": "information.",
+                    "offsetMilliseconds": 99120,
+                    "durationMilliseconds": 720
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.92917806
+        },
+        {
+            "channel": 0,
+            "speaker": 1,
+            "offsetMilliseconds": 100640,
+            "durationMilliseconds": 880,
+            "text": "Is that okay?",
+            "words": [
+                {
+                    "text": "Is",
+                    "offsetMilliseconds": 100640,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "that",
+                    "offsetMilliseconds": 100880,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "okay?",
+                    "offsetMilliseconds": 101040,
+                    "durationMilliseconds": 480
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.92917806
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 102400,
+            "durationMilliseconds": 1120,
+            "text": "That sounds great.",
+            "words": [
+                {
+                    "text": "That",
+                    "offsetMilliseconds": 102400,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "sounds",
+                    "offsetMilliseconds": 102640,
+                    "durationMilliseconds": 320
+                },
+                {
+                    "text": "great.",
+                    "offsetMilliseconds": 102960,
+                    "durationMilliseconds": 560
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.92917806
+        },
+        {
+            "channel": 0,
+            "speaker": 2,
+            "offsetMilliseconds": 104320,
+            "durationMilliseconds": 2880,
+            "text": "I'll talk to you tomorrow morning at 9:45 a.m.",
+            "words": [
+                {
+                    "text": "I'll",
+                    "offsetMilliseconds": 104320,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "talk",
+                    "offsetMilliseconds": 104480,
+                    "durationMilliseconds": 240
+                },
+                {
+                    "text": "to",
+                    "offsetMilliseconds": 104720,
+                    "durationMilliseconds": 160
+                },
+                {
+                    "text": "you",
+                    "offsetMilliseconds": 104880,
+                    "durationMilliseconds": 80
+                },
+                {
+                    "text": "tomorrow",
+                    "offsetMilliseconds": 104960,
+                    "durationMilliseconds": 400
+                },
+                {
+                    "text": "morning",
+                    "offsetMilliseconds": 105360,
+                    "durationMilliseconds": 880
+                },
+                {
+                    "text": "at",
+                    "offsetMilliseconds": 106280,
+                    "durationMilliseconds": 200
+                },
+                {
+                    "text": "9:45",
+                    "offsetMilliseconds": 106560,
+                    "durationMilliseconds": 40
+                },
+                {
+                    "text": "a.m.",
+                    "offsetMilliseconds": 106720,
+                    "durationMilliseconds": 480
+                }
+            ],
+            "locale": "en-US",
+            "confidence": 0.92917806
+        }
+    ]
+}
