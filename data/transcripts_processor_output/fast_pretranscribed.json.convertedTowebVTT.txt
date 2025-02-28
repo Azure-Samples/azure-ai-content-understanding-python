@@ -1,0 +1,112 @@
+WEBVTT
+
+00:00:00.110 --> 00:00:03.160
+<v Speaker 1>Hi there, thank you for calling Contoso. My name is Sam.
+
+00:00:03.430 --> 00:00:01.200
+<v Speaker 2>How can I help you today?
+
+00:00:05.590 --> 00:00:02.080
+<v Speaker 1>Good afternoon. My name is Mary Adams.
+
+00:00:08.630 --> 00:00:02.000
+<v Speaker 1>I want to buy life insurance for my husband.
+
+00:00:11.630 --> 00:00:01.760
+<v Speaker 1>Can you please tell me how much it costs?
+
+00:00:14.470 --> 00:00:02.720
+<v Speaker 2>I'm going to help you right now with your life insurance needs.
+
+00:00:18.150 --> 00:00:04.600
+<v Speaker 1>Are you the owner of the policy? My husband and I are the owners of the policy,
+
+00:00:23.790 --> 00:00:05.000
+<v Speaker 1>so I will be paying for the policy myself, but I want him to be protected in case something happens to me.
+
+00:00:29.870 --> 00:00:02.040
+<v Speaker 2>Good. What type of policy are you looking?
+
+00:00:31.910 --> 00:00:00.360
+<v Speaker 1>For
+
+00:00:33.190 --> 00:00:00.160
+<v Speaker 1>we.
+
+00:00:33.350 --> 00:00:03.160
+<v Speaker 2>Have term life, whole life, universal life, etc.
+
+00:00:37.630 --> 00:00:06.840
+<v Speaker 1>Term would be perfect for us, but can you please tell me how much the monthly payment would be for term life with $500,000 of coverage?
+
+00:00:45.470 --> 00:00:07.840
+<v Speaker 2>If you pay $30 each month, your husband will be insured for a total of $500,000 of coverage, with a monthly premium of $30.
+
+00:00:54.390 --> 00:00:01.800
+<v Speaker 1>How often would we have to pay this premium?
+
+00:00:57.270 --> 00:00:04.600
+<v Speaker 2>You will pay this premium every month until you reach age 100 or your husband dies.
+
+00:01:02.830 --> 00:00:01.400
+<v Speaker 1>Whichever happens first.
+
+00:01:05.110 --> 00:00:04.920
+<v Speaker 1>Would you like to schedule a payment date so that your husband can start receiving his insurance coverage?
+
+00:01:10.950 --> 00:00:01.760
+<v Speaker 1>Yes. How soon can you schedule it?
+
+00:01:13.670 --> 00:00:00.280
+<v Speaker 1>Let me.
+
+00:01:13.950 --> 00:00:00.640
+<v Speaker 2>See if there are.
+
+00:01:14.590 --> 00:00:01.560
+<v Speaker 1>Any open dates for today or?
+
+00:01:16.150 --> 00:00:00.480
+<v Speaker 2>Tomorrow.
+
+00:01:17.590 --> 00:00:00.720
+<v Speaker 1>Would that work for?
+
+00:01:18.310 --> 00:00:00.320
+<v Speaker 2>You.
+
+00:01:19.510 --> 00:00:01.080
+<v Speaker 1>That is fine with me.
+
+00:01:21.550 --> 00:00:00.320
+<v Speaker 2>OK.
+
+00:01:21.870 --> 00:00:00.120
+<v Speaker 1>Mrs.
+
+00:01:22.030 --> 00:00:04.120
+<v Speaker 2>Adams, I have an opening tomorrow morning at 10:00 AM and 1:00 PM.
+
+00:01:26.910 --> 00:00:01.640
+<v Speaker 1>Would either of those times work for?
+
+00:01:28.550 --> 00:00:00.240
+<v Speaker 2>You.
+
+00:01:29.750 --> 00:00:02.080
+<v Speaker 1>Yes, I can do 10:00 AM tomorrow morning.
+
+00:01:32.790 --> 00:00:00.600
+<v Speaker 1>Great.
+
+00:01:34.190 --> 00:00:05.600
+<v Speaker 2>I will call you tomorrow morning at 9:45 AM with payment instructions and confirmation information.
+
+00:01:40.790 --> 00:00:00.720
+<v Speaker 1>Is that OK?
+
+00:01:42.510 --> 00:00:00.840
+<v Speaker 1>That sounds great.
+
+00:01:44.470 --> 00:00:02.600
+<v Speaker 1>I'll talk to you tomorrow morning at 9:45 AM.
