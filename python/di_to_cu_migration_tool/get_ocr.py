@@ -154,10 +154,10 @@ def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_ke
                 status = result.get("status", "").lower()
 
                 if status == "succeeded":
-                    outputFile = output_dir / (file.name + ".result.json")
-                    with open(outputFile, "w") as out_f:
+                    output_file = output_dir / (file.name + ".result.json")
+                    with open(output_file, "w") as out_f:
                         json.dump(result, out_f, indent=4)
-                    print(f"[green]Success: Results saved to {outputFile}[/green]")
+                    print(f"[green]Success: Results saved to {output_file}[/green]")
                     break
                 elif status == "failed":
                     print(f"[red]Failed: {result}[/red]")
