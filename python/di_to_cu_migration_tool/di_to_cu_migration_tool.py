@@ -285,7 +285,7 @@ def submit_build_analyzer_put_request(analyzerData: dict, targetAccountUrl: str,
     analyzer_id = analyzerData["analyzerId"]
     host = os.getenv("HOST")
     api_version = os.getenv("API_VERSION")
-    endpoint = f"{host}/analyzers/{analyzer_id}?api-version={api_version}"
+    endpoint = f"{host}/contentunderstanding/analyzers/{analyzer_id}?api-version={api_version}"
 
     # Request Header - Content-Type
     # Acquire a token for the desired scope
@@ -362,7 +362,7 @@ def submit_post_analyzer_request(pdfURL: str, analyzerId: str , subscription_key
 
     host  = os.getenv("HOST")
     api_version = os.getenv("API_VERSION")
-    endpoint = f"{host}/analyzers/{analyzerId}:analyze?api-version={api_version}"
+    endpoint = f"{host}/contentunderstanding/analyzers/{analyzerId}:analyze?api-version={api_version}"
 
     blob = BlobClient.from_blob_url(pdfURL)
     blob_data = blob.download_blob().readall()

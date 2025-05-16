@@ -12,7 +12,7 @@ To setup this tool, you will need to do the following steps:
 1. Run the requirements.txt to install the needed dependencies via **pip install -r ./requirements.txt**
 2. Rename the file **.sample_env** as **.env**
 3. Replace the following values in your **.env** file as such:
-   - **HOST:** Replace this with your Azure AI Service's Content Understanding endpoint
+   - **HOST:** Replace this with your Azure AI Service's Content Understanding endpoint. Be sure to remove the "/" at the end. 
        - Ex: "https://aainatest422.services.ai.azure.com"
    - **SUBSCRIPTION_KEY:** Replace this with your name or alias, is used to identify who called the API request
        - Ex: "vannanaaina"
@@ -35,7 +35,7 @@ To setup this tool, you will need to do the following steps:
      A SAS Token is needed for creating an Analyzer.
    - **ANALYZE_PDF_URL:** Replace this with the SAS URL to a file you wish to analyze (i.e. pdf, jpg, jpeg, etc.). If you wish to not run Analyze, you can leave this as empty (i.e. "") 
        - Ex: "https://srcStorageAccountName.blob.core.windows.net/srcContainerName/src/path/to/folder/test.pdf?SASToken"
-   - **ANALYZE_RESULT_OUTPUT_JSON:** Replace this with where you wish to store the analyze results. The default is "./analyze_result.json"
+   - **ANALYZE_RESULT_OUTPUT_JSON:** Replace this with where you wish to store the analyze results. The default is "./sample_documents/analyze_result.json". 
 
 ## How to Run 
 To run this tool, you will be using the command line to run the following commands. 

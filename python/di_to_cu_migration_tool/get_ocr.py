@@ -69,7 +69,7 @@ def build_analyzer(credential, current_token, host, api_version, subscriptionKey
         "processingLocation": "geography",
         "mode": "standard"
     }
-    endpoint = f"{host}/analyzers/{analyzer_id}?api-version={api_version}"
+    endpoint = f"{host}/contentunderstanding/analyzers/{analyzer_id}?api-version={api_version}"
     print("[yellow]Creating sample analyzer to attain CU Layout results...[/yellow]")
     response = requests.put(
         url=endpoint,
@@ -120,7 +120,7 @@ def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_ke
 
     # Need to create analyzer with empty schema
     analyzer_id = build_analyzer(credential, current_token, host, api_version, subscription_key)
-    url = f"{host}/analyzers/{analyzer_id}:analyze?api-version={api_version}"
+    url = f"{host}/contentunderstanding/analyzers/{analyzer_id}:analyze?api-version={api_version}"
 
     for file in input_files:
         try:
