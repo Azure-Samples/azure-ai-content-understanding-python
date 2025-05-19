@@ -254,7 +254,7 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
 
         assert fields_path.exists(), "fields.json is needed. Fields.json is missing from the given dataset."
         if DI_version == "CustomGen":
-            analyzer_data = cu_converter_customGen.convert_fields_to_analyzer(fields_path, analyzer_prefix, temp_target_dir, field_definitions, False)
+            analyzer_data = cu_converter_customGen.convert_fields_to_analyzer(fields_path, analyzer_prefix, temp_target_dir, field_definitions)
         elif DI_version == "CustomNeural":
             analyzer_data, fields_dict = cu_converter_customNeural.convert_fields_to_analyzer_neural(fields_path, analyzer_prefix, temp_target_dir, field_definitions)
 

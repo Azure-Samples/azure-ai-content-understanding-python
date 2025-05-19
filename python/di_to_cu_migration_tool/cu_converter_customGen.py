@@ -33,7 +33,7 @@ def format_angle(angle: float) -> float:
    formatted_num = f"{rounded_angle:.7f}".rstrip('0')  # Remove trailing zeros
    return float(formatted_num)
 
-def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions, internal: bool = True) -> dict:
+def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions) -> dict:
     """
     Convert DI 4.0 preview CustomGen fields.json to analyzer.json format.
 
@@ -59,7 +59,7 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
     # Build analyzer.json content
     analyzer_id = f"{analyzer_prefix}_{doc_type}" if analyzer_prefix else doc_type
 
-    # build analyzer.json appropriately based on if internal or not
+    # build analyzer.json appropriately
     analyzer_data = {
         "analyzerId": analyzer_id,
         "baseAnalyzerId": "prebuilt-documentAnalyzer",
@@ -82,16 +82,13 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
         "templateId": fields_data.get("templateId", "document-2024-12-01")
     }
 
-    if internal:
-        analyzer_data["config"]["_promptId"] = "document"
-
     # Update field schema to be in CU format
     fields = fields_data.get(ANALYZER_FIELDS, {})
     if (len(fields) == 0):
         print("[red]Error: Fields.json should not be empty.[/red]")
         sys.exit(1)
     for key, value in fields.items():
-        if len(key) > MAX_FIELD_LENGTH and not internal:
+        if len(key) > MAX_FIELD_LENGTH:
             print(f"[red]Error: Field key '{key}' contains {len(key)}, which exceeds the limit of {MAX_FIELD_LENGTH} characters. [/red]")
             sys.exit(1)
         analyzer_field = recursive_convert_field_to_analyzer_helper(key, value, field_definitions)

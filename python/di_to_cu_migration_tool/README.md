@@ -13,9 +13,9 @@ To setup this tool, you will need to do the following steps:
 2. Rename the file **.sample_env** as **.env**
 3. Replace the following values in your **.env** file as such:
    - **HOST:** Replace this with your Azure AI Service's Content Understanding endpoint. Be sure to remove the "/" at the end. 
-       - Ex: "https://aainatest422.services.ai.azure.com"
+       - Ex: "https://user422.services.ai.azure.com"
    - **SUBSCRIPTION_KEY:** Replace this with your name or alias, is used to identify who called the API request
-       - Ex: "vannanaaina"
+       - Ex: "userAlias"
    - **SOURCE_BLOB_ACCOUNT_URL:** Replace this with the URL to your blob storage account that contains your DI dataset
        - Ex: "https://srcStorageAccountName.blob.core.windows.net"
    - **SOURCE_BLOB_CONTAINER_NAME:** Replace this with the container within your blob storage account that contains your DI dataset
