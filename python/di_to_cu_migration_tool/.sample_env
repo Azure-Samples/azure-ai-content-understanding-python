@@ -3,7 +3,7 @@ HOST="<fill in your target endpoint here>"
 
 API_VERSION = "2025-05-01-preview"
 
-SUBSCRIPTION_KEY = "<fill in your subscription ID here>" # This is your subscription ID
+SUBSCRIPTION_KEY = "<fill in your API Key here>" # This is your API Key if you have one or can be your Subscription ID
 
 # Source blob storage & target blob storage
 SOURCE_BLOB_ACCOUNT_URL = "https://<source_account_name>.blob.core.windows.net"

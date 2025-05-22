@@ -14,7 +14,7 @@ To setup this tool, you will need to do the following steps:
 3. Replace the following values in your **.env** file as such:
    - **HOST:** Replace this with your Azure AI Service's Content Understanding endpoint. Be sure to remove the "/" at the end. 
        - Ex: "https://user422.services.ai.azure.com"
-   - **SUBSCRIPTION_KEY:** Replace this with your name or alias, is used to identify who called the API request
+   - **SUBSCIPITON_KEY:** Replace this with your name or alias, is used to identify who called the API request
        - Ex: "userAlias"
    - **SOURCE_BLOB_ACCOUNT_URL:** Replace this with the URL to your blob storage account that contains your DI dataset
        - Ex: "https://srcStorageAccountName.blob.core.windows.net"
@@ -42,13 +42,13 @@ To run this tool, you will be using the command line to run the following comman
 
 To convert a _DI 3.1/4.0 GA CustomNeural_ dataset, run this command:
 
-**python ./di_to_cu_migration_tool.py --DI-version CustomNeural --analyzer-prefix myAnalyzer**
+**python ./di_to_cu_converter.py --DI-version CustomNeural --analyzer-prefix myAnalyzer**
 
 If you are using CustomNeural, please be sure to specify the analyzer prefix, as it is crucial for creating an analyzer. 
 
 To convert a _DI 4.0 Preview CustomGen_, run this command: 
 
-**python ./di_to_cu_migration_tool.py --DI-version CustomGen --analyzer-prefix myAnalyzer**
+**python ./di_to_cu_converter.py --DI-version CustomGen --analyzer-prefix myAnalyzer**
 
 Specifying an analyzerPrefix isn't necessary for CustomGen, but is needed if you wish to create multiple analyzers from the same analyzer.json.
 

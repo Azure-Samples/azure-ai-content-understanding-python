@@ -5,10 +5,8 @@ from dotenv import load_dotenv
 import json
 import os
 from pathlib import Path
-import requests
 import shutil
 import tempfile
-import time
 import typer
 from typing import Tuple
 
@@ -84,12 +82,19 @@ def validate_field_count(DI_version, byte_fields) -> Tuple[int, bool]:
 def main(
     analyzer_prefix: str = typer.Option("", "--analyzer-prefix", help="Prefix for analyzer name."),
     DI_version: str = typer.Option("CustomGen", "--DI-version", help="DI versions: CustomGen, CustomNeural"),
+    source_container_sas_url: str = typer.Option("", "--source-container-sas-url", help="Source blob container SAS URL."),
+    source_blob_folder: str = typer.Option("", "--source-blob-folder", help="Source blob storage folder prefix."),
+    target_container_sas_url: str = typer.Option("", "--target-container-sas-url", help="Target blob container SAS URL."),
+    target_blob_folder: str = typer.Option("", "--target-blob-folder", help="Target blob storage folder prefix."),
 ) -> None:
     """
     Wrapper tool to convert an entire DI dataset to CU format
     """
 
     assert DI_version in DI_VERSIONS, f"Please provide a valid DI version out of {DI_VERSIONS}."
+    assert source_container_sas_url != "" and target_container_sas_url != "", "Please provide a valid source and target blob container SAS URL."
+    assert source_blob_folder != "", "Please provide a valid source blob storage folder prefix to specify your DI dataset name."
+    assert target_blob_folder != "", "Please provide a valid target blob storage folder prefix to specify your CU dataset name."
 
     print(f"[yellow]You have specified the following DI version: {DI_version} out of {DI_VERSIONS}.If this is not expected, feel free to change this with the --DI-version parameter.\n[/yellow]")
 
@@ -100,32 +105,16 @@ def main(
     # Getting the environmental variables
     load_dotenv()
     subscription_key = os.getenv("SUBSCRIPTION_KEY")
-    # for source
-    source_account_url = os.getenv("SOURCE_BLOB_ACCOUNT_URL")
-    source_blob_storage_sasToken = os.getenv("SOURCE_BLOB_STORAGE_SAS_TOKEN")
-    source_container_name = os.getenv("SOURCE_BLOB_CONTAINER_NAME")
-    source_folder_prefix = os.getenv("SOURCE_BLOB_FOLDER_PREFIX")
-    # for target
-    target_account_url = os.getenv("TARGET_BLOB_ACCOUNT_URL")
-    target_blob_storage_sasToken = os.getenv("TARGET_BLOB_STORAGE_SAS_TOKEN")
-    target_container_name = os.getenv("TARGET_BLOB_CONTAINER_NAME")
-    target_blob_name = os.getenv("TARGET_BLOB_FOLDER_PREFIX")
-
-    assert target_blob_storage_sasToken != None and target_blob_storage_sasToken != "", "Please provide a valid target blob storage SAS token to be able to create an analyzer."
 
     print("Creating a temporary directory for storing source blob storage content...")
     temp_source_dir = Path(tempfile.mkdtemp())
     temp_target_dir = Path(tempfile.mkdtemp())
 
     # Configure access to source blob storage
-    if source_blob_storage_sasToken == None or source_blob_storage_sasToken == "": # using DefaultAzureCredential
-        default_credential = DefaultAzureCredential()
-        container_client = ContainerClient(source_account_url, source_container_name, credential=default_credential)
-    else: # using SAS token
-        container_client = ContainerClient(source_account_url, source_container_name, credential=source_blob_storage_sasToken)
+    container_client = ContainerClient.from_container_url(source_container_sas_url)
 
-    # List blobs under the "folder" in source
-    blob_list = container_client.list_blobs(name_starts_with=source_folder_prefix)
+    # List of blobs under the "folder" in source
+    blob_list = container_client.list_blobs(name_starts_with=source_blob_folder)
 
     for blob in blob_list: # each file is a blob that's being read into local directory
         print(f"Reading: {blob.name}")
@@ -149,7 +138,7 @@ def main(
 
     # Confirming access to target blob storage here because doing so before can cause SAS token to expire
     # Additionally, best to confirm access to target blob storage before running any conversion
-    target_container_client = ContainerClient(target_account_url, target_container_name, credential=target_blob_storage_sasToken)
+    target_container_client = ContainerClient.from_container_url(target_container_sas_url)
 
     # First need to run field type conversion --> Then run DI to CU conversion
     # Creating a temporary directory to store field type converted dataset
@@ -185,7 +174,7 @@ def main(
         if item.is_file():  # Only upload files
             # Create the blob path by preserving the relative path structure
             blobPath = str(item.relative_to(temp_target_dir)).replace('\\', '/') # Ensure path uses forward slashes
-            blob_path = target_blob_name + "/" + blobPath
+            blob_path = target_blob_folder + "/" + blobPath
             print(f"Uploading {item} to blob path {blob_path}...")
 
             # Create a BlobClient for the target blob
@@ -196,16 +185,6 @@ def main(
                 blob_client.upload_blob(data, overwrite=True)
 
     print("[green]Successfully uploaded all files to target blob storage.[/green]")
-
-    print("Creating analyzer...")
-    analyzer_id = submit_build_analyzer_put_request(analyzer_data, target_account_url, target_container_name, target_blob_name, target_blob_storage_sasToken, subscription_key)
-
-    url = os.getenv("ANALYZE_PDF_URL")
-    if url == "":
-        print("Skipping analyze PDF step, because no URL was provided.")
-    else:
-        print("Callling Analyze on given PDF file...")
-        submit_post_analyzer_request(url, analyzer_id, subscription_key)
 
 def running_field_type_conversion(temp_source_dir: Path, temp_dir: Path, DI_version: str) -> list:
     """
@@ -294,138 +273,6 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
                 shutil.copy(file_path, temp_target_dir) # Copying over main file
                 ocr_files.append(file_path) # Adding to list of files to run OCR on
     return analyzer_data, ocr_files
-
-def submit_build_analyzer_put_request(analyzerData: dict, targetAccountUrl: str, targetContainerName: str, targetBlobName: str, targetBlobStorageSasToken: str, subscription_key: str) -> str:
-    """
-    Initiates the creation of an analyzer with the given fieldSchema and training data.
-    Args:
-        analyzerData (dict): The data in the converted analyzer.json
-        targetAccountUrl (str): The URL of the target blob storage account.
-        targetContainerName (str): The name of the target blob storage container.
-        targetBlobName (str): The name of the target blob storage folder.
-        targetBlobStorageSasToken (str): The SAS token for the target blob storage account.
-        subscription_key (str): The subscription key that will be used within the API calls
-    Returns:
-        analyzerId (str): The ID of the created analyzer.
-    """
-    # URI Parameters - analyzerId, endpoint, & api-version
-    analyzer_id = analyzerData["analyzerId"]
-    host = os.getenv("HOST")
-    api_version = os.getenv("API_VERSION")
-    endpoint = f"{host}/contentunderstanding/analyzers/{analyzer_id}?api-version={api_version}"
-
-    # Request Header - Content-Type
-    # Acquire a token for the desired scope
-    credential = DefaultAzureCredential()
-    token = credential.get_token("https://cognitiveservices.azure.com/.default")
-
-    # Extract the access token
-    access_token = token.token
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Ocp-Apim-Subscription-Key": f"{subscription_key}",
-        "Content-Type": "application/json"
-    }
-
-    # Request Body - config, desciription, fieldSchema, scenario, tags, & trainingData
-    training_data_container_url = f"{targetAccountUrl}/{targetContainerName}?{targetBlobStorageSasToken}"
-    request_body =  {
-        "baseAnalyzerId": analyzerData["baseAnalyzerId"],
-        "description": analyzerData["fieldSchema"]["description"],
-        "config": analyzerData["config"],
-        "fieldSchema": analyzerData["fieldSchema"],
-        "trainingData": {
-            "kind": "blob",
-            "containerUrl": training_data_container_url,
-            "prefix": targetBlobName
-        }
-    }
-
-    response = requests.put(
-        url=endpoint,
-        headers=headers,
-        json=request_body,
-    )
-    response.raise_for_status()
-    operation_location = response.headers.get("Operation-Location", None)
-    if not operation_location:
-        print("Error: 'Operation-Location' header is missing.")
-
-    while True:
-        poll_response = requests.get(operation_location, headers=headers)
-        poll_response.raise_for_status()
-
-        result = poll_response.json()
-        status = result.get("status", "").lower()
-
-        if status == "succeeded":
-            print(f"\n[green]Successfully created analyzer with ID: {analyzer_id}[/green]")
-            break
-        elif status == "failed":
-            print(f"[red]Failed: {result}[/red]")
-            break
-        else:
-            print(".", end="", flush=True)
-            time.sleep(0.5)
-
-    return analyzer_id
-
-def submit_post_analyzer_request(pdfURL: str, analyzerId: str , subscription_key: str) -> None:
-    """
-    Call the Analyze API on the given PDF File
-    Args:
-        pdfURL (str): The URL of the PDF file to be analyzed.
-        analyzerId (str): The ID of the analyzer to be used for running Analyzer
-        subscription_key (str): The subscription key that will be used within the API calls
-    """
-    # Request Header - Content-Type
-    # Acquire a token for the desired scope
-    credential = DefaultAzureCredential()
-    token = credential.get_token("https://cognitiveservices.azure.com/.default")
-
-    # Extract the access token
-    access_token = token.token
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Ocp-Apim-Subscription-Key": f"{subscription_key}",
-        "Content-Type": "application/pdf"
-    }
-
-    host  = os.getenv("HOST")
-    api_version = os.getenv("API_VERSION")
-    endpoint = f"{host}/contentunderstanding/analyzers/{analyzerId}:analyze?api-version={api_version}"
-
-    blob = BlobClient.from_blob_url(pdfURL)
-    blob_data = blob.download_blob().readall()
-    response = requests.post(url=endpoint, data=blob_data, headers=headers)
-
-    response.raise_for_status()
-    print(f"[yellow]Analyzing file {pdfURL} with analyzer {analyzerId}.[/yellow]")
-
-    operation_location = response.headers.get("Operation-Location", None)
-    if not operation_location:
-        print("Error: 'Operation-Location' header is missing.")
-
-    while True:
-        poll_response = requests.get(operation_location, headers=headers)
-        poll_response.raise_for_status()
-
-        result = poll_response.json()
-        status = result.get("status", "").lower()
-
-        if status == "succeeded":
-            print(f"[green]Successfully analyzed file {pdfURL} with analyzer ID of {analyzerId}.[/green]")
-            analyze_result_file = os.getenv("ANALYZER_RESULT_OUTPUT_JSON")
-            with open(analyze_result_file, "w") as f:
-                json.dump(result, f, indent=4)
-            print(f"[green]Analyze result saved to {analyze_result_file}[/green]")
-            break
-        elif status == "failed":
-            print(f"[red]Failed: {result}[/red]")
-            break
-        else:
-            print(".", end="", flush=True)
-            time.sleep(0.5)
 
 if __name__ == "__main__":
     app()
