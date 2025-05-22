@@ -25,10 +25,16 @@ from get_ocr import run_cu_layout_ocr
 
 app = typer.Typer()
 
-def validate_field_count(DI_version, byte_fields) -> Tuple[int, str]:
+def validate_field_count(DI_version, byte_fields) -> Tuple[int, bool]:
     """
     Function to check if the fields.json is valid
     Checking to see if the number of fields is less than or equal to 100
+    Args:
+        DI_version (str): The version of DI being used
+        byte_fields (bytes): The fields.json file in bytes
+    Returns:
+        field_count (int): The number of fields in the fields.json file
+        is_valid (bool): True if the fields.json file is valid, False otherwise
     """
     string_fields = byte_fields.decode("utf-8")
     fields = json.loads(string_fields)
@@ -204,6 +210,12 @@ def main(
 def running_field_type_conversion(temp_source_dir: Path, temp_dir: Path, DI_version: str) -> list:
     """
     Function to run the field type conversion
+    Args:
+        temp_source_dir (Path): The path to the source directory
+        temp_dir (Path): The path to the target directory
+        DI_version (str): The version of DI being used
+    Returns:
+        removed_signatures (list): The list of removed signatures as they will not be used in the CU converter
     """
     # Taking the input source dir, and converting the valid field types into temp_dir
     for root, dirs, files in os.walk(temp_source_dir):
@@ -244,6 +256,12 @@ def running_field_type_conversion(temp_source_dir: Path, temp_dir: Path, DI_vers
 def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str, analyzer_prefix: str, removed_signatures: list) -> Tuple[dict, list]:
     """
     Function to run the DI to CU conversion
+    Args:
+        temp_dir (Path): The path to the source directory
+        temp_target_dir (Path): The path to the target directory
+        DI_version (str): The version of DI being used
+        analyzer_prefix (str): The prefix for the analyzer name
+        removed_signatures (list): The list of removed signatures that will not be used in the CU converter
     """
     # Creating a FieldDefinitons object to handle the converison of definitions in the fields.json
     field_definitions = FieldDefinitions()
@@ -280,6 +298,15 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
 def submit_build_analyzer_put_request(analyzerData: dict, targetAccountUrl: str, targetContainerName: str, targetBlobName: str, targetBlobStorageSasToken: str, subscription_key: str) -> str:
     """
     Initiates the creation of an analyzer with the given fieldSchema and training data.
+    Args:
+        analyzerData (dict): The data in the converted analyzer.json
+        targetAccountUrl (str): The URL of the target blob storage account.
+        targetContainerName (str): The name of the target blob storage container.
+        targetBlobName (str): The name of the target blob storage folder.
+        targetBlobStorageSasToken (str): The SAS token for the target blob storage account.
+        subscription_key (str): The subscription key that will be used within the API calls
+    Returns:
+        analyzerId (str): The ID of the created analyzer.
     """
     # URI Parameters - analyzerId, endpoint, & api-version
     analyzer_id = analyzerData["analyzerId"]
@@ -346,6 +373,10 @@ def submit_build_analyzer_put_request(analyzerData: dict, targetAccountUrl: str,
 def submit_post_analyzer_request(pdfURL: str, analyzerId: str , subscription_key: str) -> None:
     """
     Call the Analyze API on the given PDF File
+    Args:
+        pdfURL (str): The URL of the PDF file to be analyzed.
+        analyzerId (str): The ID of the analyzer to be used for running Analyzer
+        subscription_key (str): The subscription key that will be used within the API calls
     """
     # Request Header - Content-Type
     # Acquire a token for the desired scope

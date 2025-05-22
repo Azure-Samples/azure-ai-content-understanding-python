@@ -23,6 +23,15 @@ ANALYZER_DESCRIPTION = "1. Define your schema by specifying the fields you want 
 CU_LABEL_SCHEMA = f"https://schema.ai.azure.com/mmi/{CU_API_VERSION}/labels.json"
 
 def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
+    """
+    Convert bounding regions to source format.
+    Args:
+        page_number (int): The page number of the bounding region.
+        polygon (list): The coordinates of the bounding region
+    Returns:
+        str: The source string in the format D(page_number, x1,y1,x2,y2,...).
+    """
+
     # Convert polygon to string format
     polygon_str = ",".join(str(coord) for coord in polygon)
     source = f"D({page_number},{polygon_str})"
@@ -31,11 +40,13 @@ def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
 def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Optional[Path], field_definitions: FieldDefinitions) -> Tuple[dict, dict]:
     """
     Convert DI 3.1/4.0GA Custom Neural fields.json to analyzer.json format.
-
     Args:
         fields_json_path (Path): Path to the input fields.json file.
         analyzer_prefix (Optional(str)): Prefix for the analyzer name.
         target_dir (Optional[Path]): Output directory for the analyzer.json file.
+        field_definitions (FieldDefinitions): Field definitions object to store field definitions for analyzer.json if there are any fixed tables.
+    Returns:
+        Tuple[dict, dict]: The analyzer data and a dictionary of the fields and their types for label conversion.
     """
     try:
         with open(fields_json_path, 'r', encoding="utf-8") as f:
@@ -135,6 +146,13 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
 def convert_array_items(analyzer_key: str, item_definition: dict) -> Tuple[dict, dict]:
     """
     Helper function to convert array items for the analyzer.
+    Args:
+        analyzer_key (str): The dictionary key for the array item (i.e., the name of the dynamic table).
+        item_definition (dict): The item definition from the fields.json file (i.e. the itemType value)
+    Returns:
+        Tuple[dict, dict]: A tuple containing two dictionaries:
+            - The first dictionary contains the field names and types for the array items.
+            - The second dictionary contains the items or rows within the dynamic table
     """
     array_fields_dict = {}
     items = {
@@ -160,6 +178,15 @@ def convert_array_items(analyzer_key: str, item_definition: dict) -> Tuple[dict,
 def convert_object_properties(field: dict, definitions: dict, analyzer_key: str, field_definitions: FieldDefinitions) -> Tuple[dict, dict]:
     """
     Helper function to convert object properties for the analyzer.
+    Args:
+        field (dict): The field from the fields.json file for the fixed table.
+        definitions (dict): The definitions from the fields.json file definitions section for the fixed table.
+        analyzer_key (str): The dictionary key for the object (i.e., the name of the fixed table).
+        field_definitions (FieldDefinitions): Field definitions object to store field definitions for analyzer.json if there are any fixed tables.
+    Returns:
+        Tuple[dict, dict]: A tuple containing two dictionaries:
+            - The first dictionary contains the field names in fott format and types for the object properties.
+            - The second dictionary contains the properties or rows within the fixed table
     """
     object_fields_dict = {}
     properties = {}
@@ -180,6 +207,13 @@ def convert_object_properties(field: dict, definitions: dict, analyzer_key: str,
 def _add_object_definition(row_definition: dict, analyzer_key: str, first_row_name: str, field_definitions: FieldDefinitions) -> dict:
     """
     Helper function to add object definitions to the analyzer.
+    Args:
+        row_definition (dict): The row definition from the fields.json file for the fixed table.
+        analyzer_key (str): The dictionary key for the object (i.e., the name of the fixed table).
+        first_row_name (str): The name of the first row in the fixed table.
+        field_definitions (FieldDefinitions): Field definitions object to store field definitions for analyzer.json if there are any fixed tables.
+    Returns:
+        dict: A dictionary containing the field names and types for the object properties.
     """
     column_fields_dict = {}
     definition = {
@@ -208,10 +242,13 @@ def _add_object_definition(row_definition: dict, analyzer_key: str, first_row_na
 def convert_di_labels_to_cu_neural(di_labels_path: Path, target_dir: Path, fields_dict: dict, removed_signatures: list) -> dict:
     """
     Convert DI 3.1/4.0 GA Custom Neural format labels.json to Content Understanding format labels.json.
-
     Args:
         di_labels_path (Path): Path to the Document Intelligence labels.json file.
         target_dir (Path): Output directory for the Content Understanding labels.json file.
+        fields_dict (dict): Dictionary of field names and types for the labels.json conversion.
+        removed_signatures (list): List of removed signatures that we will skip when converting the labels.json file.
+    Returns:
+        dict: The Content Understanding labels.json data.
     """
     try:
         with open(di_labels_path, 'r', encoding="utf-8") as f:
@@ -327,9 +364,11 @@ def convert_di_labels_to_cu_neural(di_labels_path: Path, target_dir: Path, field
 def creating_cu_label_for_neural(label:dict, label_type: str) -> dict:
     """
     Create a CU label for DI 3.1/4.0 Custom Neural format labels.json.
-
     Args:
         label (dict): The label to be converted and created.
+        label_type (str): The type of the label.
+    Returns:
+        dict: The converted CU label.
     """
     label_value = VALID_CU_FIELD_TYPES[label_type]
     label_spans = label.get("spans", [])

@@ -8,6 +8,13 @@ from typing import Tuple
 from constants import CHECKED_SYMBOL, CONVERT_TYPE_MAP, FIELD_VALUE_MAP, SUPPORT_FIELD_TYPE, UNCHECKED_SYMBOL
 
 def update_unified_schema_fields(fields: dict) -> Tuple[dict, dict]:
+    """
+    Updaate the unified schema fields to have the proper field types
+    Args:
+        fields (dict): The unified schema fields to be updated
+    Returns:
+        Tuple[dict, dict]: The updated unified schema fields and the converted field keys
+    """
     converted_field_keys = {
         "primary": [],
         "array": defaultdict(list),
@@ -41,6 +48,11 @@ def update_unified_schema_fields(fields: dict) -> Tuple[dict, dict]:
     return fields, converted_field_keys
 
 def _update_unified_schema_fields(field_object: dict) -> None:
+    """
+    Helper function to update the unified schema field object to have the proper field type
+    Args:
+        field_object (dict): The unified schema field object to be updated
+    """
     original_type = field_object["type"]
     field_object["type"] = CONVERT_TYPE_MAP[original_type] \
         if original_type in CONVERT_TYPE_MAP else "string"
@@ -48,6 +60,13 @@ def _update_unified_schema_fields(field_object: dict) -> None:
 def update_unified_schema_labels(
     labels: dict, converted_field_keys: list[str], output_path: Path
 ) -> None:
+    """
+    Update the unified schema labels to have the proper field types per the converted field keys
+    Args:
+        labels (dict): The unified schema labels to be updated
+        converted_field_keys (list[str]): The converted field keys to be used to update the labels
+        output_path (Path): The path to the output file (i.e. the updated labels)
+    """
     for label_key, label_object in labels["fieldLabels"].items():
         if label_key in converted_field_keys.get("primary", []):
             _update_unified_schema_labels(label_key, label_object)
@@ -78,6 +97,12 @@ def update_unified_schema_labels(
         json.dump(labels, fp, ensure_ascii=False, indent=4)
 
 def _update_unified_schema_labels(label_key: str, label_object: dict) -> None:
+    """
+    Helper function to update the unified schema label object to have the proper field type
+    Args:
+        label_key (str): The unified schema label key to be updated
+        label_object (dict): The unified schema label object to be updated
+    """
     value_key = FIELD_VALUE_MAP.get(label_object["type"])
     if value_key is None:
         print(f"Unsupported field type: '{label_object['type']}'")
@@ -109,6 +134,13 @@ def _update_unified_schema_labels(label_key: str, label_object: dict) -> None:
     label_object.pop(value_key) if value_key in label_object else None
 
 def update_fott_fields(fields: dict) -> Tuple[list, dict]:
+    """
+    Update the FOTT fields to have the proper field types
+    Args:
+        fields (dict): The FOTT fields to be updated
+    Returns:
+        Tuple[list, dict]: The updated FOTT fields and the converted field keys
+    """
     if "$schema" not in fields:
         return fields
     if "fields" not in fields:
@@ -140,6 +172,12 @@ def update_fott_fields(fields: dict) -> Tuple[list, dict]:
     return signatures, fields
 
 def update_fott_labels(labels: dict, output_path: Path) -> None:
+     """
+     Update the FOTT labels to have the proper field types
+     Args:
+         labels (dict): The FOTT labels to be updated
+         output_path (Path): The path to the output file (i.e. the updated labels)
+     """
      for label_key, label_object in labels["fieldLabels"].items():
         if label_object["type"] == "array":
             for value_array in label_object["valueArray"]:
@@ -155,6 +193,12 @@ def update_fott_labels(labels: dict, output_path: Path) -> None:
         json.dump(labels, fp, ensure_ascii=False, indent=4)
 
 def _update_boolean_label(label_key: str, label_object: dict) -> None:
+    """
+    Helper function to update the FOTT label object if it is a boolean type
+    Args:
+        label_key (str): The FOTT label key to be updated
+        label_object (dict): The FOTT label object to be updated
+    """
     if label_object["type"] == "boolean":
         if label_object["valueBoolean"] in ["selected", ":selected:"]:
             label_object["valueBoolean"] = True

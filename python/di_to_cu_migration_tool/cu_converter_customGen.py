@@ -23,12 +23,27 @@ ANALYZER_DESCRIPTION = "1. Define your schema by specifying the fields you want 
 CU_LABEL_SCHEMA = f"https://schema.ai.azure.com/mmi/{CU_API_VERSION}/labels.json"
 
 def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
+    """
+    Convert bounding regions (DI) to source string (CU) format.
+    Args:
+        page_number (int): The page number.
+        polygon (list): The polygon coordinates.
+    Returns:
+        str: The source string in the format D(page_number, x1,y1,x2,y2,...).
+    """
     # Convert polygon to string format
     polygon_str = ",".join(str(coord) for coord in polygon)
     source = f"D({page_number},{polygon_str})"
     return source
 
 def format_angle(angle: float) -> float:
+   """
+   Format the angle to 7 decimal places and remove trailing zeros.
+    Args:
+       angle (float): The angle to format.
+    Returns:
+       float: The formatted angle.
+   """
    rounded_angle = round(angle, 7)
    formatted_num = f"{rounded_angle:.7f}".rstrip('0')  # Remove trailing zeros
    return float(formatted_num)
@@ -36,11 +51,13 @@ def format_angle(angle: float) -> float:
 def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions) -> dict:
     """
     Convert DI 4.0 preview CustomGen fields.json to analyzer.json format.
-
     Args:
-        fields_json_path (Path): Path to the input fields.json file.
+        fields_json_path (Path): Path to the input DI fields.json file.
         analyzer_prefix (Optional(str)): Prefix for the analyzer name.
         target_dir (Optional[Path]): Output directory for the analyzer.json file.
+        field_definitions (FieldDefinitions): Field definitions object to store definitions in case of fixed tables.
+    Returns:
+        dict: The generated analyzer.json data.
     """
     try:
         with open(fields_json_path, 'r') as f:
@@ -115,6 +132,15 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
     return analyzer_data
 
 def recursive_convert_field_to_analyzer_helper(key: str, value: dict, field_definitions: FieldDefinitions) -> dict:
+    """
+    Recursively convert each DI field to CU analyzer.json format
+    Args:
+        key (str): The field key.
+        value (dict): The field value.
+        field_definitions (FieldDefinitions): Field definitions object that stores definitions in case of fixed tables.
+    Returns:
+        dict: The converted field in analyzer.json format.
+    """
     # this is the method that does the conversion of the fields itself
 
     analyzer_field = {
@@ -168,7 +194,6 @@ def recursive_convert_field_to_analyzer_helper(key: str, value: dict, field_defi
 def convert_di_labels_to_cu(di_labels_path: Path, target_dir: Path) -> None:
     """
     Convert DI 4.0 preview CustomGen format labels.json to Content Understanding format labels.json.
-
     Args:
         di_labels_path (Path): Path to the Document Intelligence labels.json file.
         target_dir (Path): Output directory for the Content Understanding labels.json file.
@@ -210,6 +235,14 @@ def convert_di_labels_to_cu(di_labels_path: Path, target_dir: Path) -> None:
     print(f"[green]Successfully converted Document Intelligence labels.json to Content Understanding labels.json at {cu_labels_path}[/green]\n")
 
 def recursive_convert_di_label_to_cu_helper(value: dict) -> dict:
+    """
+    Recursively convert each DI field to CU labels.json format
+    Args:
+        value (dict): The field value.
+    Returns:
+        dict: The converted field in labels.json format.
+    """
+    
     value_type = value.get("type")
     if(value_type not in VALID_CU_FIELD_TYPES and value_type != "selectionMark"):
         print(f"[red]Unexpected field type: {value_type}. Please refer to the specification for valid field types.[/red]")
@@ -304,7 +337,6 @@ def recursive_convert_di_label_to_cu_helper(value: dict) -> dict:
 def convert_ocr_to_result(di_ocr_path: Path, target_dir: Path) -> None:
     """
     Convert Document Intelligence format ocr.json to Content Understanding format result.json
-
     Args:
         di_ocr_path (Path): Path to the Document Intelligence ocr.json file.
         target_dir (Path): Output directory for the Content Undrestanding result.json file.

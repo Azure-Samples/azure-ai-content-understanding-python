@@ -18,6 +18,10 @@ import typer
 def is_token_expired(token) -> bool:
     """
     Check if the token is expired or about to expire.
+    Args:
+        token: The token object to check for expiration.
+    Returns:
+        bool: True if the token is expired or about to expire, False otherwise.
     """
     # Get the current time in UTC
     current_time = datetime.now(timezone.utc).timestamp()
@@ -27,6 +31,14 @@ def is_token_expired(token) -> bool:
     return current_time >= (token.expires_on - buffer_time)
 
 def get_token(credential, current_token = None) -> str:
+    """
+    Function to get a valid token
+    Args:
+        credential: The Azure credential object to use for authentication.
+        current_token: The current token object to check for expiration.
+    Returns:
+        str: The new access token.
+    """
     # Refresh token if it's expired or about to expire
     if current_token is None or is_token_expired(current_token):
         # Refresh the token
@@ -36,7 +48,15 @@ def get_token(credential, current_token = None) -> str:
 
 def build_analyzer(credential, current_token, host, api_version, subscriptionKey) -> str:
     """
-    Function to create an analyzer with empty schema
+    Function to create an analyzer with empty schema to get CU Layout results
+    Args:
+        credential: The Azure credential object to use for authentication.
+        current_token: The current token object to check for expiration.
+        host: The host URL for the Cognitive Services API.
+        api_version: The API version enviornmental variable to use.
+        subscriptionKey: The subscription key for the Cognitive Services API.
+    Returns:
+        str: The analyzer ID of the created analyzer.
     """
     # Get a valid token
     current_token = get_token(credential, current_token)
@@ -50,8 +70,6 @@ def build_analyzer(credential, current_token, host, api_version, subscriptionKey
     request_body = {
         "analyzerId": analyzer_id,
         "description": "Sample analyzer",
-        "createdAt": "2025-05-06T00:20:42Z",
-        "lastModifiedAt": "2025-05-06T00:20:42Z",
         "baseAnalyzerId": "prebuilt-documentAnalyzer",
         "config": {
             "returnDetails": True,
@@ -59,8 +77,6 @@ def build_analyzer(credential, current_token, host, api_version, subscriptionKey
             "enableLayout": True,
             "enableFormula": False,
             "disableContentFiltering": False,
-            "segmentationMode": "noSegmentation",
-            "tableFormat": "html",
             "estimateFieldSourceAndConfidence": False
         },
         "fieldSchema": {},
@@ -102,6 +118,10 @@ def build_analyzer(credential, current_token, host, api_version, subscriptionKey
 def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_key: str) -> None:
     """
     Function to run the CU Layout OCR on the list of pdf files and write to the given output directory
+    Args:
+        input_files (list): List of input PDF files to process.
+        output_dir_string (str): Path to the output directory where results will be saved.
+        subscription_key (str): The subscription key for the Cognitive Services API.
     """
 
     print("Running CU Layout OCR...")
