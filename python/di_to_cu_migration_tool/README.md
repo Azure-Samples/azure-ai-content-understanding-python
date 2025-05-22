@@ -72,11 +72,6 @@ To Analyze a specific PDF or original file, please run this command:
 
 For the --analyzer-id argument, please input the analyzer ID of the created Analyzer. 
 
-After this command finishes running, you should be able to
-- see a converted CU dataset (with analyzer.json, labels.json, result.json, and the original files) in your specified target blob storage
-- see a created Analyzer with the mentioned Analyzer ID
-- see the results of the Analyze call in where you specified ANALYZE_RESULT_OUTPUT_JSON to be
-
 ## Things of Note
 - You will need to be using a version of Python above 3.9
 - Fields with FieldType "signature," which are supported in 2024-11-30 Custom Neural, are not supported in the latest version of Content Understanding (2025-05-01-preview), and thus will be ignored when creating the analyzer
