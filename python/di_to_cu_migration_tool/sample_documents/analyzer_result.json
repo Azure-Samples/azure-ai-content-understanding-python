@@ -1,10 +1,10 @@
 {
-    "id": "385cc98a-8513-4f72-93ed-601f0f944682",
+    "id": "3746c7bf-a76e-454d-a7dc-5ba6670b78a8",
     "status": "Succeeded",
     "result": {
         "analyzerId": "522-4",
         "apiVersion": "2025-05-01-preview",
-        "createdAt": "2025-05-22T19:22:44Z",
+        "createdAt": "2025-05-22T22:31:02Z",
         "warnings": [],
         "contents": [
             {
@@ -55,7 +55,7 @@
                                 "length": 10
                             }
                         ],
-                        "confidence": 0.77,
+                        "confidence": 0.793,
                         "source": "D(1,12.1968,9.5037,14.5898,9.4761,14.5898,9.7643,12.1980,9.8022)"
                     },
                     "last_line_completed": {
@@ -105,7 +105,7 @@
                                                 "length": 2
                                             }
                                         ],
-                                        "confidence": 0.952,
+                                        "confidence": 0.953,
                                         "source": "D(1,29.2262,11.5767,30.0234,11.5536,30.0234,12.0171,29.2287,12.0318)"
                                     },
                                     "DateShipped": {
@@ -138,7 +138,7 @@
                                                 "length": 1
                                             }
                                         ],
-                                        "confidence": 0.832,
+                                        "confidence": 0.833,
                                         "source": "D(1,2.8549,12.7565,3.0704,12.7517,3.0713,13.0045,2.8554,13.0078)"
                                     },
                                     "NumberReceived": {
@@ -170,7 +170,7 @@
                                                 "length": 7
                                             }
                                         ],
-                                        "confidence": 0.937,
+                                        "confidence": 0.95,
                                         "source": "D(1,30.8197,12.2063,32.6205,12.1421,32.6250,12.6023,30.8267,12.6211)"
                                     },
                                     "ShipInfo": {

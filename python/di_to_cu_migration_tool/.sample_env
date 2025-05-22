@@ -4,18 +4,3 @@ HOST="<fill in your target endpoint here>"
 API_VERSION = "2025-05-01-preview"
 
 SUBSCRIPTION_KEY = "<fill in your API Key here>" # This is your API Key if you have one or can be your Subscription ID
-
-# Source blob storage & target blob storage
-SOURCE_BLOB_ACCOUNT_URL = "https://<source_account_name>.blob.core.windows.net"
-SOURCE_BLOB_CONTAINER_NAME = "<<container_name>>"
-SOURCE_BLOB_FOLDER_PREFIX = "<<path to DI dataset folder inside the container>>"
-SOURCE_BLOB_STORAGE_SAS_TOKEN = "<<fill in your source blob storage SAS token OR leave empty if using DefaultAzureCredential>>"
-
-TARGET_BLOB_ACCOUNT_URL = "https://<target_account_name>.blob.core.windows.net"
-TARGET_BLOB_CONTAINER_NAME = "<<container_name>>"
-TARGET_BLOB_FOLDER_PREFIX = "<<path to CU dataset folder inside the container>>"
-TARGET_BLOB_STORAGE_SAS_TOKEN = "<<fill in your source blob storage SAS token ONLY>>"
-
-# SAS url to the pdf blob that you want to analyzer
-ANALYZE_PDF_URL = "<<SAS url to the pdf blob that you want to analyze>>"
-ANALYZER_RESULT_OUTPUT_JSON = "./analyze_result.json" # where you want to save the analyze result

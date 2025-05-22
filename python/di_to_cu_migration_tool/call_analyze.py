@@ -4,6 +4,7 @@ from azure.storage.blob import BlobClient
 from dotenv import load_dotenv
 import json
 import os
+from pathlib import Path
 import requests
 import time
 import typer
@@ -17,6 +18,7 @@ app = typer.Typer()
 def main(
         analyzer_id: str = typer.Option(..., "--analyzer-id", help="Analyzer ID to use for the analyze API"),
         pdf_sas_url: str = typer.Option(..., "--pdf-sas-url", help="SAS URL for the PDF file to analyze"),
+        output_json: str = typer.Option("./sample_documents/analyzer_result.json", "--output-json", help="Output JSON file for the analyze result")
 ):
     """
     Main function to call the analyze API
@@ -63,7 +65,7 @@ def main(
 
         if status == "succeeded":
             print(f"[green]Successfully analyzed file {pdf_sas_url} with analyzer ID of {analyzer_id}.[/green]\n")
-            analyze_result_file = os.getenv("ANALYZER_RESULT_OUTPUT_JSON")
+            analyze_result_file = Path(output_json)
             with open(analyze_result_file, "w") as f:
                 json.dump(result, f, indent=4)
             print(f"[green]Analyze result saved to {analyze_result_file}[/green]")
