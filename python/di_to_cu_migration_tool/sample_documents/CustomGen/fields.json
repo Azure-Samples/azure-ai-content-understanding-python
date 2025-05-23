@@ -1,0 +1,123 @@
+{
+    "$schema": "https://schema.ai.azure.com/documentintelligence/2024-11-30/fields.json",
+    "docType": "Job_Offer_Letter",
+    "fieldSchema": {
+      "Company_Address": {
+        "type": "string"
+      },
+      "Company_or_Institute_Name": {
+        "type": "string"
+      },
+      "Employee_Name": {
+        "type": "string"
+      },
+      "Employee_Signature_Date": {
+        "type": "date"
+      },
+      "Employee_Signature_of_Accepting_The_Offer": {
+        "type": "string"
+      },
+      "Employment_Start_Date": {
+        "type": "date"
+      },
+      "Letter_Date": {
+        "type": "date"
+      },
+      "Offer_Position": {
+        "type": "string"
+      },
+      "Recipient_Address": {
+        "type": "string"
+      },
+      "Sender_Signature": {
+        "type": "string"
+      },
+      "Sender_Title": {
+        "type": "string"
+      },
+      "Sender_or_Company_Representative_Name": {
+        "type": "string"
+      },
+      "TableVehicleDescription": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "TypeOfChangeveh": {
+              "type": "string"
+            },
+            "VEH": {
+              "type": "string"
+            },
+            "YEAR": {
+              "type": "string"
+            },
+            "MakeModelAndBodyType": {
+              "type": "string"
+            },
+            "RegisteredState": {
+              "type": "string"
+            },
+            "HP": {
+              "type": "string"
+            },
+            "DateLeased": {
+              "type": "string"
+            },
+            "DatePurch": {
+              "type": "string"
+            },
+            "NEW": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "TableVehicleCoverages": {
+        "type": "object",
+        "properties": {
+          "SingleLimitLiabCsl": {
+            "type": "object",
+            "properties": {
+              "CoveragesOther": {
+                "type": "string"
+              },
+              "TypeOfChange1": {
+                "type": "string"
+              },
+              "Veh1": {
+                "type": "string"
+              },
+              "TypeOfChange2": {
+                "type": "string"
+              },
+              "Veh2": {
+                "type": "string"
+              }
+            }
+          },
+          "BodilyInjuryLiab": {
+            "type": "object",
+            "properties": {
+              "CoveragesOther": {
+                "type": "string"
+              },
+              "TypeOfChange1": {
+                "type": "string"
+              },
+              "Veh1": {
+                "type": "string"
+              },
+              "TypeOfChange2": {
+                "type": "string"
+              },
+              "Veh2": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
