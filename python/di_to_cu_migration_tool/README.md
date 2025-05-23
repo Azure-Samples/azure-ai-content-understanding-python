@@ -27,7 +27,7 @@ To setup this tool, you will need to do the following steps:
 1. Run the requirements.txt to install the needed dependencies via **pip install -r ./requirements.txt**
 2. Rename the file **.sample_env** as **.env**
 3. Replace the following values in your **.env** file as such:
-   - **HOST:** Replace this with your Azure AI Service's Content Understanding endpoint. Be sure to remove the "/" at the end. 
+   - **HOST:** Replace this with your Azure AI Service's AI Foundry endpoint. Be sure to remove the "/" at the end. 
        - Ex: "https://user422.services.ai.azure.com"
          <img width="965" alt="image" src="https://github.com/user-attachments/assets/8eb64823-a55e-4a30-a50e-db6921537126" />
          <img width="605" alt="image" src="https://github.com/user-attachments/assets/ffd92606-dee1-48bc-a37d-5f1fe34cb52c" />
@@ -36,8 +36,37 @@ To setup this tool, you will need to do the following steps:
        - If your service uses AAD, please instead fill this value with your Subscription ID: <img width="974" alt="image" src="https://github.com/user-attachments/assets/2b80e05b-c248-4df4-a387-5088e08df75b" />
    - **API_VERSION:** Please leave this value as is. This ensures that you are converting to a CU Preview.2 dataset. 
 
+## How to Find Your Source and Target SAS URLs
+To run the following tools, you will need to specify your source and target SAS URLs, along with their folder prefix.
+To clarify, your source refers to the location of your DI dataset and your target refers to the location you wish to store your CU dataset at.
+
+To find any SAS URL:
+
+1. Navigate to the storage account in Azure Portal and click on "Storage Browser" on the left-hand side
+   <img width="1153" alt="image" src="https://github.com/user-attachments/assets/36657d72-dcd0-4479-8154-5fca1bd9cf54" />
+2. From here, use the "Blob Containers" to select the container where your dataset either is located (for DI) or should be saved to (for CU). Click on the 3 dots to the side, and select "Generate SAS"
+    <img width="1004" alt="image" src="https://github.com/user-attachments/assets/4b296eb9-d28d-4c50-83e0-a547eb3dc9a4" />
+3. Then, you will be shown a side window as such, where you can configure your permissions and expiry of the SAS URL.
+
+   For the DI dataset, please select the following permissions from the drop-down: Read & List
+
+   For the CU dataset, please select the following permissions from the drop-down: Read, Add, & Create
+
+   Once configured, please select "Generate SAS Token and URL" & copy the URL shown in "Blob SAS URL"
+
+   <img width="439" alt="image" src="https://github.com/user-attachments/assets/8f7a4e57-346c-4aea-b480-afdf657d9e5a" />
+
+   This URL is what you will use when you have to specify any of the container url arguments
+
+To get the SAS URL of a certain file, as you will need for running call_analyze.py, follow the same steps as above. The only difference is you will need to navigate to the specific file to then click on the 3 dots and later, "Generate SAS."
+<img width="788" alt="image" src="https://github.com/user-attachments/assets/204ecf7c-6f89-4c9f-a7e2-09b7b0373157" />
+
+And lastly, the SAS URL does not specify a specific folder. To ensure that we are reading from and writing to the specific folder you wish, please enter in the DI dataset blob folder or the intended CU dataset folder whenever a --source-blob-folder or --target-blob-folder is needed. 
+
 ## How to Run 
 To run the 3 tools, you will need to follow these commands.
+
+_**NOTE:** When entering a URL, please use "" as the examples show you._
 
 ### 1. Running DI to CU Dataset Conversion
 
@@ -68,9 +97,10 @@ Ex: <img width="274" alt="image" src="https://github.com/user-attachments/assets
 
 To Analyze a specific PDF or original file, please run this command:
 
-**python ./call_analyze.py --analyzer-id analyzerID --pdf-sas-url "https://storageAccount.blob.core.windows.net/container/folder/sample.pdf?SASToken"**
+**python ./call_analyze.py --analyzer-id analyzerID --pdf-sas-url "https://storageAccount.blob.core.windows.net/container/folder/sample.pdf?SASToken --output-json "./desired-path-to-analyzer-results.json"**
 
 For the --analyzer-id argument, please input the analyzer ID of the created Analyzer. 
+Additionally, specifying the --output-json isn't neccesary. The default location is "./sample_documents/analyzer_result.json".
 
 ## Things of Note
 - You will need to be using a version of Python above 3.9
