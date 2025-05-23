@@ -29,16 +29,15 @@ To setup this tool, you will need to do the following steps:
 4. Replace the following values in your **.env** file as such:
    - **HOST:** Replace this with your Azure AI Service's AI Foundry endpoint. Be sure to remove the "/" at the end. 
        - Ex: "https://user422.services.ai.azure.com"
-         <img width="1193" alt="image" src="https://github.com/user-attachments/assets/fd5baf07-82b2-4463-a01f-0fc5660c9a36" />
+         <img width="1193" alt="image" src="https://github.com/user-attachments/assets/d72709eb-08f6-40d2-99c7-0fe8f642094f" />
          <img width="893" alt="image" src="https://github.com/user-attachments/assets/02667c6b-2c98-4e2f-8875-cec6c899df51" />
    - **SUBSCRIPTION_KEY:** Replace this with your Azure AI Service's API Key or Subscription ID. This is used to identify and authenticate the API request.
        - If you have an API Key, it will show up here: <img width="939" alt="image" src="https://github.com/user-attachments/assets/9fd495ef-fa90-4b41-850f-2a3b6160dea6" />
-       - If your service uses AAD, please instead fill this value with your Subscription ID: <img width="1190" alt="image" src="https://github.com/user-attachments/assets/c76bd553-f09d-435e-8b29-6bb96e8e4619" />
+       - If your service uses AAD, please instead fill this value with your Subscription ID: <img width="1195" alt="image" src="https://github.com/user-attachments/assets/071354ca-d748-4b25-8483-98bb83463c21" />
    - **API_VERSION:** Please leave this value as is. This ensures that you are converting to a CU Preview.2 dataset. 
 
 ## How to Find Your CustomGen DI Dataset in Azure Portal
-If you are trying to convert a CustomGen or Document Extraction dataset, it can be a little difficult to find where this dataset is stored.
-If you're having any difficulties finding this, please refer to the following steps:
+If you are trying to migrate Document Extraction dataset from AI Foundry (customGen), please also refer to the following steps:
 1. Navigate to the Management Center of your Document Extraction project. It should be on your bottom left. 
     <img width="770" alt="image" src="https://github.com/user-attachments/assets/410fe84d-4633-4caf-abde-6ac9f04794d1" />
 2. When you get to the Management Center, you should see a section for Connected Resources. Please select "View All".
