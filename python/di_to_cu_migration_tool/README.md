@@ -86,22 +86,24 @@ _**NOTE:** When entering a URL, please use "" as the examples show you._
 
 To convert a _DI 3.1/4.0 GA CustomNeural_ dataset, please run this command:
 
-    **python ./di_to_cu_converter.py --DI-version CustomNeural --analyzer-prefix myAnalyzer --source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName**
+**python ./di_to_cu_converter.py --DI-version CustomNeural --analyzer-prefix myAnalyzer --source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName**
 
-If you are using CustomNeural, please be sure to specify the analyzer prefix, as it is crucial for creating an analyzer. 
+If you are using CustomNeural, please be sure to specify the analyzer prefix, as it is crucial for creating an analyzer. This is because there is no "doc_type" or any identification provided in CustomNeural. The created analyzer will have an analyzer ID of the specified analyzer-prefix. 
 
 To convert a _DI 4.0 Preview CustomGen_, run this command: 
 
-    **python ./di_to_cu_converter.py --DI-version CustomGen --analyzer-prefix myAnalyzer --source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName**
+**python ./di_to_cu_converter.py --DI-version CustomGen --analyzer-prefix myAnalyzer --source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName**
 
-Specifying an analyzerPrefix isn't necessary for CustomGen, but is needed if you wish to create multiple analyzers from the same analyzer.json.
+Specifying an analyzerPrefix isn't necessary for CustomGen, but is needed if you wish to create multiple analyzers from the same analyzer.json. This is because the analyzer ID used will be the "doc_type" value specified in the fields.json. However, if an analyzer prefix is provided, the analyzer ID will then become analyzer-prefix_doc-type. 
+
+_**NOTE:** You are only allowed to create one analyzer per analyzer ID._
 
 ### 2. Creating An Analyzer
 
 To create an analyzer using the converted CU analyzer.json, please run this command:
 
-    **python ./create_analyzer.py --analyzer-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer/cuDatasetFolderName/analyzer.json?targetSASToken" 
-    --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName**
+**python ./create_analyzer.py --analyzer-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer/cuDatasetFolderName/analyzer.json?targetSASToken" 
+--target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName**
 
 In the output, you will see the analyzer ID of the created Analyzer, please remember this when using the call_analyze.py tool.
 
@@ -111,7 +113,7 @@ Ex: <img width="274" alt="image" src="https://github.com/user-attachments/assets
 
 To Analyze a specific PDF or original file, please run this command:
 
-    **python ./call_analyze.py --analyzer-id analyzerID --pdf-sas-url "https://storageAccount.blob.core.windows.net/container/folder/sample.pdf?SASToken --output-json "./desired-path-to-analyzer-results.json"**
+ **python ./call_analyze.py --analyzer-id analyzerID --pdf-sas-url "https://storageAccount.blob.core.windows.net/container/folder/sample.pdf?SASToken --output-json "./desired-path-to-analyzer-results.json"**
 
 For the --analyzer-id argument, please input the analyzer ID of the created Analyzer. 
 Additionally, specifying the --output-json isn't neccesary. The default location is "./sample_documents/analyzer_result.json".
