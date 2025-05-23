@@ -29,12 +29,26 @@ To setup this tool, you will need to do the following steps:
 4. Replace the following values in your **.env** file as such:
    - **HOST:** Replace this with your Azure AI Service's AI Foundry endpoint. Be sure to remove the "/" at the end. 
        - Ex: "https://user422.services.ai.azure.com"
-         <img width="965" alt="image" src="https://github.com/user-attachments/assets/8eb64823-a55e-4a30-a50e-db6921537126" />
-         <img width="605" alt="image" src="https://github.com/user-attachments/assets/ffd92606-dee1-48bc-a37d-5f1fe34cb52c" />
+         <img width="1193" alt="image" src="https://github.com/user-attachments/assets/fd5baf07-82b2-4463-a01f-0fc5660c9a36" />
+         <img width="893" alt="image" src="https://github.com/user-attachments/assets/02667c6b-2c98-4e2f-8875-cec6c899df51" />
    - **SUBSCRIPTION_KEY:** Replace this with your Azure AI Service's API Key or Subscription ID. This is used to identify and authenticate the API request.
-       - If you have an API Key, it will show up here: <img width="641" alt="image" src="https://github.com/user-attachments/assets/73f878fa-775a-40b2-85b0-d2b7353fe068" />
-       - If your service uses AAD, please instead fill this value with your Subscription ID: <img width="974" alt="image" src="https://github.com/user-attachments/assets/2b80e05b-c248-4df4-a387-5088e08df75b" />
+       - If you have an API Key, it will show up here: <img width="939" alt="image" src="https://github.com/user-attachments/assets/9fd495ef-fa90-4b41-850f-2a3b6160dea6" />
+       - If your service uses AAD, please instead fill this value with your Subscription ID: <img width="1190" alt="image" src="https://github.com/user-attachments/assets/c76bd553-f09d-435e-8b29-6bb96e8e4619" />
    - **API_VERSION:** Please leave this value as is. This ensures that you are converting to a CU Preview.2 dataset. 
+
+## How to Find Your CustomGen DI Dataset in Azure Portal
+If you are trying to convert a CustomGen or Document Extraction dataset, it can be a little difficult to find where this dataset is stored.
+If you're having any difficulties finding this, please refer to the following steps:
+1. Navigate to the Management Center of your Document Extraction project. It should be on your bottom left. 
+    <img width="770" alt="image" src="https://github.com/user-attachments/assets/410fe84d-4633-4caf-abde-6ac9f04794d1" />
+2. When you get to the Management Center, you should see a section for Connected Resources. Please select "View All".
+   <img width="622" alt="image" src="https://github.com/user-attachments/assets/4069a89d-0370-4d2c-9a75-9fcd12292083" />
+3. This page shows you all the Azure resources and their locations. The "Target" refers to the URL for each Resource. None of these resources are the location of your DI dataset, but instead will lead us to it. We want to pay particular intention to the resources that are of type Blob Storage. The target of these Blob Storages will be the same, apart from the suffix of "-blobstore" on one of the resources.
+   <img width="1023" alt="image" src="https://github.com/user-attachments/assets/8249499d-7634-455c-aef8-45e0fb653f84" />
+   Using the above image, the yellow highlight shows the storage account that your DI dataset is located in. Additionally, your DI dataset's blob container will be the blue highlight + "-di".
+   Using these two values, please navigate to the above mentioned blob container. From there, you will notice a labelingProjects folder and inside a folder with the same name as the blue highlight. Inside this will be a data folder, which will contain the contents of your Document Extraction project. Please refer to this as your source.
+   For the example Document Extraction project, this will be where the Document Extraction project is stored: 
+   <img width="764" alt="image" src="https://github.com/user-attachments/assets/a158ae71-3db4-4647-a2c4-c09a92ca357e" />
 
 ## How to Find Your Source and Target SAS URLs
 To run the following tools, you will need to specify your source and target SAS URLs, along with their folder prefix.
@@ -43,9 +57,9 @@ To clarify, your source refers to the location of your DI dataset and your targe
 To find any SAS URL:
 
 1. Navigate to the storage account in Azure Portal and click on "Storage Browser" on the left-hand side
-   <img width="1153" alt="image" src="https://github.com/user-attachments/assets/36657d72-dcd0-4479-8154-5fca1bd9cf54" />
+   <img width="1048" alt="image" src="https://github.com/user-attachments/assets/8c255aaf-0ac0-4f9e-9ec7-e6899ed85a18" />
 2. From here, use the "Blob Containers" to select the container where your dataset either is located (for DI) or should be saved to (for CU). Click on the 3 dots to the side, and select "Generate SAS"
-    <img width="1004" alt="image" src="https://github.com/user-attachments/assets/4b296eb9-d28d-4c50-83e0-a547eb3dc9a4" />
+    <img width="1186" alt="image" src="https://github.com/user-attachments/assets/f07e2601-eb17-4156-a2ec-0e62b269fdb4" />
 3. Then, you will be shown a side window where you can configure your permissions and expiry of the SAS URL.
 
    For the DI dataset, please select the following permissions from the drop-down: _**Read & List**_
@@ -54,12 +68,12 @@ To find any SAS URL:
 
    Once configured, please select "Generate SAS Token and URL" & copy the URL shown in "Blob SAS URL"
 
-   <img width="439" alt="image" src="https://github.com/user-attachments/assets/8f7a4e57-346c-4aea-b480-afdf657d9e5a" />
+   <img width="442" alt="image" src="https://github.com/user-attachments/assets/544f05e1-e5bd-4c80-8ec6-a3b8ba40f5cf" />
 
    This URL is what you will use when you have to specify any of the container url arguments
 
 To get the SAS URL of a certain file, as you will need for running create_analyzer.py or call_analyze.py, follow the same steps as above. The only difference is you will need to navigate to the specific file to then click on the 3 dots and later, "Generate SAS."
-<img width="788" alt="image" src="https://github.com/user-attachments/assets/204ecf7c-6f89-4c9f-a7e2-09b7b0373157" />
+<img width="913" alt="image" src="https://github.com/user-attachments/assets/2605d32d-c5ba-4985-b699-39057db60db9" />
 
 And lastly, the SAS URL does not specify a specific folder. To ensure that we are reading from and writing to the specific folder you wish, please enter in the DI dataset blob folder or the intended CU dataset folder whenever --source-blob-folder or --target-blob-folder is needed. 
 
