@@ -1,6 +1,7 @@
 {
     "description": "Sample video content analyzer",
     "scenario": "videoShot",
+    "baseAnalyzerId": "prebuilt-videoAnalyzer",
     "config": {
         "returnDetails": true,
         "locales": [

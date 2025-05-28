@@ -1,6 +1,7 @@
 {
   "description": "Sample call recording analytics",
   "scenario": "text",
+  "baseAnalyzerId": "prebuilt-documentAnalyzer",
   "config": {
     "returnDetails": true
   },

@@ -1,6 +1,7 @@
 {
   "description": "Extract detailed structured information from charts and diagrams.",
   "scenario": "image",
+  "baseAnalyzerId": "prebuilt-imageAnalyzer",
   "config": {
       "returnDetails": false
   },

@@ -1,6 +1,7 @@
 {
   "description": "Sample invoice analyzer",
   "scenario": "document",
+  "baseAnalyzerId": "prebuilt-invoice",
   "fieldSchema": {
     "fields": {
       "VendorName": {

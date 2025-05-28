@@ -1,6 +1,7 @@
 {
-    "scenario": "conversation",
     "description": "Sample audio transcription",
+    "scenario": "conversation",
+    "baseAnalyzerId": "prebuilt-audioAnalyzer",
     "config": {
       "returnDetails": true,
       "locales": ["en-US"]

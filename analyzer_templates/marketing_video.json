@@ -1,6 +1,7 @@
 {
   "description": "Sample marketing video analyzer",
   "scenario": "videoShot",
+  "baseAnalyzerId": "prebuilt-videoAnalyzer",
   "config": {
     "returnDetails": true
   },
