@@ -108,6 +108,8 @@ To create an analyzer using the converted CU analyzer.json, please run this comm
     python ./create_analyzer.py --analyzer-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer/cuDatasetFolderName/analyzer.json?targetSASToken" 
     --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
 
+Your analyzer.json will be stored in your target storage account's target container, specifically in the target blob folder that you have specified. Please get the SAS URL for the analyzer.json file from there.
+
 In the output, you will see the analyzer ID of the created Analyzer, please remember this when using the call_analyze.py tool. 
 
 Ex:
