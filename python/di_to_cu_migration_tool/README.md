@@ -29,11 +29,11 @@ To setup this tool, you will need to do the following steps:
 4. Replace the following values in your **.env** file as such:
    - **HOST:** Replace this with your Azure AI Service's AI Foundry endpoint. Be sure to remove the "/" at the end. 
        - Ex: "https://sample-azure-ai-resource.services.ai.azure.com"
-         ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/6a0381c3ffc11f48eda3386f69673ddb11d12eab/python/di_to_cu_migration_tool/assets/sample-azure-resource.png "Azure AI Service")
+         ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/62b9642072bdddc7c1ff1541fb4b0319ce87c856/python/di_to_cu_migration_tool/assets/sample-azure-resource.png "Azure AI Service")
          ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/e7eb604655b28fd8854a345729bf908376ae4bee/python/di_to_cu_migration_tool/assets/endpoint.png "Azure AI Service Enpoints")
    - **SUBSCRIPTION_KEY:** Replace this with your Azure AI Service's API Key or Subscription ID. This is used to identify and authenticate the API request.
        - If you have an API Key, it will show up here: ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/6a0381c3ffc11f48eda3386f69673ddb11d12eab/python/di_to_cu_migration_tool/assets/endpoint-with-keys.png "Azure AI Service Enpoints With Keys")
-       - If your service uses AAD, please instead fill this value with your Subscription ID:  ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/6a0381c3ffc11f48eda3386f69673ddb11d12eab/python/di_to_cu_migration_tool/assets/subscription-id.png "Azure AI Service Subscription ID")
+       - If your service uses AAD, please instead fill this value with your Subscription ID:  ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/62b9642072bdddc7c1ff1541fb4b0319ce87c856/python/di_to_cu_migration_tool/assets/subscription-id.png "Azure AI Service Subscription ID")
    - **API_VERSION:** Please leave this value as is. This ensures that you are converting to a CU Preview.2 dataset. 
 
 ## How to Find Your CustomGen DI Dataset in Azure Portal
