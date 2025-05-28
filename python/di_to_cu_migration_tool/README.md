@@ -134,7 +134,7 @@ These are some issues that you might encounter when creating an analyzer or call
 ### Creating an Analyzer
 If you get a **400** Error, please be sure to check these following items:
 - Make sure that your endpoint is correct. It should be something like _https://yourEndpoint/contentunderstanding/analyzers/yourAnalyzerID?api-version=2025-05-01-preview_
-- Make sure that all your fields in your analyzer.json meet these naming requirements
+- Make sure that all your fields in your analyzer.json meet these naming requirements. Your converted dataset might not work because CU has more naming constraints, thus you might need to manually make these changes.
   
   - Starts only with a letter or an underscore
   - Is in between 1 to 64 characters long
