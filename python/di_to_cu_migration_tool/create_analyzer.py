@@ -56,24 +56,12 @@ def main(
         "Content-Type": "application/json"
     }
 
-    # Request Body - config, desciription, fieldSchema, scenario, tags, & trainingData
-    request_body =  {
-        "baseAnalyzerId": analyzer_json["baseAnalyzerId"],
-        "description": analyzer_json["fieldSchema"]["description"],
-        "config": analyzer_json["config"],
-        "fieldSchema": analyzer_json["fieldSchema"],
-        "trainingData": {
-            "kind": "blob",
-            "containerUrl": target_container_sas_url,
-            "prefix": target_blob_folder
-        }
-    }
 
     print(f"[yellow]Creating analyzer with analyzer ID: {analyzer_id}...[/yellow]")
     response = requests.put(
         url=endpoint,
         headers=headers,
-        json=request_body,
+        json=analyzer_json,
     )
     response.raise_for_status()
     operation_location = response.headers.get("Operation-Location", None)
