@@ -61,9 +61,9 @@ To find any SAS URL:
     ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/b57d76e64bb0d10537bcbabfb184e42481265234/python/di_to_cu_migration_tool/assets/generate-sas.png "Generate SAS")
 3. Then, you will be shown a side window where you can configure your permissions and expiry of the SAS URL.
 
-   For the DI dataset, please select the following permissions from the drop-down: _**Read & List**_
+   For the DI dataset, which is your source, please select the following permissions from the drop-down: _**Read & List**_
 
-   For the CU dataset, please select the following permissions from the drop-down: _**Read, Add, Create, & Write**_
+   For the CU dataset, which is your target, please select the following permissions from the drop-down: _**Read, Add, Create, & Write**_
 
    Once configured, please select "Generate SAS Token and URL" & copy the URL shown in "Blob SAS URL"
 
