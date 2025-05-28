@@ -28,11 +28,11 @@ To setup this tool, you will need to do the following steps:
 3. Rename the file **.sample_env** as **.env**
 4. Replace the following values in your **.env** file as such:
    - **HOST:** Replace this with your Azure AI Service's AI Foundry endpoint. Be sure to remove the "/" at the end. 
-       - Ex: "https://user422.services.ai.azure.com"
-         <img width="1193" alt="image" src="https://github.com/user-attachments/assets/d72709eb-08f6-40d2-99c7-0fe8f642094f" />
-         <img width="893" alt="image" src="https://github.com/user-attachments/assets/02667c6b-2c98-4e2f-8875-cec6c899df51" />
+       - Ex: "https://sample-azure-ai-resource.services.ai.azure.com"
+         ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/6a0381c3ffc11f48eda3386f69673ddb11d12eab/python/di_to_cu_migration_tool/assets/sample-azure-resource.png "Azure AI Service")
+         ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/6a0381c3ffc11f48eda3386f69673ddb11d12eab/python/di_to_cu_migration_tool/assets/endpoint.png "Azure AI Service Enpoints")
    - **SUBSCRIPTION_KEY:** Replace this with your Azure AI Service's API Key or Subscription ID. This is used to identify and authenticate the API request.
-       - If you have an API Key, it will show up here: <img width="939" alt="image" src="https://github.com/user-attachments/assets/9fd495ef-fa90-4b41-850f-2a3b6160dea6" />
+       - If you have an API Key, it will show up here: ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/6a0381c3ffc11f48eda3386f69673ddb11d12eab/python/di_to_cu_migration_tool/assets/endpoint-with-keys.png "Azure AI Service Enpoints With Keys")
        - If your service uses AAD, please instead fill this value with your Subscription ID: <img width="1195" alt="image" src="https://github.com/user-attachments/assets/071354ca-d748-4b25-8483-98bb83463c21" />
    - **API_VERSION:** Please leave this value as is. This ensures that you are converting to a CU Preview.2 dataset. 
 
