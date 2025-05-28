@@ -72,7 +72,7 @@ To find any SAS URL:
    This URL is what you will use when you have to specify any of the container url arguments
 
 To get the SAS URL of a certain file, as you will need for running create_analyzer.py or call_analyze.py, follow the same steps as above. The only difference is you will need to navigate to the specific file to then click on the 3 dots and later, "Generate SAS."
-![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/b57d76e64bb0d10537bcbabfb184e42481265234/python/di_to_cu_migration_tool/assets/individual-file-generate-sas.png "Generate SAS for Individual File")
+![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/3b2ed720f19980e604646094788207bfd24b6ba8/python/di_to_cu_migration_tool/assets/individual-file-generate-sas.png "Generate SAS for Individual File")
 
 And lastly, the SAS URL does not specify a specific folder. To ensure that we are reading from and writing to the specific folder you wish, please enter in the DI dataset blob folder or the intended CU dataset folder whenever --source-blob-folder or --target-blob-folder is needed. 
 
@@ -105,8 +105,10 @@ _**NOTE:** You are only allowed to create one analyzer per analyzer ID._
 
 To create an analyzer using the converted CU analyzer.json, please run this command:
 
-    python ./create_analyzer.py --analyzer-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer/cuDatasetFolderName/analyzer.json?targetSASToken" 
-    --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
+    python ./create_analyzer.py 
+    --analyzer-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer/cuDatasetFolderName/analyzer.json?targetSASToken" 
+    --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" 
+    --target-blob-folder cuDatasetFolderName
 
 Your analyzer.json will be stored in your target storage account's target container, specifically in the target blob folder that you have specified. Please get the SAS URL for the analyzer.json file from there.
 
@@ -120,7 +122,8 @@ Ex:
 
 To Analyze a specific PDF or original file, please run this command:
 
-    python ./call_analyze.py --analyzer-id mySampleAnalyzer --pdf-sas-url "https://storageAccount.blob.core.windows.net/container/folder/sample.pdf?SASToken 
+    python ./call_analyze.py --analyzer-id mySampleAnalyzer 
+    --pdf-sas-url "https://storageAccount.blob.core.windows.net/container/folder/sample.pdf?SASToken 
     --output-json "./desired-path-to-analyzer-results.json"
 
 For the --analyzer-id argument, please input the analyzer ID of the created Analyzer. 
