@@ -39,15 +39,15 @@ To setup this tool, you will need to do the following steps:
 ## How to Find Your CustomGen DI Dataset in Azure Portal
 If you are trying to migrate Document Extraction dataset from AI Foundry (customGen), please also refer to the following steps:
 1. Navigate to the Management Center of your Document Extraction project. It should be on your bottom left. 
-    <img width="770" alt="image" src="https://github.com/user-attachments/assets/410fe84d-4633-4caf-abde-6ac9f04794d1" />
+    ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/b57d76e64bb0d10537bcbabfb184e42481265234/python/di_to_cu_migration_tool/assets/management-center.png "Management Center")
 2. When you get to the Management Center, you should see a section for Connected Resources. Please select "View All".
-   <img width="622" alt="image" src="https://github.com/user-attachments/assets/4069a89d-0370-4d2c-9a75-9fcd12292083" />
+   ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/b57d76e64bb0d10537bcbabfb184e42481265234/python/di_to_cu_migration_tool/assets/connected-resources.png "Connected Resources")
 3. This page shows you all the Azure resources and their locations. The "Target" refers to the URL for each Resource. None of these resources are the location of your DI dataset, but instead will lead us to it. We want to pay particular intention to the resources that are of type Blob Storage. The target of these Blob Storages will be the same, apart from the suffix of "-blobstore" on one of the resources.
-   <img width="1023" alt="image" src="https://github.com/user-attachments/assets/8249499d-7634-455c-aef8-45e0fb653f84" />
+   ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/b57d76e64bb0d10537bcbabfb184e42481265234/python/di_to_cu_migration_tool/assets/manage-connections.png "Manage Connections")
    Using the above image, the yellow highlight shows the storage account that your DI dataset is located in. Additionally, your DI dataset's blob container will be the blue highlight + "-di".
    Using these two values, please navigate to the above mentioned blob container. From there, you will notice a labelingProjects folder and inside a folder with the same name as the blue highlight. Inside this will be a data folder, which will contain the contents of your Document Extraction project. Please refer to this as your source.
    For the example Document Extraction project, this will be where the Document Extraction project is stored: 
-   <img width="764" alt="image" src="https://github.com/user-attachments/assets/a158ae71-3db4-4647-a2c4-c09a92ca357e" />
+   ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/b57d76e64bb0d10537bcbabfb184e42481265234/python/di_to_cu_migration_tool/assets/azure-portal.png "Azure Portal")
 
 ## How to Find Your Source and Target SAS URLs
 To run the following tools, you will need to specify your source and target SAS URLs, along with their folder prefix.
@@ -56,9 +56,9 @@ To clarify, your source refers to the location of your DI dataset and your targe
 To find any SAS URL:
 
 1. Navigate to the storage account in Azure Portal and click on "Storage Browser" on the left-hand side
-   <img width="1048" alt="image" src="https://github.com/user-attachments/assets/8c255aaf-0ac0-4f9e-9ec7-e6899ed85a18" />
+   ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/b57d76e64bb0d10537bcbabfb184e42481265234/python/di_to_cu_migration_tool/assets/storage-browser.png "Storage Browser")
 2. From here, use the "Blob Containers" to select the container where your dataset either is located (for DI) or should be saved to (for CU). Click on the 3 dots to the side, and select "Generate SAS"
-    <img width="1186" alt="image" src="https://github.com/user-attachments/assets/f07e2601-eb17-4156-a2ec-0e62b269fdb4" />
+    ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/b57d76e64bb0d10537bcbabfb184e42481265234/python/di_to_cu_migration_tool/assets/generate-sas.png "Generate SAS")
 3. Then, you will be shown a side window where you can configure your permissions and expiry of the SAS URL.
 
    For the DI dataset, please select the following permissions from the drop-down: _**Read & List**_
@@ -67,12 +67,12 @@ To find any SAS URL:
 
    Once configured, please select "Generate SAS Token and URL" & copy the URL shown in "Blob SAS URL"
 
-   <img width="442" alt="image" src="https://github.com/user-attachments/assets/544f05e1-e5bd-4c80-8ec6-a3b8ba40f5cf" />
+   ![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/b57d76e64bb0d10537bcbabfb184e42481265234/python/di_to_cu_migration_tool/assets/generate-sas-pop-up.png "Generate SAS Pop-Up")
 
    This URL is what you will use when you have to specify any of the container url arguments
 
 To get the SAS URL of a certain file, as you will need for running create_analyzer.py or call_analyze.py, follow the same steps as above. The only difference is you will need to navigate to the specific file to then click on the 3 dots and later, "Generate SAS."
-<img width="913" alt="image" src="https://github.com/user-attachments/assets/2605d32d-c5ba-4985-b699-39057db60db9" />
+![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/b57d76e64bb0d10537bcbabfb184e42481265234/python/di_to_cu_migration_tool/assets/individual-file-generate-sas.png "Generate SAS for Individual File")
 
 And lastly, the SAS URL does not specify a specific folder. To ensure that we are reading from and writing to the specific folder you wish, please enter in the DI dataset blob folder or the intended CU dataset folder whenever --source-blob-folder or --target-blob-folder is needed. 
 
@@ -108,9 +108,11 @@ To create an analyzer using the converted CU analyzer.json, please run this comm
     python ./create_analyzer.py --analyzer-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer/cuDatasetFolderName/analyzer.json?targetSASToken" 
     --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
 
-In the output, you will see the analyzer ID of the created Analyzer, please remember this when using the call_analyze.py tool.
+In the output, you will see the analyzer ID of the created Analyzer, please remember this when using the call_analyze.py tool. 
 
-Ex: <img width="315" alt="image" src="https://github.com/user-attachments/assets/bea1be83-a537-4574-b38b-2d745e32b8f5" />
+Ex:
+
+![Alt text](https://github.com/Azure-Samples/azure-ai-content-understanding-python/blob/b57d76e64bb0d10537bcbabfb184e42481265234/python/di_to_cu_migration_tool/assets/analyzer.png "Sample Analyzer Creation")
 
 ### 3. Calling Analyze
 
