@@ -2,41 +2,39 @@
 
 Welcome! We've created this tool to help convert your Document Intelligence (DI) datasets to Content Understanding (CU) **Preview.2** format, as seen in AI Foundry. The following DI versions are supported:
 - DI 3.1/4.0 GA CustomNeural (seen in Document Intelligence Studio)
-- DI 4.0 Preview CustomGen (seen in Document Extraction project)
+- DI 4.0 Preview CustomGen (seen in Document Field Extraction projects)
 
-To help you identify which version of Document Intelligence your dataset is in, please consult the sample documents provided under this folder to determine which format matches that of yours. 
+To help you identify which version of Document Intelligence your dataset is in, please consult the sample documents provided under this folder to determine which format matches that of yours. Additionally, you can also identify the version through your DI project's UX as well. For instance, DI CustomNeural is a part of Document Intelligence Studio (i.e. https://documentintelligence.ai.azure.com/studio) and DI CustomGen is only a part of Azure AI Foundry (i.e. https://ai.azure.com/explore/aiservices/vision/document/extraction). 
 
-Additionally, we have separate CLI tools to create a CU Analyzer using your provided AI Service endpoint and run Analyze on a given file using your analyzer.
+For migration from these DI versions to Content understanding Preview.2, this tool first needs to convert the DI dataset to a CU compatible format. Once converted, you have the option to create a Content Understanding Analyzer, which will be trained on the converted CU dataset. Additionally, you can further test this model to ensure its quality.
 
 ## Details About the Tools
-To give you some additional details, here is a more intricate breakdown of each of the 3 CLI tools and their capabilities:
+To provide you with some further details, here is a more intricate breakdown of each of the 3 CLI tools and their capabilities:
 * **di_to_cu_converter.py**:
-     * This CLI tool handles the conversion of the dataset itself. In other words, it takes your DI dataset and converts it into a CU dataset. What this means is that your fields.json gets converted into analyzer.json, your DI labels.json gets converted into CU labels.json, and your ocr.json gets replaced with result.json.
-     * To handle the conversion for fields.json and labels.json, we use the cu_converter_customGen.py and cu_converter_customNeural.py python classes. The class used depends on the DI version you have specified. This is why choosing the correct DI version is incredibly important.
-     * To get the result.json, we take your DI dataset's original files and create a sample analyzer without any fields, allowing us to attain the raw OCR results for each original file via an Analyze request. The logic for this implementation is located in get_ocr.py.
+     * This CLI tool conducts your first step of migration. The tool refers to your labelled Document Intelligence dataset and converts it into a CU format compatible dataset. Through this tool, we map the following files accordingly: fields.json to analyzer.json, DI labels.json to CU labels.json, and ocr.json to result.json.
+     * Depending on the DI version you wish to migrate from, we use [cu_converter_customNeural.py](cu_converter_customNeural.py) and [cu_converter_customGen.py](cu_converter_customGen.py) accordingly to convert your fields.json and labels.json files.
+     * For OCR conversion, the tool creates a sample CU analyzer to gather raw OCR results via an Analyze request for each original file in the DI dataset. Additionally, since the sample analyzer contains no fields, we get the results.json files without any fields as well. For more details, please refer to [get_ocr.py](get_ocr.py).
 * **create_analyzer.py**:
-     * This CLI tool handles building an analyzer by calling the Content Understanding REST API. 
-     * With di_to_cu_converter.py, this tool gives us a complete CU dataset. However, to build a model itself, the create_analyzer.py class is needed.
-     * Additionally, the model will come "trained" as the entire converted CU dataset will be referenced when building the analyzer. 
+     * Once the dataset is converted to CU format, this CLI tool creates a CU analyzer while referring to the converted dataset. 
 * **call_analyze.py**:
-     * This CLI tool handles analyzing a given PDF file by utilizing the previously created analyzer.
-     * This is a great way to "test" the model by utilizing the Content Understanding REST API. 
+     * This CLI tool can be used to ensure that the migration has successfully completed and to test the quality of the previously created analyzer.
 
 ## Setup
 To setup this tool, you will need to do the following steps:
 1. Run the requirements.txt file to install the needed dependencies via **pip install -r ./requirements.txt**
-3. Rename the file **.sample_env** as **.env**
-4. Replace the following values in your **.env** file as such:
-   - **HOST:** Replace this with your Azure AI Service's AI Foundry endpoint. Be sure to remove the "/" at the end. 
-       - Ex: "https://sample-azure-ai-resource.services.ai.azure.com"
+2. Rename the file **.sample_env** to **.env**
+3. Replace the following values in the **.env** file:
+   - **HOST:** Update this to your Azure AI service endpoint.
+       - Ex: "https://sample-azure-ai-resource.services.ai.azure.com".
+       - Avoid the "/" at the end.
          ![Alt text](assets/sample-azure-resource.png "Azure AI Service")
-         ![Alt text](ssets/endpoint.png "Azure AI Service Enpoints")
-   - **SUBSCRIPTION_KEY:** Replace this with your Azure AI Service's API Key or Subscription ID. This is used to identify and authenticate the API request.
-       - If you have an API Key, it will show up here: ![Alt text](assets/endpoint-with-keys.png "Azure AI Service Enpoints With Keys")
-       - If your service uses AAD, please instead fill this value with your Subscription ID:  ![Alt text](assets/subscription-id.png "Azure AI Service Subscription ID")
-   - **API_VERSION:** Please leave this value as is. This ensures that you are converting to a CU Preview.2 dataset. 
+         ![Alt text](assets/endpoint.png "Azure AI Service Enpoints")
+   - **SUBSCRIPTION_KEY:** Update this to your Azure AI Service's API Key or Subscription ID to identify and authenticate the API request.
+       - You can locate your API KEY here: ![Alt text](assets/endpoint-with-keys.png "Azure AI Service Enpoints With Keys")
+       - If you are using AAD, please refer to your Subscription ID:  ![Alt text](assets/subscription-id.png "Azure AI Service Subscription ID")
+   - **API_VERSION:** This version ensures that you are converting the dataset to CU Preview.2. No changes are needed here.
 
-## How to Find Your CustomGen DI Dataset in Azure Portal
+## How to Find Your Document Field Extraction Dataset in Azure Portal
 If you are trying to migrate Document Extraction dataset from AI Foundry (customGen), please also refer to the following steps:
 1. Navigate to the Management Center of your Document Extraction project. It should be on your bottom left. 
     ![Alt text](assets/management-center.png "Management Center")
@@ -132,7 +130,7 @@ Additionally, specifying the --output-json isn't neccesary. The default location
 ## Possible Issues
 These are some issues that you might encounter when creating an analyzer or calling analyze. 
 ### Creating an Analyzer
-If you get a **400** Error, please be sure to check these following items:
+For any **400** Error, please validate the following:
 - Make sure that your endpoint is correct. It should be something like _https://yourEndpoint/contentunderstanding/analyzers/yourAnalyzerID?api-version=2025-05-01-preview_
 - Make sure that all your fields in your analyzer.json meet these naming requirements. Your converted dataset might not work because CU has more naming constraints, thus you might need to manually make these changes.
   
@@ -147,14 +145,12 @@ If you get a **401** error, make sure that your API key or subscription ID is co
 
 If you get a **409** error while creating your analyzer, that means that you have already created an analyzer with that analyzer ID. Please try using another ID.
 ### Calling Analyze
-If you get a **400** Error, please be sure to check the following items:
-- Make sure that your endpoint is correct. It should be something like _https://yourEndpoint/contentunderstanding/analyzers/yourAnalyzerID:analyze?api-version=2025-05-01-preview_
-- Make sure that you've specified the correct SAS URL for the document you are analyzing
+- A **400** Error implies a potentially incorrect endpoint or SAS URL. Ensure that your endpoint is valid _(https://yourendpoint/contentunderstanding/analyzers/yourAnalyzerID:analyze?api-version=2025-05-01-preview)_ and that you are using the correct SAS URL for the document under analysis.
+- A **401** Error implies a failure in authentication. Please ensure that your API key and/or subscription ID are correct and that you have access to the endpoint specified.
+- A **404** Error implies that no analyzer exists with the analyzer ID you have specified. Mitigate it by calling the correct ID or creating an analyzer with such an ID. 
 
-If you get a **401** error, make sure that your API key or subscription ID is correct and that you have access to the endpoint you've specified. This is an authentication error. 
-
-If you get a **404** Error while trying to call analyze, that means that there is no analyzer with the analyzer ID you have specified. Please create an analyzer with such an ID. 
-## Things of Note
-- You will need to be using a version of Python above 3.9
-- Fields with FieldType "signature," which are supported in 2024-11-30 Custom Neural, are not supported in the latest version of Content Understanding (2025-05-01-preview), and thus will be ignored when creating the analyzer
-- We will only be providing data conversion to CU Preview.2
+## Points to Note:
+1. Make sure to use Python version 3.9 or above.
+2. Signature fieldtypes (such as in custom extraction model version 4.0) are not supported in Content Understanding yet. Thus, during migration, these signature fields will be ignored when creating the analyzer.
+3. When training a model with a CU dataset, the content of the documents will be retained in the CU model metadata under CU service storage, for reference. This is different from how it is in DI. 
+4. All the data conversion will be for Content Understanding preview.2 version only. 
