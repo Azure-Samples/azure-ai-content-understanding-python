@@ -1,0 +1,104 @@
+{
+	"$schema": "https://schema.cognitiveservices.azure.com/formrecognizer/2021-03-01/fields.json",
+	"fields": [
+		{
+			"fieldKey": "Field_Agency Name",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "Field_Family Identification",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "Field_Initial Subsidized Service Date",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "Table_Section I. Family Identification.",
+			"fieldType": "object",
+			"fieldFormat": "not-specified",
+			"fields": [
+				{
+					"fieldKey": "A",
+					"fieldType": "Table_Section I. Family Identification._object",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "B",
+					"fieldType": "Table_Section I. Family Identification._object",
+					"fieldFormat": "not-specified"
+				}
+			]
+		},
+		{
+			"fieldKey": "Table_Complete only for children  served by your agency",
+			"fieldType": "array",
+			"fieldFormat": "not-specified",
+			"itemType": "Table_Complete only for children  served by your agency_object"
+		}
+	],
+	"definitions": {
+		"Table_Section I. Family Identification._object": {
+			"fieldKey": "Table_Section I. Family Identification._object",
+			"fieldType": "object",
+			"fieldFormat": "not-specified",
+			"fields": [
+				{
+					"fieldKey": "Name of parent (full name, including middle initial)",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "Phone no. (cell or home)",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "Phone no. (work/school)",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				}
+			]
+		},
+		"Table_Complete only for children  served by your agency_object": {
+			"fieldKey": "Table_Complete only for children  served by your agency_object",
+			"fieldType": "object",
+			"fieldFormat": "not-specified",
+			"fields": [
+				{
+					"fieldKey": "(4)  Adjustment  Factor  Code",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "(5)  Ethnicity",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "(6)  Race",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "Language  Code",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "Child is English  Learner?",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "Code for Language",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				}
+			]
+    }
+	}
+}
