@@ -35,67 +35,65 @@ To setup this tool, you will need to do the following steps:
    - **API_VERSION:** This version ensures that you are converting the dataset to CU Preview.2. No changes are needed here.
 
 ## How to Find Your Document Field Extraction Dataset in Azure Portal
-If you are trying to migrate Document Extraction dataset from AI Foundry (customGen), please also refer to the following steps:
-1. Navigate to the Management Center of your Document Extraction project. It should be on your bottom left. 
+To migrate your Document Field extraction dataset from AI foundry, please follow the steps below:
+1. On the bottom left of your Document Field Extraction project page, please select "Management Center".
     ![Alt text](assets/management-center.png "Management Center")
-2. When you get to the Management Center, you should see a section for Connected Resources. Please select "View All".
+2. Now on the Management Center page, please select "View All" from the Connected Resources section.
    ![Alt text](assets/connected-resources.png "Connected Resources")
-3. This page shows you all the Azure resources and their locations. The "Target" refers to the URL for each Resource. None of these resources are the location of your DI dataset, but instead will lead us to it. We want to pay particular intention to the resources that are of type Blob Storage. The target of these Blob Storages will be the same, apart from the suffix of "-blobstore" on one of the resources.
+3. Within these resources, look for the resource with type "Azure Blob Storage." This resource's target URL contains the location of your dataset's storage account (in yellow) and blob container (in blue)..
    ![Alt text](assets/manage-connections.png "Manage Connections")
-   Using the above image, the yellow highlight shows the storage account that your DI dataset is located in. Additionally, your DI dataset's blob container will be the blue highlight + "-di".
-   Using these two values, please navigate to the above mentioned blob container. From there, you will notice a labelingProjects folder and inside a folder with the same name as the blue highlight. Inside this will be a data folder, which will contain the contents of your Document Extraction project. Please refer to this as your source.
-   For the example Document Extraction project, this will be where the Document Extraction project is stored: 
+   Using these values, navigate to your blob container. Then, select the "labelingProjects" folder. From there, select the folder with the same name as the blob container. Here, you'll localte all the contents of your project in the "data" folder.
+
+   For example, the sample Document Extraction project is stored at: 
    ![Alt text](assets/azure-portal.png "Azure Portal")
 
 ## How to Find Your Source and Target SAS URLs
-To run the following tools, you will need to specify your source and target SAS URLs, along with their folder prefix.
-To clarify, your source refers to the location of your DI dataset and your target refers to the location you wish to store your CU dataset at.
+To run migration, you will need to specify the source SAS URL (location of your Document Intelligence dataset) and target SAS URL (location for your Content Understanding dataset).
 
-To find any SAS URL:
+To locate the SAS URL for a file or folder for any container URL arguments, please follow these steps:
 
-1. Navigate to the storage account in Azure Portal and click on "Storage Browser" on the left-hand side
+1. Navigate to your storage account in Azure Portal and from the left pane, select "Storage Browser"
    ![Alt text](assets/storage-browser.png "Storage Browser")
-2. From here, use the "Blob Containers" to select the container where your dataset either is located (for DI) or should be saved to (for CU). Click on the 3 dots to the side, and select "Generate SAS"
+2. Select the source/target blob container for either where your DI dataset is present or your CU dataset will be. Click on the extended menu on the side and select "Generate SAS."
     ![Alt text](assets/generate-sas.png "Generate SAS")
-3. Then, you will be shown a side window where you can configure your permissions and expiry of the SAS URL.
+3. Configure the permissions and expiry for your SAS URL accordingly.
 
-   For the DI dataset, which is your source, please select the following permissions from the drop-down: _**Read & List**_
+   For the DI source dataset, please select these permissions: _**Read & List**_
 
-   For the CU dataset, which is your target, please select the following permissions from the drop-down: _**Read, Add, Create, & Write**_
+   For the CU target dataset, please select these permissions: _**Read, Add, Create, & Write**_
 
-   Once configured, please select "Generate SAS Token and URL" & copy the URL shown in "Blob SAS URL"
+   Once configured, please select "Generate SAS Token and URL" & copy the URL shown under "Blob SAS URL"
 
    ![Alt text](assets/generate-sas-pop-up.png "Generate SAS Pop-Up")
 
-   This URL is what you will use when you have to specify any of the container url arguments
+Notes:
 
-To get the SAS URL of a certain file, as you will need for running create_analyzer.py or call_analyze.py, follow the same steps as above. The only difference is you will need to navigate to the specific file to then click on the 3 dots and later, "Generate SAS."
-![Alt text](assets/individual-file-generate-sas.png "Generate SAS for Individual File")
-
-And lastly, the SAS URL does not specify a specific folder. To ensure that we are reading from and writing to the specific folder you wish, please enter in the DI dataset blob folder or the intended CU dataset folder whenever --source-blob-folder or --target-blob-folder is needed. 
+- Since SAS URL does not point to a specific folder, to ensure the correct path for source and target, please specify the correct dataset folder as --source-blob-folder or --target-blob-folder.
+- To get the SAS URL for a single file, navigate to the specific file and repeat the steps above, such as: 
+  ![Alt text](assets/individual-file-generate-sas.png "Generate SAS for Individual File")
 
 ## How to Run 
-To run the 3 tools, you will need to follow these commands. Since these commands are incredibly long, for easy viewing we've split them into multiple lines. Please remove the extra spaces before running. 
+To run the 3 tools, please refer to these following commands. For better readability, they are split across lines. Please remove this extra spacing before execution.
 
-_**NOTE:** When entering a URL, please use "" as the examples show you._
+_**NOTE:** Use "" when entering in a URL._
 
-### 1. Running DI to CU Dataset Conversion
+### 1. Converting Document Intelligence to Content Understanding Dataset 
 
-To convert a _DI 3.1/4.0 GA CustomNeural_ dataset, please run this command:
+If you are migrating a _DI 3.1/4.0 GA CustomNeural_ dataset, please run this command:
 
     python ./di_to_cu_converter.py --DI-version CustomNeural --analyzer-prefix mySampleAnalyzer 
     --source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName 
     --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
 
-If you are using CustomNeural, please be sure to specify the analyzer prefix, as it is crucial for creating an analyzer. This is because there is no "doc_type" or any identification provided in CustomNeural. The created analyzer will have an analyzer ID of the specified analyzer-prefix. 
+For Custom Neural migration, specifying an analyzer prefix is crucial for creating a CU analyzer. Since there's no "doc_type" defined for any identification in the fields.json, the created analyzer will have an analyzer ID of the specified analyzer prefix.
 
-To convert a _DI 4.0 Preview CustomGen_, run this command: 
+If you are migrating a _DI 4.0 Preview CustomGen_ dataset, please run this command: 
 
     python ./di_to_cu_converter.py --DI-version CustomGen --analyzer-prefix mySampleAnalyzer 
     --source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName 
     --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
 
-Specifying an analyzerPrefix isn't necessary for CustomGen, but is needed if you wish to create multiple analyzers from the same analyzer.json. This is because the analyzer ID used will be the "doc_type" value specified in the fields.json. However, if an analyzer prefix is provided, the analyzer ID will then become analyzer-prefix_doc-type. 
+For Custom Gen migration, specifying an analyzer prefix is optional. However, iff you wish to create multiple analyzers from the same analyzer.json, please add an analyzer prefix. If provided, the analyzer ID will become analyzer-prefix_doc-type. Otherwise, it will simply remain as the doc_type in the fields.json. 
 
 _**NOTE:** You are only allowed to create one analyzer per analyzer ID._
 
@@ -108,15 +106,15 @@ To create an analyzer using the converted CU analyzer.json, please run this comm
     --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" 
     --target-blob-folder cuDatasetFolderName
 
-Your analyzer.json will be stored in your target storage account's target container, specifically in the target blob folder that you have specified. Please get the SAS URL for the analyzer.json file from there.
+The analyzer.json file is stored in the specified target blob container and folder. Please get the SAS URL for the analyzer.json file from there.
 
-In the output, you will see the analyzer ID of the created Analyzer, please remember this when using the call_analyze.py tool. 
+Additionally, please use the analyzer ID from this output when running the call_analyze.py tool. 
 
 Ex:
 
 ![Alt text](assets/analyzer.png "Sample Analyzer Creation")
 
-### 3. Calling Analyze
+### 3. Running Analyze
 
 To Analyze a specific PDF or original file, please run this command:
 
@@ -124,26 +122,26 @@ To Analyze a specific PDF or original file, please run this command:
     --pdf-sas-url "https://storageAccount.blob.core.windows.net/container/folder/sample.pdf?SASToken 
     --output-json "./desired-path-to-analyzer-results.json"
 
-For the --analyzer-id argument, please input the analyzer ID of the created Analyzer. 
-Additionally, specifying the --output-json isn't neccesary. The default location is "./sample_documents/analyzer_result.json".
+For --analyzer-id argument, please refer to the analyzer ID created in the previous step.
+Additionally, specifying the --output-json isn't neccesary. The default location for the output is "./sample_documents/analyzer_result.json".
 
 ## Possible Issues
-These are some issues that you might encounter when creating an analyzer or calling analyze. 
+These are some issues that you might run into when creating an analyzer or running analyze. 
 ### Creating an Analyzer
 For any **400** Error, please validate the following:
-- Make sure that your endpoint is correct. It should be something like _https://yourEndpoint/contentunderstanding/analyzers/yourAnalyzerID?api-version=2025-05-01-preview_
-- Make sure that all your fields in your analyzer.json meet these naming requirements. Your converted dataset might not work because CU has more naming constraints, thus you might need to manually make these changes.
-  
-  - Starts only with a letter or an underscore
-  - Is in between 1 to 64 characters long
+- You are using a valid endpoint. Example: _https://yourEndpoint/contentunderstanding/analyzers/yourAnalyzerID?api-version=2025-05-01-preview_
+- Your converted CU dataset may not meet the latest naming constraints. Please ensure that all the fields in your analyzer.json file meets these requirements. If not, please make the changes manually.
+
+  - Field name only starts with a letter or an underscore
+  - Field name length is in between 1 to 64 characters
   - Only uses letters, numbers, and underscores
-- Make sure that your analyzer ID specified meets these naming requirements
-  - Is in between 1 to 64 characters long
+- Your analyzer ID meets these naming requirements
+  - ID is in between 1 to 64 characters long
   - Only uses letters, numbers, dots, underscores, and hyphens
 
-If you get a **401** error, make sure that your API key or subscription ID is correct and that you have access to the endpoint you've specified. This is an authentication error. 
+A **401** Error implies a failure in authentication. Please ensure that your API key and/or subscription ID are correct and that you have access to the endpoint specified.
 
-If you get a **409** error while creating your analyzer, that means that you have already created an analyzer with that analyzer ID. Please try using another ID.
+A **409** Error implies that the analyzer ID has already been used to create an analyzer. Please try using another ID.
 ### Calling Analyze
 - A **400** Error implies a potentially incorrect endpoint or SAS URL. Ensure that your endpoint is valid _(https://yourendpoint/contentunderstanding/analyzers/yourAnalyzerID:analyze?api-version=2025-05-01-preview)_ and that you are using the correct SAS URL for the document under analysis.
 - A **401** Error implies a failure in authentication. Please ensure that your API key and/or subscription ID are correct and that you have access to the endpoint specified.
@@ -152,5 +150,5 @@ If you get a **409** error while creating your analyzer, that means that you hav
 ## Points to Note:
 1. Make sure to use Python version 3.9 or above.
 2. Signature fieldtypes (such as in custom extraction model version 4.0) are not supported in Content Understanding yet. Thus, during migration, these signature fields will be ignored when creating the analyzer.
-3. When training a model with a CU dataset, the content of the documents will be retained in the CU model metadata under CU service storage, for reference. This is different from how it is in DI. 
+3. When training a model with a CU dataset, the content of the documents will be retained in the CU model metadata, under CU service storage specifically. This is different from how it is in DI. 
 4. All the data conversion will be for Content Understanding preview.2 version only. 
