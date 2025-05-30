@@ -1,6 +1,5 @@
 {
   "description": "Sample call recording analytics",
-  "scenario": "callCenter",
   "baseAnalyzerId": "prebuilt-callCenter",
   "config": {
     "returnDetails": true,

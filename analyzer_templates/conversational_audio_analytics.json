@@ -1,5 +1,4 @@
 {
-    "scenario": "conversation",
     "description": "Sample conversational audio analytics",
     "baseAnalyzerId": "prebuilt-audioAnalyzer",
     "config": {
