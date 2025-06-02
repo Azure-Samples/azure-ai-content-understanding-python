@@ -2,7 +2,7 @@
 
 Welcome! We've created this tool to help convert your Document Intelligence (DI) datasets to Content Understanding (CU) **Preview.2** 2025-05-01-preview format, as seen in AI Foundry. The following DI versions are supported:
 - Custom Document DI 3.1 GA (2023-07-31) to DI 4.0 GA (2024-11-30) (seen in Document Intelligence Studio) --> DI-version = neural
-- Custom Document 4.0 Preview (2024-07-31-preview) (seen in AI Foundry's Document Extraction) --> DI-version = generative
+- Custom Document 4.0 Preview (2024-07-31-preview) (seen in AI Foundry's Document Field Extraction) --> DI-version = generative
 
 To help you identify which version of Document Intelligence your dataset is in, please consult the sample documents provided under this folder to determine which format matches that of yours. Additionally, you can also identify the version through your DI project's UX as well. For instance, Custom Document DI 3.1/4.0 GA is a part of Document Intelligence Studio (i.e., https://documentintelligence.ai.azure.com/studio) and Custom Document DI 4.0 Preview is only available on Azure AI Foundry as a preview service (i.e., https://ai.azure.com/explore/aiservices/vision/document/extraction). 
 
@@ -150,6 +150,5 @@ A **409** error implies that the analyzer ID has already been used to create an 
 ## Points to Note:
 1. Make sure to use Python version 3.9 or above.
 2. Signature field types (such as in the previous versions of DI) are not supported in Content Understanding yet. Thus, during migration, these signature fields will be ignored when creating the analyzer.
-3. The content of training documents will be retained in Content Understanding model metadata, under storage specifically.
+3. The content of training documents will be retained in Content Understanding model metadata, under storage specifically. Additional explanation can be found here: https://learn.microsoft.com/en-us/legal/cognitive-services/content-understanding/transparency-note?toc=%2Fazure%2Fai-services%2Fcontent-understanding%2Ftoc.json&bc=%2Fazure%2Fai-services%2Fcontent-understanding%2Fbreadcrumb%2Ftoc.json
 5. All the data conversion will be for Content Understanding preview.2 version only.
-6. Additional Transparency Note: https://learn.microsoft.com/en-us/legal/cognitive-services/content-understanding/transparency-note?toc=%2Fazure%2Fai-services%2Fcontent-understanding%2Ftoc.json&bc=%2Fazure%2Fai-services%2Fcontent-understanding%2Fbreadcrumb%2Ftoc.json
