@@ -50,7 +50,7 @@ def format_angle(angle: float) -> float:
 
 def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions) -> dict:
     """
-    Convert DI 4.0 preview CustomGen fields.json to analyzer.json format.
+    Convert DI 4.0 preview Custom Document fields.json to analyzer.json format.
     Args:
         fields_json_path (Path): Path to the input DI fields.json file.
         analyzer_prefix (Optional(str)): Prefix for the analyzer name.
@@ -193,7 +193,7 @@ def recursive_convert_field_to_analyzer_helper(key: str, value: dict, field_defi
 
 def convert_di_labels_to_cu(di_labels_path: Path, target_dir: Path) -> None:
     """
-    Convert DI 4.0 preview CustomGen format labels.json to Content Understanding format labels.json.
+    Convert DI 4.0 preview Custom Document format labels.json to Content Understanding format labels.json.
     Args:
         di_labels_path (Path): Path to the Document Intelligence labels.json file.
         target_dir (Path): Output directory for the Content Understanding labels.json file.

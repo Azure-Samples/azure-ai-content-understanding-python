@@ -15,8 +15,8 @@ from rich import print  # For colored output
 
 # imports from same project
 from constants import DI_VERSIONS, FIELDS_JSON, LABELS_JSON, MAX_FIELD_COUNT, OCR_JSON, VALIDATION_TXT
-import cu_converter_customNeural
-import cu_converter_customGen
+import cu_converter_neural as cu_converter_neural
+import cu_converter_generative as cu_converter_generative
 from field_definitions import FieldDefinitions
 import field_type_conversion
 from get_ocr import run_cu_layout_ocr
@@ -38,7 +38,7 @@ def validate_field_count(DI_version, byte_fields) -> Tuple[int, bool]:
     fields = json.loads(string_fields)
 
     field_count = 0
-    if DI_version == "CustomGen":
+    if DI_version == "generative":
         field_schema = fields["fieldSchema"]
         if len(field_schema) > MAX_FIELD_COUNT:
             return len(field_schema), False
@@ -81,7 +81,7 @@ def validate_field_count(DI_version, byte_fields) -> Tuple[int, bool]:
 @app.command()
 def main(
     analyzer_prefix: str = typer.Option("", "--analyzer-prefix", help="Prefix for analyzer name."),
-    DI_version: str = typer.Option("CustomGen", "--DI-version", help="DI versions: CustomGen, CustomNeural"),
+    DI_version: str = typer.Option("generative", "--DI-version", help="DI versions: generative, neural"),
     source_container_sas_url: str = typer.Option("", "--source-container-sas-url", help="Source blob container SAS URL."),
     source_blob_folder: str = typer.Option("", "--source-blob-folder", help="Source blob storage folder prefix."),
     target_container_sas_url: str = typer.Option("", "--target-container-sas-url", help="Target blob container SAS URL."),
@@ -99,7 +99,7 @@ def main(
     print(f"[yellow]You have specified the following DI version: {DI_version} out of {DI_VERSIONS}.If this is not expected, feel free to change this with the --DI-version parameter.\n[/yellow]")
 
     # if DI_version 3.1/4.0 GA Custom Neural, then analyzer prefix needs to be set
-    if DI_version == "CustomNeural":
+    if DI_version == "neural":
         assert analyzer_prefix != "", "Please provide a valid analyzer prefix, since you are using DI 3.1/4.0 GA Custom Neural."
 
     # Getting the environmental variables
@@ -209,18 +209,18 @@ def running_field_type_conversion(temp_source_dir: Path, temp_dir: Path, DI_vers
         with fields_path.open("r", encoding="utf-8") as fp: # running field type conversion for fields.json
             fields = json.load(fp)
 
-        if DI_version == "CustomGen":
+        if DI_version == "generative":
             converted_fields, converted_field_keys = field_type_conversion.update_unified_schema_fields(fields)
             with open(str(temp_dir / FIELDS_JSON), "w", encoding="utf-8") as fp:
                 json.dump(converted_fields, fp, ensure_ascii=False, indent=4)
-            print("[yellow]Successfully handled field type conversion for DI CustomGen fields.json[/yellow]\n")
-        elif DI_version == "CustomNeural":
+            print("[yellow]Successfully handled field type conversion for DI 4.0 preview Custom Document fields.json[/yellow]\n")
+        elif DI_version == "neural":
             removed_signatures, converted_fields = field_type_conversion.update_fott_fields(fields)
             with open(str(temp_dir / FIELDS_JSON), "w", encoding="utf-8") as fp:
                 json.dump(converted_fields, fp, ensure_ascii=False, indent=4)
-            print("[yellow]Successfully handled field type conversion for DI 3.1/4.0 GA CustomNeural fields.json[/yellow]\n")
+            print("[yellow]Successfully handled field type conversion for DI 3.1/4.0 GA Custom Document fields.json[/yellow]\n")
 
-        if DI_version == "CustomGen":
+        if DI_version == "generative":
             for file in files:
                 file_path = root_path / file
                 if (file.endswith(LABELS_JSON)):
@@ -250,10 +250,10 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
         fields_path = root_path / FIELDS_JSON
 
         assert fields_path.exists(), "fields.json is needed. Fields.json is missing from the given dataset."
-        if DI_version == "CustomGen":
-            analyzer_data = cu_converter_customGen.convert_fields_to_analyzer(fields_path, analyzer_prefix, temp_target_dir, field_definitions)
-        elif DI_version == "CustomNeural":
-            analyzer_data, fields_dict = cu_converter_customNeural.convert_fields_to_analyzer_neural(fields_path, analyzer_prefix, temp_target_dir, field_definitions)
+        if DI_version == "generative":
+            analyzer_data = cu_converter_generative.convert_fields_to_analyzer(fields_path, analyzer_prefix, temp_target_dir, field_definitions)
+        elif DI_version == "neural":
+            analyzer_data, fields_dict = cu_converter_neural.convert_fields_to_analyzer_neural(fields_path, analyzer_prefix, temp_target_dir, field_definitions)
 
         ocr_files = [] # List to store paths to pdf files to get OCR results from later
         for file in files:
@@ -262,10 +262,10 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
                 continue
             # Converting DI labels to CU labels
             if (file.endswith(LABELS_JSON)):
-                if DI_version == "CustomGen":
-                    cu_converter_customGen.convert_di_labels_to_cu(file_path, temp_target_dir)
-                elif DI_version == "CustomNeural":
-                    cu_labels = cu_converter_customNeural.convert_di_labels_to_cu_neural(file_path, temp_target_dir, fields_dict, removed_signatures)
+                if DI_version == "generative":
+                    cu_converter_generative.convert_di_labels_to_cu(file_path, temp_target_dir)
+                elif DI_version == "neural":
+                    cu_labels = cu_converter_neural.convert_di_labels_to_cu_neural(file_path, temp_target_dir, fields_dict, removed_signatures)
                     # run field type conversion of label files here, because will be easier after getting it into CU format
                     field_type_conversion.update_fott_labels(cu_labels, temp_target_dir / file_path.name)
                     print(f"[green]Successfully converted Document Intelligence labels.json to Content Understanding labels.json at {temp_target_dir/file_path.name}[/green]\n")

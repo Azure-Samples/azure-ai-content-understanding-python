@@ -94,7 +94,7 @@ def update_unified_schema_labels(
                     ).get(sub_label_key, []):
                         _update_unified_schema_labels(_sub_label_key, _sub_label_object)
     with open(str(output_path), "w") as fp:
-        json.dump(labels, fp, ensure_ascii=False, indent=4)
+        json.dump(labels, fp, ensure_ascii=True, indent=4)
 
 def _update_unified_schema_labels(label_key: str, label_object: dict) -> None:
     """

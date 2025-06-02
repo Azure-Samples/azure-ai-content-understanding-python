@@ -1,5 +1,5 @@
 # Supported DI versions
-DI_VERSIONS = ["CustomGen", "CustomNeural"]
+DI_VERSIONS = ["generative", "neural"]
 CU_API_VERSION = "2025-05-01-preview"
 
 # constants

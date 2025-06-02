@@ -1,10 +1,10 @@
 # Document Intelligence to Content Understanding Migration Tool (Python)
 
 Welcome! We've created this tool to help convert your Document Intelligence (DI) datasets to Content Understanding (CU) **Preview.2** format, as seen in AI Foundry. The following DI versions are supported:
-- DI 3.1/4.0 GA CustomNeural (seen in Document Intelligence Studio)
-- DI 4.0 Preview CustomGen (seen in Document Field Extraction projects)
+- Custom Document DI 3.1 GA (2023-07-31) to DI 4.0 GA (2024-11-30) (seen in Document Intelligence Studio) --> DI-version = neural
+- Custom Document 4.0 Preview (2024-07-31-preview) (seen in Document Field Extraction projects) --> DI-version = generative
 
-To help you identify which version of Document Intelligence your dataset is in, please consult the sample documents provided under this folder to determine which format matches that of yours. Additionally, you can also identify the version through your DI project's UX as well. For instance, DI CustomNeural is a part of Document Intelligence Studio (i.e. https://documentintelligence.ai.azure.com/studio) and DI CustomGen is only a part of Azure AI Foundry (i.e. https://ai.azure.com/explore/aiservices/vision/document/extraction). 
+To help you identify which version of Document Intelligence your dataset is in, please consult the sample documents provided under this folder to determine which format matches that of yours. Additionally, you can also identify the version through your DI project's UX as well. For instance, DI 3.1/4.0 GA is a part of Document Intelligence Studio (i.e. https://documentintelligence.ai.azure.com/studio) and DI 4.0 Preview.2 is only a part of Azure AI Foundry (i.e. https://ai.azure.com/explore/aiservices/vision/document/extraction). 
 
 For migration from these DI versions to Content understanding Preview.2, this tool first needs to convert the DI dataset to a CU compatible format. Once converted, you have the option to create a Content Understanding Analyzer, which will be trained on the converted CU dataset. Additionally, you can further test this model to ensure its quality.
 
@@ -12,7 +12,7 @@ For migration from these DI versions to Content understanding Preview.2, this to
 To provide you with some further details, here is a more intricate breakdown of each of the 3 CLI tools and their capabilities:
 * **di_to_cu_converter.py**:
      * This CLI tool conducts your first step of migration. The tool refers to your labelled Document Intelligence dataset and converts it into a CU format compatible dataset. Through this tool, we map the following files accordingly: fields.json to analyzer.json, DI labels.json to CU labels.json, and ocr.json to result.json.
-     * Depending on the DI version you wish to migrate from, we use [cu_converter_customNeural.py](cu_converter_customNeural.py) and [cu_converter_customGen.py](cu_converter_customGen.py) accordingly to convert your fields.json and labels.json files.
+     * Depending on the DI version you wish to migrate from, we use [cu_converter_neural.py](cu_converter_neural.py) and [cu_converter_generative.py](cu_converter_generative.py) accordingly to convert your fields.json and labels.json files.
      * For OCR conversion, the tool creates a sample CU analyzer to gather raw OCR results via an Analyze request for each original file in the DI dataset. Additionally, since the sample analyzer contains no fields, we get the results.json files without any fields as well. For more details, please refer to [get_ocr.py](get_ocr.py).
 * **create_analyzer.py**:
      * Once the dataset is converted to CU format, this CLI tool creates a CU analyzer while referring to the converted dataset. 
@@ -79,17 +79,17 @@ _**NOTE:** Use "" when entering in a URL._
 
 ### 1. Converting Document Intelligence to Content Understanding Dataset 
 
-If you are migrating a _DI 3.1/4.0 GA CustomNeural_ dataset, please run this command:
+If you are migrating a _DI 3.1/4.0 GA Custom Document_ dataset, please run this command:
 
-    python ./di_to_cu_converter.py --DI-version CustomNeural --analyzer-prefix mySampleAnalyzer 
+    python ./di_to_cu_converter.py --DI-version neural --analyzer-prefix mySampleAnalyzer 
     --source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName 
     --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
 
 For Custom Neural migration, specifying an analyzer prefix is crucial for creating a CU analyzer. Since there's no "doc_type" defined for any identification in the fields.json, the created analyzer will have an analyzer ID of the specified analyzer prefix.
 
-If you are migrating a _DI 4.0 Preview CustomGen_ dataset, please run this command: 
+If you are migrating a _DI 4.0 Preview Custom Document_ dataset, please run this command: 
 
-    python ./di_to_cu_converter.py --DI-version CustomGen --analyzer-prefix mySampleAnalyzer 
+    python ./di_to_cu_converter.py --DI-version generative --analyzer-prefix mySampleAnalyzer 
     --source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName 
     --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
 
