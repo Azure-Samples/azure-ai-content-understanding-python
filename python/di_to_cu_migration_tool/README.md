@@ -151,4 +151,5 @@ A **409** error implies that the analyzer ID has already been used to create an 
 1. Make sure to use Python version 3.9 or above.
 2. Signature field types (such as in the previous versions of DI) are not supported in Content Understanding yet. Thus, during migration, these signature fields will be ignored when creating the analyzer.
 3. The content of training documents will be retained in Content Understanding model metadata, under storage specifically.
-5. All the data conversion will be for Content Understanding preview.2 version only. 
+5. All the data conversion will be for Content Understanding preview.2 version only.
+6. Additional Transparency Note: https://learn.microsoft.com/en-us/legal/cognitive-services/content-understanding/transparency-note?toc=%2Fazure%2Fai-services%2Fcontent-understanding%2Ftoc.json&bc=%2Fazure%2Fai-services%2Fcontent-understanding%2Fbreadcrumb%2Ftoc.json
