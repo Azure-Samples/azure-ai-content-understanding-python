@@ -1,0 +1,710 @@
+{
+    "$schema": "https://schema.ai.azure.com/documentintelligence/2024-11-30/labels.json",
+    "fieldLabels": {
+      "TableVehicleCoverages": {
+        "type": "object",
+        "kind": "confirmed",
+        "valueObject": {
+          "SingleLimitLiabCsl": {
+            "type": "object",
+            "kind": "confirmed",
+            "valueObject": {
+              "TypeOfChange1": {
+                "type": "string",
+                "content": "A",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      1.5758,
+                      5.533399999999999,
+                      1.6284,
+                      5.5382,
+                      1.6236,
+                      5.633699999999999,
+                      1.5711,
+                      5.628900000000001
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "Veh1": {
+                "type": "string",
+                "content": "$ 2353 EA ACCIDENT",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      1.903,
+                      5.5705,
+                      1.9424,
+                      5.5705,
+                      1.9424,
+                      5.6452,
+                      1.903,
+                      5.6452
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      2.0343,
+                      5.533399999999999,
+                      2.2778,
+                      5.533399999999999,
+                      2.2778,
+                      5.6385000000000005,
+                      2.0343,
+                      5.6385000000000005
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      2.7458,
+                      5.5668,
+                      2.8413,
+                      5.5668,
+                      2.8365,
+                      5.648,
+                      2.7458,
+                      5.648
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      2.8604,
+                      5.5668,
+                      3.2949,
+                      5.5668,
+                      3.2949,
+                      5.6528,
+                      2.8604,
+                      5.648
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "TypeOfChange2": {
+                "type": "string",
+                "content": "A",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      4.9376,
+                      5.543000000000001,
+                      4.9997,
+                      5.543000000000001,
+                      4.9997,
+                      5.6432,
+                      4.9376,
+                      5.6385000000000005
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "Veh2": {
+                "type": "string",
+                "content": "37653 $ EA ACCIDENT",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      5.4963,
+                      5.547699999999999,
+                      5.802,
+                      5.547699999999999,
+                      5.802,
+                      5.648,
+                      5.4963,
+                      5.648
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      5.303,
+                      5.5705,
+                      5.3424,
+                      5.5705,
+                      5.3424,
+                      5.6452,
+                      5.303,
+                      5.6452
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      6.156599999999999,
+                      5.5761,
+                      6.2612,
+                      5.5761,
+                      6.2612,
+                      5.6367,
+                      6.156599999999999,
+                      5.6367
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      6.2785,
+                      5.575099999999999,
+                      6.7027,
+                      5.575099999999999,
+                      6.7027,
+                      5.6376,
+                      6.2785,
+                      5.6376
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              }
+            }
+          },
+          "BodilyInjuryLiab": {
+            "type": "object",
+            "kind": "confirmed",
+            "valueObject": {
+              "TypeOfChange1": {
+                "type": "string",
+                "content": "A",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      1.5376,
+                      5.6956999999999995,
+                      1.5997,
+                      5.6956999999999995,
+                      1.5997,
+                      5.791200000000001,
+                      1.5376,
+                      5.791200000000001
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "Veh1": {
+                "type": "string",
+                "content": "$ 65462 EA PERSON $ 34564 EA ACCIDENT",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      1.903,
+                      5.7372,
+                      1.9424,
+                      5.7372,
+                      1.9424,
+                      5.8118,
+                      1.903,
+                      5.8118
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      2.039,
+                      5.705300000000001,
+                      2.3351,
+                      5.7005,
+                      2.3351,
+                      5.805600000000001,
+                      2.0438,
+                      5.805600000000001
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      2.7458,
+                      5.7339,
+                      2.8365,
+                      5.7339,
+                      2.8365,
+                      5.819899999999999,
+                      2.7458,
+                      5.819899999999999
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      2.8604,
+                      5.7339,
+                      3.209,
+                      5.7339,
+                      3.209,
+                      5.8151,
+                      2.8604,
+                      5.819899999999999
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      3.3952,
+                      5.7339,
+                      3.443,
+                      5.7339,
+                      3.443,
+                      5.8151,
+                      3.3952,
+                      5.8151
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      3.5958,
+                      5.7005,
+                      3.8966,
+                      5.7005,
+                      3.8966,
+                      5.795999999999999,
+                      3.6006,
+                      5.800800000000001
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      4.1927,
+                      5.7339,
+                      4.293,
+                      5.7339,
+                      4.2882,
+                      5.8151,
+                      4.1879,
+                      5.8151
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      4.3169,
+                      5.7339,
+                      4.7466,
+                      5.7339,
+                      4.7466,
+                      5.8151,
+                      4.3121,
+                      5.8151
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "TypeOfChange2": {
+                "type": "string",
+                "content": "A",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      4.9233,
+                      5.724399999999999,
+                      4.9854,
+                      5.7292000000000005,
+                      4.9758,
+                      5.8247,
+                      4.9233,
+                      5.819899999999999
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "Veh2": {
+                "type": "string",
+                "content": "$ 4354 PERSON EA PERSON $ EA ACCIDENT 76573",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      5.303,
+                      5.7372,
+                      5.3424,
+                      5.7372,
+                      5.3424,
+                      5.8118,
+                      5.303,
+                      5.8118
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      5.525,
+                      5.7148,
+                      5.7638,
+                      5.719599999999999,
+                      5.7638,
+                      5.8151,
+                      5.525,
+                      5.8103
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      6.2849,
+                      5.7417,
+                      6.6236,
+                      5.7417,
+                      6.6236,
+                      5.804200000000001,
+                      6.2849,
+                      5.804200000000001
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      6.156599999999999,
+                      5.7428,
+                      6.2612,
+                      5.7428,
+                      6.2612,
+                      5.8033,
+                      6.156599999999999,
+                      5.8033
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      6.285,
+                      5.7417,
+                      6.6236,
+                      5.7417,
+                      6.6236,
+                      5.804200000000001,
+                      6.285,
+                      5.804200000000001
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      6.803,
+                      5.7372,
+                      6.8424,
+                      5.7372,
+                      6.8424,
+                      5.8118,
+                      6.803,
+                      5.8118
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      7.6066,
+                      5.7428,
+                      7.7112,
+                      5.7428,
+                      7.7112,
+                      5.8033,
+                      7.6066,
+                      5.8033
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      7.7285,
+                      5.7418,
+                      8.1527,
+                      5.7418,
+                      8.1527,
+                      5.804200000000001,
+                      7.7285,
+                      5.804200000000001
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      6.9719,
+                      5.7101,
+                      7.268,
+                      5.7101,
+                      7.2632,
+                      5.8103,
+                      6.9719,
+                      5.805600000000001
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              }
+            }
+          }
+        }
+      },
+      "TableVehicleDescription": {
+        "type": "array",
+        "kind": "confirmed",
+        "valueArray": [
+          {
+            "type": "object",
+            "kind": "confirmed",
+            "valueObject": {
+              "TypeOfChangeveh": {
+                "type": "string",
+                "content": "A",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      0.3677,
+                      3.3563,
+                      0.425,
+                      3.3516,
+                      0.4346,
+                      3.4566,
+                      0.3725,
+                      3.4614
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "VEH": {
+                "type": "string",
+                "content": "",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      0.6728346422698875,
+                      3.3493465874265524,
+                      0.7850006057016736,
+                      3.3493465874265524,
+                      0.7850006057016736,
+                      3.4383057998034876,
+                      0.6728346422698875,
+                      3.4383057998034876
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "YEAR": {
+                "type": "string",
+                "content": "2013",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      0.8166,
+                      3.3516,
+                      1.0601,
+                      3.3516,
+                      1.0601,
+                      3.4518000000000004,
+                      0.8166,
+                      3.4518000000000004
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "MakeModelAndBodyType": {
+                "type": "string",
+                "content": "CRV, Honda, 13",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      1.8385,
+                      3.3325000000000005,
+                      2.1298,
+                      3.3325000000000005,
+                      2.1346,
+                      3.4469999999999996,
+                      1.8385,
+                      3.4469999999999996
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      1.4708,
+                      3.3372,
+                      1.8194,
+                      3.3325000000000005,
+                      1.8194,
+                      3.4469999999999996,
+                      1.4708,
+                      3.4423
+                    ]
+                  },
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      2.1537,
+                      3.3325000000000005,
+                      2.2778,
+                      3.3325000000000005,
+                      2.2778,
+                      3.4469999999999996,
+                      2.1537,
+                      3.4469999999999996
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "RegisteredState": {
+                "type": "string",
+                "content": "35252362623356",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      4.6034,
+                      3.3611,
+                      5.4629,
+                      3.3611,
+                      5.4629,
+                      3.4661,
+                      4.6081,
+                      3.4661
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "HP": {
+                "type": "string",
+                "content": "450",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      6.6854,
+                      3.3372,
+                      6.8573,
+                      3.342,
+                      6.8525,
+                      3.4423,
+                      6.6854,
+                      3.4375
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "DateLeased": {
+                "type": "string",
+                "content": "12/03/2013",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      7.0149,
+                      3.3372,
+                      7.4208,
+                      3.3372,
+                      7.4208,
+                      3.4184,
+                      7.0149,
+                      3.4184
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "DatePurch": {
+                "type": "string",
+                "content": "12/06/2013",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      7.5306,
+                      3.3659,
+                      7.9317,
+                      3.3659,
+                      7.9317,
+                      3.4423,
+                      7.5306,
+                      3.4375
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              },
+              "NEW": {
+                "type": "string",
+                "content": "New",
+                "boundingRegions": [
+                  {
+                    "pageNumber": 1,
+                    "polygon": [
+                      8.0225,
+                      3.3563,
+                      8.1753,
+                      3.3563,
+                      8.1753,
+                      3.4327,
+                      8.0225,
+                      3.4327
+                    ]
+                  }
+                ],
+                "spans": [],
+                "metadata": {},
+                "kind": "confirmed"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "metadata": {}
+  }
+  
