@@ -250,7 +250,7 @@ class AzureContentUnderstandingClient:
             )
         operation_location = operation_location.split("?api-version")[0]
         image_retrieval_url = (
-            f"{operation_location}/images/{image_id}?api-version={self._api_version}"
+            f"{operation_location}/files/{image_id}?api-version={self._api_version}"
         )
         try:
             response = requests.get(url=image_retrieval_url, headers=self._headers)

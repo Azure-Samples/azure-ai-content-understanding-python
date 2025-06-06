@@ -2,17 +2,20 @@
 
 Welcome! Content Understanding is a solution that analyzes and comprehends various media content, such as **documents, images, audio, and video**, transforming it into structured, organized, and searchable data.
 
-- The samples in this repository default to the latest preview API version: **(2025-05-01-preview)**.
-- This repo will provide more samples for new functionalities in Preview.2 **(2025-05-01-preview)** soon.
+- The samples in this repository default to the latest preview API version: **2025-05-01-preview**.
+- This repo will provide more samples for new functionalities in Preview.2 **2025-05-01-preview** soon.
 - As of 2025/05, 2025-05-01-preview is only available in the regions documented in [Content Understanding region and language support](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview).
+- // describe 2024-12-01-preview sample
 
 ## Getting started
-Add a sentence that the sample can be run from GitHub Codespaces, or run from your local environment. Recommend the user to start from Codespace for a frustration-free experience.
+The sample can be run from GitHub Codespaces, or run from your local environment. We will recommend you to start from Codespace for a frustration-free experience.
 
 ### GitHub Codespaces
 You can run this repo virtually by using GitHub Codespaces, which will open a web-based VS Code in your browser.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?skip_quickstart=true&machine=basicLinux32gb&repo=899687170&ref=main&geo=UsEast&devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
+Once you click the link above, please follow the steps below to set up the Codespace.
 
 1. Create a new CodeSpace <br />
 ![Create CodeSpace](/docs/create-codespace/1-Create%20Codespace.png)
