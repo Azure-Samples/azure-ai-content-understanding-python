@@ -19,7 +19,7 @@ Once you click the link above, please follow the steps below to set up the Codes
 
 1. Create a new Codespace by selecting the main branch, your preferred region for the Codespace, and the 2-core machine type, as shown in the screenshot below. \
 ![Create CodeSpace](/docs/create-codespace/1-Create%20Codespace.png)
-2. Once the Codespace is ready, open the terminal and follow the instructions in the "Configure Azure AI service resource" section to set up a valid Content Understanding resource. \
+2. Once the Codespace is ready, open the terminal and follow the instructions in the "Configure Azure AI service resource" section to set up a valid Content Understanding resource.
 
 
 ### Local environment
