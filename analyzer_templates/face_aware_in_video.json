@@ -1,5 +1,6 @@
 {
     "description": "Generate face-aware content understanding from video.",
+    "baseAnalyzerId": "prebuilt-videoAnalyzer",
     "config": {
         "enableFace": true,
         "returnDetails": true,
