@@ -5,10 +5,10 @@ Welcome! Content Understanding is a solution that analyzes and comprehends vario
 - The samples in this repository default to the latest preview API version: **2025-05-01-preview**.
 - This repo will provide more samples for new functionalities in Preview.2 **2025-05-01-preview** soon.
 - As of 2025/05, 2025-05-01-preview is only available in the regions documented in [Content Understanding region and language support](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview).
-- // describe 2024-12-01-preview sample
+- To access the sample code for version 2024-12-01-preview, please check out the corresponding Git tag 2024-12-01-preview, or download it directly from the [release page](https://github.com/Azure-Samples/azure-ai-content-understanding-python/releases/tag/2024-12-01-preview).
 
 ## Getting started
-The sample can be run from GitHub Codespaces, or run from your local environment. We will recommend you to start from Codespace for a frustration-free experience.
+You can run the sample in GitHub Codespaces or in your local environment. For a smoother, hassle-free experience, we recommend starting with Codespaces.
 
 ### GitHub Codespaces
 You can run this repo virtually by using GitHub Codespaces, which will open a web-based VS Code in your browser.
@@ -17,14 +17,10 @@ You can run this repo virtually by using GitHub Codespaces, which will open a we
 
 Once you click the link above, please follow the steps below to set up the Codespace.
 
-1. Create a new CodeSpace <br />
+1. Create a new Codespace by selecting the main branch, your preferred region for the Codespace, and the 2-core machine type, as shown in the screenshot below. \
 ![Create CodeSpace](/docs/create-codespace/1-Create%20Codespace.png)
-2. Select Kernel <br />
-![Select Kernel](/docs/create-codespace/2-Select%20Kernel.png)
-3. Select Python Environment <br />
-![Select Python Environment](/docs/create-codespace/3-Select%20Python%20Environment.png)
-4. Test <br />
-![Test](/docs/create-codespace/4-Test.png)
+2. Once the Codespace is ready, open the terminal and follow the instructions in the "Configure Azure AI service resource" section to set up a valid Content Understanding resource. \
+
 
 ### Local environment
 1. Make sure the following tools are installed:
@@ -100,6 +96,17 @@ Once you click the link above, please follow the steps below to set up the Codes
 ## Open a Jupyter notebook and follow the step-by-step guidance
 
 Navigate to the `notebooks` directory and select the sample notebook you are interested in. Since Codespaces is pre-configured with the necessary environment, you can directly execute each step in the notebook.
+
+1. Copy notebooks/.env.sample to notebooks/.env
+1. Fill AZURE_AI_ENDPOINT with the endpoint from your Azure portal Azure AI Services instance.
+1. Select notebooks/analyzer_training.ipynb.
+![Select *.ipynb](/docs/create-codespace/2-Select%20*.ipynb.png)
+1. Select Kernel
+![Select Kernel](/docs/create-codespace/3-Select%20Kernel.png)
+1. Select Python Environment \
+![Select Python Environment](/docs/create-codespace/4-Select%20Python%20Environment.png)
+1. Run \
+![Run](/docs/create-codespace/5-Run.png)
 
 ## More Samples using Azure Content Understanding
 [Azure Search with Content Understanding](https://github.com/Azure-Samples/azure-ai-search-with-content-understanding-python)
