@@ -44,6 +44,29 @@ Once you click the link above, please follow the steps below to set up the Codes
       git lfs install
       git lfs pull
       ```
+3. Set Dev container Environment
+  - Install tools that support dev containers
+    - **Visual Studio Code**  
+        Download and install [Visual Studio Code](https://code.visualstudio.com/).
+
+    - **Dev Containers Extension**  
+      In the VS Code extension marketplace, install the extension named "Dev Containers".\
+      (The extension was previously called "Remote - Containers", but has since been renamed and integrated into Dev Containers.)
+
+    - **Docker**  
+      Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) (available for Windows, macOS, and Linux).\
+      Docker is used to manage and run the container environment.  
+      - Start Docker and ensure it is running in the background.
+
+  - Open the project and start the Dev Container
+    - Open the project folder with VS Code.
+    - Press `F1` or `Ctrl+Shift+P`, type and select:
+      ```
+      Dev Containers: Reopen in Container
+      ```
+      Or click the green icon in the lower left corner of VS Code and select "Reopen in Container".
+    - VS Code will automatically detect the `.devcontainer` folder, build the development container, and install the necessary dependencies.
+    - ![How to set dev container environment](./docs/dev-container-setup.gif "dev container setup")
 
 ## Configure Azure AI service resource
 ### (Option 1) Use `azd` commands to auto create temporal resources to run sample
@@ -68,30 +91,6 @@ Once you click the link above, please follow the steps below to set up the Codes
    ```shell
    azd auth login
    ```
-### (Option3) Set Dev container Environment
-#### 1. Install tools that support dev containers
-- **Visual Studio Code**  
-  Download and install [Visual Studio Code](https://code.visualstudio.com/).
-
-- **Dev Containers Extension**  
-  In the VS Code extension marketplace, install the extension named "Dev Containers".  
-  (The extension was previously called "Remote - Containers", but has since been renamed and integrated into Dev Containers.)
-
-- **Docker**  
-  Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) (available for Windows, macOS, and Linux).  
-  Docker is used to manage and run the container environment.  
-  - Start Docker and ensure it is running in the background.
-
-#### 2. Open the project and start the Dev Container
-
-- Open the project folder with VS Code.
-- Press `F1` or `Ctrl+Shift+P`, type and select:
-   ```
-   Dev Containers: Reopen in Container
-   ```
-   Or click the green icon in the lower left corner of VS Code and select "Reopen in Container".
-- VS Code will automatically detect the `.devcontainer` folder, build the development container, and install the necessary dependencies.
-- ![How to set dev container environment](./docs/dev-container-setup.gif "dev container setup")
 
 ## Open a Jupyter notebook and follow the step-by-step guidance
 
