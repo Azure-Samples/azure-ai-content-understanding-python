@@ -99,7 +99,7 @@ Navigate to the `notebooks` directory and select the sample notebook you are int
 1. Copy notebooks/.env.sample to notebooks/.env
 1. Fill AZURE_AI_ENDPOINT with the endpoint from your Azure portal Azure AI Services instance.
 1. Select notebooks/analyzer_training.ipynb.
-![Select *.ipynb](/docs/create-codespace/2-Select%20*.ipynb.png)
+![Select *.ipynb](/docs/create-codespace/2-Select%20file.ipynb.png)
 1. Select Kernel
 ![Select Kernel](/docs/create-codespace/3-Select%20Kernel.png)
 1. Select Python Environment \
