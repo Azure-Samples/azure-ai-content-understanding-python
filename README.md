@@ -4,7 +4,7 @@ Welcome! Content Understanding is a solution that analyzes and comprehends vario
 
 - The samples in this repository default to the latest preview API version: **2025-05-01-preview**.
 - This repo will provide more samples for new functionalities in Preview.2 **2025-05-01-preview** soon.
-- As of 2025/05, 2025-05-01-preview is only available in the regions documented in [Content Understanding region and language support](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview).
+- As of 2025/05, 2025-05-01-preview is only available in the regions documented in [Content Understanding region and language support](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/language-region-support).
 - To access the sample code for version 2024-12-01-preview, please check out the corresponding Git tag 2024-12-01-preview, or download it directly from the [release page](https://github.com/Azure-Samples/azure-ai-content-understanding-python/releases/tag/2024-12-01-preview).
 
 ## Getting started
@@ -75,6 +75,11 @@ Once you click the link above, please follow the steps below to set up the Codes
     ```shell
     azd auth login
     ```
+    If the above does not work,  you can also try and follow the instructions
+    ```
+    azd auth login --use-device-code
+    ```
+
 1. Setting up environment, following prompts to choose location
     ```shell
     azd up
@@ -94,7 +99,7 @@ Once you click the link above, please follow the steps below to set up the Codes
 
 ## Open a Jupyter notebook and follow the step-by-step guidance
 
-Navigate to the `notebooks` directory and select the sample notebook you are interested in. Since Codespaces is pre-configured with the necessary environment, you can directly execute each step in the notebook.
+Navigate to the `notebooks` directory and select the sample notebook you are interested in. Since the Dev Container (in Codespaces or in your local enviornment) is pre-configured with the necessary environment, you can directly execute each step in the notebook.
 
 1. Select one of the notebooks of interest in the notebooks/ directory. We recommend you to start with "content_extraction.ipynb" to understand the basic concepts.
 ![Select *.ipynb](/docs/create-codespace/2-Select%20file.ipynb.png)
@@ -104,11 +109,6 @@ Navigate to the `notebooks` directory and select the sample notebook you are int
 ![Select Python Environment](/docs/create-codespace/4-Select%20Python%20Environment.png)
 1. Run \
 ![Run](/docs/create-codespace/5-Run.png)
-
-## More Samples using Azure Content Understanding
-[Azure Search with Content Understanding](https://github.com/Azure-Samples/azure-ai-search-with-content-understanding-python)
-
-[Azure Content Understanding with OpenAI](https://github.com/Azure-Samples/azure-ai-content-understanding-with-azure-openai-python)
 
 ## Features
 
@@ -124,6 +124,11 @@ Azure AI Content Understanding is a new Generative AI-based [Azure AI service](h
 | [analyzer_training.ipynb](notebooks/analyzer_training.ipynb) | If you want to futher boost the performance for field extraction, we can do training when you provide few labeled samples to the API. Note: This feature is available to document scenario now. |
 | [management.ipynb](notebooks/management.ipynb) | This sample will demo how to create a minimal analyzer, list all the analyzers in your resource, and delete the analyzer you don't need. |
 | [build_person_directory.ipynb](notebooks/build_person_directory.ipynb) | This sample will demo how to enroll people’s faces from images and build a Person Directory. | |
+
+## More Samples using Azure Content Understanding
+[Azure Search with Content Understanding](https://github.com/Azure-Samples/azure-ai-search-with-content-understanding-python)
+
+[Azure Content Understanding with OpenAI](https://github.com/Azure-Samples/azure-ai-content-understanding-with-azure-openai-python)
 
 ## Notes
 
