@@ -75,7 +75,7 @@ Once you click the link above, please follow the steps below to set up the Codes
     ```shell
     azd auth login
     ```
-    If the above does not work,  you can also try and follow the instructions
+    If the previous command doesn’t work, try the following one and follow the on-screen instructions.
     ```
     azd auth login --use-device-code
     ```
