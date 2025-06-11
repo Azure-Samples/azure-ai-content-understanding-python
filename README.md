@@ -96,9 +96,7 @@ Once you click the link above, please follow the steps below to set up the Codes
 
 Navigate to the `notebooks` directory and select the sample notebook you are interested in. Since Codespaces is pre-configured with the necessary environment, you can directly execute each step in the notebook.
 
-1. Copy notebooks/.env.sample to notebooks/.env
-1. Fill AZURE_AI_ENDPOINT with the endpoint from your Azure portal Azure AI Services instance.
-1. Select notebooks/analyzer_training.ipynb.
+1. Select one of the notebooks of interest in the notebooks/ directory. We recommend you to start with "content_extraction.ipynb" to understand the basic concepts.
 ![Select *.ipynb](/docs/create-codespace/2-Select%20file.ipynb.png)
 1. Select Kernel
 ![Select Kernel](/docs/create-codespace/3-Select%20Kernel.png)
