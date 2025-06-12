@@ -1,6 +1,6 @@
 {
   "description": "Sample call recording analytics",
-  "baseAnalyzerId": "prebuilt-documentAnalyzer",
+  "baseAnalyzerId": "prebuilt-audioAnalyzer",
   "config": {
     "returnDetails": true
   },
