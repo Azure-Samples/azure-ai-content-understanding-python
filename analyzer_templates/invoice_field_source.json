@@ -1,0 +1,36 @@
+{
+  "description": "Sample invoice analyzer",
+  "baseAnalyzerId": "prebuilt-documentAnalyzer",
+  "config": {
+    "returnDetails": true,
+    "estimateFieldSourceAndConfidence": true
+  },
+  "fieldSchema": {
+    "fields": {
+      "VendorName": {
+        "type": "string",
+        "method": "extract",
+        "description": "Vendor issuing the invoice"
+      },
+      "Items": {
+        "type": "array",
+        "method": "extract",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Description": {
+              "type": "string",
+              "method": "extract",
+              "description": "Description of the item"
+            },
+            "Amount": {
+              "type": "number",
+              "method": "extract",
+              "description": "Amount of the item"
+            }
+          }
+        }
+      }
+    }
+  }
+}
