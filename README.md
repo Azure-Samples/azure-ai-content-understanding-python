@@ -126,9 +126,17 @@ Azure AI Content Understanding is a new Generative AI-based [Azure AI service](h
 | [build_person_directory.ipynb](notebooks/build_person_directory.ipynb) | This sample will demo how to enroll people’s faces from images and build a Person Directory. | |
 
 ## More Samples using Azure Content Understanding
-[Azure Search with Content Understanding](https://github.com/Azure-Samples/azure-ai-search-with-content-understanding-python)
+- [Azure Content Understanding Documentation](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview)
 
-[Azure Content Understanding with OpenAI](https://github.com/Azure-Samples/azure-ai-content-understanding-with-azure-openai-python)
+- [Azure Content Understanding Samples (Python)](https://github.com/Azure-Samples/azure-ai-content-understanding-python)
+
+- [Azure Search with Content Understanding (Python)](https://github.com/Azure-Samples/azure-ai-search-with-content-understanding-python)
+
+- [Azure Content Understanding with OpenAI (Python)](https://github.com/Azure-Samples/azure-ai-content-understanding-with-azure-openai-python)
+
+## Additional Resources
+
+- [Region and Language Support](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/language-region-support)
 
 ## Notes
 
