@@ -1,0 +1,3780 @@
+{
+    "id": "4de06543-4405-4b85-8bce-4e1463ac6764",
+    "status": "Succeeded",
+    "result": {
+        "analyzerId": "prebuilt-documentAnalyzer",
+        "apiVersion": "2025-05-01-preview",
+        "createdAt": "2025-07-18T21:18:06Z",
+        "warnings": [],
+        "contents": [
+            {
+                "markdown": "CONTOSO LTD\nP.O. BOX 31260\nTAMPA, FL 33631\n\nBob Carter\nDUTCH DRAFT DRIVE\nRENO, NV 89521\n\nCONTOSO LTD.\n\nPolicy Number: CP-BOB-2021-00\nUnderwritten by: Contoso Ltd.\n\nApril 29, 2021\nPolicy Period: Mar 1, 2021 - Sep 1, 2021\n\nPage 1 of2\n\nOnline Service\nMake payments, check billing activity,\nupdate policy information or check status\nof a claim.\n\n1-800-776-4737\n\nFor customer service and claims\nservice, 24 hours a day, 7 days a week.\nP.O. Box 31260\nTampa, FL 33631\n\nAuto Insurance\nCoverage Summary\nThis is a copy of your\nDeclarations Page\n\nYour coverage began on March 1, 2021 at 12:01 a.m. This policy expires on September 1, 2021 at 12:01 a.m.\n\nThis coverage summary replaces your prior one. Your insurance policy and any policy endorsements contain a full\nexplanation of your coverage. The policy limits shown for a vehicle may not be combined with the limits for the same\ncoverage on another vehicle. The policy contract is form 9611D NV (01/16) . The contract is modified by forms Z357\n(01/07), A264 (10/18) and A340 (01/22).\n\nDrivers and household residents\n\nBob Carter\n\nAdditional information: Named insured\n\nOutline of coverage\n\n2019 Toyota Camry\nVIN: 4T1BF1FK9HU456789\n\nGaraging ZIP: 45502\n\nPrimary Use: Pleasure\n\n\n<table>\n<tr>\n<th>General policy coverage</th>\n<th>Limits</th>\n<th>Deducible</th>\n<th>Premium</th>\n</tr>\n<tr>\n<td>Liability To Others</td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>Bodily Injury Liability</td>\n<td>$50,000 each person/$100,000 each accident</td>\n<td></td>\n<td>$45.00</td>\n</tr>\n<tr>\n<td>Property Damage Liability</td>\n<td>$25,000 each accident</td>\n<td></td>\n<td>30.00</td>\n</tr>\n<tr>\n<td>Uninsured Motorist</td>\n<td>$25,000 each person/$50,000 each accident</td>\n<td></td>\n<td>15.00</td>\n</tr>\n<tr>\n<td>Underinsured Motorist</td>\n<td>$25,000 each person/$50,000 each accident</td>\n<td></td>\n<td>20.00</td>\n</tr>\n<tr>\n<td>Total 6 month policy premium and fees</td>\n<td></td>\n<td></td>\n<td>$110.00</td>\n</tr>\n</table>\n\n\n<!-- PageBreak -->\n\nPremium discounts\n\u00b7 Multi-Policy Discount (10%)\n\u00b7 Three-Year Safe Driving Discount\n\nAgent countersignature\n\nCompany officers\n\nSecretary\n\nForm 6489 NV (05/21)\n",
+                "fields": {
+                    "Summary": {
+                        "type": "string",
+                        "valueString": "The document is an auto insurance coverage summary from Contoso Ltd. for Bob Carter, covering the period from March 1, 2021, to September 1, 2021. It includes details of the policy, such as the policy number, coverage limits, and premiums for various types of coverage, including bodily injury liability, property damage liability, uninsured motorist, and underinsured motorist. The document also mentions premium discounts and provides contact information for customer service."
+                    }
+                },
+                "kind": "document",
+                "startPageNumber": 1,
+                "endPageNumber": 2,
+                "unit": "inch",
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "angle": 0.0257864,
+                        "width": 8.5,
+                        "height": 11,
+                        "spans": [
+                            {
+                                "offset": 0,
+                                "length": 1977
+                            }
+                        ],
+                        "words": [
+                            {
+                                "content": "CONTOSO",
+                                "span": {
+                                    "offset": 0,
+                                    "length": 7
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,0.6444,0.8342,1.1347,0.8337,1.1338,0.9487,0.6442,0.9484)"
+                            },
+                            {
+                                "content": "LTD",
+                                "span": {
+                                    "offset": 8,
+                                    "length": 3
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,1.1704,0.8338,1.3558,0.8332,1.3558,0.9484,1.1695,0.9487)"
+                            },
+                            {
+                                "content": "P.O.",
+                                "span": {
+                                    "offset": 12,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,0.6487,0.9945,0.8302,0.9946,0.8297,1.1086,0.6486,1.1084)"
+                            },
+                            {
+                                "content": "BOX",
+                                "span": {
+                                    "offset": 17,
+                                    "length": 3
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,0.8677,0.9946,1.0623,0.9946,1.0616,1.1084,0.8671,1.1086)"
+                            },
+                            {
+                                "content": "31260",
+                                "span": {
+                                    "offset": 21,
+                                    "length": 5
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,1.0922,0.9946,1.3972,0.9938,1.3965,1.1094,1.0915,1.1084)"
+                            },
+                            {
+                                "content": "TAMPA,",
+                                "span": {
+                                    "offset": 27,
+                                    "length": 6
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,0.6464,1.1559,1.0195,1.1568,1.0189,1.2728,0.6462,1.2733)"
+                            },
+                            {
+                                "content": "FL",
+                                "span": {
+                                    "offset": 34,
+                                    "length": 2
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,1.0559,1.1568,1.1573,1.1569,1.1566,1.2729,1.0553,1.2728)"
+                            },
+                            {
+                                "content": "33631",
+                                "span": {
+                                    "offset": 37,
+                                    "length": 5
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,1.1821,1.1568,1.4831,1.1547,1.4831,1.2726,1.1815,1.2731)"
+                            },
+                            {
+                                "content": "Bob",
+                                "span": {
+                                    "offset": 44,
+                                    "length": 3
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,0.6504,2.147,0.8395,2.148,0.8387,2.2618,0.6499,2.2613)"
+                            },
+                            {
+                                "content": "Carter",
+                                "span": {
+                                    "offset": 48,
+                                    "length": 6
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,0.8713,2.1478,1.1787,2.1476,1.1787,2.2632,0.8705,2.2619)"
+                            },
+                            {
+                                "content": "DUTCH",
+                                "span": {
+                                    "offset": 55,
+                                    "length": 5
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,0.6496,2.3035,0.9896,2.3034,0.9886,2.4238,0.6494,2.424)"
+                            },
+                            {
+                                "content": "DRAFT",
+                                "span": {
+                                    "offset": 61,
+                                    "length": 5
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,1.0291,2.3033,1.3394,2.3029,1.3381,2.4237,1.0281,2.4241)"
+                            },
+                            {
+                                "content": "DRIVE",
+                                "span": {
+                                    "offset": 67,
+                                    "length": 5
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,1.3711,2.3029,1.6695,2.3019,1.6685,2.4224,1.3698,2.4235)"
+                            },
+                            {
+                                "content": "RENO,",
+                                "span": {
+                                    "offset": 73,
+                                    "length": 5
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,0.6487,2.4642,0.9443,2.466,0.9431,2.5876,0.6483,2.5877)"
+                            },
+                            {
+                                "content": "NV",
+                                "span": {
+                                    "offset": 79,
+                                    "length": 2
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,0.9683,2.466,1.1281,2.4658,1.127,2.5867,0.9672,2.5877)"
+                            },
+                            {
+                                "content": "89521",
+                                "span": {
+                                    "offset": 82,
+                                    "length": 5
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,1.158,2.4654,1.4609,2.4651,1.4609,2.5871,1.157,2.587)"
+                            },
+                            {
+                                "content": "CONTOSO",
+                                "span": {
+                                    "offset": 89,
+                                    "length": 7
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,5.6194,0.5412,6.8795,0.5402,6.8786,0.779,5.6185,0.7778)"
+                            },
+                            {
+                                "content": "LTD.",
+                                "span": {
+                                    "offset": 97,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,6.969,0.5405,7.515,0.5385,7.515,0.7806,6.9678,0.7789)"
+                            },
+                            {
+                                "content": "Policy",
+                                "span": {
+                                    "offset": 103,
+                                    "length": 6
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,5.6351,1.0931,5.9501,1.093,5.9496,1.229,5.6345,1.229)"
+                            },
+                            {
+                                "content": "Number:",
+                                "span": {
+                                    "offset": 110,
+                                    "length": 7
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,5.9771,1.093,6.4743,1.0914,6.474,1.2285,5.9766,1.229)"
+                            },
+                            {
+                                "content": "CP-BOB-2021-00",
+                                "span": {
+                                    "offset": 118,
+                                    "length": 14
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,6.5125,1.0911,7.4154,1.0893,7.4154,1.2266,6.5123,1.2284)"
+                            },
+                            {
+                                "content": "Underwritten",
+                                "span": {
+                                    "offset": 133,
+                                    "length": 12
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,5.8552,1.2672,6.5021,1.2675,6.502,1.3951,5.855,1.3939)"
+                            },
+                            {
+                                "content": "by:",
+                                "span": {
+                                    "offset": 146,
+                                    "length": 3
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,6.5376,1.2675,6.6753,1.2678,6.6751,1.3951,6.5375,1.3951)"
+                            },
+                            {
+                                "content": "Contoso",
+                                "span": {
+                                    "offset": 150,
+                                    "length": 7
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,6.7107,1.2678,7.0905,1.2669,7.0903,1.3951,6.7106,1.3951)"
+                            },
+                            {
+                                "content": "Ltd.",
+                                "span": {
+                                    "offset": 158,
+                                    "length": 4
+                                },
+                                "confidence": 0.989,
+                                "source": "D(1,7.1156,1.2668,7.3102,1.2662,7.3102,1.3941,7.1153,1.3951)"
+                            },
+                            {
+                                "content": "April",
+                                "span": {
+                                    "offset": 164,
+                                    "length": 5
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,5.8522,1.5837,6.0815,1.5844,6.081,1.7135,5.8522,1.7156)"
+                            },
+                            {
+                                "content": "29,",
+                                "span": {
+                                    "offset": 170,
+                                    "length": 3
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,6.1176,1.5842,6.2577,1.5828,6.2574,1.7126,6.1172,1.7135)"
+                            },
+                            {
+                                "content": "2021",
+                                "span": {
+                                    "offset": 174,
+                                    "length": 4
+                                },
+                                "confidence": 0.987,
+                                "source": "D(1,6.2938,1.5822,6.5355,1.5814,6.5355,1.7118,6.2935,1.7123)"
+                            },
+                            {
+                                "content": "Policy",
+                                "span": {
+                                    "offset": 179,
+                                    "length": 6
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,5.8647,1.7366,6.151,1.7393,6.1511,1.8696,5.8644,1.8695)"
+                            },
+                            {
+                                "content": "Period:",
+                                "span": {
+                                    "offset": 186,
+                                    "length": 7
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,6.1903,1.7391,6.5181,1.7376,6.518,1.8706,6.1903,1.8695)"
+                            },
+                            {
+                                "content": "Mar",
+                                "span": {
+                                    "offset": 194,
+                                    "length": 3
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,6.5662,1.7377,6.7585,1.7374,6.7584,1.8704,6.5662,1.8707)"
+                            },
+                            {
+                                "content": "1,",
+                                "span": {
+                                    "offset": 198,
+                                    "length": 2
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,6.7979,1.737,6.8787,1.7366,6.8784,1.8705,6.7977,1.8705)"
+                            },
+                            {
+                                "content": "2021",
+                                "span": {
+                                    "offset": 201,
+                                    "length": 4
+                                },
+                                "confidence": 0.988,
+                                "source": "D(1,6.9203,1.7369,7.1497,1.736,7.1492,1.8709,6.9199,1.8703)"
+                            },
+                            {
+                                "content": "-",
+                                "span": {
+                                    "offset": 206,
+                                    "length": 1
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,7.1869,1.736,7.2219,1.7359,7.2212,1.8702,7.1863,1.8705)"
+                            },
+                            {
+                                "content": "Sep",
+                                "span": {
+                                    "offset": 208,
+                                    "length": 3
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,7.2568,1.7359,7.4295,1.7353,7.4288,1.8701,7.2561,1.8699)"
+                            },
+                            {
+                                "content": "1,",
+                                "span": {
+                                    "offset": 212,
+                                    "length": 2
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,7.471,1.7353,7.5497,1.7353,7.549,1.8699,7.4703,1.87)"
+                            },
+                            {
+                                "content": "2021",
+                                "span": {
+                                    "offset": 215,
+                                    "length": 4
+                                },
+                                "confidence": 0.988,
+                                "source": "D(1,7.589,1.7352,7.8304,1.7349,7.8304,1.8699,7.5884,1.8701)"
+                            },
+                            {
+                                "content": "Page",
+                                "span": {
+                                    "offset": 221,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,6.1402,1.9429,6.3709,1.9432,6.3704,2.0633,6.1396,2.0637)"
+                            },
+                            {
+                                "content": "1",
+                                "span": {
+                                    "offset": 226,
+                                    "length": 1
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,6.4084,1.943,6.4577,1.9428,6.4571,2.0634,6.4078,2.0633)"
+                            },
+                            {
+                                "content": "of2",
+                                "span": {
+                                    "offset": 228,
+                                    "length": 3
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,6.4893,1.9424,6.6517,1.9411,6.6517,2.0622,6.4888,2.0631)"
+                            },
+                            {
+                                "content": "Online",
+                                "span": {
+                                    "offset": 233,
+                                    "length": 6
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,5.8666,2.1325,6.1956,2.1342,6.1947,2.2519,5.866,2.2529)"
+                            },
+                            {
+                                "content": "Service",
+                                "span": {
+                                    "offset": 240,
+                                    "length": 7
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,6.2248,2.1341,6.5853,2.1347,6.5853,2.2531,6.224,2.2519)"
+                            },
+                            {
+                                "content": "Make",
+                                "span": {
+                                    "offset": 248,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,5.8558,2.3185,6.1264,2.3213,6.1257,2.4536,5.8548,2.4522)"
+                            },
+                            {
+                                "content": "payments,",
+                                "span": {
+                                    "offset": 253,
+                                    "length": 9
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,6.1997,2.3212,6.69,2.3199,6.6893,2.4546,6.199,2.4536)"
+                            },
+                            {
+                                "content": "check",
+                                "span": {
+                                    "offset": 263,
+                                    "length": 5
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,6.7632,2.3197,7.0339,2.3191,7.0329,2.4556,6.7624,2.4548)"
+                            },
+                            {
+                                "content": "billing",
+                                "span": {
+                                    "offset": 269,
+                                    "length": 7
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,7.1049,2.319,7.3889,2.3189,7.3876,2.4558,7.1038,2.4559)"
+                            },
+                            {
+                                "content": "activity,",
+                                "span": {
+                                    "offset": 277,
+                                    "length": 9
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,7.4577,2.3189,7.8304,2.3211,7.8304,2.4577,7.4565,2.4559)"
+                            },
+                            {
+                                "content": "update",
+                                "span": {
+                                    "offset": 287,
+                                    "length": 6
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,5.8615,2.477,6.1871,2.4761,6.1871,2.6104,5.8612,2.6109)"
+                            },
+                            {
+                                "content": "policy",
+                                "span": {
+                                    "offset": 294,
+                                    "length": 6
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,6.2135,2.476,6.4863,2.474,6.4863,2.6092,6.2135,2.6102)"
+                            },
+                            {
+                                "content": "information",
+                                "span": {
+                                    "offset": 301,
+                                    "length": 11
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,6.5127,2.4739,7.0892,2.4721,7.0891,2.6066,6.5127,2.6092)"
+                            },
+                            {
+                                "content": "or",
+                                "span": {
+                                    "offset": 313,
+                                    "length": 2
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,7.12,2.4719,7.208,2.4721,7.2079,2.6062,7.1199,2.6064)"
+                            },
+                            {
+                                "content": "check",
+                                "span": {
+                                    "offset": 316,
+                                    "length": 5
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,7.2344,2.4721,7.4984,2.4723,7.4982,2.6056,7.2343,2.6061)"
+                            },
+                            {
+                                "content": "status",
+                                "span": {
+                                    "offset": 322,
+                                    "length": 6
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,7.5248,2.4723,7.8304,2.4715,7.8304,2.6061,7.5247,2.6056)"
+                            },
+                            {
+                                "content": "of",
+                                "span": {
+                                    "offset": 329,
+                                    "length": 2
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,5.8614,2.6294,5.9715,2.6305,5.9711,2.7434,5.8611,2.7451)"
+                            },
+                            {
+                                "content": "a",
+                                "span": {
+                                    "offset": 332,
+                                    "length": 1
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,5.9976,2.6301,6.048,2.6303,6.0475,2.7436,5.9971,2.7432)"
+                            },
+                            {
+                                "content": "claim.",
+                                "span": {
+                                    "offset": 334,
+                                    "length": 6
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,6.0797,2.6303,6.3639,2.6306,6.3639,2.745,6.0792,2.7438)"
+                            },
+                            {
+                                "content": "1-800-776-4737",
+                                "span": {
+                                    "offset": 342,
+                                    "length": 14
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,5.6389,2.8886,6.5078,2.8885,6.5078,3.0137,5.6385,3.014)"
+                            },
+                            {
+                                "content": "For",
+                                "span": {
+                                    "offset": 358,
+                                    "length": 3
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,5.8559,3.0656,6.0208,3.0664,6.0202,3.1878,5.8553,3.1881)"
+                            },
+                            {
+                                "content": "customer",
+                                "span": {
+                                    "offset": 362,
+                                    "length": 8
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,6.1226,3.0664,6.5746,3.0649,6.574,3.1887,6.1219,3.1887)"
+                            },
+                            {
+                                "content": "service",
+                                "span": {
+                                    "offset": 371,
+                                    "length": 7
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,6.6765,3.0646,7.0104,3.064,7.01,3.1887,6.6759,3.1887)"
+                            },
+                            {
+                                "content": "and",
+                                "span": {
+                                    "offset": 379,
+                                    "length": 3
+                                },
+                                "confidence": 0.999,
+                                "source": "D(1,7.1162,3.0637,7.2934,3.063,7.2926,3.1885,7.1157,3.1887)"
+                            },
+                            {
+                                "content": "claims",
+                                "span": {
+                                    "offset": 383,
+                                    "length": 6
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,7.4013,3.0629,7.7142,3.0625,7.7142,3.1887,7.4005,3.1883)"
+                            },
+                            {
+                                "content": "service,",
+                                "span": {
+                                    "offset": 390,
+                                    "length": 8
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,5.8582,3.2193,6.2306,3.2199,6.2305,3.3471,5.858,3.3475)"
+                            },
+                            {
+                                "content": "24",
+                                "span": {
+                                    "offset": 399,
+                                    "length": 2
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,6.2645,3.2197,6.366,3.2186,6.366,3.3483,6.2644,3.3472)"
+                            },
+                            {
+                                "content": "hours",
+                                "span": {
+                                    "offset": 402,
+                                    "length": 5
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,6.3914,3.2184,6.6792,3.2178,6.6791,3.3483,6.3914,3.3485)"
+                            },
+                            {
+                                "content": "a",
+                                "span": {
+                                    "offset": 408,
+                                    "length": 1
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,6.7088,3.218,6.7575,3.2184,6.7574,3.3485,6.7087,3.3484)"
+                            },
+                            {
+                                "content": "day,",
+                                "span": {
+                                    "offset": 410,
+                                    "length": 4
+                                },
+                                "confidence": 0.987,
+                                "source": "D(1,6.7935,3.2186,6.9755,3.2187,6.9753,3.3476,6.7933,3.3485)"
+                            },
+                            {
+                                "content": "7",
+                                "span": {
+                                    "offset": 415,
+                                    "length": 1
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,7.0093,3.2186,7.0665,3.2184,7.0663,3.3479,7.0092,3.3477)"
+                            },
+                            {
+                                "content": "days",
+                                "span": {
+                                    "offset": 417,
+                                    "length": 4
+                                },
+                                "confidence": 0.991,
+                                "source": "D(1,7.0961,3.2183,7.3077,3.2177,7.3076,3.3483,7.0959,3.348)"
+                            },
+                            {
+                                "content": "a",
+                                "span": {
+                                    "offset": 422,
+                                    "length": 1
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,7.3394,3.2178,7.3881,3.218,7.3879,3.3481,7.3393,3.3482)"
+                            },
+                            {
+                                "content": "week.",
+                                "span": {
+                                    "offset": 424,
+                                    "length": 5
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,7.4198,3.2182,7.7087,3.2178,7.7087,3.3463,7.4197,3.348)"
+                            },
+                            {
+                                "content": "P.O.",
+                                "span": {
+                                    "offset": 430,
+                                    "length": 4
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,5.8573,3.3735,6.0388,3.3742,6.0379,3.493,5.8567,3.4932)"
+                            },
+                            {
+                                "content": "Box",
+                                "span": {
+                                    "offset": 435,
+                                    "length": 3
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,6.0759,3.3742,6.2476,3.3744,6.247,3.4931,6.0749,3.4931)"
+                            },
+                            {
+                                "content": "31260",
+                                "span": {
+                                    "offset": 439,
+                                    "length": 5
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,6.2769,3.3745,6.5798,3.3736,6.5798,3.4925,6.2763,3.4929)"
+                            },
+                            {
+                                "content": "Tampa,",
+                                "span": {
+                                    "offset": 445,
+                                    "length": 6
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,5.8542,3.5253,6.2021,3.5277,6.2016,3.6579,5.8538,3.6581)"
+                            },
+                            {
+                                "content": "FL",
+                                "span": {
+                                    "offset": 452,
+                                    "length": 2
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,6.2429,3.5272,6.3439,3.5271,6.3433,3.6583,6.2425,3.6577)"
+                            },
+                            {
+                                "content": "33631",
+                                "span": {
+                                    "offset": 455,
+                                    "length": 5
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,6.3718,3.5268,6.6738,3.5262,6.6738,3.6574,6.3713,3.6582)"
+                            },
+                            {
+                                "content": "Auto",
+                                "span": {
+                                    "offset": 462,
+                                    "length": 4
+                                },
+                                "confidence": 0.987,
+                                "source": "D(1,1.3407,3.4479,1.9041,3.451,1.9028,3.6925,1.339,3.6922)"
+                            },
+                            {
+                                "content": "Insurance",
+                                "span": {
+                                    "offset": 467,
+                                    "length": 9
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.9908,3.4517,3.11,3.4561,3.11,3.6925,1.9897,3.6924)"
+                            },
+                            {
+                                "content": "Coverage",
+                                "span": {
+                                    "offset": 477,
+                                    "length": 8
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,1.3178,3.8132,2.3891,3.8251,2.3859,4.0959,1.3157,4.0893)"
+                            },
+                            {
+                                "content": "Summary",
+                                "span": {
+                                    "offset": 486,
+                                    "length": 7
+                                },
+                                "confidence": 0.999,
+                                "source": "D(1,2.4694,3.8249,3.5693,3.831,3.5693,4.1072,2.4661,4.0971)"
+                            },
+                            {
+                                "content": "This",
+                                "span": {
+                                    "offset": 494,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.3313,4.1676,1.7667,4.1727,1.7654,4.4449,1.3311,4.4434)"
+                            },
+                            {
+                                "content": "is",
+                                "span": {
+                                    "offset": 499,
+                                    "length": 2
+                                },
+                                "confidence": 0.999,
+                                "source": "D(1,1.8211,4.1735,2.0206,4.1723,2.0199,4.4503,1.82,4.445)"
+                            },
+                            {
+                                "content": "a",
+                                "span": {
+                                    "offset": 502,
+                                    "length": 1
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,2.1022,4.1725,2.2111,4.1734,2.2095,4.4519,2.1011,4.4511)"
+                            },
+                            {
+                                "content": "copy",
+                                "span": {
+                                    "offset": 504,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,2.2972,4.1754,2.8187,4.1766,2.817,4.4536,2.2953,4.452)"
+                            },
+                            {
+                                "content": "of",
+                                "span": {
+                                    "offset": 509,
+                                    "length": 2
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,2.8913,4.1763,3.118,4.1769,3.1157,4.4565,2.8897,4.4546)"
+                            },
+                            {
+                                "content": "your",
+                                "span": {
+                                    "offset": 512,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,3.1815,4.1772,3.6966,4.1817,3.6966,4.4565,3.1787,4.4565)"
+                            },
+                            {
+                                "content": "Declarations",
+                                "span": {
+                                    "offset": 517,
+                                    "length": 12
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,1.3645,4.4558,2.7701,4.4639,2.7676,4.7267,1.3638,4.714)"
+                            },
+                            {
+                                "content": "Page",
+                                "span": {
+                                    "offset": 530,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,2.8598,4.4645,3.3867,4.4675,3.3867,4.7333,2.8571,4.7282)"
+                            },
+                            {
+                                "content": "Your",
+                                "span": {
+                                    "offset": 536,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.4823,4.8692,1.7224,4.8692,1.7222,5.0203,1.4821,5.0188)"
+                            },
+                            {
+                                "content": "coverage",
+                                "span": {
+                                    "offset": 541,
+                                    "length": 8
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,1.7525,4.8692,2.2227,4.8687,2.2223,5.0211,1.7522,5.0205)"
+                            },
+                            {
+                                "content": "began",
+                                "span": {
+                                    "offset": 550,
+                                    "length": 5
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,2.2528,4.8687,2.5955,4.8683,2.5949,5.0211,2.2523,5.0211)"
+                            },
+                            {
+                                "content": "on",
+                                "span": {
+                                    "offset": 556,
+                                    "length": 2
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,2.633,4.8682,2.7531,4.8681,2.7525,5.0211,2.6325,5.0211)"
+                            },
+                            {
+                                "content": "March",
+                                "span": {
+                                    "offset": 559,
+                                    "length": 5
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,2.7831,4.8681,3.1383,4.8679,3.1376,5.0211,2.7825,5.0211)"
+                            },
+                            {
+                                "content": "1,",
+                                "span": {
+                                    "offset": 565,
+                                    "length": 2
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,3.1808,4.8681,3.2659,4.8684,3.2653,5.0211,3.1802,5.0211)"
+                            },
+                            {
+                                "content": "2021",
+                                "span": {
+                                    "offset": 568,
+                                    "length": 4
+                                },
+                                "confidence": 0.987,
+                                "source": "D(1,3.3059,4.8686,3.566,4.8695,3.5656,5.0211,3.3053,5.0211)"
+                            },
+                            {
+                                "content": "at",
+                                "span": {
+                                    "offset": 573,
+                                    "length": 2
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,3.6011,4.8694,3.7061,4.8694,3.7056,5.0211,3.6006,5.0211)"
+                            },
+                            {
+                                "content": "12:01",
+                                "span": {
+                                    "offset": 576,
+                                    "length": 5
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,3.7436,4.8694,4.0338,4.8692,4.0332,5.0211,3.7431,5.0211)"
+                            },
+                            {
+                                "content": "a.m.",
+                                "span": {
+                                    "offset": 582,
+                                    "length": 4
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,4.0688,4.8691,4.299,4.8686,4.2984,5.0211,4.0682,5.0211)"
+                            },
+                            {
+                                "content": "This",
+                                "span": {
+                                    "offset": 587,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,4.3315,4.8685,4.5441,4.8682,4.5435,5.0211,4.3309,5.0211)"
+                            },
+                            {
+                                "content": "policy",
+                                "span": {
+                                    "offset": 592,
+                                    "length": 6
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,4.5841,4.8681,4.8968,4.868,4.8961,5.0211,4.5835,5.0211)"
+                            },
+                            {
+                                "content": "expires",
+                                "span": {
+                                    "offset": 599,
+                                    "length": 7
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,4.9269,4.868,5.3021,4.8681,5.3011,5.0211,4.9261,5.0211)"
+                            },
+                            {
+                                "content": "on",
+                                "span": {
+                                    "offset": 607,
+                                    "length": 2
+                                },
+                                "confidence": 0.999,
+                                "source": "D(1,5.3371,4.8681,5.4697,4.8681,5.4687,5.0211,5.3362,5.0211)"
+                            },
+                            {
+                                "content": "September",
+                                "span": {
+                                    "offset": 610,
+                                    "length": 9
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,5.5097,4.8681,6.0976,4.8685,6.0967,5.0211,5.5088,5.0211)"
+                            },
+                            {
+                                "content": "1,",
+                                "span": {
+                                    "offset": 620,
+                                    "length": 2
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,6.1326,4.8684,6.2201,4.868,6.2194,5.0211,6.1317,5.0211)"
+                            },
+                            {
+                                "content": "2021",
+                                "span": {
+                                    "offset": 623,
+                                    "length": 4
+                                },
+                                "confidence": 0.985,
+                                "source": "D(1,6.2602,4.8679,6.5178,4.8675,6.5172,5.0194,6.2594,5.0209)"
+                            },
+                            {
+                                "content": "at",
+                                "span": {
+                                    "offset": 628,
+                                    "length": 2
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,6.5553,4.8676,6.6579,4.8679,6.6573,5.0185,6.5547,5.0192)"
+                            },
+                            {
+                                "content": "12:01",
+                                "span": {
+                                    "offset": 631,
+                                    "length": 5
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,6.6954,4.868,6.9856,4.8689,6.9851,5.0179,6.6948,5.0183)"
+                            },
+                            {
+                                "content": "a.m.",
+                                "span": {
+                                    "offset": 637,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,7.0206,4.869,7.2604,4.8697,7.2604,5.0189,7.0202,5.018)"
+                            },
+                            {
+                                "content": "This",
+                                "span": {
+                                    "offset": 643,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.485,5.1014,1.7057,5.102,1.7052,5.254,1.4844,5.253)"
+                            },
+                            {
+                                "content": "coverage",
+                                "span": {
+                                    "offset": 648,
+                                    "length": 8
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,1.7409,5.1021,2.215,5.1032,2.2144,5.2559,1.7403,5.2542)"
+                            },
+                            {
+                                "content": "summary",
+                                "span": {
+                                    "offset": 657,
+                                    "length": 7
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,2.2501,5.1033,2.7293,5.1026,2.7287,5.2574,2.2495,5.256)"
+                            },
+                            {
+                                "content": "replaces",
+                                "span": {
+                                    "offset": 665,
+                                    "length": 8
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,2.7594,5.1026,3.221,5.1018,3.2204,5.2562,2.7588,5.2575)"
+                            },
+                            {
+                                "content": "your",
+                                "span": {
+                                    "offset": 674,
+                                    "length": 4
+                                },
+                                "confidence": 0.988,
+                                "source": "D(1,3.2561,5.102,3.4819,5.1028,3.4813,5.2567,3.2555,5.2563)"
+                            },
+                            {
+                                "content": "prior",
+                                "span": {
+                                    "offset": 679,
+                                    "length": 5
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,3.512,5.103,3.7905,5.1033,3.79,5.2572,3.5114,5.2568)"
+                            },
+                            {
+                                "content": "one.",
+                                "span": {
+                                    "offset": 685,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,3.8206,5.1032,4.0514,5.1029,4.0509,5.2573,3.8201,5.2572)"
+                            },
+                            {
+                                "content": "Your",
+                                "span": {
+                                    "offset": 690,
+                                    "length": 4
+                                },
+                                "confidence": 0.99,
+                                "source": "D(1,4.0865,5.1029,4.3048,5.1024,4.304,5.2566,4.086,5.2572)"
+                            },
+                            {
+                                "content": "insurance",
+                                "span": {
+                                    "offset": 695,
+                                    "length": 9
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,4.3349,5.1024,4.8692,5.1019,4.8684,5.2558,4.3341,5.2566)"
+                            },
+                            {
+                                "content": "policy",
+                                "span": {
+                                    "offset": 705,
+                                    "length": 6
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,4.9069,5.1019,5.2179,5.1016,5.2171,5.2563,4.9061,5.2558)"
+                            },
+                            {
+                                "content": "and",
+                                "span": {
+                                    "offset": 712,
+                                    "length": 3
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,5.2506,5.1016,5.4412,5.1015,5.4403,5.2564,5.2497,5.2563)"
+                            },
+                            {
+                                "content": "any",
+                                "span": {
+                                    "offset": 716,
+                                    "length": 3
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,5.4814,5.1016,5.6695,5.1019,5.6685,5.2558,5.4804,5.2563)"
+                            },
+                            {
+                                "content": "policy",
+                                "span": {
+                                    "offset": 720,
+                                    "length": 6
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,5.7046,5.102,6.0132,5.1021,6.0123,5.2546,5.7036,5.2557)"
+                            },
+                            {
+                                "content": "endorsements",
+                                "span": {
+                                    "offset": 727,
+                                    "length": 12
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,6.0458,5.1021,6.806,5.0989,6.8053,5.2509,6.0449,5.2544)"
+                            },
+                            {
+                                "content": "contain",
+                                "span": {
+                                    "offset": 740,
+                                    "length": 7
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,6.8411,5.0988,7.2299,5.098,7.2295,5.2489,6.8405,5.2507)"
+                            },
+                            {
+                                "content": "a",
+                                "span": {
+                                    "offset": 748,
+                                    "length": 1
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,7.2676,5.0979,7.3227,5.0978,7.3223,5.2488,7.2671,5.2489)"
+                            },
+                            {
+                                "content": "full",
+                                "span": {
+                                    "offset": 750,
+                                    "length": 4
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,7.3604,5.0977,7.5426,5.0973,7.5426,5.2485,7.3599,5.2488)"
+                            },
+                            {
+                                "content": "explanation",
+                                "span": {
+                                    "offset": 755,
+                                    "length": 11
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.4941,5.2838,2.1207,5.282,2.1206,5.4336,1.4939,5.4337)"
+                            },
+                            {
+                                "content": "of",
+                                "span": {
+                                    "offset": 767,
+                                    "length": 2
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,2.1605,5.2819,2.2501,5.2817,2.2498,5.4338,2.1603,5.4337)"
+                            },
+                            {
+                                "content": "your",
+                                "span": {
+                                    "offset": 770,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,2.2799,5.2816,2.541,5.2811,2.5407,5.4342,2.2796,5.4338)"
+                            },
+                            {
+                                "content": "coverage.",
+                                "span": {
+                                    "offset": 775,
+                                    "length": 9
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,2.5708,5.281,3.0781,5.28,3.0779,5.4339,2.5706,5.4342)"
+                            },
+                            {
+                                "content": "The",
+                                "span": {
+                                    "offset": 785,
+                                    "length": 3
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,3.1129,5.2799,3.2945,5.2797,3.2943,5.4334,3.1127,5.4338)"
+                            },
+                            {
+                                "content": "policy",
+                                "span": {
+                                    "offset": 789,
+                                    "length": 6
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,3.3243,5.2796,3.6326,5.2795,3.6325,5.4337,3.3241,5.4334)"
+                            },
+                            {
+                                "content": "limits",
+                                "span": {
+                                    "offset": 796,
+                                    "length": 6
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,3.6625,5.2795,3.9733,5.279,3.9732,5.4331,3.6624,5.4337)"
+                            },
+                            {
+                                "content": "shown",
+                                "span": {
+                                    "offset": 803,
+                                    "length": 5
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,4.0081,5.279,4.3538,5.2783,4.3536,5.4321,4.008,5.4331)"
+                            },
+                            {
+                                "content": "for",
+                                "span": {
+                                    "offset": 809,
+                                    "length": 3
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,4.3911,5.2782,4.5452,5.2779,4.545,5.4316,4.3909,5.432)"
+                            },
+                            {
+                                "content": "a",
+                                "span": {
+                                    "offset": 813,
+                                    "length": 1
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,4.5751,5.2778,4.6323,5.2777,4.632,5.4314,4.5748,5.4315)"
+                            },
+                            {
+                                "content": "vehicle",
+                                "span": {
+                                    "offset": 815,
+                                    "length": 7
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,4.6671,5.2778,5.0252,5.2784,5.0249,5.431,4.6668,5.4313)"
+                            },
+                            {
+                                "content": "may",
+                                "span": {
+                                    "offset": 823,
+                                    "length": 3
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,5.055,5.2784,5.2962,5.2784,5.296,5.4311,5.0548,5.431)"
+                            },
+                            {
+                                "content": "not",
+                                "span": {
+                                    "offset": 827,
+                                    "length": 3
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,5.3335,5.2784,5.5101,5.2784,5.5099,5.4312,5.3333,5.4311)"
+                            },
+                            {
+                                "content": "be",
+                                "span": {
+                                    "offset": 831,
+                                    "length": 2
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,5.5474,5.2784,5.6717,5.2781,5.6714,5.4302,5.5472,5.431)"
+                            },
+                            {
+                                "content": "combined",
+                                "span": {
+                                    "offset": 834,
+                                    "length": 8
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,5.709,5.278,6.2337,5.2784,6.2334,5.4289,5.7087,5.4299)"
+                            },
+                            {
+                                "content": "with",
+                                "span": {
+                                    "offset": 843,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,6.271,5.2785,6.4998,5.2785,6.4995,5.4289,6.2707,5.429)"
+                            },
+                            {
+                                "content": "the",
+                                "span": {
+                                    "offset": 848,
+                                    "length": 3
+                                },
+                                "confidence": 0.999,
+                                "source": "D(1,6.5346,5.2783,6.6962,5.2776,6.696,5.4279,6.5343,5.4287)"
+                            },
+                            {
+                                "content": "limits",
+                                "span": {
+                                    "offset": 852,
+                                    "length": 6
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,6.726,5.2775,7.0344,5.2771,7.0341,5.4265,6.7258,5.4278)"
+                            },
+                            {
+                                "content": "for",
+                                "span": {
+                                    "offset": 859,
+                                    "length": 3
+                                },
+                                "confidence": 0.999,
+                                "source": "D(1,7.0667,5.2772,7.2184,5.2774,7.2181,5.4259,7.0665,5.4264)"
+                            },
+                            {
+                                "content": "the",
+                                "span": {
+                                    "offset": 863,
+                                    "length": 3
+                                },
+                                "confidence": 0.999,
+                                "source": "D(1,7.2482,5.2775,7.4248,5.278,7.4245,5.4263,7.248,5.4258)"
+                            },
+                            {
+                                "content": "same",
+                                "span": {
+                                    "offset": 867,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,7.4621,5.2782,7.7529,5.2794,7.7529,5.4282,7.4618,5.4265)"
+                            },
+                            {
+                                "content": "coverage",
+                                "span": {
+                                    "offset": 872,
+                                    "length": 8
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,1.4951,5.4553,1.9766,5.4559,1.9764,5.6064,1.4947,5.6039)"
+                            },
+                            {
+                                "content": "on",
+                                "span": {
+                                    "offset": 881,
+                                    "length": 2
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,2.0119,5.4557,2.143,5.4548,2.1427,5.6058,2.0117,5.6063)"
+                            },
+                            {
+                                "content": "another",
+                                "span": {
+                                    "offset": 884,
+                                    "length": 7
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,2.1834,5.4545,2.6069,5.452,2.6065,5.6053,2.1831,5.6056)"
+                            },
+                            {
+                                "content": "vehicle.",
+                                "span": {
+                                    "offset": 892,
+                                    "length": 8
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,2.6372,5.4519,3.0381,5.4508,3.0377,5.6055,2.6368,5.6054)"
+                            },
+                            {
+                                "content": "The",
+                                "span": {
+                                    "offset": 901,
+                                    "length": 3
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,3.0734,5.4507,3.2725,5.4506,3.2721,5.6053,3.073,5.6055)"
+                            },
+                            {
+                                "content": "policy",
+                                "span": {
+                                    "offset": 905,
+                                    "length": 6
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,3.3104,5.4505,3.6179,5.4504,3.6176,5.6049,3.31,5.6053)"
+                            },
+                            {
+                                "content": "contract",
+                                "span": {
+                                    "offset": 912,
+                                    "length": 8
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,3.6507,5.4504,4.0667,5.4496,4.0663,5.6047,3.6504,5.6049)"
+                            },
+                            {
+                                "content": "is",
+                                "span": {
+                                    "offset": 921,
+                                    "length": 2
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,4.097,5.4495,4.2003,5.4492,4.1999,5.6045,4.0966,5.6046)"
+                            },
+                            {
+                                "content": "form",
+                                "span": {
+                                    "offset": 924,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,4.2306,5.4491,4.4827,5.4481,4.4821,5.6038,4.2301,5.6044)"
+                            },
+                            {
+                                "content": "9611D",
+                                "span": {
+                                    "offset": 929,
+                                    "length": 5
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,4.5231,5.4479,4.8533,5.4474,4.8528,5.6039,4.5224,5.6037)"
+                            },
+                            {
+                                "content": "NV",
+                                "span": {
+                                    "offset": 935,
+                                    "length": 2
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,4.8836,5.4474,5.045,5.4472,5.0445,5.6041,4.8831,5.6039)"
+                            },
+                            {
+                                "content": "(01/16)",
+                                "span": {
+                                    "offset": 938,
+                                    "length": 7
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,5.0752,5.4472,5.4685,5.4472,5.4679,5.6042,5.0748,5.6041)"
+                            },
+                            {
+                                "content": ".",
+                                "span": {
+                                    "offset": 946,
+                                    "length": 1
+                                },
+                                "confidence": 0.986,
+                                "source": "D(1,5.4988,5.4472,5.5442,5.4473,5.5435,5.6038,5.4982,5.604)"
+                            },
+                            {
+                                "content": "The",
+                                "span": {
+                                    "offset": 948,
+                                    "length": 3
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,5.5795,5.4473,5.7786,5.4476,5.7779,5.6026,5.5788,5.6036)"
+                            },
+                            {
+                                "content": "contract",
+                                "span": {
+                                    "offset": 952,
+                                    "length": 8
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,5.8114,5.4477,6.235,5.4484,6.2344,5.6016,5.8106,5.6025)"
+                            },
+                            {
+                                "content": "is",
+                                "span": {
+                                    "offset": 961,
+                                    "length": 2
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,6.2652,5.4484,6.3459,5.4486,6.3455,5.6015,6.2647,5.6016)"
+                            },
+                            {
+                                "content": "modified",
+                                "span": {
+                                    "offset": 964,
+                                    "length": 8
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,6.3762,5.4484,6.8678,5.4468,6.8672,5.6011,6.3757,5.6015)"
+                            },
+                            {
+                                "content": "by",
+                                "span": {
+                                    "offset": 973,
+                                    "length": 2
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,6.9107,5.4467,7.0342,5.4465,7.0337,5.6008,6.9101,5.601)"
+                            },
+                            {
+                                "content": "forms",
+                                "span": {
+                                    "offset": 976,
+                                    "length": 5
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,7.0645,5.4465,7.372,5.4466,7.3715,5.6005,7.0639,5.6007)"
+                            },
+                            {
+                                "content": "Z357",
+                                "span": {
+                                    "offset": 982,
+                                    "length": 4
+                                },
+                                "confidence": 0.977,
+                                "source": "D(1,7.4023,5.4467,7.6699,5.4473,7.6699,5.6006,7.4018,5.6005)"
+                            },
+                            {
+                                "content": "(01/07),",
+                                "span": {
+                                    "offset": 987,
+                                    "length": 8
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.4924,5.6205,1.9263,5.6217,1.926,5.7822,1.4925,5.782)"
+                            },
+                            {
+                                "content": "A264",
+                                "span": {
+                                    "offset": 996,
+                                    "length": 4
+                                },
+                                "confidence": 0.987,
+                                "source": "D(1,1.9609,5.6217,2.2165,5.6216,2.2162,5.7838,1.9606,5.7821)"
+                            },
+                            {
+                                "content": "(10/18)",
+                                "span": {
+                                    "offset": 1001,
+                                    "length": 7
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,2.2484,5.6215,2.661,5.6215,2.6608,5.7847,2.2482,5.7842)"
+                            },
+                            {
+                                "content": "and",
+                                "span": {
+                                    "offset": 1009,
+                                    "length": 3
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,2.6983,5.6212,2.8873,5.6207,2.887,5.7841,2.698,5.7847)"
+                            },
+                            {
+                                "content": "A340",
+                                "span": {
+                                    "offset": 1013,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,2.9272,5.6207,3.2041,5.6214,3.2036,5.7846,2.9269,5.7841)"
+                            },
+                            {
+                                "content": "(01/22).",
+                                "span": {
+                                    "offset": 1018,
+                                    "length": 8
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,3.2387,5.6214,3.6689,5.62,3.6689,5.7849,3.2382,5.7846)"
+                            },
+                            {
+                                "content": "Drivers",
+                                "span": {
+                                    "offset": 1028,
+                                    "length": 7
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,0.6472,5.9301,1.1233,5.9299,1.123,6.0959,0.6468,6.0941)"
+                            },
+                            {
+                                "content": "and",
+                                "span": {
+                                    "offset": 1036,
+                                    "length": 3
+                                },
+                                "confidence": 0.999,
+                                "source": "D(1,1.1639,5.93,1.3938,5.9312,1.3934,6.0963,1.1635,6.0961)"
+                            },
+                            {
+                                "content": "household",
+                                "span": {
+                                    "offset": 1040,
+                                    "length": 9
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,1.4263,5.9314,2.1377,5.9303,2.1374,6.097,1.4259,6.0962)"
+                            },
+                            {
+                                "content": "residents",
+                                "span": {
+                                    "offset": 1050,
+                                    "length": 9
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,2.1891,5.9301,2.8001,5.9321,2.8001,6.0973,2.1888,6.0975)"
+                            },
+                            {
+                                "content": "Bob",
+                                "span": {
+                                    "offset": 1061,
+                                    "length": 3
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,1.4855,6.1998,1.7291,6.2004,1.7285,6.3402,1.4854,6.3407)"
+                            },
+                            {
+                                "content": "Carter",
+                                "span": {
+                                    "offset": 1065,
+                                    "length": 6
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,1.7681,6.2004,2.1527,6.2011,2.1527,6.3415,1.7676,6.3397)"
+                            },
+                            {
+                                "content": "Additional",
+                                "span": {
+                                    "offset": 1073,
+                                    "length": 10
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,1.4837,6.4486,2.0251,6.4503,2.0239,6.5894,1.4831,6.5879)"
+                            },
+                            {
+                                "content": "information:",
+                                "span": {
+                                    "offset": 1084,
+                                    "length": 12
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,2.0526,6.4502,2.7363,6.4503,2.7352,6.5903,2.0514,6.5896)"
+                            },
+                            {
+                                "content": "Named",
+                                "span": {
+                                    "offset": 1097,
+                                    "length": 5
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,2.7799,6.4503,3.1447,6.4505,3.1434,6.5908,2.7789,6.5904)"
+                            },
+                            {
+                                "content": "insured",
+                                "span": {
+                                    "offset": 1103,
+                                    "length": 7
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,3.1722,6.4505,3.597,6.4495,3.597,6.5913,3.1709,6.5909)"
+                            },
+                            {
+                                "content": "Outline",
+                                "span": {
+                                    "offset": 1112,
+                                    "length": 7
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,0.6246,6.9306,1.124,6.9329,1.1228,7.0952,0.6239,7.0915)"
+                            },
+                            {
+                                "content": "of",
+                                "span": {
+                                    "offset": 1120,
+                                    "length": 2
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.1638,6.9333,1.302,6.9341,1.3002,7.0966,1.1626,7.0958)"
+                            },
+                            {
+                                "content": "coverage",
+                                "span": {
+                                    "offset": 1123,
+                                    "length": 8
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,1.3392,6.934,1.9368,6.9362,1.9368,7.0988,1.3373,7.0967)"
+                            },
+                            {
+                                "content": "2019",
+                                "span": {
+                                    "offset": 1133,
+                                    "length": 4
+                                },
+                                "confidence": 0.989,
+                                "source": "D(1,0.7917,7.1347,1.1059,7.1377,1.1044,7.2947,0.7909,7.2935)"
+                            },
+                            {
+                                "content": "Toyota",
+                                "span": {
+                                    "offset": 1138,
+                                    "length": 6
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,1.1423,7.1381,1.5474,7.1399,1.5457,7.2987,1.1409,7.2949)"
+                            },
+                            {
+                                "content": "Camry",
+                                "span": {
+                                    "offset": 1145,
+                                    "length": 5
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,1.5968,7.1401,2.0033,7.1428,2.0033,7.302,1.5951,7.2987)"
+                            },
+                            {
+                                "content": "VIN:",
+                                "span": {
+                                    "offset": 1151,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,0.7907,7.3203,1.0567,7.3221,1.0568,7.4726,0.7908,7.4727)"
+                            },
+                            {
+                                "content": "4T1BF1FK9HU456789",
+                                "span": {
+                                    "offset": 1156,
+                                    "length": 17
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.099,7.3218,2.4513,7.3208,2.451,7.4724,1.0991,7.4726)"
+                            },
+                            {
+                                "content": "Garaging",
+                                "span": {
+                                    "offset": 1175,
+                                    "length": 8
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,0.7968,7.5146,1.3507,7.5141,1.3507,7.6706,0.7964,7.6713)"
+                            },
+                            {
+                                "content": "ZIP:",
+                                "span": {
+                                    "offset": 1184,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.389,7.5135,1.6085,7.5118,1.6084,7.6687,1.389,7.6701)"
+                            },
+                            {
+                                "content": "45502",
+                                "span": {
+                                    "offset": 1189,
+                                    "length": 5
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,1.6519,7.5115,2.042,7.5106,2.042,7.6632,1.6518,7.6681)"
+                            },
+                            {
+                                "content": "Primary",
+                                "span": {
+                                    "offset": 1196,
+                                    "length": 7
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,0.7941,7.6968,1.2837,7.6993,1.2835,7.8496,0.7937,7.8498)"
+                            },
+                            {
+                                "content": "Use:",
+                                "span": {
+                                    "offset": 1204,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.3307,7.6994,1.5878,7.6985,1.5873,7.8498,1.3304,7.8494)"
+                            },
+                            {
+                                "content": "Pleasure",
+                                "span": {
+                                    "offset": 1209,
+                                    "length": 8
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,1.6398,7.6992,2.1693,7.6992,2.1693,7.8488,1.6392,7.8495)"
+                            },
+                            {
+                                "content": "General",
+                                "span": {
+                                    "offset": 1237,
+                                    "length": 7
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,0.7923,7.9084,1.1939,7.911,1.1928,8.0471,0.7918,8.0458)"
+                            },
+                            {
+                                "content": "policy",
+                                "span": {
+                                    "offset": 1245,
+                                    "length": 6
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,1.2318,7.9116,1.524,7.9124,1.5232,8.048,1.2307,8.047)"
+                            },
+                            {
+                                "content": "coverage",
+                                "span": {
+                                    "offset": 1252,
+                                    "length": 8
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,1.553,7.9126,2.0143,7.9141,2.0143,8.0493,1.5523,8.048)"
+                            },
+                            {
+                                "content": "Limits",
+                                "span": {
+                                    "offset": 1270,
+                                    "length": 6
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,3.0462,7.914,3.3646,7.9146,3.3646,8.026,3.0455,8.0256)"
+                            },
+                            {
+                                "content": "Deducible",
+                                "span": {
+                                    "offset": 1286,
+                                    "length": 9
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,5.2671,7.9122,5.7829,7.913,5.7829,8.0272,5.2668,8.0265)"
+                            },
+                            {
+                                "content": "Premium",
+                                "span": {
+                                    "offset": 1305,
+                                    "length": 7
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,5.9265,7.9152,6.4011,7.916,6.4006,8.0269,5.9259,8.0261)"
+                            },
+                            {
+                                "content": "Liability",
+                                "span": {
+                                    "offset": 1333,
+                                    "length": 9
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,0.7811,8.0904,1.1271,8.0925,1.1266,8.2171,0.7806,8.2179)"
+                            },
+                            {
+                                "content": "To",
+                                "span": {
+                                    "offset": 1343,
+                                    "length": 2
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.1519,8.0924,1.261,8.0921,1.2606,8.2172,1.1514,8.2171)"
+                            },
+                            {
+                                "content": "Others",
+                                "span": {
+                                    "offset": 1346,
+                                    "length": 6
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,1.2878,8.092,1.5993,8.0923,1.5993,8.217,1.2874,8.2174)"
+                            },
+                            {
+                                "content": "Bodily",
+                                "span": {
+                                    "offset": 1403,
+                                    "length": 6
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,0.8294,8.2356,1.0963,8.2374,1.0951,8.3638,0.8289,8.3633)"
+                            },
+                            {
+                                "content": "Injury",
+                                "span": {
+                                    "offset": 1410,
+                                    "length": 6
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,1.1213,8.2375,1.3883,8.2379,1.3874,8.3649,1.1203,8.3641)"
+                            },
+                            {
+                                "content": "Liability",
+                                "span": {
+                                    "offset": 1417,
+                                    "length": 9
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,1.4133,8.2379,1.7819,8.2378,1.7819,8.3649,1.4124,8.3649)"
+                            },
+                            {
+                                "content": "$50,000",
+                                "span": {
+                                    "offset": 1436,
+                                    "length": 7
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,2.9711,8.2168,3.2979,8.2167,3.2973,8.3306,2.9708,8.3294)"
+                            },
+                            {
+                                "content": "each",
+                                "span": {
+                                    "offset": 1444,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,3.3222,8.2166,3.4939,8.2165,3.4935,8.3314,3.3216,8.3308)"
+                            },
+                            {
+                                "content": "person/$100,000",
+                                "span": {
+                                    "offset": 1449,
+                                    "length": 15
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,3.5163,8.2165,4.209,8.2164,4.2084,8.3305,3.5159,8.3315)"
+                            },
+                            {
+                                "content": "each",
+                                "span": {
+                                    "offset": 1465,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,4.2333,8.2163,4.4144,8.2163,4.4137,8.3296,4.2327,8.3305)"
+                            },
+                            {
+                                "content": "accident",
+                                "span": {
+                                    "offset": 1470,
+                                    "length": 8
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,4.4406,8.2164,4.786,8.2157,4.7853,8.3295,4.4398,8.3295)"
+                            },
+                            {
+                                "content": "$45.00",
+                                "span": {
+                                    "offset": 1498,
+                                    "length": 6
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,5.8844,8.2356,6.209,8.2376,6.209,8.3516,5.8843,8.3518)"
+                            },
+                            {
+                                "content": "Property",
+                                "span": {
+                                    "offset": 1525,
+                                    "length": 8
+                                },
+                                "confidence": 0.994,
+                                "source": "D(1,0.8256,8.3865,1.2275,8.389,1.2268,8.5141,0.8249,8.5135)"
+                            },
+                            {
+                                "content": "Damage",
+                                "span": {
+                                    "offset": 1534,
+                                    "length": 6
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,1.2584,8.389,1.6211,8.3896,1.6205,8.5143,1.2578,8.5142)"
+                            },
+                            {
+                                "content": "Liability",
+                                "span": {
+                                    "offset": 1541,
+                                    "length": 9
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,1.6562,8.3893,2.0088,8.3892,2.0088,8.5143,1.6555,8.5143)"
+                            },
+                            {
+                                "content": "$25,000",
+                                "span": {
+                                    "offset": 1560,
+                                    "length": 7
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,2.9742,8.3454,3.2973,8.3459,3.2972,8.4534,2.9743,8.4534)"
+                            },
+                            {
+                                "content": "each",
+                                "span": {
+                                    "offset": 1568,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,3.3221,8.3459,3.5031,8.3462,3.5031,8.4534,3.322,8.4534)"
+                            },
+                            {
+                                "content": "accident",
+                                "span": {
+                                    "offset": 1573,
+                                    "length": 8
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,3.5315,8.346,3.8737,8.3468,3.8737,8.4534,3.5315,8.4534)"
+                            },
+                            {
+                                "content": "30.00",
+                                "span": {
+                                    "offset": 1601,
+                                    "length": 5
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,5.9342,8.3919,6.2035,8.394,6.2035,8.4964,5.9343,8.4961)"
+                            },
+                            {
+                                "content": "Uninsured",
+                                "span": {
+                                    "offset": 1627,
+                                    "length": 9
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,0.7816,8.5546,1.2445,8.5558,1.2444,8.6694,0.7817,8.6694)"
+                            },
+                            {
+                                "content": "Motorist",
+                                "span": {
+                                    "offset": 1637,
+                                    "length": 8
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,1.2817,8.556,1.6768,8.5563,1.6768,8.6694,1.2816,8.6694)"
+                            },
+                            {
+                                "content": "$25,000",
+                                "span": {
+                                    "offset": 1655,
+                                    "length": 7
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,2.972,8.5415,3.2986,8.543,3.2978,8.658,2.9719,8.6577)"
+                            },
+                            {
+                                "content": "each",
+                                "span": {
+                                    "offset": 1663,
+                                    "length": 4
+                                },
+                                "confidence": 0.988,
+                                "source": "D(1,3.3231,8.543,3.5043,8.5428,3.5038,8.6581,3.3223,8.6579)"
+                            },
+                            {
+                                "content": "person/$50,000",
+                                "span": {
+                                    "offset": 1668,
+                                    "length": 14
+                                },
+                                "confidence": 0.991,
+                                "source": "D(1,3.5345,8.5426,4.1593,8.5426,4.1588,8.6583,3.534,8.6581)"
+                            },
+                            {
+                                "content": "each",
+                                "span": {
+                                    "offset": 1683,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,4.1838,8.5425,4.3669,8.5427,4.366,8.6583,4.1833,8.6583)"
+                            },
+                            {
+                                "content": "accident",
+                                "span": {
+                                    "offset": 1688,
+                                    "length": 8
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,4.3915,8.5427,4.737,8.5423,4.737,8.6565,4.3906,8.6581)"
+                            },
+                            {
+                                "content": "15.00",
+                                "span": {
+                                    "offset": 1716,
+                                    "length": 5
+                                },
+                                "confidence": 0.997,
+                                "source": "D(1,5.9372,8.5584,6.2035,8.5609,6.2035,8.6622,5.937,8.662)"
+                            },
+                            {
+                                "content": "Underinsured",
+                                "span": {
+                                    "offset": 1742,
+                                    "length": 12
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,0.7808,8.7582,1.3983,8.76,1.3978,8.8742,0.781,8.8742)"
+                            },
+                            {
+                                "content": "Motorist",
+                                "span": {
+                                    "offset": 1755,
+                                    "length": 8
+                                },
+                                "confidence": 0.996,
+                                "source": "D(1,1.4341,8.7601,1.8317,8.7588,1.8317,8.8742,1.4337,8.8742)"
+                            },
+                            {
+                                "content": "$25,000",
+                                "span": {
+                                    "offset": 1773,
+                                    "length": 7
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,2.9702,8.7542,3.2985,8.7548,3.298,8.8686,2.9703,8.8686)"
+                            },
+                            {
+                                "content": "each",
+                                "span": {
+                                    "offset": 1781,
+                                    "length": 4
+                                },
+                                "confidence": 0.989,
+                                "source": "D(1,3.3227,8.7548,3.5036,8.7546,3.5032,8.8686,3.3222,8.8686)"
+                            },
+                            {
+                                "content": "person/$50,000",
+                                "span": {
+                                    "offset": 1786,
+                                    "length": 14
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,3.5334,8.7545,4.1582,8.7542,4.1577,8.8678,3.533,8.8686)"
+                            },
+                            {
+                                "content": "each",
+                                "span": {
+                                    "offset": 1801,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,4.1824,8.7541,4.3652,8.7544,4.3646,8.868,4.1819,8.8679)"
+                            },
+                            {
+                                "content": "accident",
+                                "span": {
+                                    "offset": 1806,
+                                    "length": 8
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,4.3913,8.7545,4.737,8.7538,4.737,8.8672,4.3907,8.8679)"
+                            },
+                            {
+                                "content": "20.00",
+                                "span": {
+                                    "offset": 1834,
+                                    "length": 5
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,5.9413,8.7607,6.209,8.7619,6.209,8.8672,5.9411,8.8664)"
+                            },
+                            {
+                                "content": "Total",
+                                "span": {
+                                    "offset": 1860,
+                                    "length": 5
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,0.7776,8.9626,0.9998,8.9632,0.9994,9.087,0.7774,9.0868)"
+                            },
+                            {
+                                "content": "6",
+                                "span": {
+                                    "offset": 1866,
+                                    "length": 1
+                                },
+                                "confidence": 0.992,
+                                "source": "D(1,1.0324,8.9632,1.0711,8.9629,1.0706,9.0872,1.0319,9.0872)"
+                            },
+                            {
+                                "content": "month",
+                                "span": {
+                                    "offset": 1868,
+                                    "length": 5
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,1.0956,8.9627,1.4055,8.9622,1.4051,9.0882,1.0951,9.0872)"
+                            },
+                            {
+                                "content": "policy",
+                                "span": {
+                                    "offset": 1874,
+                                    "length": 6
+                                },
+                                "confidence": 0.993,
+                                "source": "D(1,1.4402,8.9624,1.6991,8.9628,1.6986,9.0876,1.4397,9.0879)"
+                            },
+                            {
+                                "content": "premium",
+                                "span": {
+                                    "offset": 1881,
+                                    "length": 7
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,1.7297,8.9625,2.1313,8.9621,2.1307,9.087,1.7292,9.0875)"
+                            },
+                            {
+                                "content": "and",
+                                "span": {
+                                    "offset": 1889,
+                                    "length": 3
+                                },
+                                "confidence": 0.998,
+                                "source": "D(1,2.164,8.962,2.3291,8.9623,2.3284,9.086,2.1633,9.087)"
+                            },
+                            {
+                                "content": "fees",
+                                "span": {
+                                    "offset": 1893,
+                                    "length": 4
+                                },
+                                "confidence": 0.988,
+                                "source": "D(1,2.3576,8.9623,2.5511,8.9622,2.5511,9.0853,2.357,9.086)"
+                            },
+                            {
+                                "content": "$110.00",
+                                "span": {
+                                    "offset": 1927,
+                                    "length": 7
+                                },
+                                "confidence": 0.995,
+                                "source": "D(1,5.941,8.9628,6.3252,8.9639,6.3252,9.0765,5.941,9.0785)"
+                            }
+                        ],
+                        "lines": [
+                            {
+                                "content": "CONTOSO LTD",
+                                "source": "D(1,0.6441,0.8342,1.3521,0.8332,1.3523,0.9469,0.6442,0.9479)",
+                                "span": {
+                                    "offset": 0,
+                                    "length": 11
+                                }
+                            },
+                            {
+                                "content": "P.O. BOX 31260",
+                                "source": "D(1,0.6487,0.9937,1.3949,0.9938,1.3949,1.1075,0.6486,1.1073)",
+                                "span": {
+                                    "offset": 12,
+                                    "length": 14
+                                }
+                            },
+                            {
+                                "content": "TAMPA, FL 33631",
+                                "source": "D(1,0.646,1.1559,1.482,1.1546,1.4822,1.2712,0.6462,1.2724)",
+                                "span": {
+                                    "offset": 27,
+                                    "length": 15
+                                }
+                            },
+                            {
+                                "content": "Bob Carter",
+                                "source": "D(1,0.65,2.147,1.176,2.1475,1.1759,2.2615,0.6499,2.261)",
+                                "span": {
+                                    "offset": 44,
+                                    "length": 10
+                                }
+                            },
+                            {
+                                "content": "DUTCH DRAFT DRIVE",
+                                "source": "D(1,0.649,2.3033,1.6662,2.3005,1.6666,2.421,0.6494,2.4237)",
+                                "span": {
+                                    "offset": 55,
+                                    "length": 17
+                                }
+                            },
+                            {
+                                "content": "RENO, NV 89521",
+                                "source": "D(1,0.6484,2.4642,1.4588,2.465,1.4586,2.5864,0.6483,2.5856)",
+                                "span": {
+                                    "offset": 73,
+                                    "length": 14
+                                }
+                            },
+                            {
+                                "content": "CONTOSO LTD.",
+                                "source": "D(1,5.6189,0.537,7.512,0.5385,7.5116,0.7767,5.6186,0.7739)",
+                                "span": {
+                                    "offset": 89,
+                                    "length": 12
+                                }
+                            },
+                            {
+                                "content": "Policy Number: CP-BOB-2021-00",
+                                "source": "D(1,5.6342,1.0931,7.4142,1.0888,7.4146,1.2247,5.6346,1.229)",
+                                "span": {
+                                    "offset": 103,
+                                    "length": 29
+                                }
+                            },
+                            {
+                                "content": "Underwritten by: Contoso Ltd.",
+                                "source": "D(1,5.8549,1.2672,7.3098,1.2662,7.3099,1.3932,5.855,1.3941)",
+                                "span": {
+                                    "offset": 133,
+                                    "length": 29
+                                }
+                            },
+                            {
+                                "content": "April 29, 2021",
+                                "source": "D(1,5.8518,1.5837,6.5351,1.5814,6.5355,1.7112,5.8522,1.7135)",
+                                "span": {
+                                    "offset": 164,
+                                    "length": 14
+                                }
+                            },
+                            {
+                                "content": "Policy Period: Mar 1, 2021 - Sep 1, 2021",
+                                "source": "D(1,5.8643,1.7366,7.8288,1.7348,7.829,1.8682,5.8644,1.87)",
+                                "span": {
+                                    "offset": 179,
+                                    "length": 40
+                                }
+                            },
+                            {
+                                "content": "Page 1 of2",
+                                "source": "D(1,6.1392,1.9429,6.6502,1.9411,6.6506,2.0608,6.1396,2.0627)",
+                                "span": {
+                                    "offset": 221,
+                                    "length": 10
+                                }
+                            },
+                            {
+                                "content": "Online Service",
+                                "source": "D(1,5.8664,2.1325,6.5851,2.1346,6.5847,2.2531,5.866,2.2511)",
+                                "span": {
+                                    "offset": 233,
+                                    "length": 14
+                                }
+                            },
+                            {
+                                "content": "Make payments, check billing activity,",
+                                "source": "D(1,5.8552,2.3144,7.8263,2.3198,7.8259,2.4561,5.8548,2.4507)",
+                                "span": {
+                                    "offset": 248,
+                                    "length": 38
+                                }
+                            },
+                            {
+                                "content": "update policy information or check status",
+                                "source": "D(1,5.8608,2.4755,7.8299,2.4699,7.8303,2.6038,5.8612,2.6094)",
+                                "span": {
+                                    "offset": 287,
+                                    "length": 41
+                                }
+                            },
+                            {
+                                "content": "of a claim.",
+                                "source": "D(1,5.8614,2.6294,6.3638,2.6305,6.3636,2.7443,5.8611,2.7432)",
+                                "span": {
+                                    "offset": 329,
+                                    "length": 11
+                                }
+                            },
+                            {
+                                "content": "1-800-776-4737",
+                                "source": "D(1,5.6384,2.8886,6.507,2.8882,6.5071,3.0118,5.6385,3.0122)",
+                                "span": {
+                                    "offset": 342,
+                                    "length": 14
+                                }
+                            },
+                            {
+                                "content": "For customer service and claims",
+                                "source": "D(1,5.8552,3.063,7.7111,3.0619,7.7112,3.1869,5.8553,3.188)",
+                                "span": {
+                                    "offset": 358,
+                                    "length": 31
+                                }
+                            },
+                            {
+                                "content": "service, 24 hours a day, 7 days a week.",
+                                "source": "D(1,5.8579,3.2179,7.7033,3.2171,7.7034,3.3461,5.858,3.3468)",
+                                "span": {
+                                    "offset": 390,
+                                    "length": 39
+                                }
+                            },
+                            {
+                                "content": "P.O. Box 31260",
+                                "source": "D(1,5.8567,3.3735,6.5777,3.3732,6.5777,3.4919,5.8567,3.4921)",
+                                "span": {
+                                    "offset": 430,
+                                    "length": 14
+                                }
+                            },
+                            {
+                                "content": "Tampa, FL 33631",
+                                "source": "D(1,5.854,3.5253,6.6695,3.5262,6.6694,3.6571,5.8539,3.6562)",
+                                "span": {
+                                    "offset": 445,
+                                    "length": 15
+                                }
+                            },
+                            {
+                                "content": "Auto Insurance",
+                                "source": "D(1,1.34,3.4477,3.1047,3.4551,3.1036,3.6925,1.339,3.6882)",
+                                "span": {
+                                    "offset": 462,
+                                    "length": 14
+                                }
+                            },
+                            {
+                                "content": "Coverage Summary",
+                                "source": "D(1,1.3178,3.8127,3.5672,3.8299,3.5652,4.1023,1.3157,4.0851)",
+                                "span": {
+                                    "offset": 477,
+                                    "length": 16
+                                }
+                            },
+                            {
+                                "content": "This is a copy of your",
+                                "source": "D(1,1.3313,4.1676,3.6964,4.178,3.6952,4.4554,1.3301,4.4449)",
+                                "span": {
+                                    "offset": 494,
+                                    "length": 22
+                                }
+                            },
+                            {
+                                "content": "Declarations Page",
+                                "source": "D(1,1.3645,4.4533,3.3867,4.4674,3.385,4.7294,1.3627,4.7153)",
+                                "span": {
+                                    "offset": 517,
+                                    "length": 17
+                                }
+                            },
+                            {
+                                "content": "Your coverage began on March 1, 2021 at 12:01 a.m. This policy expires on September 1, 2021 at 12:01 a.m.",
+                                "source": "D(1,1.4821,4.8682,7.2558,4.8671,7.2558,5.0204,1.4821,5.0211)",
+                                "span": {
+                                    "offset": 536,
+                                    "length": 105
+                                }
+                            },
+                            {
+                                "content": "This coverage summary replaces your prior one. Your insurance policy and any policy endorsements contain a full",
+                                "source": "D(1,1.4843,5.1014,7.5399,5.0973,7.54,5.2525,1.4845,5.2566)",
+                                "span": {
+                                    "offset": 643,
+                                    "length": 111
+                                }
+                            },
+                            {
+                                "content": "explanation of your coverage. The policy limits shown for a vehicle may not be combined with the limits for the same",
+                                "source": "D(1,1.4937,5.282,7.7486,5.2758,7.7488,5.4256,1.4939,5.4343)",
+                                "span": {
+                                    "offset": 755,
+                                    "length": 116
+                                }
+                            },
+                            {
+                                "content": "coverage on another vehicle. The policy contract is form 9611D NV (01/16) . The contract is modified by forms Z357",
+                                "source": "D(1,1.4946,5.4497,7.6697,5.4454,7.6698,5.6001,1.4947,5.6043)",
+                                "span": {
+                                    "offset": 872,
+                                    "length": 114
+                                }
+                            },
+                            {
+                                "content": "(01/07), A264 (10/18) and A340 (01/22).",
+                                "source": "D(1,1.4924,5.6205,3.6638,5.6199,3.6638,5.7821,1.4924,5.7826)",
+                                "span": {
+                                    "offset": 987,
+                                    "length": 39
+                                }
+                            },
+                            {
+                                "content": "Drivers and household residents",
+                                "source": "D(1,0.647,5.929,2.7958,5.9307,2.7957,6.0956,0.6468,6.0932)",
+                                "span": {
+                                    "offset": 1028,
+                                    "length": 31
+                                }
+                            },
+                            {
+                                "content": "Bob Carter",
+                                "source": "D(1,1.4855,6.1997,2.1491,6.2007,2.1489,6.3398,1.4853,6.3389)",
+                                "span": {
+                                    "offset": 1061,
+                                    "length": 10
+                                }
+                            },
+                            {
+                                "content": "Additional information: Named insured",
+                                "source": "D(1,1.4832,6.4486,3.5958,6.4495,3.5958,6.5891,1.4831,6.5882)",
+                                "span": {
+                                    "offset": 1073,
+                                    "length": 37
+                                }
+                            },
+                            {
+                                "content": "Outline of coverage",
+                                "source": "D(1,0.6246,6.9305,1.9316,6.9363,1.9309,7.0989,0.6239,7.093)",
+                                "span": {
+                                    "offset": 1112,
+                                    "length": 19
+                                }
+                            },
+                            {
+                                "content": "2019 Toyota Camry",
+                                "source": "D(1,0.7917,7.1332,1.9986,7.1413,1.9976,7.2993,0.7906,7.2911)",
+                                "span": {
+                                    "offset": 1133,
+                                    "length": 17
+                                }
+                            },
+                            {
+                                "content": "VIN: 4T1BF1FK9HU456789",
+                                "source": "D(1,0.7907,7.3203,2.4474,7.3198,2.4475,7.4708,0.7908,7.4714)",
+                                "span": {
+                                    "offset": 1151,
+                                    "length": 22
+                                }
+                            },
+                            {
+                                "content": "Garaging ZIP: 45502",
+                                "source": "D(1,0.7958,7.5146,2.0418,7.5097,2.042,7.6656,0.7965,7.6705)",
+                                "span": {
+                                    "offset": 1175,
+                                    "length": 19
+                                }
+                            },
+                            {
+                                "content": "Primary Use: Pleasure",
+                                "source": "D(1,0.7939,7.6968,2.1666,7.6989,2.1664,7.85,0.7937,7.848)",
+                                "span": {
+                                    "offset": 1196,
+                                    "length": 21
+                                }
+                            },
+                            {
+                                "content": "General policy coverage",
+                                "source": "D(1,0.7923,7.9084,2.0143,7.914,2.0137,8.0493,0.7917,8.0451)",
+                                "span": {
+                                    "offset": 1237,
+                                    "length": 23
+                                }
+                            },
+                            {
+                                "content": "Limits",
+                                "source": "D(1,3.0455,7.914,3.3601,7.914,3.3601,8.0248,3.0455,8.0248)",
+                                "span": {
+                                    "offset": 1270,
+                                    "length": 6
+                                }
+                            },
+                            {
+                                "content": "Deducible",
+                                "source": "D(1,5.2671,7.9113,5.7808,7.9127,5.7805,8.0272,5.2668,8.0261)",
+                                "span": {
+                                    "offset": 1286,
+                                    "length": 9
+                                }
+                            },
+                            {
+                                "content": "Premium",
+                                "source": "D(1,5.9264,7.9137,6.3972,7.9158,6.3967,8.0265,5.9259,8.0245)",
+                                "span": {
+                                    "offset": 1305,
+                                    "length": 7
+                                }
+                            },
+                            {
+                                "content": "Liability To Others",
+                                "source": "D(1,0.7809,8.0904,1.5963,8.092,1.596,8.2174,0.7806,8.2158)",
+                                "span": {
+                                    "offset": 1333,
+                                    "length": 19
+                                }
+                            },
+                            {
+                                "content": "Bodily Injury Liability",
+                                "source": "D(1,0.8292,8.2349,1.7795,8.2377,1.7791,8.3645,0.8289,8.3617)",
+                                "span": {
+                                    "offset": 1403,
+                                    "length": 23
+                                }
+                            },
+                            {
+                                "content": "$50,000 each person/$100,000 each accident",
+                                "source": "D(1,2.9707,8.2165,4.7823,8.2157,4.7823,8.3294,2.9708,8.3302)",
+                                "span": {
+                                    "offset": 1436,
+                                    "length": 42
+                                }
+                            },
+                            {
+                                "content": "$45.00",
+                                "source": "D(1,5.8844,8.2356,6.2066,8.2372,6.206,8.3517,5.8839,8.3501)",
+                                "span": {
+                                    "offset": 1498,
+                                    "length": 6
+                                }
+                            },
+                            {
+                                "content": "Property Damage Liability",
+                                "source": "D(1,0.8253,8.3861,2.005,8.3892,2.0047,8.5143,0.8249,8.5116)",
+                                "span": {
+                                    "offset": 1525,
+                                    "length": 25
+                                }
+                            },
+                            {
+                                "content": "$25,000 each accident",
+                                "source": "D(1,2.9742,8.3454,3.8723,8.3452,3.8723,8.453,2.9743,8.4532)",
+                                "span": {
+                                    "offset": 1560,
+                                    "length": 21
+                                }
+                            },
+                            {
+                                "content": "30.00",
+                                "source": "D(1,5.9342,8.3919,6.2003,8.3924,6.2001,8.4949,5.934,8.4944)",
+                                "span": {
+                                    "offset": 1601,
+                                    "length": 5
+                                }
+                            },
+                            {
+                                "content": "Uninsured Motorist",
+                                "source": "D(1,0.7816,8.5546,1.6766,8.5563,1.6764,8.6692,0.7813,8.6675)",
+                                "span": {
+                                    "offset": 1627,
+                                    "length": 18
+                                }
+                            },
+                            {
+                                "content": "$25,000 each person/$50,000 each accident",
+                                "source": "D(1,2.9719,8.5415,4.7341,8.5423,4.734,8.657,2.9719,8.6562)",
+                                "span": {
+                                    "offset": 1655,
+                                    "length": 41
+                                }
+                            },
+                            {
+                                "content": "15.00",
+                                "source": "D(1,5.9372,8.5584,6.1992,8.5592,6.1989,8.6612,5.9369,8.6605)",
+                                "span": {
+                                    "offset": 1716,
+                                    "length": 5
+                                }
+                            },
+                            {
+                                "content": "Underinsured Motorist",
+                                "source": "D(1,0.7808,8.7582,1.8314,8.7587,1.8313,8.8739,0.7807,8.8733)",
+                                "span": {
+                                    "offset": 1742,
+                                    "length": 21
+                                }
+                            },
+                            {
+                                "content": "$25,000 each person/$50,000 each accident",
+                                "source": "D(1,2.9702,8.7542,4.7335,8.7538,4.7335,8.8671,2.9703,8.8675)",
+                                "span": {
+                                    "offset": 1773,
+                                    "length": 41
+                                }
+                            },
+                            {
+                                "content": "20.00",
+                                "source": "D(1,5.9413,8.7607,6.2075,8.7613,6.2073,8.8658,5.941,8.8653)",
+                                "span": {
+                                    "offset": 1834,
+                                    "length": 5
+                                }
+                            },
+                            {
+                                "content": "Total 6 month policy premium and fees",
+                                "source": "D(1,0.7774,8.9623,2.5502,8.9617,2.5503,9.0858,0.7774,9.0864)",
+                                "span": {
+                                    "offset": 1860,
+                                    "length": 37
+                                }
+                            },
+                            {
+                                "content": "$110.00",
+                                "source": "D(1,5.941,8.9628,6.3207,8.9629,6.3206,9.0767,5.941,9.0766)",
+                                "span": {
+                                    "offset": 1927,
+                                    "length": 7
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "pageNumber": 2,
+                        "angle": -0.0565,
+                        "width": 8.5,
+                        "height": 11,
+                        "spans": [
+                            {
+                                "offset": 1977,
+                                "length": 158
+                            }
+                        ],
+                        "words": [
+                            {
+                                "content": "Premium",
+                                "span": {
+                                    "offset": 1977,
+                                    "length": 7
+                                },
+                                "confidence": 0.994,
+                                "source": "D(2,0.6497,0.3727,1.2556,0.3712,1.255,0.5228,0.6493,0.5203)"
+                            },
+                            {
+                                "content": "discounts",
+                                "span": {
+                                    "offset": 1985,
+                                    "length": 9
+                                },
+                                "confidence": 0.995,
+                                "source": "D(2,1.2994,0.3717,1.9424,0.3741,1.9424,0.5216,1.2988,0.5224)"
+                            },
+                            {
+                                "content": "\u00b7",
+                                "span": {
+                                    "offset": 1995,
+                                    "length": 1
+                                },
+                                "confidence": 0.345,
+                                "source": "D(2,0.6636,0.5759,0.7017,0.5761,0.7018,0.7165,0.6636,0.7163)"
+                            },
+                            {
+                                "content": "Multi-Policy",
+                                "span": {
+                                    "offset": 1997,
+                                    "length": 12
+                                },
+                                "confidence": 0.99,
+                                "source": "D(2,0.7304,0.5762,1.4223,0.571,1.4221,0.7173,0.7304,0.7167)"
+                            },
+                            {
+                                "content": "Discount",
+                                "span": {
+                                    "offset": 2010,
+                                    "length": 8
+                                },
+                                "confidence": 0.994,
+                                "source": "D(2,1.4629,0.5708,1.9472,0.5709,1.9465,0.7165,1.4626,0.717)"
+                            },
+                            {
+                                "content": "(10%)",
+                                "span": {
+                                    "offset": 2019,
+                                    "length": 5
+                                },
+                                "confidence": 0.992,
+                                "source": "D(2,1.9854,0.5705,2.3132,0.5686,2.3132,0.7183,1.9847,0.7168)"
+                            },
+                            {
+                                "content": "\u00b7",
+                                "span": {
+                                    "offset": 2025,
+                                    "length": 1
+                                },
+                                "confidence": 0.221,
+                                "source": "D(2,0.6632,0.7647,0.714,0.7646,0.7141,0.9005,0.6633,0.9003)"
+                            },
+                            {
+                                "content": "Three-Year",
+                                "span": {
+                                    "offset": 2027,
+                                    "length": 10
+                                },
+                                "confidence": 0.994,
+                                "source": "D(2,0.7533,0.7645,1.3564,0.7602,1.356,0.9021,0.7533,0.9006)"
+                            },
+                            {
+                                "content": "Safe",
+                                "span": {
+                                    "offset": 2038,
+                                    "length": 4
+                                },
+                                "confidence": 0.989,
+                                "source": "D(2,1.3888,0.76,1.6221,0.7584,1.6213,0.9024,1.3883,0.9022)"
+                            },
+                            {
+                                "content": "Driving",
+                                "span": {
+                                    "offset": 2043,
+                                    "length": 7
+                                },
+                                "confidence": 0.996,
+                                "source": "D(2,1.6637,0.7585,2.0543,0.7601,2.0529,0.9024,1.6628,0.9024)"
+                            },
+                            {
+                                "content": "Discount",
+                                "span": {
+                                    "offset": 2051,
+                                    "length": 8
+                                },
+                                "confidence": 0.995,
+                                "source": "D(2,2.0959,0.7607,2.6009,0.7616,2.6009,0.9009,2.0944,0.9024)"
+                            },
+                            {
+                                "content": "Agent",
+                                "span": {
+                                    "offset": 2061,
+                                    "length": 5
+                                },
+                                "confidence": 0.998,
+                                "source": "D(2,0.6432,1.5354,1.0443,1.5358,1.0438,1.7027,0.644,1.7037)"
+                            },
+                            {
+                                "content": "countersignature",
+                                "span": {
+                                    "offset": 2067,
+                                    "length": 16
+                                },
+                                "confidence": 0.994,
+                                "source": "D(2,1.0853,1.5352,2.2246,1.5332,2.2246,1.6977,1.0847,1.7022)"
+                            },
+                            {
+                                "content": "Company",
+                                "span": {
+                                    "offset": 2085,
+                                    "length": 7
+                                },
+                                "confidence": 0.998,
+                                "source": "D(2,0.6464,2.1135,1.2819,2.1147,1.2816,2.2812,0.6468,2.2821)"
+                            },
+                            {
+                                "content": "officers",
+                                "span": {
+                                    "offset": 2093,
+                                    "length": 8
+                                },
+                                "confidence": 0.994,
+                                "source": "D(2,1.3177,2.1153,1.8151,2.1088,1.8151,2.2792,1.3174,2.2806)"
+                            },
+                            {
+                                "content": "Secretary",
+                                "span": {
+                                    "offset": 2103,
+                                    "length": 9
+                                },
+                                "confidence": 0.995,
+                                "source": "D(2,1.2954,2.5467,1.8704,2.5497,1.8704,2.6957,1.2935,2.689)"
+                            },
+                            {
+                                "content": "Form",
+                                "span": {
+                                    "offset": 2114,
+                                    "length": 4
+                                },
+                                "confidence": 0.992,
+                                "source": "D(2,1.4783,3.9263,1.69,3.9257,1.6889,4.0434,1.4788,4.0423)"
+                            },
+                            {
+                                "content": "6489",
+                                "span": {
+                                    "offset": 2119,
+                                    "length": 4
+                                },
+                                "confidence": 0.989,
+                                "source": "D(2,1.7172,3.926,1.8978,3.9275,1.8958,4.0444,1.716,4.0429)"
+                            },
+                            {
+                                "content": "NV",
+                                "span": {
+                                    "offset": 2124,
+                                    "length": 2
+                                },
+                                "confidence": 0.996,
+                                "source": "D(2,1.9211,3.9278,2.0376,3.9274,2.0355,4.0455,1.9193,4.0446)"
+                            },
+                            {
+                                "content": "(05/21)",
+                                "span": {
+                                    "offset": 2127,
+                                    "length": 7
+                                },
+                                "confidence": 0.993,
+                                "source": "D(2,2.0609,3.9272,2.374,3.9248,2.374,4.0465,2.0588,4.0457)"
+                            }
+                        ],
+                        "lines": [
+                            {
+                                "content": "Premium discounts",
+                                "source": "D(2,0.6496,0.3695,1.9371,0.3721,1.9368,0.5221,0.6493,0.5195)",
+                                "span": {
+                                    "offset": 1977,
+                                    "length": 17
+                                }
+                            },
+                            {
+                                "content": "\u00b7 Multi-Policy Discount (10%)",
+                                "source": "D(2,0.6635,0.5702,2.3119,0.5686,2.312,0.7158,0.6636,0.7174)",
+                                "span": {
+                                    "offset": 1995,
+                                    "length": 29
+                                }
+                            },
+                            {
+                                "content": "\u00b7 Three-Year Safe Driving Discount",
+                                "source": "D(2,0.6632,0.7566,2.5965,0.7602,2.5963,0.9024,0.6629,0.8993)",
+                                "span": {
+                                    "offset": 2025,
+                                    "length": 34
+                                }
+                            },
+                            {
+                                "content": "Agent countersignature",
+                                "source": "D(2,0.6432,1.5354,2.2199,1.5322,2.2202,1.7,0.6436,1.7033)",
+                                "span": {
+                                    "offset": 2061,
+                                    "length": 22
+                                }
+                            },
+                            {
+                                "content": "Company officers",
+                                "source": "D(2,0.6461,2.1135,1.8132,2.1089,1.8138,2.2788,0.6468,2.2834)",
+                                "span": {
+                                    "offset": 2085,
+                                    "length": 16
+                                }
+                            },
+                            {
+                                "content": "Secretary",
+                                "source": "D(2,1.2948,2.5466,1.8695,2.5496,1.8682,2.6934,1.2935,2.6883)",
+                                "span": {
+                                    "offset": 2103,
+                                    "length": 9
+                                }
+                            },
+                            {
+                                "content": "Form 6489 NV (05/21)",
+                                "source": "D(2,1.4783,3.9258,2.3736,3.9244,2.3738,4.0448,1.4785,4.0463)",
+                                "span": {
+                                    "offset": 2114,
+                                    "length": 20
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "paragraphs": [
+                    {
+                        "content": "CONTOSO LTD P.O. BOX 31260 TAMPA, FL 33631",
+                        "source": "D(1,0.644,0.8342,1.4816,0.833,1.4822,1.2712,0.6447,1.2724)",
+                        "span": {
+                            "offset": 0,
+                            "length": 42
+                        }
+                    },
+                    {
+                        "content": "Bob Carter DUTCH DRAFT DRIVE RENO, NV 89521",
+                        "source": "D(1,0.6487,2.147,1.6668,2.148,1.6664,2.5866,0.6483,2.5856)",
+                        "span": {
+                            "offset": 44,
+                            "length": 43
+                        }
+                    },
+                    {
+                        "content": "CONTOSO LTD.",
+                        "source": "D(1,5.6189,0.5356,7.512,0.5385,7.5116,0.7767,5.6186,0.7739)",
+                        "span": {
+                            "offset": 89,
+                            "length": 12
+                        }
+                    },
+                    {
+                        "content": "Policy Number: CP-BOB-2021-00 Underwritten by: Contoso Ltd.",
+                        "source": "D(1,5.6342,1.0931,7.4142,1.0888,7.415,1.3929,5.635,1.3972)",
+                        "span": {
+                            "offset": 103,
+                            "length": 59
+                        }
+                    },
+                    {
+                        "content": "April 29, 2021 Policy Period: Mar 1, 2021 - Sep 1, 2021",
+                        "source": "D(1,5.8518,1.582,7.8287,1.5802,7.829,1.8682,5.8521,1.87)",
+                        "span": {
+                            "offset": 164,
+                            "length": 55
+                        }
+                    },
+                    {
+                        "content": "Page 1 of2",
+                        "source": "D(1,6.1392,1.9429,6.6502,1.9411,6.6506,2.0608,6.1396,2.0627)",
+                        "span": {
+                            "offset": 221,
+                            "length": 10
+                        }
+                    },
+                    {
+                        "content": "Online Service Make payments, check billing activity, update policy information or check status of a claim.",
+                        "source": "D(1,5.8555,2.1325,7.8313,2.1368,7.83,2.7475,5.8542,2.7432)",
+                        "span": {
+                            "offset": 233,
+                            "length": 107
+                        }
+                    },
+                    {
+                        "content": "1-800-776-4737",
+                        "source": "D(1,5.6384,2.8886,6.507,2.8882,6.5071,3.0118,5.6385,3.0122)",
+                        "span": {
+                            "offset": 342,
+                            "length": 14
+                        }
+                    },
+                    {
+                        "content": "For customer service and claims service, 24 hours a day, 7 days a week. P.O. Box 31260 Tampa, FL 33631",
+                        "source": "D(1,5.8535,3.063,7.7111,3.0619,7.7115,3.6565,5.8539,3.6575)",
+                        "span": {
+                            "offset": 358,
+                            "length": 102
+                        }
+                    },
+                    {
+                        "content": "Auto Insurance Coverage Summary This is a copy of your Declarations Page",
+                        "source": "D(1,1.3202,3.4427,3.7021,3.4593,3.6933,4.7316,1.3113,4.715)",
+                        "span": {
+                            "offset": 462,
+                            "length": 72
+                        }
+                    },
+                    {
+                        "content": "Your coverage began on March 1, 2021 at 12:01 a.m. This policy expires on September 1, 2021 at 12:01 a.m.",
+                        "source": "D(1,1.4821,4.8682,7.2558,4.8671,7.2558,5.0204,1.4821,5.0215)",
+                        "span": {
+                            "offset": 536,
+                            "length": 105
+                        }
+                    },
+                    {
+                        "content": "This coverage summary replaces your prior one. Your insurance policy and any policy endorsements contain a full explanation of your coverage. The policy limits shown for a vehicle may not be combined with the limits for the same coverage on another vehicle. The policy contract is form 9611D NV (01/16) . The contract is modified by forms Z357 (01/07), A264 (10/18) and A340 (01/22).",
+                        "source": "D(1,1.4843,5.1014,7.7486,5.0972,7.7491,5.7793,1.4848,5.7835)",
+                        "span": {
+                            "offset": 643,
+                            "length": 383
+                        }
+                    },
+                    {
+                        "content": "Drivers and household residents",
+                        "source": "D(1,0.647,5.9283,2.7958,5.9307,2.7957,6.0956,0.6468,6.0932)",
+                        "span": {
+                            "offset": 1028,
+                            "length": 31
+                        }
+                    },
+                    {
+                        "content": "Bob Carter",
+                        "source": "D(1,1.4855,6.1997,2.1491,6.2007,2.1489,6.3398,1.4853,6.3389)",
+                        "span": {
+                            "offset": 1061,
+                            "length": 10
+                        }
+                    },
+                    {
+                        "content": "Additional information: Named insured",
+                        "source": "D(1,1.4832,6.4486,3.5958,6.4495,3.5958,6.5891,1.4831,6.5882)",
+                        "span": {
+                            "offset": 1073,
+                            "length": 37
+                        }
+                    },
+                    {
+                        "content": "Outline of coverage",
+                        "source": "D(1,0.6246,6.9305,1.9316,6.9363,1.9309,7.0989,0.6239,7.093)",
+                        "span": {
+                            "offset": 1112,
+                            "length": 19
+                        }
+                    },
+                    {
+                        "content": "2019 Toyota Camry VIN: 4T1BF1FK9HU456789",
+                        "source": "D(1,0.7906,7.1332,2.4474,7.1326,2.4475,7.4708,0.7907,7.4714)",
+                        "span": {
+                            "offset": 1133,
+                            "length": 40
+                        }
+                    },
+                    {
+                        "content": "Garaging ZIP: 45502",
+                        "source": "D(1,0.7958,7.5146,2.0418,7.5097,2.0424,7.6656,0.7965,7.6705)",
+                        "span": {
+                            "offset": 1175,
+                            "length": 19
+                        }
+                    },
+                    {
+                        "content": "Primary Use: Pleasure",
+                        "source": "D(1,0.7939,7.6968,2.1666,7.6989,2.1664,7.8501,0.7937,7.848)",
+                        "span": {
+                            "offset": 1196,
+                            "length": 21
+                        }
+                    },
+                    {
+                        "content": "General policy coverage",
+                        "source": "D(1,0.7253,7.8564,2.7559,7.8564,2.7559,8.068,0.7253,8.068)",
+                        "span": {
+                            "offset": 1237,
+                            "length": 23
+                        }
+                    },
+                    {
+                        "content": "Limits",
+                        "source": "D(1,2.7559,7.8564,5.0272,7.8564,5.0272,8.068,2.7559,8.068)",
+                        "span": {
+                            "offset": 1270,
+                            "length": 6
+                        }
+                    },
+                    {
+                        "content": "Deducible",
+                        "source": "D(1,5.0272,7.8564,5.8371,7.8564,5.8371,8.068,5.0272,8.068)",
+                        "span": {
+                            "offset": 1286,
+                            "length": 9
+                        }
+                    },
+                    {
+                        "content": "Premium",
+                        "source": "D(1,5.8371,7.8564,6.4357,7.8564,6.4357,8.068,5.8371,8.068)",
+                        "span": {
+                            "offset": 1305,
+                            "length": 7
+                        }
+                    },
+                    {
+                        "content": "Liability To Others",
+                        "source": "D(1,0.7253,8.068,2.7559,8.068,2.7559,8.2149,0.7253,8.2208)",
+                        "span": {
+                            "offset": 1333,
+                            "length": 19
+                        }
+                    },
+                    {
+                        "content": "Bodily Injury Liability",
+                        "source": "D(1,0.7253,8.2208,2.7559,8.2149,2.7559,8.3677,0.7253,8.3677)",
+                        "span": {
+                            "offset": 1403,
+                            "length": 23
+                        }
+                    },
+                    {
+                        "content": "$50,000 each person/$100,000 each accident",
+                        "source": "D(1,2.7559,8.2149,5.0272,8.2149,5.0272,8.3618,2.7559,8.3677)",
+                        "span": {
+                            "offset": 1436,
+                            "length": 42
+                        }
+                    },
+                    {
+                        "content": "$45.00",
+                        "source": "D(1,5.8371,8.2149,6.4298,8.2149,6.4298,8.3618,5.8371,8.3618)",
+                        "span": {
+                            "offset": 1498,
+                            "length": 6
+                        }
+                    },
+                    {
+                        "content": "Property Damage Liability",
+                        "source": "D(1,0.7253,8.3677,2.7559,8.3677,2.75,8.5205,0.7194,8.5205)",
+                        "span": {
+                            "offset": 1525,
+                            "length": 25
+                        }
+                    },
+                    {
+                        "content": "$25,000 each accident",
+                        "source": "D(1,2.7559,8.3677,5.0272,8.3618,5.0272,8.5205,2.75,8.5205)",
+                        "span": {
+                            "offset": 1560,
+                            "length": 21
+                        }
+                    },
+                    {
+                        "content": "30.00",
+                        "source": "D(1,5.8371,8.3618,6.4298,8.3618,6.424,8.5205,5.8312,8.5205)",
+                        "span": {
+                            "offset": 1601,
+                            "length": 5
+                        }
+                    },
+                    {
+                        "content": "Uninsured Motorist",
+                        "source": "D(1,0.7194,8.5205,2.75,8.5205,2.75,8.7321,0.7194,8.7203)",
+                        "span": {
+                            "offset": 1627,
+                            "length": 18
+                        }
+                    },
+                    {
+                        "content": "$25,000 each person/$50,000 each accident",
+                        "source": "D(1,2.75,8.5205,5.0272,8.5205,5.0272,8.7321,2.75,8.7321)",
+                        "span": {
+                            "offset": 1655,
+                            "length": 41
+                        }
+                    },
+                    {
+                        "content": "15.00",
+                        "source": "D(1,5.8312,8.5205,6.424,8.5205,6.424,8.7321,5.8312,8.7321)",
+                        "span": {
+                            "offset": 1716,
+                            "length": 5
+                        }
+                    },
+                    {
+                        "content": "Underinsured Motorist",
+                        "source": "D(1,0.7194,8.7203,2.75,8.7321,2.75,8.9319,0.7194,8.9319)",
+                        "span": {
+                            "offset": 1742,
+                            "length": 21
+                        }
+                    },
+                    {
+                        "content": "$25,000 each person/$50,000 each accident",
+                        "source": "D(1,2.75,8.7321,5.0272,8.7321,5.0272,8.9319,2.75,8.9319)",
+                        "span": {
+                            "offset": 1773,
+                            "length": 41
+                        }
+                    },
+                    {
+                        "content": "20.00",
+                        "source": "D(1,5.8312,8.7321,6.424,8.7321,6.4181,8.9319,5.8312,8.9319)",
+                        "span": {
+                            "offset": 1834,
+                            "length": 5
+                        }
+                    },
+                    {
+                        "content": "Total 6 month policy premium and fees",
+                        "source": "D(1,0.7194,8.9319,2.75,8.9319,2.75,9.1376,0.7135,9.1317)",
+                        "span": {
+                            "offset": 1860,
+                            "length": 37
+                        }
+                    },
+                    {
+                        "content": "$110.00",
+                        "source": "D(1,5.8312,8.9319,6.4181,8.9319,6.4181,9.1376,5.8312,9.1376)",
+                        "span": {
+                            "offset": 1927,
+                            "length": 7
+                        }
+                    },
+                    {
+                        "content": "Premium discounts \u00b7 Multi-Policy Discount (10%) \u00b7 Three-Year Safe Driving Discount",
+                        "source": "D(2,0.6495,0.3695,2.5971,0.3726,2.5963,0.9024,0.6487,0.8993)",
+                        "span": {
+                            "offset": 1977,
+                            "length": 82
+                        }
+                    },
+                    {
+                        "content": "Agent countersignature",
+                        "source": "D(2,0.6432,1.5354,2.2199,1.5322,2.2202,1.7,0.6436,1.7033)",
+                        "span": {
+                            "offset": 2061,
+                            "length": 22
+                        }
+                    },
+                    {
+                        "content": "Company officers",
+                        "source": "D(2,0.6461,2.1135,1.8132,2.1089,1.8138,2.2788,0.6468,2.2834)",
+                        "span": {
+                            "offset": 2085,
+                            "length": 16
+                        }
+                    },
+                    {
+                        "content": "Secretary",
+                        "source": "D(2,1.2948,2.5444,1.8695,2.5496,1.8683,2.6934,1.2935,2.6883)",
+                        "span": {
+                            "offset": 2103,
+                            "length": 9
+                        }
+                    },
+                    {
+                        "content": "Form 6489 NV (05/21)",
+                        "source": "D(2,1.4783,3.9258,2.3736,3.9244,2.3738,4.0448,1.4785,4.0463)",
+                        "span": {
+                            "offset": 2114,
+                            "length": 20
+                        }
+                    }
+                ],
+                "sections": [
+                    {
+                        "span": {
+                            "offset": 0,
+                            "length": 2134
+                        },
+                        "elements": [
+                            "/paragraphs/0",
+                            "/paragraphs/1",
+                            "/paragraphs/2",
+                            "/paragraphs/3",
+                            "/paragraphs/4",
+                            "/paragraphs/5",
+                            "/paragraphs/6",
+                            "/paragraphs/7",
+                            "/paragraphs/8",
+                            "/paragraphs/9",
+                            "/paragraphs/10",
+                            "/paragraphs/11",
+                            "/paragraphs/12",
+                            "/paragraphs/13",
+                            "/paragraphs/14",
+                            "/paragraphs/15",
+                            "/paragraphs/16",
+                            "/paragraphs/17",
+                            "/paragraphs/18",
+                            "/tables/0",
+                            "/paragraphs/38",
+                            "/paragraphs/39",
+                            "/paragraphs/40",
+                            "/paragraphs/41",
+                            "/paragraphs/42"
+                        ]
+                    }
+                ],
+                "tables": [
+                    {
+                        "rowCount": 7,
+                        "columnCount": 4,
+                        "cells": [
+                            {
+                                "kind": "columnHeader",
+                                "rowIndex": 0,
+                                "columnIndex": 0,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "General policy coverage",
+                                "source": "D(1,0.7253,7.8564,2.7559,7.8564,2.7559,8.068,0.7253,8.068)",
+                                "span": {
+                                    "offset": 1237,
+                                    "length": 23
+                                },
+                                "elements": [
+                                    "/paragraphs/19"
+                                ]
+                            },
+                            {
+                                "kind": "columnHeader",
+                                "rowIndex": 0,
+                                "columnIndex": 1,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "Limits",
+                                "source": "D(1,2.7559,7.8564,5.0272,7.8564,5.0272,8.068,2.7559,8.068)",
+                                "span": {
+                                    "offset": 1270,
+                                    "length": 6
+                                },
+                                "elements": [
+                                    "/paragraphs/20"
+                                ]
+                            },
+                            {
+                                "kind": "columnHeader",
+                                "rowIndex": 0,
+                                "columnIndex": 2,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "Deducible",
+                                "source": "D(1,5.0272,7.8564,5.8371,7.8564,5.8371,8.068,5.0272,8.068)",
+                                "span": {
+                                    "offset": 1286,
+                                    "length": 9
+                                },
+                                "elements": [
+                                    "/paragraphs/21"
+                                ]
+                            },
+                            {
+                                "kind": "columnHeader",
+                                "rowIndex": 0,
+                                "columnIndex": 3,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "Premium",
+                                "source": "D(1,5.8371,7.8564,6.4357,7.8564,6.4357,8.068,5.8371,8.068)",
+                                "span": {
+                                    "offset": 1305,
+                                    "length": 7
+                                },
+                                "elements": [
+                                    "/paragraphs/22"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 1,
+                                "columnIndex": 0,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "Liability To Others",
+                                "source": "D(1,0.7253,8.068,2.7559,8.068,2.7559,8.2149,0.7253,8.2208)",
+                                "span": {
+                                    "offset": 1333,
+                                    "length": 19
+                                },
+                                "elements": [
+                                    "/paragraphs/23"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 1,
+                                "columnIndex": 1,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "",
+                                "source": "D(1,2.7559,8.068,5.0272,8.068,5.0272,8.2149,2.7559,8.2149)",
+                                "span": {
+                                    "offset": 1362,
+                                    "length": 0
+                                }
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 1,
+                                "columnIndex": 2,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "",
+                                "source": "D(1,5.0272,8.068,5.8371,8.068,5.8371,8.2149,5.0272,8.2149)",
+                                "span": {
+                                    "offset": 1372,
+                                    "length": 0
+                                }
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 1,
+                                "columnIndex": 3,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "",
+                                "source": "D(1,5.8371,8.068,6.4357,8.068,6.4298,8.2149,5.8371,8.2149)",
+                                "span": {
+                                    "offset": 1382,
+                                    "length": 0
+                                }
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 2,
+                                "columnIndex": 0,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "Bodily Injury Liability",
+                                "source": "D(1,0.7253,8.2208,2.7559,8.2149,2.7559,8.3677,0.7253,8.3677)",
+                                "span": {
+                                    "offset": 1403,
+                                    "length": 23
+                                },
+                                "elements": [
+                                    "/paragraphs/24"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 2,
+                                "columnIndex": 1,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "$50,000 each person/$100,000 each accident",
+                                "source": "D(1,2.7559,8.2149,5.0272,8.2149,5.0272,8.3618,2.7559,8.3677)",
+                                "span": {
+                                    "offset": 1436,
+                                    "length": 42
+                                },
+                                "elements": [
+                                    "/paragraphs/25"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 2,
+                                "columnIndex": 2,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "",
+                                "source": "D(1,5.0272,8.2149,5.8371,8.2149,5.8371,8.3618,5.0272,8.3618)",
+                                "span": {
+                                    "offset": 1488,
+                                    "length": 0
+                                }
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 2,
+                                "columnIndex": 3,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "$45.00",
+                                "source": "D(1,5.8371,8.2149,6.4298,8.2149,6.4298,8.3618,5.8371,8.3618)",
+                                "span": {
+                                    "offset": 1498,
+                                    "length": 6
+                                },
+                                "elements": [
+                                    "/paragraphs/26"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 3,
+                                "columnIndex": 0,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "Property Damage Liability",
+                                "source": "D(1,0.7253,8.3677,2.7559,8.3677,2.75,8.5205,0.7194,8.5205)",
+                                "span": {
+                                    "offset": 1525,
+                                    "length": 25
+                                },
+                                "elements": [
+                                    "/paragraphs/27"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 3,
+                                "columnIndex": 1,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "$25,000 each accident",
+                                "source": "D(1,2.7559,8.3677,5.0272,8.3618,5.0272,8.5205,2.75,8.5205)",
+                                "span": {
+                                    "offset": 1560,
+                                    "length": 21
+                                },
+                                "elements": [
+                                    "/paragraphs/28"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 3,
+                                "columnIndex": 2,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "",
+                                "source": "D(1,5.0272,8.3618,5.8371,8.3618,5.8312,8.5205,5.0272,8.5205)",
+                                "span": {
+                                    "offset": 1591,
+                                    "length": 0
+                                }
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 3,
+                                "columnIndex": 3,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "30.00",
+                                "source": "D(1,5.8371,8.3618,6.4298,8.3618,6.424,8.5205,5.8312,8.5205)",
+                                "span": {
+                                    "offset": 1601,
+                                    "length": 5
+                                },
+                                "elements": [
+                                    "/paragraphs/29"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 4,
+                                "columnIndex": 0,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "Uninsured Motorist",
+                                "source": "D(1,0.7194,8.5205,2.75,8.5205,2.75,8.7321,0.7194,8.7203)",
+                                "span": {
+                                    "offset": 1627,
+                                    "length": 18
+                                },
+                                "elements": [
+                                    "/paragraphs/30"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 4,
+                                "columnIndex": 1,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "$25,000 each person/$50,000 each accident",
+                                "source": "D(1,2.75,8.5205,5.0272,8.5205,5.0272,8.7321,2.75,8.7321)",
+                                "span": {
+                                    "offset": 1655,
+                                    "length": 41
+                                },
+                                "elements": [
+                                    "/paragraphs/31"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 4,
+                                "columnIndex": 2,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "",
+                                "source": "D(1,5.0272,8.5205,5.8312,8.5205,5.8312,8.7321,5.0272,8.7321)",
+                                "span": {
+                                    "offset": 1706,
+                                    "length": 0
+                                }
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 4,
+                                "columnIndex": 3,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "15.00",
+                                "source": "D(1,5.8312,8.5205,6.424,8.5205,6.424,8.7321,5.8312,8.7321)",
+                                "span": {
+                                    "offset": 1716,
+                                    "length": 5
+                                },
+                                "elements": [
+                                    "/paragraphs/32"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 5,
+                                "columnIndex": 0,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "Underinsured Motorist",
+                                "source": "D(1,0.7194,8.7203,2.75,8.7321,2.75,8.9319,0.7194,8.9319)",
+                                "span": {
+                                    "offset": 1742,
+                                    "length": 21
+                                },
+                                "elements": [
+                                    "/paragraphs/33"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 5,
+                                "columnIndex": 1,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "$25,000 each person/$50,000 each accident",
+                                "source": "D(1,2.75,8.7321,5.0272,8.7321,5.0272,8.9319,2.75,8.9319)",
+                                "span": {
+                                    "offset": 1773,
+                                    "length": 41
+                                },
+                                "elements": [
+                                    "/paragraphs/34"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 5,
+                                "columnIndex": 2,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "",
+                                "source": "D(1,5.0272,8.7321,5.8312,8.7321,5.8312,8.9319,5.0272,8.9319)",
+                                "span": {
+                                    "offset": 1824,
+                                    "length": 0
+                                }
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 5,
+                                "columnIndex": 3,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "20.00",
+                                "source": "D(1,5.8312,8.7321,6.424,8.7321,6.4181,8.9319,5.8312,8.9319)",
+                                "span": {
+                                    "offset": 1834,
+                                    "length": 5
+                                },
+                                "elements": [
+                                    "/paragraphs/35"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 6,
+                                "columnIndex": 0,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "Total 6 month policy premium and fees",
+                                "source": "D(1,0.7194,8.9319,2.75,8.9319,2.75,9.1376,0.7135,9.1317)",
+                                "span": {
+                                    "offset": 1860,
+                                    "length": 37
+                                },
+                                "elements": [
+                                    "/paragraphs/36"
+                                ]
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 6,
+                                "columnIndex": 1,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "",
+                                "source": "D(1,2.75,8.9319,5.0272,8.9319,5.0272,9.1376,2.75,9.1376)",
+                                "span": {
+                                    "offset": 1907,
+                                    "length": 0
+                                }
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 6,
+                                "columnIndex": 2,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "",
+                                "source": "D(1,5.0272,8.9319,5.8312,8.9319,5.8312,9.1376,5.0272,9.1376)",
+                                "span": {
+                                    "offset": 1917,
+                                    "length": 0
+                                }
+                            },
+                            {
+                                "kind": "content",
+                                "rowIndex": 6,
+                                "columnIndex": 3,
+                                "rowSpan": 1,
+                                "columnSpan": 1,
+                                "content": "$110.00",
+                                "source": "D(1,5.8312,8.9319,6.4181,8.9319,6.4181,9.1376,5.8312,9.1376)",
+                                "span": {
+                                    "offset": 1927,
+                                    "length": 7
+                                },
+                                "elements": [
+                                    "/paragraphs/37"
+                                ]
+                            }
+                        ],
+                        "source": "D(1,0.7526,7.8744,6.4058,7.8808,6.4028,9.1439,0.7495,9.1367)",
+                        "span": {
+                            "offset": 1220,
+                            "length": 734
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

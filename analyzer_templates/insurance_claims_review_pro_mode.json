@@ -1,0 +1,125 @@
+{
+  "baseAnalyzerId": "prebuilt-documentAnalyzer",
+  "mode": "pro",
+  "processingLocation": "global",
+  "fieldSchema": {
+    "name": "InsuranceClaimsReview",
+    "description": "Analyze documents for insurance claim approval strictly according to the provided insurance policy. Consider all aspects of the insurance claim documents, any potential discrepancies found among the documents, any claims that should be flagged for review, etc.",
+    "fields": {
+      "CarBrand": {
+        "description": "Brand of the damaged vehicle.",
+        "type": "string"
+      },
+      "CarColor": {
+        "description": "Color of the damaged vehicle. Only use color name from 17 web colors. Use CamalCase naming convention.",
+        "type": "string"
+      },
+      "CarModel": {
+        "description": "Model of the damaged vehicle. Do not include brand name. Leave empty if not found.",
+        "type": "string"
+      },
+      "LicensePlate": {  
+        "description": "License plate number of the damaged vehicle.",
+        "type": "string"
+      },
+      "VIN": {
+        "description": "VIN of the damaged vehicle. Leave empty if not found.",
+        "type": "string"
+      },
+      "LineItemCorroboration": {
+        "type": "array",
+        "description": "Validation of all of the line items on the claim, including parts, services, labors, materials, shipping and other costs and fees. When in doubt about adherence to the policy, mark as suspicious.",
+        "items": {
+          "$ref": "#/$defs/LineItemAnalysisEntry"
+        }
+      }
+    },
+    "definitions": {
+      "LineItemAnalysisEntry": {
+        "type": "object",
+        "description": "Entry in the line item analysis table to analyze the pertinent information for the line item.",
+        "properties": {
+          "LineItemName": {
+            "description": "Name of the line item in the claim.",
+            "type": "string"
+          },
+          "IdentifiedVehiclePart": {
+            "description": "The relevant associated vehicle part for this line item",
+            "enum": [
+              "BODY_TRIM",
+              "DRIVER_SIDE_DRIVER_DOOR",
+              "DRIVER_SIDE_DRIVER_HANDLE",
+              "DRIVER_SIDE_FRONT_TIRE",
+              "DRIVER_SIDE_FRONT_WHEEL",
+              "DRIVER_SIDE_FUEL_CAP",
+              "DRIVER_SIDE_PASSENGER_DOOR",
+              "DRIVER_SIDE_PASSENGER_HANDLE",
+              "DRIVER_SIDE_PASSENGER_WINDOW",
+              "DRIVER_SIDE_REAR_HEADLAMP",
+              "DRIVER_SIDE_REAR_TIRE",
+              "DRIVER_SIDE_REAR_WHEEL",
+              "DRIVER_SIDE_SIDE_WINDOW",
+              "DRIVER_SIDE_WINDOW",
+              "DRIVER_SIDE_WING_MIRROR",
+              "FRONT_BONNET",
+              "FRONT_BUMPER_LOWER",
+              "FRONT_BUMPER_UPPER",
+              "FRONT_DRIVER_SIDE_FOG_LIGHT",
+              "FRONT_DRIVER_SIDE_HEADLAMP",
+              "FRONT_GRILL",
+              "FRONT_NUMBER_PLATE",
+              "FRONT_PASSENGER_SIDE_FOG_LIGHT",
+              "FRONT_PASSENGER_SIDE_HEADLAMP",
+              "FRONT_WINDSHIELD",
+              "PASSENGER_SIDE_DRIVER_DOOR",
+              "PASSENGER_SIDE_DRIVER_HANDLE",
+              "PASSENGER_SIDE_FRONT_TIRE",
+              "PASSENGER_SIDE_FRONT_WHEEL",
+              "PASSENGER_SIDE_PASSENGER_DOOR",
+              "PASSENGER_SIDE_PASSENGER_HANDLE",
+              "PASSENGER_SIDE_PASSENGER_WINDOW",
+              "PASSENGER_SIDE_REAR_HEADLAMP",
+              "PASSENGER_SIDE_REAR_TIRE",
+              "PASSENGER_SIDE_REAR_WHEEL",
+              "PASSENGER_SIDE_SIDE_WINDOW",
+              "PASSENGER_SIDE_WINDOW",
+              "PASSENGER_SIDE_WING_MIRROR",
+              "REAR_BUMPER",
+              "REAR_NUMBER_PLATE",
+              "REAR_TRUNK",
+              "REAR_WINDSHIELD",
+              "ROOF_PANEL",
+              "OTHER"
+            ],
+            "type": "string"
+          },
+          "Cost": {
+            "description": "The cost of this line item on the claim.",
+            "type": "number"
+          },
+          "Evidence": {
+            "description": "The evidence for this line item entry, a list of the document with analyzed evidence supporting the claim formatted as <document name>/<evidence>. One of the insurance policy documents must be one of the documents.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "ClaimStatus": {
+            "type": "string",
+            "description": "Determined by confidence in whether the claim should be approved based on the evidence. Item should be compliant to insurance policy and required for repairing the vehicle. Only use 'confirmed' for items explicitly approvable according to the policy. If unsure, use 'suspicious'.",
+            "enum": [
+              "confirmed",
+              "suspicious",
+              "unconfirmed"
+            ],
+            "enumDescriptions": {
+              "confirmed": "Completely and explicitly corroborated by the policy.",
+              "suspicious": "Only partially verified, questionable, or otherwise uncertain evidence to approve automatically. Requires human review.",
+              "unconfirmed": "Explicitly not approved by the policy."
+            }
+          }
+        }
+      }
+    }
+  }
+}
