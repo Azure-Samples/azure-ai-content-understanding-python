@@ -8,7 +8,7 @@ from io import StringIO
 
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 from dotenv import find_dotenv, load_dotenv
-from github import Github, GithubException
+from github import Github
 from openai import AzureOpenAI
 from unidiff import PatchSet
 
@@ -23,7 +23,7 @@ AZURE_OPENAI_API_VERSION = "2024-12-01-preview"
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 REPO_NAME = os.getenv("GITHUB_REPOSITORY")
 TARGET_FILE = os.getenv("INPUT_FILE_PATH")
-REVIEW_CHANGES = os.getenv("REVIEW_CHANGES", "false").lower() == "true"
+ENABLE_REVIEW_CHANGES = os.getenv("ENABLE_REVIEW_CHANGES", "true").lower() == "true"
 
 if not all([
     AZURE_OPENAI_ENDPOINT,
@@ -240,12 +240,6 @@ def main():
     print("🤖 Running LLM review...")
     updated_content = run_llm_review(TARGET_FILE, orig)
 
-    # NOTE: for testing
-    # script_dir = os.path.dirname(os.path.abspath(__file__))
-    # new_file_path = os.path.join(script_dir, "new_file.txt")
-    # with open(new_file_path, "r", encoding="utf-8") as f:
-    #     updated_content = f.read()
-
     new_branch = f"review-{TARGET_FILE.replace('/', '-')}-{int(time.time())}"
     print(f"🌿 Creating new branch `{new_branch}`...")
     repo.create_git_ref(ref=f"refs/heads/{new_branch}", sha=base_sha)
@@ -270,10 +264,9 @@ def main():
 
     print(f"✅ PR created: {pr.html_url}")
 
-    # NOTE: testing purpose
-    # pr = repo.get_pull(4)
-    print("🧠 Running LLM diff review and commenting...")
-    review_changes_and_comment_by_section(pr)
+    if ENABLE_REVIEW_CHANGES:
+        print("🧠 Running LLM diff review and commenting...")
+        review_changes_and_comment_by_section(pr)
 
 if __name__ == "__main__":
     main()
