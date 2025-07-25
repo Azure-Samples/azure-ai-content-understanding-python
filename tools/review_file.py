@@ -65,8 +65,6 @@ def run_llm_review(path, content):
         f"5. Ensure the consistency of the technical details among README and code comments.\n\n"
         f"Output:\n"
         f"Return the **full revised content** as a plain text string.\n"
-        f"Do not include any explanations, Markdown, or formatting (e.g., no triple backticks).\n"
-        f"Only return the revised content."
     )
 
     response = client.chat.completions.create(
@@ -92,8 +90,8 @@ def run_llm_comment_on_patch(patch: str) -> str:
         f"on the possible rationales of the modifications.\n"
         f"1. Identify the categories of the changes: typo, grammar, clarity, or consistency.\n"
         f"2. Provide the list of main changes and their rationales and impact on the documentation. "
-        f"like a. change:..., b. rationale:..., c. impact:...\n"
-        f"* Do not need to suggest any further changes or improvements.\n\n"
+        f"like a. - **change**:..., - **rationale**:..., - **impact**:...\n"
+        f"* Do not suggest any further changes or improvements.\n"
     )
 
     response = client.chat.completions.create(
@@ -199,16 +197,25 @@ def review_changes_and_comment_by_section(pr):
                 section_text = "".join(str(line) for line in section)
                 comment = run_llm_comment_on_patch(section_text)
                 if comment.strip():
-                    first_line = next((l for l in section if l.is_added), None)
-                    if not first_line:
+                    last_line = next((l for l in reversed(section) if l.is_added), None)
+                    if not last_line:
+                        print(
+                            f"⚠️ Skipping section in `{filename}` — "
+                            f"no added lines found:\n{section_text}"
+                        )
                         continue
-                    position = find_position_in_pr(pr, filename, first_line.target_line_no)
+                    position = find_position_in_pr(pr, filename, last_line.target_line_no)
                     if position:
                         review_comments.append({
                             "path": filename,
                             "position": position,
                             "body": comment.strip()
                         })
+                    else:
+                        print(
+                            f"⚠️ Unable to determine position for comment in `{filename}` "
+                            f"at line {last_line.target_line_no}."
+                        )
 
     if review_comments:
         print(f"📝 Submitting {len(review_comments)} section-level comments to {pr.html_url}")
