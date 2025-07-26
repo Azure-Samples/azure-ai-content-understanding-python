@@ -1,3 +1,19 @@
+# Tools Documentation
+
+## Table of Contents
+- [test_notebooks.py](#test_notebookspy)
+  - [Features](#features)
+  - [Usage](#usage)
+  - [Setting Up Environment Variables](#setting-up-environment-variables)
+  - [Skip List](#skip-list)
+  - [Dependencies](#dependencies)
+  - [Exit Codes](#exit-codes)
+  - [Notes](#notes)
+- [review_file.py](#review_filepy)
+  - [Automated Documentation & Code Review](#automated-documentation--code-review)
+  - [Usage](#usage-1)
+  - [Notes](#notes-1)
+
 # test_notebooks.py
 
 This script is designed for **testing and validating** that all Jupyter notebooks in the `notebooks/` directory (or a specified directory) execute successfully from start to finish. It is especially useful for pre-merge checks and for contributors to verify that their changes do not break any notebook workflows.
@@ -61,3 +77,43 @@ pip3 install nbformat nbconvert
 
 ## Notes
 - Notebooks that require manual input, special setup, or specific environment variables could be added to the skip list or set up the requirements accordingly.
+
+
+# review_file.py
+
+## Automated Documentation & Code Review
+
+The `review_file.py` script uses Azure OpenAI and GitHub APIs to automatically review and improve documentation or code files, then creates a pull request with suggested changes. It also analyzes diffs and leaves section-level comments on PRs.
+
+### Usage
+
+1. **Set Required Environment Variables**  
+   you can copy `tools/.env.sample` to `tools/.env`
+   Ensure the following environment variables are set in your [.env](../tools/.env) file under `/tools`:
+   - `AZURE_OPENAI_ENDPOINT`
+   - `AZURE_OPENAI_DEPLOYMENT`
+   - `GITHUB_TOKEN`
+   - `GITHUB_REPOSITORY`
+   - `INPUT_FILE_PATH`
+   - Optionally: `ENABLE_REVIEW_CHANGES` (default: `true`)
+
+2. **Install Dependencies**  
+   ```bash
+   pip3 install azure-identity python-dotenv PyGithub openai unidiff requests
+   ```
+
+3. **Run the Script**  
+   ```bash
+   python3 tools/review_file.py
+   ```
+   This will:
+   - Review the file specified by `INPUT_FILE_PATH` using LLM.
+   - Create a new branch and commit the revised file.
+   - Open a pull request with the changes.
+   - Optionally, analyze the diff and comment on changed sections.
+
+### Notes
+
+- The script is intended for documentation files (e.g., `README.md`) and code comments.
+- Ensure your Azure OpenAI and GitHub credentials are valid.
+- Comments on PRs are generated using LLM for clarity and rationale.

@@ -8,14 +8,15 @@ from io import StringIO
 from typing import Optional, List, Dict, Any
 
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider
-from dotenv import find_dotenv, load_dotenv
+from dotenv import load_dotenv
 from github import Github, PullRequest
 from openai import AzureOpenAI
 from unidiff.patch import PatchSet, Hunk, Line
 
 
-# Load environment variables from .env file
-load_dotenv(find_dotenv())
+# Load environment variables from .env file in the same directory as this script
+dotenv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+load_dotenv(dotenv_path)
 
 # Required environment variables
 AZURE_OPENAI_ENDPOINT: Optional[str] = os.getenv("AZURE_OPENAI_ENDPOINT")
