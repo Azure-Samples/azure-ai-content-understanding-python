@@ -81,7 +81,7 @@ def run_llm_review(file_path: str, file_content: str) -> tuple[str, str]:
         f"2. Revise the content to improve clarity, grammar, formatting, and overall structure.\n"
         f"3. Focus specifically on documentation elements, such as the full content of README files, "
         f"code comments, and markdown sections in Python notebooks.\n"
-        f"4. Do not modify any code logic or functionality, only improve the documentation elements.\n"
+        f"4. **IMPORTANT:** Do not modify any code logic or functionality, only improve the documentation elements.\n"
         f"5. Edit the text directly to enhance readability and technical accuracy.\n"
         f"6. Preserve the original meaning and intent of the content.\n"
         f"7. Ensure consistency in terminology, tone, and technical details across README files, code comments, and markdown sections.\n\n"
@@ -334,7 +334,7 @@ def main() -> None:
             f"LLM review details:\n{llm_review_details}"
         )
         pr = repo.create_pull(
-            title=f"Review `{base_branch}/{TARGET_FILE}`",
+            title=f"Review `{base_branch}-{TARGET_FILE}`",
             body=pr_message,
             head=new_branch,
             base=base_branch
