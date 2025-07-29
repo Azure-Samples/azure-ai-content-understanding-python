@@ -16,16 +16,34 @@ def should_skip(notebook_path: str, skip_list: List[str]) -> bool:
 
 
 def run_notebook(notebook_path: str, root: str) -> Tuple[bool, Optional[str]]:
-    """Execute a single notebook."""
+    """Execute a single notebook and print outputs of each cell."""
     try:
         print(f"🔧 running: {notebook_path}")
         with open(notebook_path, encoding="utf-8") as f:
             nb = nbformat.read(f, as_version=4)
 
-        ep = ExecutePreprocessor(
-            timeout=SINGLE_NOTEBOOK_TIMEOUT,
-            kernel_name="python3")
+        ep = ExecutePreprocessor(timeout=SINGLE_NOTEBOOK_TIMEOUT, kernel_name="python3")
         ep.preprocess(nb, {"metadata": {"path": root}})
+
+        # Print outputs of each cell
+        for i, cell in enumerate(nb.cells):
+            if cell.cell_type == 'code':
+                print(f"\n📦 Cell {i + 1}:\n{cell.source.strip()}")
+                for output in cell.get('outputs', []):
+                    if output.output_type == 'stream':
+                        print(output.text)
+                    elif output.output_type == 'error':
+                        print("❌ Error:")
+                        print("\n".join(output.get('traceback', [])))
+                    elif output.output_type == 'execute_result':
+                        data = output.get('data', {})
+                        if 'text/plain' in data:
+                            print(data['text/plain'])
+                    elif output.output_type == 'display_data':
+                        data = output.get('data', {})
+                        if 'text/plain' in data:
+                            print(data['text/plain'])
+
         return True, None
     except Exception as e:
         return False, str(e)
