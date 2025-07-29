@@ -99,18 +99,17 @@ def run_llm_review(file_path: str, file_content: str) -> tuple[str, str]:
         sys.exit(1)
 
     llm_review_details = (
-        f"🤖 LLM file review received, token usage:\n"
         f"- Total tokens: {getattr(response.usage, 'total_tokens', 'N/A')}\n"
         f"- Prompt tokens: {getattr(response.usage, 'prompt_tokens', 'N/A')}\n"
         f"- Completion tokens: {getattr(response.usage, 'completion_tokens', 'N/A')}\n"
         f"- Used deployment: {AZURE_OPENAI_DEPLOYMENT}\n"
         f"- API version: {AZURE_OPENAI_API_VERSION}"
     )
-    print(llm_review_details)
+    print(f"🤖 LLM file review received, token usage:\n{llm_review_details}")
 
     return response.choices[0].message.content, llm_review_details
 
-def run_llm_comment_on_patch(patch: str) -> str:
+def run_llm_comment_on_patch(patch: str) -> tuple[str, Optional[int]]:
     """
     Use LLM to analyze a code patch and provide a concise comment
     on the rationale and impact of the changes.
@@ -138,8 +137,12 @@ def run_llm_comment_on_patch(patch: str) -> str:
         print(f"❌ LLM patch comment failed: {e}")
         return ""
 
-    print(f"🤖 LLM change comment received, total token usage: {getattr(response.usage, 'total_tokens', 'N/A')}")
-    return response.choices[0].message.content
+    total_token_usage = getattr(response.usage, 'total_tokens')
+    print(
+        f"🤖 LLM change comment received, total token usage: "
+        f"{total_token_usage if total_token_usage is not None else 'N/A'}"
+    )
+    return response.choices[0].message.content, total_token_usage
 
 def find_position_in_pr(pr: PullRequest.PullRequest, filename: str, line_number: int) -> Optional[int]:
     """
@@ -235,6 +238,7 @@ def review_changes_and_comment_by_section(pr: PullRequest.PullRequest) -> None:
 
     patch_set = PatchSet(StringIO(diff_text))
     review_comments: List[Dict[str, Any]] = []
+    review_token_usage: int = 0
 
     for patched_file in patch_set:
         filename = patched_file.path
@@ -246,7 +250,8 @@ def review_changes_and_comment_by_section(pr: PullRequest.PullRequest) -> None:
 
             for section in changed_sections:
                 section_text = "".join(str(line) for line in section)
-                comment = run_llm_comment_on_patch(section_text)
+                comment, comment_token_usage = run_llm_comment_on_patch(section_text)
+                review_token_usage += comment_token_usage if comment_token_usage else 0
                 if comment.strip():
                     last_line = next((l for l in reversed(section) if l.is_added), None)
                     if not last_line:
@@ -271,8 +276,15 @@ def review_changes_and_comment_by_section(pr: PullRequest.PullRequest) -> None:
     if review_comments:
         print(f"📝 Submitting {len(review_comments)} section-level comments to {pr.html_url}")
         try:
+            comment_message = (
+                f"Automated LLM code review (section-based).\n\n"
+                f"LLM usage details:\n"
+                f"- Total tokens used: {review_token_usage}.\n"
+                f"- Used deployment: {AZURE_OPENAI_DEPLOYMENT}\n"
+                f"- API version: {AZURE_OPENAI_API_VERSION}"
+            )
             pr.create_review(
-                body="Automated LLM code review (section-based).",
+                body=comment_message,
                 event="COMMENT",
                 comments=review_comments
             )
@@ -330,8 +342,8 @@ def main() -> None:
     try:
         pr_message = (
             f"Automated review and documentation improvements for `{TARGET_FILE}` "
-            f"on branch `{base_branch}`\n"
-            f"LLM review details:\n{llm_review_details}"
+            f"on branch `{base_branch}`\n\n"
+            f"LLM usage details:\n{llm_review_details}"
         )
         pr = repo.create_pull(
             title=f"Review `{base_branch}-{TARGET_FILE}`",
