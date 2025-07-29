@@ -3,9 +3,9 @@ name: Monthly Notebook Check
 on:
   # schedule:
   #   - cron: '0 8 1 * *'  # Every month on the 1st at 08:00 UTC
-  # push:
-  #   branches:
-  #     - chienyuanchang/test_github_actions
+  push:
+    branches:
+      - chienyuanchang/test_github_actions
   workflow_dispatch:  # Allows manual run from GitHub UI
 
 jobs:
