@@ -17,6 +17,14 @@ The `review_file.py` script uses Azure OpenAI and GitHub APIs to automatically r
    - Optional:
       - `BRANCH_NAME` (default: default branch such as `main`)
       - `ENABLE_REVIEW_CHANGES` (default: `true`)
+   
+   **💡 Tips for Setting Up `GITHUB_TOKEN`:**
+   - Go to [https://github.com/settings/tokens](https://github.com/settings/tokens) and click **"Generate new token (Classic)"**.
+   - Select the following scopes when generating the token:
+     - ✅ `repo` – Full control of private repositories
+   - If the repository belongs to an organization, make sure:
+     - You are a **collaborator** or a **member with write access**.
+     - The organization allows use of classic tokens.
 
 2. **Install Dependencies**  
    ```bash
