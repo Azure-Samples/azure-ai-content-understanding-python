@@ -8,6 +8,10 @@ on:
       - chienyuanchang/test_github_actions
   workflow_dispatch:  # Allows manual run from GitHub UI
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   test-notebooks:
     runs-on: ubuntu-latest
@@ -37,7 +41,6 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          auth-type: IDENTITY
 
       - name: Run notebook tests
         run: |
