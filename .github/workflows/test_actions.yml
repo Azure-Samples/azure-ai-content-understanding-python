@@ -16,6 +16,8 @@ jobs:
   test-notebooks:
     runs-on: ubuntu-latest
     environment: MMI-Samples
+    env:
+      AZURE_AI_ENDPOINT: ${{ secrets.AZURE_CONTENT_UNDERSTANDING_ENDPOINT }}
 
     steps:
       - name: Checkout Repo
