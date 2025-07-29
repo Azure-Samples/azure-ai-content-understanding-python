@@ -48,4 +48,4 @@ jobs:
       - name: Run notebook tests
         run: |
           set -e
-          python tools/test_notebooks.py
+          python tools/test_notebooks.py > execution_log.txt
