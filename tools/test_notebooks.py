@@ -8,7 +8,7 @@ from nbconvert.preprocessors import ExecutePreprocessor
 
 
 SINGLE_NOTEBOOK_TIMEOUT = 1200
-CONCURRENT_WORKERS = 4
+CONCURRENT_WORKERS = 1
 
 
 def should_skip(notebook_path: str, skip_list: List[str]) -> bool:
