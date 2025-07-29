@@ -16,6 +16,7 @@ The `review_file.py` script uses Azure OpenAI and GitHub APIs to automatically r
    - `INPUT_FILE_PATH`
    - Optional:
       - `BRANCH_NAME` (default: default branch such as `main`)
+      - `USER_INSTRUCTIONS`
       - `ENABLE_REVIEW_CHANGES` (default: `true`)
    
    **💡 Tips for Setting Up `GITHUB_TOKEN`:**

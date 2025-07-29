@@ -26,6 +26,7 @@ GITHUB_TOKEN: Optional[str] = os.getenv("GITHUB_TOKEN")
 REPO_NAME: Optional[str] = os.getenv("GITHUB_REPOSITORY")
 BRANCH_NAME: Optional[str] = os.getenv("BRANCH_NAME")
 TARGET_FILE: Optional[str] = os.getenv("INPUT_FILE_PATH")
+USER_INSTRUCTIONS: str = os.getenv("USER_INSTRUCTIONS", "").strip()
 ENABLE_REVIEW_CHANGES: bool = os.getenv("ENABLE_REVIEW_CHANGES", "true").lower() == "true"
 
 if not all([
@@ -67,11 +68,20 @@ except Exception as e:
     print(f"❌ GitHub authentication or repository access failed: {e}")
     sys.exit(1)
 
-def run_llm_review(file_path: str, file_content: str) -> tuple[str, str]:
+def run_llm_review(
+        file_path: str,
+        file_content: str,
+        user_instructions: str = "",
+    ) -> tuple[str, str]:
     """
     Use LLM to review and improve the content of a file.
     Returns the revised content as a plain text string.
     """
+    user_instructions_prompt = (
+        f"**Additional important instructions:**\n"
+        f"{user_instructions.strip()}\n\n"
+    ) if user_instructions else ""
+
     prompt = (
         f"You are a technical documentation editor.\n\n"
         f"Below is the content of the file `{file_path}`:\n"
@@ -85,6 +95,7 @@ def run_llm_review(file_path: str, file_content: str) -> tuple[str, str]:
         f"5. Edit the text directly to enhance readability and technical accuracy.\n"
         f"6. Preserve the original meaning and intent of the content.\n"
         f"7. Ensure consistency in terminology, tone, and technical details across README files, code comments, and markdown sections.\n\n"
+        f"{user_instructions_prompt}"
         f"Output:\n"
         f"Return the **entire revised content** as a plain text, without additional commentary or formatting.\n"
     )
@@ -314,7 +325,7 @@ def main() -> None:
         sys.exit(1)
 
     print("🤖 Running LLM review...")
-    updated_content, llm_review_details = run_llm_review(TARGET_FILE, orig_content)
+    updated_content, llm_review_details = run_llm_review(TARGET_FILE, orig_content, USER_INSTRUCTIONS)
 
     new_branch = f"review-{base_branch}-{TARGET_FILE.replace('/', '-')}-{int(time.time())}"
     print(f"🌿 Creating new branch `{new_branch}`...")
