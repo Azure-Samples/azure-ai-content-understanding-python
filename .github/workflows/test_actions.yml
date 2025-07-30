@@ -45,7 +45,10 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Pull LFS files
+        run: git lfs pull
+
       - name: Run notebook tests
         run: |
           set -e
-          python tools/test_notebooks.py | tee execution_log.txt
+          python tools/test_notebooks.py
