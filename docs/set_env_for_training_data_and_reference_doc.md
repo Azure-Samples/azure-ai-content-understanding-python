@@ -11,9 +11,9 @@ Folders [document_training](../data/document_training/) and [field_extraction_pr
         - Right-click on blob container and select the `Get Shared Access Signature...` in the menu.
         - Check the required permissions: `Read`, `Write` and `List`
         - Click the `Create` button.  
-    <img src="./get-access-signature.png" height="600" />  <img src="./choose-signature-options.png" height="600" />  
+        <img src="./get-access-signature.png" height="600" />  <img src="./choose-signature-options.png" height="600" />  
         - *Copy the SAS URL:* After creating the SAS, click `Copy` to get the URL with token. This will be used as the value for **TRAINING_DATA_SAS_URL** or **REFERENCE_DOC_SAS_URL** when running the sample code.  
-    <img src="./copy-access-signature.png" width="600" />
+        <img src="./copy-access-signature.png" width="600" />
         - Set the following in [.env](../notebooks/.env).
             > NOTE: **REFERENCE_DOC_SAS_URL** can be the same as the **TRAINING_DATA_SAS_URL** to re-use the same blob container
             - For [analyzer_training](../notebooks/analyzer_training.ipynb): Add the SAS URL as value of **TRAINIGN_DATA_SAS_URL**.
