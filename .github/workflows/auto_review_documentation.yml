@@ -3,7 +3,7 @@ name: Auto Review Documentation
 on:
   push:
     branches:
-      - chienyuanchang/check_description_after_merge  # change to main later
+      - chienyuanchang/check_description_after_merge  # TODO: change to main later
 
 permissions:
   id-token: write
@@ -19,11 +19,13 @@ jobs:
       AZURE_OPENAI_API_VERSION: "2024-12-01-preview"
       GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
       REPO_NAME: "Azure-Samples/azure-ai-content-understanding-python"
-      BRANCH_NAME: "chienyuanchang/check_description_after_merge"  # remove later
+      BRANCH_NAME: "chienyuanchang/check_description_after_merge"  # TODO: remove later
 
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Critical for comparing two SHAs
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -35,17 +37,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install azure-identity python-dotenv PyGithub openai unidiff requests
 
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Critical for comparing two SHAs
-
       - name: Get changed files
         id: changed-docs
         run: |
           git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
-          grep -E '\.md$|\.rst$|README' changed_files.txt || true > changed_docs.txt
-          cat changed_docs.txt
+          # TODO: enable for documentation file only
+          # grep -E '\.md$|\.rst$|README|\.ipynb$' changed_files.txt || true > changed_docs.txt
+          cat changed_files.txt  # changed_docs.txt
 
       - name: Azure Login
         uses: azure/login@v2
