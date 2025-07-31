@@ -25,7 +25,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Critical for comparing two SHAs
+          fetch-depth: 0  # Required to compare two SHAs in full history
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -40,14 +40,15 @@ jobs:
       - name: Get changed files
         id: changed-docs
         run: |
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_docs.txt  # changed_files.txt
-          # TODO: enable for documentation file only
+          # Retrieve list of files changed between the previous commit and the current SHA
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_docs.txt 
+          # TODO: filter to include only documentation files (e.g., .md, .rst, README, .ipynb)
           # grep -E '\.md$|\.rst$|README|\.ipynb$' changed_files.txt || true > changed_docs.txt
           cat changed_docs.txt
 
       - name: Azure Login
         uses: azure/login@v2
-        with:         
+        with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -56,7 +57,7 @@ jobs:
         run: |
           while read file; do
             if [ -n "$file" ]; then
-              echo "Running script with INPUT_FILE_PATH=$file"
+              echo "Running review script on file: $file"
               INPUT_FILE_PATH="$file" python tools/review_file/review_file.py
             fi
           done < changed_docs.txt
