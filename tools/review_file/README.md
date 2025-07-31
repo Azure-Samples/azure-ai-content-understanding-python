@@ -29,7 +29,7 @@ The `review_file.py` script uses Azure OpenAI and GitHub APIs to automatically r
 
 2. **Install Dependencies**  
    ```bash
-   pip3 install azure-identity python-dotenv PyGithub openai unidiff requests
+   pip3 install -r requirements.txt
    ```
 
 3. **Run the Script**  
