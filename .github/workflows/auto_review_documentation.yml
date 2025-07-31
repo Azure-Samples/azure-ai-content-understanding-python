@@ -3,7 +3,7 @@ name: Auto Review Documentation
 on:
   push:
     branches:
-      - chienyuanchang/check_description_after_merge  # TODO: change to main
+      - main
 
 permissions:
   id-token: write
@@ -19,7 +19,6 @@ jobs:
       AZURE_OPENAI_API_VERSION: "2024-12-01-preview"
       GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
       REPO_NAME: "Azure-Samples/azure-ai-content-understanding-python"
-      BRANCH_NAME: "chienyuanchang/check_description_after_merge"  # TODO: remove later
 
     steps:
       - name: Checkout code
@@ -41,9 +40,9 @@ jobs:
         id: changed-docs
         run: |
           # Retrieve list of files changed between the previous commit and the current SHA
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_docs.txt 
-          # TODO: filter to include only documentation files (e.g., .md, .rst, README, .ipynb)
-          # grep -E '\.md$|\.rst$|README|\.ipynb$' changed_files.txt || true > changed_docs.txt
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt 
+          # filter to include only documentation files (e.g., .md, .rst, README, .ipynb)
+          grep -E '\.md$|\.rst$|README|\.ipynb$' changed_files.txt || true > changed_docs.txt
           cat changed_docs.txt
 
       - name: Azure Login
