@@ -42,7 +42,13 @@ jobs:
         id: changed-docs
         run: |
           git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt 
-          grep -E "${DOC_FILE_FILTER}" changed_files.txt > changed_docs.txt || echo "" > changed_docs.txt
+          if grep -E "${DOC_FILE_FILTER}" changed_files.txt > changed_docs.txt; then
+            echo "Filtered doc files found."
+          else
+            echo "No doc files matched DOC_FILE_FILTER (${DOC_FILE_FILTER})."
+            > changed_docs.txt
+          fi
+
           echo "Files changed with DOC_FILE_FILTER (${DOC_FILE_FILTER}) — could be empty:"
           echo "---------------------------------------------------------------"
           cat changed_docs.txt
