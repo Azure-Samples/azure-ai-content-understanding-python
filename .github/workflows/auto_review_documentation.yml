@@ -3,7 +3,7 @@ name: Auto Review Documentation
 on:
   push:
     branches:
-      - chienyuanchang/check_description_after_merge  # main
+      - main
 
 permissions:
   id-token: write
@@ -19,8 +19,7 @@ jobs:
       AZURE_OPENAI_API_VERSION: "2024-12-01-preview"
       GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
       REPO_NAME: "Azure-Samples/azure-ai-content-understanding-python"
-      DOC_FILE_FILTER: '\.md$|\.rst$|README|\.ipynb$'
-      BRANCH_NAME: chienyuanchang/check_description_after_merge
+      DOC_FILE_FILTER: '\.md$|README|\.ipynb$'
 
     steps:
       - name: Checkout code
