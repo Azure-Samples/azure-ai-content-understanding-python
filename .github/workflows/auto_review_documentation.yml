@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  test-notebooks:
+  auto-review-merge:
     runs-on: ubuntu-latest
     environment: MMI-Samples
     env:
@@ -34,6 +34,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install azure-identity python-dotenv PyGithub openai unidiff requests
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Critical for comparing two SHAs
 
       - name: Get changed files
         id: changed-docs
