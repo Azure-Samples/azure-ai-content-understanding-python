@@ -1,0 +1,39 @@
+name: Auto Review Documentation
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  review-documentation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
+    - name: Review documentation
+      run: |
+        echo "Reviewing documentation changes..."
+        echo "Found markdown files:"
+        find . -name "*.md" -type f
+        echo ""
+        echo "Checking documentation structure..."
+        echo "Documentation files in docs/:"
+        ls -la docs/ || echo "No docs directory found"
+        echo ""
+        echo "Checking for broken links and basic formatting..."
+        # Add your documentation review logic here
+        # This could include linting, spell checking, or other validation
