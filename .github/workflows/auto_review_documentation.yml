@@ -3,7 +3,7 @@ name: Auto Review Documentation
 on:
   push:
     branches:
-      - chienyuanchang/fix_auto_check_documentation
+      - main
 
 permissions:
   id-token: write
@@ -20,7 +20,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
       REPO_NAME: "Azure-Samples/azure-ai-content-understanding-python"
       DOC_FILE_FILTER: '\.md$|README|\.ipynb$'
-      BRANCH_NAME: chienyuanchang/fix_auto_check_documentation
 
     steps:
       - name: Checkout code
@@ -42,11 +41,7 @@ jobs:
         id: changed-docs
         run: |
           git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
-          if grep -i -E "${DOC_FILE_FILTER}" changed_files.txt > changed_docs.txt; then  # -i to ignore case
-            echo "Filtered doc files found."
-          else
-            > changed_docs.txt
-          fi
+          grep -i -E "${DOC_FILE_FILTER}" changed_files.txt > changed_docs.txt || > changed_docs.txt  # -i ignore case
 
           echo "Files changed with DOC_FILE_FILTER (${DOC_FILE_FILTER}) — could be empty:"
           echo "---------------------------------------------------------------"
