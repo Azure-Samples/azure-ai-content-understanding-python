@@ -196,7 +196,7 @@ class AzureContentUnderstandingClient:
             account_name (str): The Azure Storage account name.
             container_name (str): The name of the container.
             permissions (ContainerSasPermissions, optional): Permissions to assign to the SAS token.
-                Defaults to read, write, and list permissions.
+                Defaults to read and list permissions.
             expiry_hours (int, optional): Number of hours until the SAS token expires.
                 Defaults to `AzureContentUnderstandingClient.SAS_EXPIRY_HOURS`.
 
@@ -204,7 +204,7 @@ class AzureContentUnderstandingClient:
             str: The SAS URL for the container.
         """
         if permissions is None:
-            permissions = ContainerSasPermissions(read=True, write=True, list=True)
+            permissions = ContainerSasPermissions(read=True, list=True)
         expiry_duration = timedelta(hours=expiry_hours or AzureContentUnderstandingClient.SAS_EXPIRY_HOURS)
 
         account_url = f"https://{account_name}.blob.core.windows.net"
