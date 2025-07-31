@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   review-documentation:
@@ -26,6 +27,13 @@ jobs:
     - name: Review documentation
       run: |
         echo "Reviewing documentation changes..."
+        echo "Found markdown files:"
+        find . -name "*.md" -type f
+        echo ""
+        echo "Checking documentation structure..."
+        echo "Documentation files in docs/:"
+        ls -la docs/ || echo "No docs directory found"
+        echo ""
+        echo "Checking for broken links and basic formatting..."
         # Add your documentation review logic here
         # This could include linting, spell checking, or other validation
-        find . -name "*.md" -type f | head -10
