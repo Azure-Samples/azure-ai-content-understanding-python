@@ -19,7 +19,7 @@ jobs:
       AZURE_OPENAI_API_VERSION: "2024-12-01-preview"
       GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
       REPO_NAME: "Azure-Samples/azure-ai-content-understanding-python"
-      DOC_FILE_FILTER: '(?i)\.md$|README|\.ipynb$'
+      DOC_FILE_FILTER: '\.md$|README|\.ipynb$'
       BRANCH_NAME: chienyuanchang/fix_auto_check_documentation
 
     steps:
@@ -42,7 +42,7 @@ jobs:
         id: changed-docs
         run: |
           git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
-          if grep -E "${DOC_FILE_FILTER}" changed_files.txt > changed_docs.txt; then
+          if grep -i -E "${DOC_FILE_FILTER}" changed_files.txt > changed_docs.txt; then  # -i to ignore case
             echo "Filtered doc files found."
           else
             > changed_docs.txt
