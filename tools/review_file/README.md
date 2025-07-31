@@ -29,12 +29,12 @@ The `review_file.py` script uses Azure OpenAI and GitHub APIs to automatically r
 
 2. **Install Dependencies**  
    ```bash
-   pip3 install -r requirements.txt
+   pip3 install -r tools/review_file/requirements.txt
    ```
 
 3. **Run the Script**  
    ```bash
-   python3 tools/review_file.py
+   python3 tools/review_file/review_file.py
    ```
    This will:
    - Review the file specified by `INPUT_FILE_PATH` using LLM.
