@@ -3,7 +3,7 @@ name: Auto Review Documentation
 on:
   push:
     branches:
-      - main
+      - chienyuanchang/fix_auto_check_documentation
 
 permissions:
   id-token: write
@@ -20,6 +20,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
       REPO_NAME: "Azure-Samples/azure-ai-content-understanding-python"
       DOC_FILE_FILTER: '\.md$|README|\.ipynb$'
+      BRANCH_NAME: chienyuanchang/fix_auto_check_documentation
 
     steps:
       - name: Checkout code
@@ -40,10 +41,8 @@ jobs:
       - name: Get changed files
         id: changed-docs
         run: |
-          # Retrieve list of files changed between the previous commit and the current SHA
           git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt 
-          # filter to include only documentation files (e.g., .md, .rst, README, .ipynb)
-          grep -E "${DOC_FILE_FILTER}" changed_files.txt || true > changed_docs.txt
+          grep -E "${DOC_FILE_FILTER}" changed_files.txt > changed_docs.txt || echo "" > changed_docs.txt
           echo "Files changed with DOC_FILE_FILTER (${DOC_FILE_FILTER}) — could be empty:"
           echo "---------------------------------------------------------------"
           cat changed_docs.txt
