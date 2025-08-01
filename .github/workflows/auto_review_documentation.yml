@@ -41,9 +41,11 @@ jobs:
         id: changed-docs
         run: |
           # Retrieve list of files changed between the previous commit and the current SHA
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
+          # --diff-filter=d exclude deleted files
+          git diff --name-only --diff-filter=d ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
           # filter to include only documentation files
-          grep -i -E "${DOC_FILE_FILTER}" changed_files.txt > changed_docs.txt || > changed_docs.txt  # -i ignore case
+          # -i ignore case
+          grep -i -E "${DOC_FILE_FILTER}" changed_files.txt > changed_docs.txt || > changed_docs.txt
 
           echo "Files changed with DOC_FILE_FILTER (${DOC_FILE_FILTER}) — could be empty:"
           echo "---------------------------------------------------------------"
