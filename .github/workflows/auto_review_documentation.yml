@@ -3,7 +3,7 @@ name: Auto Review Documentation
 on:
   push:
     branches:
-      - chienyuanchang/fix_auto_check_documentation
+      - main
 
 permissions:
   id-token: write
@@ -20,7 +20,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
       REPO_NAME: "Azure-Samples/azure-ai-content-understanding-python"
       DOC_FILE_FILTER: '\.md$|README|\.ipynb$'
-      BRANCH_NAME: chienyuanchang/fix_auto_check_documentation
 
     steps:
       - name: Checkout code
