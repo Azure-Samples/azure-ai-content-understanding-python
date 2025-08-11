@@ -3,6 +3,9 @@ name: Monthly Notebook Check
 on:
   # schedule:
   #   - cron: '0 8 1 * *'  # Every month on the 1st at 08:00 UTC
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - chienyuanchang/test_github_actions
@@ -51,4 +54,4 @@ jobs:
       - name: Run notebook tests
         run: |
           set -e
-          python tools/test_notebooks.py
+          python tools/test_notebooks/test_notebooks.py
