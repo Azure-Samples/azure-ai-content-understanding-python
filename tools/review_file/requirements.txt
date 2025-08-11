@@ -1,0 +1,6 @@
+azure-identity
+openai
+python-dotenv
+PyGithub
+requests
+unidiff
