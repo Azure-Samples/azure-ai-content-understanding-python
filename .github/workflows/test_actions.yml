@@ -21,6 +21,10 @@ jobs:
     environment: MMI-Samples
     env:
       AZURE_AI_ENDPOINT: ${{ secrets.AZURE_CONTENT_UNDERSTANDING_ENDPOINT }}
+      TRAINING_DATA_STORAGE_ACCOUNT_NAME: ${{ secrets.TRAINING_DATA_STORAGE_ACCOUNT_NAME }}
+      TRAINING_DATA_CONTAINER_NAME: ${{ secrets.TRAINING_DATA_CONTAINER_NAME }}
+      REFERENCE_DOC_STORAGE_ACCOUNT_NAME: ${{ secrets.REFERENCE_DOC_STORAGE_ACCOUNT_NAME }}
+      REFERENCE_DOC_CONTAINER_NAME: ${{ secrets.REFERENCE_DOC_CONTAINER_NAME }}
 
     steps:
       - name: Checkout Repo
@@ -37,6 +41,12 @@ jobs:
           pip install -r requirements.txt
           pip install nbformat nbconvert jupyter ipykernel
           # python -m ipykernel install --user --name=python3
+
+      - name: Set TRAINING_DATA_PATH and REFERENCE_DOC_PATH with datetime
+        run: |
+          TS=$(date +'%Y%m%d_%H%M%S')
+          echo "TRAINING_DATA_PATH=test_notebooks/training_data_${TS}" >> $GITHUB_ENV
+          echo "REFERENCE_DOC_PATH=test_notebooks/reference_docs_${TS}" >> $GITHUB_ENV
 
       - name: List notebook files
         run: ls -la notebooks
