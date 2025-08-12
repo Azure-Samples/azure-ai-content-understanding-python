@@ -1,6 +1,6 @@
 # Set Environment Variables for Training Data and Reference Documents in Pro Mode
 
-The folders [document_training](../data/document_training/) and [field_extraction_pro_mode](../data/field_extraction_pro_mode) contain manually labeled data used for training and reference documents in Pro mode as quick samples. Before using these knowledge source files, you need an Azure Storage blob container to store them. Follow the steps below to prepare your data environment:
+The folders [document_training](../data/document_training/) and [field_extraction_pro_mode](../data/field_extraction_pro_mode) contain manually labeled data used for training data in Standard mode and reference documents in Pro mode as quick samples. Before using these knowledge source files, you need an Azure Storage blob container to store them. Please follow the steps below to prepare your data environment:
 
 1. **Create an Azure Storage Account:**  
    If you don’t already have one, follow the guide to [create an Azure Storage Account](https://aka.ms/create-a-storage-account).  
@@ -10,7 +10,7 @@ The folders [document_training](../data/document_training/) and [field_extractio
    Azure Storage Explorer is a tool that simplifies working with Azure Storage data. Install it and log in with your credentials by following the [installation guide](https://aka.ms/download-and-install-Azure-Storage-Explorer).
 
 3. **Create or Choose a Blob Container:**  
-   Using Azure Storage Explorer, create a new blob container or select an existing one.  
+   Using Azure Storage Explorer, create a new blob container or use an existing one.  
    <img src="./create-blob-container.png" width="600" />
 
 4. **Set SAS URL-related Environment Variables in the `.env` File:**  
