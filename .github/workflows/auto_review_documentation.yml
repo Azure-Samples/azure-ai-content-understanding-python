@@ -1,0 +1,73 @@
+name: Auto Review Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  auto-review-merge:
+    runs-on: ubuntu-latest
+    environment: MMI-Samples
+    env:
+      AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+      AZURE_OPENAI_DEPLOYMENT: ${{ secrets.GPT_4_1_MINI }}
+      AZURE_OPENAI_API_VERSION: "2024-12-01-preview"
+      GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+      REPO_NAME: "Azure-Samples/azure-ai-content-understanding-python"
+      DOC_FILE_FILTER: '\.md$|README|\.ipynb$'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required to compare two SHAs in full history
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r tools/review_file/requirements.txt
+
+      - name: Get changed files
+        id: changed-docs
+        run: |
+          # Retrieve list of files changed between the previous commit and the current SHA
+          # --diff-filter=d exclude deleted files
+          git diff --name-only --diff-filter=d ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
+          # filter to include only documentation files
+          # -i ignore case
+          grep -i -E "${DOC_FILE_FILTER}" changed_files.txt > changed_docs.txt || > changed_docs.txt
+
+          echo "Files changed with DOC_FILE_FILTER (${DOC_FILE_FILTER}) — could be empty:"
+          echo "---------------------------------------------------------------"
+          cat changed_docs.txt
+          echo "---------------------------------------------------------------"
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Run review script on each file
+        run: |
+          if [ ! -s changed_docs.txt ]; then
+            echo "No documentation files changed matching DOC_FILE_FILTER (${DOC_FILE_FILTER}). Skipping review step."
+          else
+            while read file; do
+              if [ -n "$file" ]; then
+                echo "Running review script on file: $file"
+                INPUT_FILE_PATH="$file" python tools/review_file/review_file.py
+              fi
+            done < changed_docs.txt
+          fi

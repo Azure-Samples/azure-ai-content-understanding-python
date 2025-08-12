@@ -6,10 +6,17 @@ import requests
 import time
 
 from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
 from requests.models import Response
 from typing import Any, Dict, List, Optional
 from pathlib import Path
 
+from azure.identity import DefaultAzureCredential
+from azure.storage.blob import (
+    BlobServiceClient,
+    generate_container_sas,
+    ContainerSasPermissions
+)
 from azure.storage.blob.aio import ContainerClient
 
 
@@ -30,6 +37,7 @@ class AzureContentUnderstandingClient:
     OCR_RESULT_FILE_SUFFIX: str = ".result.json"
     LABEL_FILE_SUFFIX: str = ".labels.json"
     KNOWLEDGE_SOURCE_LIST_FILE_NAME: str = "sources.jsonl"
+    SAS_EXPIRY_HOURS: int = 1
 
     # https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/service-limits#document-and-text
     SUPPORTED_FILE_TYPES_DOCUMENT_TXT: List[str] = [
@@ -173,6 +181,50 @@ class AzureContentUnderstandingClient:
             return False
         file_ext = file_path.suffix.lower()
         return AzureContentUnderstandingClient.is_supported_doc_type_by_file_ext(file_ext, is_document)
+
+    @staticmethod
+    def generate_temp_container_sas_url(
+        account_name: str,
+        container_name: str,
+        permissions: Optional[ContainerSasPermissions] = None,
+        expiry_hours: Optional[int] = None,
+    ) -> str:
+        """
+        Generate a temporary SAS URL for an Azure Blob container using Azure AD authentication.
+
+        Args:
+            account_name (str): The Azure Storage account name.
+            container_name (str): The name of the container.
+            permissions (ContainerSasPermissions, optional): Permissions to assign to the SAS token.
+                Defaults to read and list permissions.
+            expiry_hours (int, optional): Number of hours until the SAS token expires.
+                Defaults to `AzureContentUnderstandingClient.SAS_EXPIRY_HOURS`.
+
+        Returns:
+            str: The SAS URL for the container.
+        """
+        if permissions is None:
+            permissions = ContainerSasPermissions(read=True, list=True)
+        expiry_duration = timedelta(hours=expiry_hours or AzureContentUnderstandingClient.SAS_EXPIRY_HOURS)
+
+        account_url = f"https://{account_name}.blob.core.windows.net"
+        blob_service_client = BlobServiceClient(account_url=account_url, credential=DefaultAzureCredential())
+
+        # Get user delegation key
+        start_time = datetime.now(timezone.utc)
+        expiry_time = start_time + expiry_duration
+        delegation_key = blob_service_client.get_user_delegation_key(start_time, expiry_time)
+
+        sas_token = generate_container_sas(
+            account_name=account_name,
+            container_name=container_name,
+            user_delegation_key=delegation_key,
+            permission=permissions,
+            expiry=expiry_time,
+            start=start_time,
+        )
+
+        return f"{account_url}/{container_name}?{sas_token}"
 
     def get_all_analyzers(self) -> Dict[str, Any]:
         """
