@@ -2,12 +2,12 @@
 
 Welcome! This tool helps convert your Document Intelligence (DI) datasets to the Content Understanding (CU) **Preview.2** 2025-05-01-preview format, as used in AI Foundry. The following DI versions are supported:
 
-- Custom Extraction Model DI 3.1 GA (2023-07-31) to DI 4.0 GA (2024-11-30) (Document Intelligence Studio) --> DI-version = neural  
-- Document Field Extraction Model 4.0 Preview (2024-07-31-preview) (AI Foundry / AI Services / Vision + Document / Document Field Extraction) --> DI-version = generative
+- Custom Extraction Model DI 3.1 GA (2023-07-31) to DI 4.0 GA (2024-11-30) (Document Intelligence Studio) → DI-version = neural  
+- Document Field Extraction Model 4.0 Preview (2024-07-31-preview) (AI Foundry / AI Services / Vision + Document / Document Field Extraction) → DI-version = generative
 
-To identify the version of your Document Intelligence dataset, consult the sample documents in this folder to match your format. You can also verify the version by reviewing your DI project's user experience. For instance, Custom Extraction DI 3.1/4.0 GA appears in Document Intelligence Studio (https://documentintelligence.ai.azure.com/studio), whereas Document Field Extraction DI 4.0 Preview is only available on Azure AI Foundry's preview service (https://ai.azure.com/explore/aiservices/vision/document/extraction).
+To identify the version of your Document Intelligence dataset, please consult the sample documents in this folder to match your format. You can also verify the version by reviewing your DI project's user experience. For instance, Custom Extraction DI 3.1/4.0 GA appears in Document Intelligence Studio (https://documentintelligence.ai.azure.com/studio), whereas Document Field Extraction DI 4.0 Preview is only available on Azure AI Foundry's preview service (https://ai.azure.com/explore/aiservices/vision/document/extraction).
 
-For migrating from these DI versions to Content Understanding Preview.2, this tool first converts the DI dataset into a CU-compatible format. After conversion, you can create a Content Understanding Analyzer that is trained on your converted CU dataset. Additionally, you have the option to test its quality against any sample documents.
+For migrating from these DI versions to Content Understanding Preview.2, this tool first converts the DI dataset into a CU-compatible format. After conversion, you can create a Content Understanding Analyzer trained on your converted CU dataset. Additionally, you have the option to test its quality against any sample documents.
 
 ## Details About the Tools
 
@@ -25,11 +25,11 @@ Here is a detailed breakdown of the three CLI tools and their functionality:
     * After converting the dataset to CU format, this CLI tool creates a CU analyzer referring to the converted dataset.
 
 * **call_analyze.py**  
-    * This CLI tool tests that the migration completed successfully and assesses the quality of the created analyzer.
+    * This CLI tool verifies that the migration completed successfully and assesses the quality of the created analyzer.
 
 ## Setup
 
-Follow these steps to set up the tool:
+Please follow these steps to set up the tool:
 
 1. Install dependencies by running:  
    `pip install -r ./requirements.txt`
@@ -125,7 +125,7 @@ python ./create_analyzer.py \
 --target-blob-folder cuDatasetFolderName
 ```
 
-The `analyzer.json` file is in the specified target blob container and folder. Obtain the SAS URL for `analyzer.json` from there.
+The `analyzer.json` file is located in the specified target blob container and folder. Please obtain the SAS URL for `analyzer.json` from there.
 
 Use the analyzer ID output here for the next step when running `call_analyze.py`.
 
@@ -156,16 +156,16 @@ Below are common issues you might encounter when creating an analyzer or running
   Please validate the following:  
   - The endpoint URL is valid. Example:  
     `https://yourEndpoint/contentunderstanding/analyzers/yourAnalyzerID?api-version=2025-05-01-preview`  
-  - Your converted CU dataset respects the naming constraints below. If needed, please manually correct the `analyzer.json` fields.:  
+  - Your converted CU dataset respects the naming constraints below. If needed, please manually correct the `analyzer.json` fields:  
     - Field names start with a letter or underscore  
-    - Field name length must be between 1 and 64 characters 
+    - Field name length must be between 1 and 64 characters  
     - Only letters, numbers, and underscores are allowed  
   - Your Analyzer ID meets these naming requirements:  
-    - ID length must be between 1 and 64 characters
+    - ID length must be between 1 and 64 characters  
     - Contains only letters, numbers, dots, underscores, and hyphens
 
 - **401 Unauthorized**:  
-  This implies an authentication failure. Please verify that your API Key and/or subscription ID are correct and that you have access to the specified endpoint.
+  This implies an authentication failure. Please verify that your API Key and/or Subscription ID are correct and that you have access to the specified endpoint.
 
 - **409 Conflict**:  
   This implies that an analyzer has already been created with this analyzer ID. Please try using a different analyzer ID.
@@ -173,7 +173,7 @@ Below are common issues you might encounter when creating an analyzer or running
 ### Calling Analyze
 
 - **400 Bad Request**:  
-  This implies that you might have a potentially incorrect endpoint or SAS URL. Please ensure that your endpoint is valid and that you are using the correct SAS URL for the document:  
+  This implies that you might have an incorrect endpoint or SAS URL. Please ensure that your endpoint is valid and that you are using the correct SAS URL for the document:  
   `https://yourendpoint/contentunderstanding/analyzers/yourAnalyzerID:analyze?api-version=2025-05-01-preview`  
   Confirm you are using the correct SAS URL for the document.
 
