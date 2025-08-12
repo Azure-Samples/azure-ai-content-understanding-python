@@ -5,9 +5,9 @@ Welcome! This tool helps convert your Document Intelligence (DI) datasets to the
 - Custom Extraction Model DI 3.1 GA (2023-07-31) to DI 4.0 GA (2024-11-30) (Document Intelligence Studio) --> DI-version = neural  
 - Document Field Extraction Model 4.0 Preview (2024-07-31-preview) (AI Foundry / AI Services / Vision + Document / Document Field Extraction) --> DI-version = generative
 
-To identify the version of your Document Intelligence dataset, consult the sample documents in this folder to match your format. You can also verify the version by reviewing your DI project's user experience: for example, Custom Extraction DI 3.1/4.0 GA appears in Document Intelligence Studio (https://documentintelligence.ai.azure.com/studio), whereas Document Field Extraction DI 4.0 Preview is available only on Azure AI Foundry preview service (https://ai.azure.com/explore/aiservices/vision/document/extraction).
+To identify the version of your Document Intelligence dataset, consult the sample documents in this folder to match your format. You can also verify the version by reviewing your DI project's user experience. For instance, Custom Extraction DI 3.1/4.0 GA appears in Document Intelligence Studio (https://documentintelligence.ai.azure.com/studio), whereas Document Field Extraction DI 4.0 Preview is only available on Azure AI Foundry's preview service (https://ai.azure.com/explore/aiservices/vision/document/extraction).
 
-For migrating from these DI versions to Content Understanding Preview.2, this tool first converts the DI dataset into a CU-compatible format. After conversion, you can create a Content Understanding Analyzer trained on the converted CU dataset and test it to validate its quality.
+For migrating from these DI versions to Content Understanding Preview.2, this tool first converts the DI dataset into a CU-compatible format. After conversion, you can create a Content Understanding Analyzer that is trained on your converted CU dataset. Additionally, you have the option to test its quality against any sample documents.
 
 ## Details About the Tools
 
@@ -110,7 +110,7 @@ python ./di_to_cu_converter.py --DI-version generative --analyzer-prefix mySampl
 --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
 ```
 
-For this migration, specifying an analyzer prefix is optional. However, to create multiple analyzers from the same analyzer.json, add an analyzer prefix. If provided, the analyzer ID becomes `analyzer-prefix_doc-type`; otherwise, it remains as the `doc_type` in fields.json.
+For this migration, specifying an analyzer prefix is optional. However, to create multiple analyzers from the same analyzer.json, you will need to add an analyzer prefix. If provided, the analyzer ID becomes `analyzer-prefix_doc-type`; otherwise, it remains as the `doc_type` in fields.json.
 
 _**NOTE:** Only one analyzer can be created per analyzer ID._
 
@@ -156,37 +156,37 @@ Below are common issues you might encounter when creating an analyzer or running
   Validate the following:  
   - The endpoint URL is valid. Example:  
     `https://yourEndpoint/contentunderstanding/analyzers/yourAnalyzerID?api-version=2025-05-01-preview`  
-  - Your converted CU dataset respects the naming constraints below. If needed, manually correct `analyzer.json` fields:  
+  - Your converted CU dataset respects the naming constraints below. If needed, please manually correct the `analyzer.json` fields.:  
     - Field names start with a letter or underscore  
-    - Field name lengths are between 1 and 64 characters  
+    - Field name length must be between 1 and 64 characters 
     - Only letters, numbers, and underscores are allowed  
-  - Analyzer ID meets naming requirements:  
-    - Length between 1 and 64 characters  
-    - Only letters, numbers, dots, underscores, and hyphens allowed
+  - Your Analyzer ID meets these naming requirements:  
+    - ID length must be between 1 and 64 characters
+    - Contains only letters, numbers, dots, underscores, and hyphens
 
 - **401 Unauthorized**:  
-  Authentication failure. Verify your API key and/or subscription ID are correct and have access to the endpoint.
+  This implies an authentication failure. Please verify that your API Key and/or subscription ID are correct and that you have access to the specified endpoint.
 
 - **409 Conflict**:  
-  The analyzer ID has already been used. Try using a different analyzer ID.
+  This implies that an analyzer has already been created with this analyzer ID. Please try using a different analyzer ID.
 
 ### Calling Analyze
 
 - **400 Bad Request**:  
-  Possibly incorrect endpoint or SAS URL. Ensure your endpoint is valid:  
+  This implies that you might have a potentially incorrect endpoint or SAS URL. Please ensure that your endpoint is valid and that you are using the correct SAS URL for the document:  
   `https://yourendpoint/contentunderstanding/analyzers/yourAnalyzerID:analyze?api-version=2025-05-01-preview`  
   Confirm you are using the correct SAS URL for the document.
 
 - **401 Unauthorized**:  
-  Authentication failure. Verify your API key and/or subscription ID.
+  This implies an authentication failure. Please verify your API Key and/or your Subscription ID.
 
 - **404 Not Found**:  
-  Analyzer with the specified ID does not exist. Use the correct analyzer ID or create an analyzer with that ID.
+  This implies that the analyzer with the specified ID does not exist. Please use the correct analyzer ID or create an analyzer with the specified ID.
 
 ## Points to Note
 
 1. Use Python version 3.9 or higher.  
 2. Signature field types (e.g., in previous DI versions) are not yet supported in Content Understanding. These will be ignored during migration when creating the analyzer.  
-3. The content of training documents is retained in Content Understanding model metadata, under storage specifically. More details at:  
+3. The content of your training documents is retained in the CU model's metadata, under storage specifically. You can find more details at:  
    https://learn.microsoft.com/en-us/legal/cognitive-services/content-understanding/transparency-note?toc=%2Fazure%2Fai-services%2Fcontent-understanding%2Ftoc.json&bc=%2Fazure%2Fai-services%2Fcontent-understanding%2Fbreadcrumb%2Ftoc.json  
 4. All conversions are for Content Understanding preview.2 version only.
