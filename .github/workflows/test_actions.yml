@@ -48,11 +48,6 @@ jobs:
           echo "TRAINING_DATA_PATH=test_notebooks/training_data_${TS}" >> $GITHUB_ENV
           echo "REFERENCE_DOC_PATH=test_notebooks/reference_docs_${TS}" >> $GITHUB_ENV
       
-      - name: Verify variables are set
-        run: |
-          echo "TRAINING_DATA_PATH=$TRAINING_DATA_PATH"
-          echo "REFERENCE_DOC_PATH=$REFERENCE_DOC_PATH"
-
       - name: List notebook files
         run: ls -la notebooks
 
