@@ -1,4 +1,4 @@
-# How To Create Azure AI Service (Foundry Content Understanding)
+# How To Create Azure AI Service
 
 This guide covers the latest configuration using **Azure AI Foundry**, including creating a Foundry Hub and Project, and deploying Azure AI Content Understanding.
 
