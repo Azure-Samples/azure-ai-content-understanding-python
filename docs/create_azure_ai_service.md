@@ -3,17 +3,9 @@
 This guide covers the latest configuration using **Azure AI Foundry**, including creating a Foundry Hub and Project, and deploying Azure AI Content Understanding.
 
 ## 1. Create a Foundry Hub
-- Go to [Azure Portal Foundry Hub Creation](https://portal.azure.com/#create/Microsoft.CognitiveServicesAIFoundry).
+- Go to [Azure Portal AI Foundry Resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesAIFoundry).
 - Select your Azure subscription.
 - Choose or create a Resource Group.
-- Enter a name for your Foundry Hub.
-
-## 2. Create a Foundry Project
-- Once your Foundry Hub is created, navigate to it.
-- Create a new Foundry Project within the hub.
-
-## 3. Deploy Azure AI Content Understanding
-- In your Foundry Project, deploy the "Content Understanding" service.
 - **Choose a supported region** from the table below:
 
    | Geography | Region         | Region Identifier   |
@@ -30,7 +22,7 @@ This guide covers the latest configuration using **Azure AI Foundry**, including
 - Wait for Azure's validation (look for a green "Validation Passed" banner).
 - Click **Create**. Deployment will begin, and after a few seconds, you should see "Your deployment is complete."
 
-## 4. Get Keys and Endpoint
+## 2. Get Keys and Endpoint
 - Navigate to your deployed resource.
 - In the left menu, select **Keys and Endpoint**.
 - Copy the following information:
