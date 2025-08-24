@@ -131,7 +131,6 @@ run text eol=lf
 *.xwd filter=lfs diff=lfs merge=lfs -text
 *.bh filter=lfs diff=lfs merge=lfs -text
 *.mka filter=lfs diff=lfs merge=lfs -text
-*.pdf filter=lfs diff=lfs merge=lfs -text
 *.dcm filter=lfs diff=lfs merge=lfs -text
 *.mpga filter=lfs diff=lfs merge=lfs -text
 *.wma filter=lfs diff=lfs merge=lfs -text
