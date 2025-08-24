@@ -5,7 +5,7 @@ Welcome! This tool helps convert your Document Intelligence (DI) datasets to the
 - Custom Extraction Model DI 3.1 GA (2023-07-31) to DI 4.0 GA (2024-11-30) (Document Intelligence Studio) → DI-version = neural  
 - Document Field Extraction Model 4.0 Preview (2024-07-31-preview) (AI Foundry / AI Services / Vision + Document / Document Field Extraction) → DI-version = generative
 
-To identify the version of your Document Intelligence dataset, please consult the sample documents in this folder to match your format. You can also verify the version by reviewing your DI project's user experience. For instance, Custom Extraction DI 3.1/4.0 GA appears in Document Intelligence Studio (https://documentintelligence.ai.azure.com/studio), whereas Document Field Extraction DI 4.0 Preview is only available on Azure AI Foundry's preview service (https://ai.azure.com/explore/aiservices/vision/document/extraction).
+To identify the version of your Document Intelligence dataset, please consult the sample documents in this folder to match your format. You can also verify the version by reviewing your DI project's user experience. For example, Custom Extraction DI 3.1/4.0 GA appears in Document Intelligence Studio (https://documentintelligence.ai.azure.com/studio), whereas Document Field Extraction DI 4.0 Preview is only available on Azure AI Foundry's preview service (https://ai.azure.com/explore/aiservices/vision/document/extraction).
 
 For migrating from these DI versions to Content Understanding Preview.2, this tool first converts the DI dataset into a CU-compatible format. After conversion, you can create a Content Understanding Analyzer trained on your converted CU dataset. Additionally, you have the option to test its quality against any sample documents.
 
@@ -15,11 +15,11 @@ Here is a detailed breakdown of the three CLI tools and their functionality:
 
 * **di_to_cu_converter.py**  
     * This CLI tool performs the first migration step. It converts your labeled Document Intelligence dataset into a CU-compatible dataset. The tool maps the following files accordingly:  
-      - fields.json → analyzer.json  
-      - DI labels.json → CU labels.json  
-      - ocr.json → result.json  
-    * Depending on the DI version, the tool uses either [cu_converter_neural.py](cu_converter_neural.py) or [cu_converter_generative.py](cu_converter_generative.py) to convert your fields.json and labels.json files.  
-    * For OCR data conversion, it creates a sample CU analyzer to extract raw OCR results via an Analyze request for each original file in the DI dataset. Since the sample analyzer contains no fields, the resulting result.json files contain no fields as well. Please refer to [get_ocr.py](get_ocr.py) for more details.
+      - `fields.json` → `analyzer.json`  
+      - DI `labels.json` → CU `labels.json`  
+      - `ocr.json` → `result.json`  
+    * Depending on the DI version, the tool uses either [cu_converter_neural.py](cu_converter_neural.py) or [cu_converter_generative.py](cu_converter_generative.py) to convert your `fields.json` and `labels.json` files.  
+    * For OCR data conversion, it creates a sample CU analyzer to extract raw OCR results via an Analyze request for each original file in the DI dataset. Since the sample analyzer contains no fields, the resulting `result.json` files contain no fields as well. Please refer to [get_ocr.py](get_ocr.py) for more details.
 
 * **create_analyzer.py**  
     * After converting the dataset to CU format, this CLI tool creates a CU analyzer referring to the converted dataset.
@@ -33,27 +33,29 @@ Please follow these steps to set up the tool:
 
 1. Install dependencies by running:  
    `pip install -r ./requirements.txt`
+
 2. Rename the file **.sample_env** to **.env**
+
 3. Edit the **.env** file to update the following values:  
    - **HOST:** Update to your Azure AI service endpoint.  
      - Example: `"https://sample-azure-ai-resource.services.ai.azure.com"`  
      - Do not include a trailing slash (`/`).  
        ![Azure AI Service](assets/sample-azure-resource.png)  
        ![Azure AI Service Endpoints](assets/endpoint.png)  
-   - **SUBSCRIPTION_KEY:** Update to your Azure AI Service API Key or Subscription ID to authenticate the API requests.  
+   - **SUBSCRIPTION_KEY:** Update to your Azure AI Service API Key or Subscription ID to authenticate API requests.  
      - Locate your API Key here: ![Azure AI Service Endpoints With Keys](assets/endpoint-with-keys.png)  
-     - If using Azure Active Directory (AAD), please refer to your Subscription ID: ![Azure AI Service Subscription ID](assets/subscription-id.png)  
+     - If using Azure Active Directory (AAD), please refer to your Subscription ID here: ![Azure AI Service Subscription ID](assets/subscription-id.png)  
    - **API_VERSION:** This is preset to the CU Preview.2 version; no changes are needed.
 
 ## How to Locate Your Document Field Extraction Dataset for Migration
 
 To migrate your Document Field Extraction dataset from AI Foundry, please follow these steps:
 
-1. On the bottom-left of your Document Field Extraction project page, please select **Management Center**.  
+1. At the bottom-left of your Document Field Extraction project page, please select **Management Center**.  
    ![Management Center](assets/management-center.png)  
 2. On the Management Center page, please select **View All** in the Connected Resources section.  
    ![Connected Resources](assets/connected-resources.png)  
-3. Locate the resource with type **Azure Blob Storage**. The resource's target URL contains your dataset’s storage account (highlighted in yellow) and blob container (in blue).  
+3. Locate the resource with the type **Azure Blob Storage**. The resource's target URL contains your dataset’s storage account (highlighted in yellow) and blob container (in blue).  
    ![Manage Connections](assets/manage-connections.png)  
    Using these values, navigate to your blob container, then select the **labelingProjects** folder. Next, select the folder named after the blob container. Here you will find your project contents in the **data** folder.
 
@@ -84,7 +86,7 @@ To obtain SAS URLs for a file or folder for any container URL arguments, please 
 - To generate a SAS URL for a specific file, navigate directly to that file and repeat the process, for example:  
   ![Generate SAS for Individual File](assets/individual-file-generate-sas.png)
 
-## How to Run 
+## How to Run
 
 Below are example commands to run the three tools. For readability, commands are split across multiple lines; please remove line breaks before execution.
 
@@ -100,7 +102,7 @@ python ./di_to_cu_converter.py --DI-version neural --analyzer-prefix mySampleAna
 --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
 ```
 
-For this migration, specifying an analyzer prefix is crucial for creating a CU analyzer. Since the fields.json does not define a "doc_type" for identification, the created analyzer ID will be the specified analyzer prefix.
+For this migration, specifying an analyzer prefix is crucial for creating a CU analyzer. Since the `fields.json` does not define a `"doc_type"` for identification, the created analyzer ID will be the specified analyzer prefix.
 
 If migrating a _DI 4.0 Preview Document Field Extraction_ dataset, please run:
 
@@ -110,13 +112,13 @@ python ./di_to_cu_converter.py --DI-version generative --analyzer-prefix mySampl
 --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
 ```
 
-For this migration, specifying an analyzer prefix is optional. However, to create multiple analyzers from the same analyzer.json, you will need to add an analyzer prefix. If provided, the analyzer ID becomes `analyzer-prefix_doc-type`; otherwise, it remains as the `doc_type` in fields.json.
+For this migration, specifying an analyzer prefix is optional. However, to create multiple analyzers from the same `analyzer.json`, you will need to add an analyzer prefix. If provided, the analyzer ID becomes `analyzer-prefix_doc-type`; otherwise, it remains as the `doc_type` in `fields.json`.
 
 _**NOTE:** Only one analyzer can be created per analyzer ID._
 
 ### 2. Create an Analyzer
 
-After converting the CU analyzer.json, please run:
+After converting the CU `analyzer.json`, please run:
 
 ```
 python ./create_analyzer.py \
