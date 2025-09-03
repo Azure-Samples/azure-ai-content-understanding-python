@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - main
-      - chienyuanchang/notebook_test_actions
   workflow_dispatch:  # Allows manual run from GitHub UI
 
 permissions:
