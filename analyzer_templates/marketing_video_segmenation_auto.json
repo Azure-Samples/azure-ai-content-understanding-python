@@ -1,0 +1,33 @@
+{
+  "description": "Sample marketing video analyzer",
+  "baseAnalyzerId": "prebuilt-videoAnalyzer",
+  "config": {
+    "returnDetails": true,
+    "segmentationMode": "auto"
+  },
+  "fieldSchema": {
+    "fields": {
+      "Segments": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Description": {
+              "type": "string",
+              "description": "Detailed summary of the video segment, focusing on product characteristics, lighting, and color palette."
+            },
+            "Sentiment": {
+              "type": "string",
+              "method": "classify",
+              "enum": [
+                "Positive",
+                "Neutral",
+                "Negative"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

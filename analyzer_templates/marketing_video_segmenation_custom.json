@@ -1,0 +1,34 @@
+{
+  "description": "Sample marketing video analyzer",
+  "baseAnalyzerId": "prebuilt-videoAnalyzer",
+  "config": {
+    "returnDetails": true,
+    "segmentationMode": "custom",
+    "segmentationDefinition": "Segment the video at each clear narrative or visual transition that introduces a new marketing message, speaker, or brand moment. Segments should begin when there is a change in speaker, a shift in visual theme (e.g., logos, product shots, data center views, simulation footage, aircraft scenes), or the introduction of a new key message (e.g., quality of data, scale of infrastructure, customer benefit, real-world aviation use). Each segment should capture one distinct marketing idea or value point, ending when the focus transitions to the next theme."
+  },
+  "fieldSchema": {
+    "fields": {
+      "Segments": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Description": {
+              "type": "string",
+              "description": "Detailed summary of the video segment, focusing on product characteristics, lighting, and color palette."
+            },
+            "Sentiment": {
+              "type": "string",
+              "method": "classify",
+              "enum": [
+                "Positive",
+                "Neutral",
+                "Negative"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
