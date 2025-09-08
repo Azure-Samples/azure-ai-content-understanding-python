@@ -164,3 +164,4 @@ cython_debug/
 # VSCode
 .vscode
 .azure
+test_output/

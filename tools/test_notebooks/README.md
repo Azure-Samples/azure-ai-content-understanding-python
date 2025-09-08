@@ -34,8 +34,8 @@ Some notebooks require access to Azure Storage or other resources. You may need 
    - Add the following variables to the [.env](../notebooks/.env) file in your project root:
 
      ```env
-     TRAINING_DATA_SAS_URL=<Blob container SAS URL>
-     TRAINING_DATA_PATH=<Designated folder path under the blob container>
+     training_data_sas_url=<Blob container SAS URL>
+     training_data_path=<Designated folder path under the blob container>
      REFERENCE_DOC_SAS_URL=<Blob container SAS URL>
      REFERENCE_DOC_PATH=<Designated folder path under the blob container>
      ```
