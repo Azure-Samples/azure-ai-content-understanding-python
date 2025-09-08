@@ -22,14 +22,14 @@ The folders [document_training](../data/document_training/) and [field_extractio
             - Note: **Write** permission is required for uploading, modifying, or appending blobs.  
         - Click the **Create** button.  
         <img src="./get-access-signature.png" height="600" /> <img src="./choose-signature-options.png" height="600" />  
-        - **Copy the SAS URL:** After creating the SAS, click **Copy** to get the URL with the token. This URL will be used as the value for either **TRAINING_DATA_SAS_URL** or **REFERENCE_DOC_SAS_URL** when running the sample code.  
+        - **Copy the SAS URL:** After creating the SAS, click **Copy** to get the URL with the token. This URL will be used as the value for either **training_data_sas_url** or **REFERENCE_DOC_SAS_URL** when running the sample code.  
             <img src="./copy-access-signature.png" width="600" />
         
         - Set the following variables in the [.env](../notebooks/.env) file:  
-            > **Note:** The value for **REFERENCE_DOC_SAS_URL** can be the same as **TRAINING_DATA_SAS_URL** to reuse the same blob container.
-            - For [analyzer_training](../notebooks/analyzer_training.ipynb): Add the SAS URL as the value of **TRAINING_DATA_SAS_URL**.  
+            > **Note:** The value for **REFERENCE_DOC_SAS_URL** can be the same as **training_data_sas_url** to reuse the same blob container.
+            - For [analyzer_training](../notebooks/analyzer_training.ipynb): Add the SAS URL as the value of **training_data_sas_url**.  
                 ```env
-                TRAINING_DATA_SAS_URL=<Blob container SAS URL>
+                training_data_sas_url=<Blob container SAS URL>
                 ```
             - For [field_extraction_pro_mode](../notebooks/field_extraction_pro_mode.ipynb): Add the SAS URL as the value of **REFERENCE_DOC_SAS_URL**.  
                 ```env
@@ -53,9 +53,9 @@ The folders [document_training](../data/document_training/) and [field_extractio
 5. **Set Folder Prefixes in the `.env` File:**  
    Depending on the sample you will run, set the required environment variables in the [.env](../notebooks/.env) file.
 
-    - For [analyzer_training](../notebooks/analyzer_training.ipynb): Add a prefix for **TRAINING_DATA_PATH**. You can choose any folder name within the blob container. For example, use `training_files`.  
+    - For [analyzer_training](../notebooks/analyzer_training.ipynb): Add a prefix for **training_data_path**. You can choose any folder name within the blob container. For example, use `training_files`.  
         ```env
-        TRAINING_DATA_PATH=<Designated folder path under the blob container>
+        training_data_path=<Designated folder path under the blob container>
         ```
     - For [field_extraction_pro_mode](../notebooks/field_extraction_pro_mode.ipynb): Add a prefix for **REFERENCE_DOC_PATH**. You can choose any folder name within the blob container. For example, use `reference_docs`.  
         ```env
