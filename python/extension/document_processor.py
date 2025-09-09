@@ -22,7 +22,6 @@ class ReferenceDocItem:
     result_file_path: str = ""
 
 class DocumentProcessor:
-    PREBUILT_DOCUMENT_ANALYZER_ID: str = "prebuilt-documentAnalyzer"
     OCR_RESULT_FILE_SUFFIX: str = ".result.json"
     LABEL_FILE_SUFFIX: str = ".labels.json"
     KNOWLEDGE_SOURCE_LIST_FILE_NAME: str = "sources.jsonl"
@@ -91,25 +90,27 @@ class DocumentProcessor:
 
                 for analyze_item in analyze_list:
                     try:
-                        prebuilt_document_analyzer_id = self.PREBUILT_DOCUMENT_ANALYZER_ID
-
                         print(analyze_item.file_path)
 
                         with open(analyze_item.file_path, "rb") as f:
-                            doc_bytes: bytes = f.read()
+                            pdf_bytes: bytes = f.read()
 
                         print(f"🔍 Analyzing {analyze_item.file_path} with prebuilt-documentAnalyzer...")
                         poller = await self._client.content_analyzers.begin_analyze_binary(
-                            analyzer_id=prebuilt_document_analyzer_id,
-                            input=doc_bytes,
+                            analyzer_id="prebuilt-documentAnalyzer",
+                            input=pdf_bytes,
                             content_type="application/pdf",
+                            cls=lambda pipeline_response, deserialized_obj, response_headers: (
+                                deserialized_obj,
+                                pipeline_response.http_response,
+                            ),
                         )
-                        result = await poller.result()
-                        
-                        if isinstance(result, (dict, list)):
-                            json_string = json.dumps(result)
-                        else:
-                            json_string = str(result)
+                        _, raw_http_response = await poller.result()
+
+                        print(f"Analysis completed for {raw_http_response}.")
+                        json_string = json.dumps(raw_http_response.json())
+                        print("json string type:", type(json_string))
+                        print(f"Analysis result: {json_string}")
 
                         result_file_blob_path = storage_container_path_prefix + analyze_item.result_file_name
                         file_blob_path = storage_container_path_prefix + analyze_item.file_name
@@ -217,54 +218,49 @@ class DocumentProcessor:
                 )
 
     def _get_analyze_list(self, reference_docs_folder: str) -> List[ReferenceDocItem]:
-        analyze_list: List[ReferenceDocItem] = []
-
-        # Process subdirectories
-        for dir_path in Path(reference_docs_folder).rglob("*"):
-            if dir_path.is_dir():
-                try:
-                    for file_path in dir_path.iterdir():
-                        if file_path.is_file():
-                            file_name_only = file_path.name
-                            file_ext = file_path.suffix
-                            
-                            if self.is_supported_doc_type_by_file_ext(file_ext, is_document=True):
-                                result_file_name = file_name_only + self.OCR_RESULT_FILE_SUFFIX
-                                analyze_list.append(ReferenceDocItem(
-                                    file_name=file_name_only,
-                                    file_path=str(file_path),
-                                    result_file_name=result_file_name
-                                ))
-                            else:
-                                raise ValueError(
-                                    f"File '{file_name_only}' is not a supported document type, "
-                                    f"please remove it or convert it to a supported type."
-                                )
-                except OSError:
-                    continue
+        """
+        Get a list of reference document items from the specified folder and its subdirectories.
         
-        # Process files in the root folder
+        Args:
+            reference_docs_folder: Path to the folder containing reference documents
+            
+        Returns:
+            List of ReferenceDocItem objects for supported document types
+            
+        Raises:
+            ValueError: If unsupported document types are found
+        """
+        analyze_list: List[ReferenceDocItem] = []
         root_path = Path(reference_docs_folder)
-        try:
-            for file_path in root_path.iterdir():
-                if file_path.is_file():
-                    file_name_only = file_path.name
-                    file_ext = file_path.suffix
-
-                    if self.is_supported_doc_type_by_file_ext(file_ext, is_document=True):
-                        result_file_name = file_name_only + self.OCR_RESULT_FILE_SUFFIX
-                        analyze_list.append(ReferenceDocItem(
-                            file_name=file_name_only,
-                            file_path=str(file_path),
-                            result_file_name=result_file_name
-                        ))
-                    else:
-                        raise ValueError(
-                            f"File '{file_name_only}' is not a supported document type, "
-                            f"please remove it or convert it to a supported type."
-                        )
-        except OSError:
-            pass
+        
+        # Check if the root path exists
+        if not root_path.exists():
+            return analyze_list
+        
+        # Get all files recursively (including root folder)
+        for file_path in root_path.rglob("*"):
+            if not file_path.is_file():
+                continue
+                
+            try:
+                file_name_only = file_path.name
+                file_ext = file_path.suffix
+                
+                if self.is_supported_doc_type_by_file_ext(file_ext, is_document=True):
+                    result_file_name = file_name_only + self.OCR_RESULT_FILE_SUFFIX
+                    analyze_list.append(ReferenceDocItem(
+                        file_name=file_name_only,
+                        file_path=str(file_path),
+                        result_file_name=result_file_name
+                    ))
+                else:
+                    raise ValueError(
+                        f"File '{file_name_only}' is not a supported document type, "
+                        f"please remove it or convert it to a supported type."
+                    )
+            except OSError:
+                # Skip files that can't be accessed
+                continue
         
         return analyze_list
     
