@@ -20,7 +20,7 @@ from azure.storage.blob import (
 from azure.storage.blob.aio import ContainerClient
 
 
-POLL_TIMEOUT_SECONDS = 120
+POLL_TIMEOUT_SECONDS = 180
 
 
 @dataclass
