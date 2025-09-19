@@ -1,0 +1,66 @@
+name: Notebook Check
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # Every day at 08:00 UTC
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Allows manual run from GitHub UI
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test-notebooks:
+    runs-on: ubuntu-latest
+    environment: MMI-Samples
+    env:
+      AZURE_AI_ENDPOINT: ${{ secrets.AZURE_CONTENT_UNDERSTANDING_ENDPOINT }}
+      TRAINING_DATA_STORAGE_ACCOUNT_NAME: ${{ secrets.TRAINING_DATA_STORAGE_ACCOUNT_NAME }}
+      TRAINING_DATA_CONTAINER_NAME: ${{ secrets.TRAINING_DATA_CONTAINER_NAME }}
+      REFERENCE_DOC_STORAGE_ACCOUNT_NAME: ${{ secrets.REFERENCE_DOC_STORAGE_ACCOUNT_NAME }}
+      REFERENCE_DOC_CONTAINER_NAME: ${{ secrets.REFERENCE_DOC_CONTAINER_NAME }}
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install nbformat nbconvert jupyter ipykernel
+
+      - name: Set TRAINING_DATA_PATH and REFERENCE_DOC_PATH with datetime
+        run: |
+          TS=$(date -u +'%Y%m%d_%H%M%S')
+          echo "TRAINING_DATA_PATH=test_notebooks/training_data_${TS}" >> $GITHUB_ENV
+          echo "REFERENCE_DOC_PATH=test_notebooks/reference_docs_${TS}" >> $GITHUB_ENV
+      
+      - name: List notebook files
+        run: ls -la notebooks
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:         
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Pull LFS files
+        run: git lfs pull
+
+      - name: Run notebook tests
+        run: |
+          set -e
+          python tools/test_notebooks/test_notebooks.py
