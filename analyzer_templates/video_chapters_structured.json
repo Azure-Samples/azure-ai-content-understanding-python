@@ -1,0 +1,54 @@
+{
+  "description": "Structured Chaptering",
+  "scenario": "videoShot",
+  "config": {
+    "returnDetails": true,
+    "enableSegmentation": true,
+    "segmentationMode": "custom",
+    "segmentationDefinition": "Segment the video into only three chapter types: 'Topic Introduction', 'Details About the Work Done', and 'Outcome, Conclusion and Results'. Reason about the content and determine the best time to segment the video according to these chapter types. Use the timestamp of each image to identify the start and end time of each chapter, and avoid chapter overlap. You must always define the three chapter types, and each chapter must have at least one scene.",
+    "locales": [
+      "en-US"
+    ]
+  },
+  "BaseAnalyzerId": "prebuilt-videoAnalyzer",
+  "fieldSchema": {
+    "name": "Content Understanding - Structured Chaptering",
+    "fields": {
+      "Segments": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "SegmentId": { "type": "string" },
+            "SegmentType": {
+              "type": "string",
+              "method": "generate",
+              "description": "The chapter type for the segment"
+            },
+            "Scenes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "Description": {
+                    "type": "string",
+                    "method": "generate",
+                    "description": "A five-word description of the scene. A scene is a smaller segment of the segment where a continous block for storytelling unfolds within a specific time, place, and set of characters. A scene can only belong to a single chapter, and cannot overlap with other scenes. Scenes are sequential across the video."
+                  },
+                  "StartTimestamp": {
+                    "type": "string",
+                    "description": "the start timestamp of the scene"
+                  },
+                  "EndTimestamp": {
+                    "type": "string",
+                    "description": "the end timestamp of the scene"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
