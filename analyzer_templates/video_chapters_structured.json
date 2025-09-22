@@ -19,7 +19,9 @@
         "items": {
           "type": "object",
           "properties": {
-            "SegmentId": { "type": "string" },
+            "SegmentId": {
+              "type": "string"
+            },
             "SegmentType": {
               "type": "string",
               "method": "generate",
