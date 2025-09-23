@@ -19,8 +19,8 @@ This guide walks you through the latest configuration using **Azure AI Foundry**
     <img src="./create_srv_1.png" width="600" />
 - Configure additional settings as needed, read and accept the terms, then click **Create**.  
     <img src="./create_srv_2.png" width="600" />
-- Wait for Azure’s validation (look for a green **Validation Passed** banner).
-- Click **Create** to start deployment. After a few seconds, you should see a message confirming, **Your deployment is complete**.
+- Wait for Azure’s validation—look for a green **Validation Passed** banner.
+- Click **Create** to start the deployment. After a few seconds, you should see a message confirming **Your deployment is complete**.
 
 ## 2. Get Keys and Endpoint
 - Navigate to your deployed resource.
