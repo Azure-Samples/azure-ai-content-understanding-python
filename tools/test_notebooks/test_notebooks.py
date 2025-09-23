@@ -98,10 +98,8 @@ def run_all_notebooks(
 if __name__ == "__main__":
     args: List[str] = sys.argv[1:]
 
-    # NOTE: Define skip list (can use full paths or substrings)
-    skip_list = [
-        "build_person_directory.ipynb",  # Skip due to "new_face_image_path" needed to be added manually
-    ]
+    # NOTE: Define skip list (can use full paths or substrings, e.g., "notebook_name.ipynb")
+    skip_list = []
 
     if not args:
         run_all_notebooks("notebooks", skip_list=skip_list)
