@@ -1,5 +1,6 @@
-import os
 import argparse
+import os
+import re
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -31,6 +32,58 @@ EXT_MAP = {
 }
 
 
+### Convert file name ###
+def detect_language(filename: str) -> str:
+    """Detect the language based on file extension."""
+    ext = os.path.splitext(filename)[1].lower()
+    for lang, lang_ext in EXT_MAP.items():
+        if ext == lang_ext:
+            return lang
+    return None
+
+
+def split_name(name: str, lang: str):
+    """Split a filename (without extension) into lowercase words."""
+    if lang in ("java", "csharp", "kotlin", "swift", "scala", "rust"):
+        return [w.lower() for w in re.findall(r"[A-Z][a-z0-9]*", name)]
+    elif lang in ("javascript", "typescript", "go"):
+        return [w.lower() for w in re.findall(r"[A-Z]?[a-z0-9]+", name)]
+    elif lang == "python":
+        return name.split("_")
+    elif lang in ("shell",):
+        return name.split("-")
+    else:
+        parts = re.findall(r"[A-Z]?[a-z0-9]+", name)
+        return [p.lower() for p in parts] if parts else [name.lower()]
+
+
+def join_name(words, lang: str):
+    """Join words into the appropriate filename style for the target language."""
+    if lang == "python":
+        return "_".join(words)
+    elif lang in ("java", "csharp", "kotlin", "swift", "scala", "rust"):
+        return "".join(w.capitalize() for w in words)
+    elif lang in ("javascript", "typescript", "go"):
+        return words[0] + "".join(w.capitalize() for w in words[1:])
+    elif lang in ("shell",):
+        return "-".join(words)
+    else:
+        return "_".join(words)
+
+
+def convert_filename(filename: str, target_lang: str) -> str:
+    """Convert a filename by auto-detecting source language and applying target style."""
+    source_lang = detect_language(filename)
+    if not source_lang:
+        raise ValueError(f"Could not detect language from extension for file: {filename}")
+
+    name, _ = os.path.splitext(filename)
+    words = split_name(name, source_lang)
+    new_name = join_name(words, target_lang)
+    return new_name + EXT_MAP[target_lang]
+
+
+### Convert and write samples ###
 def collect_sdk_context_from_local(sdk_path: Path) -> str:
     """
     Collects the content of all SDK source files from a local folder.
@@ -66,10 +119,11 @@ def convert_and_write_sample(filename, source_code, target_lang, sdk_context, as
         assistant (AzureOpenAIAssistant): OpenAI assistant.
         output_path (Path): Output directory.
     """
-    src_lang = Path(filename).suffix[1:] if "." in filename else "unknown"
-    dest_ext = EXT_MAP.get(target_lang.lower(), f".{target_lang}")
-    rel_name = Path(filename).name
-    dest_file = output_path / rel_name.replace(Path(filename).suffix, dest_ext)
+    src_lang = detect_language(filename)
+    if not src_lang:
+        src_lang = Path(filename).suffix[1:] if "." in filename else "unknown"
+
+    dest_file = output_path / convert_filename(filename, target_lang)
     os.makedirs(dest_file.parent, exist_ok=True)
 
     print(f"🚀 Converting {filename} → {dest_file}")
@@ -150,7 +204,8 @@ def convert_folder(
             if file_content is None:
                 print(f"⚠️ Skipping {file_path}: Could not fetch content.")
                 continue
-            convert_and_write_sample(file_path, file_content, target_lang, sdk_context, assistant, output_path)
+            file_name = os.path.basename(file_path)
+            convert_and_write_sample(file_name, file_content, target_lang, sdk_context, assistant, output_path)
     else:
         for root, _, files in os.walk(samples_source):
             for f in files:
@@ -158,7 +213,7 @@ def convert_folder(
                 try:
                     with open(src_file, "r", encoding="utf-8", errors="ignore") as file:
                         source_code = file.read()
-                    convert_and_write_sample(str(src_file), source_code, target_lang, sdk_context, assistant, output_path)
+                    convert_and_write_sample(src_file.name, source_code, target_lang, sdk_context, assistant, output_path)
                 except Exception as e:
                     print(f"⚠️ Skipping {src_file}: {e}")
 

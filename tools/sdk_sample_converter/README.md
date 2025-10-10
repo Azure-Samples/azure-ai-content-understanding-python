@@ -56,6 +56,8 @@ python sdk_sample_converter.py \
 
 # Design Workflow
 
+## Main flo
+
 1. **Locate the sample repository and folder**
     - Use the GitHub permalink or clone the repo locally.
     - Copy the permalink to use as the `--samples-source` argument.  
@@ -70,3 +72,30 @@ python sdk_sample_converter.py \
 5. **Integrate and test**
     - Copy the converted files to the designated repository (often the SDK repo).
     - Test the converted samples to ensure correctness and functionality.
+
+## Features
+
+- **Code Conversion**
+  - Convert source code to a target language using LLMs.
+
+- **Filename Conversion**
+  - Detect filenames based on file extensions using Python logic.
+  - Future: Use LLMs to handle more complex filename transformations.
+
+- **SDK Information Gathering**
+  - Currently: Parse, collect, and pass the content of all SDK scripts.
+  - Potential enhancements:
+    - Extract a list of functions and their parameters.
+    - Generate embeddings for SDK content and enable AI-powered search.
+
+- **Future Ideas**
+  - **Helper Function Scripts**
+    - Use LLMs to identify helper scripts by filename, translate them, and integrate them into the SDK content.
+  - **Support for Additional Environment Files**
+    - Move test data, example files, and schemas manually, ensuring they are included in the translation pipeline.
+    - Use LLMs to update the README or documentation automatically (e.g., via Copilot or Cursor).
+  - **Testing**
+    - Run scripts manually to validate functionality.
+    - Future: Use LLMs to generate an executable that runs all scripts automatically.
+
+

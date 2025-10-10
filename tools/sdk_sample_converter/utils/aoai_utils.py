@@ -70,23 +70,44 @@ class AzureOpenAIAssistant:
     def convert_code(self, source_code: str, source_lang: str, target_lang: str, sdk_context: str) -> str:
         """
         Convert SDK code from source_lang to target_lang using GPT.
-        The prompt is fully constructed here.
         """
-        system_prompt = "You are a code conversion assistant."
-        user_prompt = f"""
-            Convert the following {source_lang} SDK test/sample code into {target_lang}.
-            Requirements:
-            - Use idiomatic {target_lang} syntax and naming.
-            - Follow SDK patterns shown in the provided context.
-            - Keep comments, structure, and logic equivalent.
-            - Output only valid {target_lang} code (no markdown formatting).
+        system_prompt = """
+            You are an expert Azure SDK sample and test translator.
+            You deeply understand SDK design patterns, idioms, and testing conventions across languages
+            (e.g., Python, Java, C#, JavaScript/TypeScript).
 
-            SDK context:
+            Your task is to translate sample or test code between SDKs while preserving:
+            - the intent, structure, and instructional flow of the original sample/test,
+            - SDK semantics, client patterns, and setup/cleanup logic,
+            - comments and docstrings that explain usage.
+
+            You adapt idioms, syntax, and frameworks naturally for the target language.
+            Output must be **only** valid source code in the target language, ready to run.
+        """
+        user_prompt = f"""
+            Translate the following {source_lang} SDK sample or test into {target_lang}.
+
+            Requirements:
+            1. **SDK Semantics**
+            - Use equivalent client setup, method calls, and configuration patterns in {target_lang}.
+            - Adapt SDK namespaces, imports, and async/sync usage idiomatically.
+            - Match error handling and resource management conventions for {target_lang}.
+
+            2. **Testing & Sample Conventions**
+            - If it's a *sample*, keep the instructional and step-by-step style.
+            - If it's a *test*, adapt to the typical test framework used in {target_lang} (e.g., pytest, JUnit, MSTest).
+            - Keep the logical flow identical.
+
+            3. **Output Rules**
+            - Output only {target_lang} source code (no markdown, explanations, or comments outside code).
+            - Ensure the code is syntactically correct and runnable.
+
+            ### SDK Context
             {sdk_context}
 
-            Source code:
+            ### Source Code ({source_lang})
             {source_code}
-            """
+        """
         return self.chat(user_prompt, system_prompt)
 
 
