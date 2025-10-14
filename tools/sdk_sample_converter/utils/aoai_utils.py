@@ -134,6 +134,9 @@ class AzureOpenAIAssistant:
             - Output only {target_lang} source code (no markdown, explanations, or comments outside code).
             - Ensure the code is syntactically correct and runnable.
 
+            4. **Environment Variables**
+            - Include code to load environment variables from a `.env` file where appropriate.
+
             ### SDK Context
             {sdk_context}
 
@@ -142,7 +145,59 @@ class AzureOpenAIAssistant:
         """
         return self.chat(user_prompt, system_prompt)
 
+    def convert_doc(self, source_doc: str, source_lang: str, target_lang: str, sdk_context: str) -> str:
+        """
+        Convert SDK document from source_lang to target_lang using GPT.
+        """
+        system_prompt = """
+            You are an expert Azure SDK documentation writer and maintainer.
+            You deeply understand SDK design patterns, idioms, and developer onboarding conventions
+            across languages (e.g., Python, Java, C#, JavaScript/TypeScript).
 
+            Your task is to update or generate documentation files (e.g., README.md, usage guides, or setup instructions)
+            to accurately reflect the latest SDK samples, tests, and environment setup.
+
+            You must:
+            - Preserve the instructional flow, tone, and intent of the original documentation.
+            - Update code snippets, environment setup steps, and SDK references to match the {target_lang} version.
+            - Maintain clarity, correctness, and professional markdown formatting.
+            - Ensure the documentation is clear, runnable, and consistent with the SDK sample.
+
+            Output must be **only** valid Markdown content — no explanations or commentary outside the markdown.
+        """
+        user_prompt = f"""
+            Update or rewrite the following documentation (e.g., README.md) to reflect the latest {target_lang} SDK sample or test.
+
+            Requirements:
+            1. **Content Accuracy**
+            - Ensure all instructions, code snippets, and SDK references match the {target_lang} SDK.
+            - Include accurate setup and configuration details, including reading environment variables from a `.env` file where applicable.
+            - Reflect the correct folder structure, package names, and SDK client initialization.
+
+            2. **Structure and Clarity**
+            - Maintain a clear, concise, and developer-friendly style.
+            - Use proper Markdown structure with sections such as:
+                - Overview
+                - Prerequisites
+                - Installation
+                - Configuration (Environment Variables)
+                - Usage Example
+                - Running Tests (if applicable)
+            - Keep or improve helpful explanations and examples from the original documentation.
+
+            3. **Output Rules**
+            - Output only Markdown content — no extra commentary or metadata.
+            - Ensure the final document is well-formatted, readable, and ready to render on GitHub.
+
+            ---
+
+            ### SDK Context
+            {sdk_context}
+
+            ### Existing Documentation for {source_lang}
+            {source_doc}
+        """
+        return self.chat(user_prompt, system_prompt)
 
     def classify_file_paths(self, file_paths: list[str], target_lang: str) -> FileCategories:
         """

@@ -169,6 +169,7 @@ def convert_and_write_sample(
         sdk_files_dict: dict,
         assistant: AzureOpenAIAssistant,
         output_path: Path,
+        is_doc: bool = False,
     ) -> str:
     """
     Converts and writes a single sample file to the output directory.
@@ -184,12 +185,20 @@ def convert_and_write_sample(
 
     print(f"🚀 Converting {file_path} → {dest_file}")
     try:
-        converted = assistant.convert_code(
-            source_code=source_code,
-            source_lang=src_lang,
-            target_lang=target_lang,
-            sdk_context=sdk_context,
-        )
+        if is_doc:
+            converted = assistant.convert_doc(
+                source_doc=source_code,
+                source_lang=src_lang,
+                target_lang=target_lang,
+                sdk_context=sdk_context,
+            )
+        else:
+            converted = assistant.convert_code(
+                source_code=source_code,
+                source_lang=src_lang,
+                target_lang=target_lang,
+                sdk_context=sdk_context,
+            )
         dest_file.write_text(converted, encoding="utf-8")
         return converted
     except Exception as e:
@@ -225,12 +234,12 @@ def convert_and_write_samples(
             continue
         _ = convert_and_write_sample(sample, source_code, target_lang, sdk_files_dict, assistant, output_path)
 
-    # --- 3️⃣ Docs: Update and save --- TODO: use different prompt
+    # --- 3️⃣ Docs: Update and save ---
     for doc in file_categories.docs:
         source_code = read_file_content(doc, gh_helper)
         if not source_code:
             continue
-        _ = convert_and_write_sample(sample, source_code, target_lang, sdk_files_dict, assistant, output_path)
+        _ = convert_and_write_sample(sample, source_code, target_lang, sdk_files_dict, assistant, output_path, is_doc=True)
 
     # --- 4️⃣ Other files: Just copy ---
     for other in file_categories.other_files:
