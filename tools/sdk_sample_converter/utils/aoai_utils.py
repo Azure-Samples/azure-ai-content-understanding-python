@@ -1,6 +1,19 @@
+import json
+
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 from openai import AzureOpenAI
+from pydantic import BaseModel
 
+
+class FileCategories(BaseModel):
+    helpers: list[str]
+    samples: list[str]
+    docs: list[str]
+    other_files: list[str]
+
+    def total_len(self) -> int:
+        """Return total number of items across all lists."""
+        return sum(len(v) for v in self.model_dump().values())
 
 class AzureOpenAIAssistant:
     """Azure OpenAI Assistant client"""
@@ -66,6 +79,25 @@ class AzureOpenAIAssistant:
         except Exception as e:
             print(f"Error during chat completion: {e}")
             return ""
+        
+    def chat_with_structured_output(self, user_prompt: str, system_prompt: str, response_format: BaseModel) -> FileCategories:
+        try:
+            messages = []
+            if system_prompt:
+                messages.append({"role": "system", "content": system_prompt})
+            if user_prompt:
+                messages.append({"role": "user", "content": user_prompt})
+
+            completion = self.client.chat.completions.parse(
+                model=self.model,
+                messages=messages,
+                response_format=response_format,
+            )
+            response = completion.choices[0].message.parsed
+            return response
+        except Exception as e:
+            print(f"Error during structured chat completion: {e}")
+            return None
 
     def convert_code(self, source_code: str, source_lang: str, target_lang: str, sdk_context: str) -> str:
         """
@@ -111,3 +143,39 @@ class AzureOpenAIAssistant:
         return self.chat(user_prompt, system_prompt)
 
 
+
+    def classify_file_paths(self, file_paths: list[str], target_lang: str) -> FileCategories:
+        """
+        Classify repository file paths by their purpose.
+
+        Args:
+            file_paths (list[str]): List of file paths to classify.
+            target_lang (str): Target SDK language.
+
+        Returns:
+            FileCategories: Classified file paths.
+        """
+        system_prompt = """
+            You are a software repository analyst that classifies files by their purpose.
+
+            Sort the given list of file paths into 4 groups:
+            1. helpers: SDK/helper scripts (e.g., setup files, utilities)
+            2. samples: Sample/test scripts (to convert)
+            3. docs: Documentation files (README.md, .md, .rst, etc.)
+            4. other_files: Other files (json, pdf, jpg, csv, etc.)
+        """
+
+        user_prompt = f"""
+            You are classifying files from a SDK repository in another programming language that will be converted to {target_lang}.
+
+            Here is the list of file paths to classify:
+            {file_paths}
+        """
+
+        result = self.chat_with_structured_output(
+            user_prompt=user_prompt.strip(),
+            system_prompt=system_prompt.strip(),
+            response_format=FileCategories,
+        )
+
+        return result

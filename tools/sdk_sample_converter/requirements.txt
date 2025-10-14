@@ -1,4 +1,5 @@
 azure-identity
 openai
+pydantic
 python-dotenv
 PyGithub

@@ -1,11 +1,12 @@
 import argparse
 import os
 import re
+from typing import Union
 from pathlib import Path
 
 from dotenv import load_dotenv
 
-from utils.aoai_utils import AzureOpenAIAssistant
+from utils.aoai_utils import AzureOpenAIAssistant, FileCategories
 from utils.github_utils import GitHubRepoHelper, parse_github_url
 
 EXT_MAP = {
@@ -34,7 +35,7 @@ EXT_MAP = {
 
 ### Convert file name ###
 def detect_language(filename: str) -> str:
-    """Detect the language based on file extension."""
+    """Detect language from file extension."""
     ext = os.path.splitext(filename)[1].lower()
     for lang, lang_ext in EXT_MAP.items():
         if ext == lang_ext:
@@ -43,14 +44,14 @@ def detect_language(filename: str) -> str:
 
 
 def split_name(name: str, lang: str):
-    """Split a filename (without extension) into lowercase words."""
+    """Split filename into lowercase words."""
     if lang in ("java", "csharp", "kotlin", "swift", "scala", "rust"):
-        return [w.lower() for w in re.findall(r"[A-Z][a-z0-9]*", name)]
+        return [w.lower() for w in re.findall(r"[A-Z]?[a-z0-9]+", name)]
     elif lang in ("javascript", "typescript", "go"):
         return [w.lower() for w in re.findall(r"[A-Z]?[a-z0-9]+", name)]
     elif lang == "python":
         return name.split("_")
-    elif lang in ("shell",):
+    elif lang == "shell":
         return name.split("-")
     else:
         parts = re.findall(r"[A-Z]?[a-z0-9]+", name)
@@ -58,33 +59,39 @@ def split_name(name: str, lang: str):
 
 
 def join_name(words, lang: str):
-    """Join words into the appropriate filename style for the target language."""
+    """Join words into target filename style."""
     if lang == "python":
         return "_".join(words)
     elif lang in ("java", "csharp", "kotlin", "swift", "scala", "rust"):
-        return "".join(w.capitalize() for w in words)
+        return "".join(w.capitalize() for w in words)  # PascalCase
     elif lang in ("javascript", "typescript", "go"):
-        return words[0] + "".join(w.capitalize() for w in words[1:])
-    elif lang in ("shell",):
+        return words[0] + "".join(w.capitalize() for w in words[1:])  # camelCase
+    elif lang == "shell":
         return "-".join(words)
     else:
         return "_".join(words)
 
 
 def convert_filename(filename: str, target_lang: str) -> str:
-    """Convert a filename by auto-detecting source language and applying target style."""
+    """Convert a filename by detecting source language and applying target style."""
     source_lang = detect_language(filename)
     if not source_lang:
-        raise ValueError(f"Could not detect language from extension for file: {filename}")
+        print(f"⚠️ Unknown extension for {filename}, keeping original name.")
+        return filename
 
     name, _ = os.path.splitext(filename)
     words = split_name(name, source_lang)
     new_name = join_name(words, target_lang)
-    return new_name + EXT_MAP[target_lang]
+
+    ext = EXT_MAP[target_lang]
+    if not ext.startswith("."):
+        ext = "." + ext
+
+    return new_name + ext
 
 
 ### Convert and write samples ###
-def collect_sdk_context_from_local(sdk_path: Path) -> str:
+def collect_sdk_context_from_local(sdk_path: Path) -> dict[str, str]:
     """
     Collects the content of all SDK source files from a local folder.
 
@@ -92,41 +99,90 @@ def collect_sdk_context_from_local(sdk_path: Path) -> str:
         sdk_path (Path): Path to the SDK source directory.
 
     Returns:
-        str: Combined text content of all relevant SDK files.
+        dict[str, str]: A dictionary mapping relative file paths to their decoded UTF-8 content.
+        Example:
+            {
+                "sdk/module/__init__.py": "...",
+                "sdk/module/example.py": "..."
+            }
     """
-    context = []
+    file_dict = {}
     for root, _, files in os.walk(sdk_path):
         for f in files:
             if f.endswith(tuple(EXT_MAP.values())):
                 file_path = Path(root) / f
                 try:
                     with open(file_path, "r", encoding="utf-8", errors="ignore") as file:
-                        context.append(f"\n### {file_path}\n{file.read()}")
+                        file_dict[str(file_path.relative_to(sdk_path))] = file.read()
                 except Exception as e:
                     print(f"⚠️ Warning: Could not read {file_path}: {e}")
-    return "\n".join(context)
+    return file_dict
 
 
-def convert_and_write_sample(filename, source_code, target_lang, sdk_context, assistant, output_path):
+def get_sample_file_paths(
+        folder_path: str, 
+        gh_helper: GitHubRepoHelper | None,
+    ) -> list:
     """
-    Converts and writes a single sample file to the output directory.
+    Get list of sample file paths from local directory or GitHub repo.
 
     Args:
-        filename (str): Source filename.
-        source_code (str): Source code to convert.
-        target_lang (str): Target programming language.
-        sdk_context (str): SDK context for conversion.
-        assistant (AzureOpenAIAssistant): OpenAI assistant.
-        output_path (Path): Output directory.
+        samples_source (str): Local path or GitHub tree URL for sample files.
+        github_token (str | None): Optional GitHub token for private repos.
+        is_local (bool): True if samples_source is a local path, False if it's a GitHub URL.
+
+    Returns:
+        list: List of file paths to sample files.
     """
-    src_lang = detect_language(filename)
-    if not src_lang:
-        src_lang = Path(filename).suffix[1:] if "." in filename else "unknown"
+    if gh_helper:
+        return gh_helper.list_folder_file_paths(
+            folder_path=folder_path,
+            recursive=True,
+        )
+    else:
+        file_paths = []
+        for root, _, files in os.walk(folder_path):
+            for f in files:
+                file_paths.append(Path(root) / f)
+        return file_paths
 
-    dest_file = output_path / convert_filename(filename, target_lang)
-    os.makedirs(dest_file.parent, exist_ok=True)
 
-    print(f"🚀 Converting {filename} → {dest_file}")
+def read_file_content(file_path: Union[str, Path], gh_helper=None) -> str | None:
+    """Read or fetch file content depending on GitHub source."""
+    if gh_helper:
+        content = gh_helper.fetch_file_content(file_path)
+        if content is None:
+            print(f"⚠️ Skipping {file_path}: Could not fetch content.")
+        return content
+    try:
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            return f.read()
+    except Exception as e:
+        print(f"⚠️ Skipping {file_path}: {e}")
+        return None
+
+
+def convert_and_write_sample(
+        file_path: Union[str, Path],
+        source_code: str,
+        target_lang: str,
+        sdk_files_dict: dict,
+        assistant: AzureOpenAIAssistant,
+        output_path: Path,
+    ) -> str:
+    """
+    Converts and writes a single sample file to the output directory.
+    """
+    src_path = Path(file_path)
+    src_lang = detect_language(src_path.name) or (src_path.suffix[1:] if src_path.suffix else "unknown")
+
+    dest_filename = convert_filename(src_path.name, target_lang)
+    dest_file = output_path / src_path.parent / dest_filename
+    dest_file.parent.mkdir(parents=True, exist_ok=True)
+
+    sdk_context = "\n\n".join(f"# File: {path}\n{content}" for path, content in sdk_files_dict.items() if content)
+
+    print(f"🚀 Converting {file_path} → {dest_file}")
     try:
         converted = assistant.convert_code(
             source_code=source_code,
@@ -134,19 +190,67 @@ def convert_and_write_sample(filename, source_code, target_lang, sdk_context, as
             target_lang=target_lang,
             sdk_context=sdk_context,
         )
-        with open(dest_file, "w", encoding="utf-8") as out:
-            out.write(converted)
+        dest_file.write_text(converted, encoding="utf-8")
+        return converted
     except Exception as e:
-        print(f"❌ Error converting {filename}: {e}")
+        print(f"❌ Error converting {file_path}: {e}")
+        return ""
+
+
+def convert_and_write_samples(
+        file_categories: FileCategories,
+        target_lang: str,
+        sdk_files_dict: dict,
+        assistant: AzureOpenAIAssistant,
+        output_path: Path,
+        gh_helper=None,
+    ) -> None:
+    """
+    Converts and writes multiple files to the output directory,
+    handling different categories differently.
+    """
+    # --- 1️⃣ Helpers: Convert, save, and add into sdk_context ---
+    for helper in file_categories.helpers:
+        source_code = read_file_content(helper, gh_helper)
+        if not source_code:
+            continue
+        converted_content = convert_and_write_sample(helper, source_code, target_lang, sdk_files_dict, assistant, output_path)
+        # optionally add helper content to sdk_context
+        sdk_files_dict.setdefault("helpers", {})[helper] = converted_content
+
+    # --- 2️⃣ Samples: Convert and save ---
+    for sample in file_categories.samples:
+        source_code = read_file_content(sample, gh_helper)
+        if not source_code:
+            continue
+        _ = convert_and_write_sample(sample, source_code, target_lang, sdk_files_dict, assistant, output_path)
+
+    # --- 3️⃣ Docs: Update and save --- TODO: use different prompt
+    for doc in file_categories.docs:
+        source_code = read_file_content(doc, gh_helper)
+        if not source_code:
+            continue
+        _ = convert_and_write_sample(sample, source_code, target_lang, sdk_files_dict, assistant, output_path)
+
+    # --- 4️⃣ Other files: Just copy ---
+    for other in file_categories.other_files:
+        try:
+            src_path = Path(other)
+            dest_path = output_path / src_path
+            dest_path.parent.mkdir(parents=True, exist_ok=True)
+            dest_path.write_bytes(src_path.read_bytes())
+            print(f"📁 Copied {other}")
+        except Exception as e:
+            print(f"⚠️ Could not copy {other}: {e}")
 
 
 def convert_folder(
-    sdk_source: str,
-    samples_source: str,
-    target_lang: str,
-    output_path: Path,
-    github_token: str | None = None,
-):
+        sdk_source: str,
+        samples_source: str,
+        target_lang: str,
+        output_path: Path,
+        github_token: str | None = None,
+    ):
     """
     Converts all SDK sample files in a folder or GitHub repo into another language.
 
@@ -162,61 +266,44 @@ def convert_folder(
     if sdk_source.startswith("https://github.com/"):
         owner, repo, ref, folder_path = parse_github_url(sdk_source)
         gh_helper = GitHubRepoHelper(f"{owner}/{repo}", github_token, ref=ref)
-        sdk_files = gh_helper.fetch_folder_files(
+        sdk_files_dict = gh_helper.fetch_folder_files(
             folder_path=folder_path,
             recursive=True,
             extensions=EXT_MAP.values(),
         )
-        sdk_context = "\n".join(f"\n### {fname}\n{content}" for fname, content in sdk_files.items())
     else:
-        sdk_context = collect_sdk_context_from_local(Path(sdk_source))
+        sdk_files_dict = collect_sdk_context_from_local(Path(sdk_source))
 
     print("✅ SDK context collection complete.\n")
     # Ensure output directory exists before saving sdk_context
     os.makedirs(output_path, exist_ok=True)
     # save sdk_context for debugging
     with open(output_path / "sdk_context.txt", "w", encoding="utf-8") as f:
-        f.write(sdk_context)
+        f.write("\n\n".join(f"# File: {path}\n{content}" for path, content in sdk_files_dict.items() if content))
     print(f"✅ SDK context saved to '{output_path}/sdk_context.txt'.\n")
 
     # Load environment variables from .env file in the same directory as this script
     dotenv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
     load_dotenv(dotenv_path)
 
-    assistant = AzureOpenAIAssistant(
+    aoai_assistant = AzureOpenAIAssistant(
         aoai_end_point=os.getenv("AZURE_OPENAI_ENDPOINT"),
         aoai_api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-12-01-preview"),
         deployment_name=os.getenv("AZURE_OPENAI_DEPLOYMENT"),
         aoai_api_key=os.getenv("AZURE_OPENAI_API_KEY", ""),
     )
 
-    # Process each sample file one at a time (no accumulation)
     if samples_source.startswith("https://github.com/"):
         owner, repo, ref, folder_path = parse_github_url(samples_source)
         gh_helper = GitHubRepoHelper(f"{owner}/{repo}", github_token, ref=ref)
-        file_paths = gh_helper.list_folder_file_paths(
-            folder_path=folder_path,
-            recursive=True,
-            extensions=list(EXT_MAP.values()),
-        )
-        for file_path in file_paths:
-            file_content = gh_helper.fetch_file_content(file_path)
-            if file_content is None:
-                print(f"⚠️ Skipping {file_path}: Could not fetch content.")
-                continue
-            file_name = os.path.basename(file_path)
-            convert_and_write_sample(file_name, file_content, target_lang, sdk_context, assistant, output_path)
     else:
-        for root, _, files in os.walk(samples_source):
-            for f in files:
-                src_file = Path(root) / f
-                try:
-                    with open(src_file, "r", encoding="utf-8", errors="ignore") as file:
-                        source_code = file.read()
-                    convert_and_write_sample(src_file.name, source_code, target_lang, sdk_context, assistant, output_path)
-                except Exception as e:
-                    print(f"⚠️ Skipping {src_file}: {e}")
-
+        gh_helper = None
+        folder_path = samples_source
+        
+    file_paths = get_sample_file_paths(folder_path, gh_helper)
+    file_categories = aoai_assistant.classify_file_paths(file_paths, target_lang)
+    print(f"{file_categories.total_len()} of {len(file_paths)} files was categorized.")
+    convert_and_write_samples(file_categories, target_lang, sdk_files_dict, aoai_assistant, output_path, gh_helper)
 
 
 def parse_args():
