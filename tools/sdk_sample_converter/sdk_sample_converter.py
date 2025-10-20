@@ -179,20 +179,13 @@ def build_sdk_vectorstore(sdk_files_dict: dict, chunk_size: int = 500, chunk_ove
     docs = []
     chunks_info = {}
     try:
-        splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        # Index one document per file (no chunking). This keeps retrieval at the file level.
         for path, content in sdk_files_dict.items():
             if not content:
                 continue
-            doc = Document(page_content=content, metadata={"path": path})
-            split = splitter.split_documents([doc])
-            # add chunk index metadata so we know ordering/offset per file
-            for idx, d in enumerate(split):
-                if not getattr(d, "metadata", None):
-                    d.metadata = {}
-                d.metadata.setdefault("path", path)
-                d.metadata["chunk_index"] = idx
-            docs.extend(split)
-            chunks_info[path] = len(split)
+            d = Document(page_content=content, metadata={"path": path, "chunk_index": 0})
+            docs.append(d)
+            chunks_info[path] = 1
 
         if not docs:
             return None, {}
@@ -318,19 +311,12 @@ def convert_and_write_samples(
         # If we have a vectorstore, index the converted helper so retrieval can find it.
         if sdk_vectorstore and converted_content:
             try:
-                splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-                docs = splitter.split_documents([Document(page_content=converted_content, metadata={"path": helper})])
-                # add chunk_index metadata
-                for idx, d in enumerate(docs):
-                    if not getattr(d, "metadata", None):
-                        d.metadata = {}
-                    d.metadata.setdefault("path", helper)
-                    d.metadata["chunk_index"] = idx
-                # add to vectorstore and update chunks info
-                sdk_vectorstore.add_documents(docs)
-                if sdk_chunks_info is None:
-                    sdk_chunks_info = {}
-                sdk_chunks_info[helper] = len(docs)
+                    # index helper as a single document (file-level indexing)
+                    doc = Document(page_content=converted_content, metadata={"path": helper, "chunk_index": 0})
+                    sdk_vectorstore.add_documents([doc])
+                    if sdk_chunks_info is None:
+                        sdk_chunks_info = {}
+                    sdk_chunks_info[helper] = 1
             except Exception as e:
                 print(f"⚠️ Could not index helper {helper} into vectorstore: {e}")
 
