@@ -3,3 +3,7 @@ openai
 pydantic
 python-dotenv
 PyGithub
+langchain
+langchain-community
+sentence-transformers
+faiss-cpu

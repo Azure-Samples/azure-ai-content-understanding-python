@@ -1,13 +1,19 @@
 import argparse
 import os
 import re
-from typing import Union
+from typing import Union, Optional
 from pathlib import Path
+import json
 
 from dotenv import load_dotenv
 
 from utils.aoai_utils import AzureOpenAIAssistant, FileCategories
 from utils.github_utils import GitHubRepoHelper, parse_github_url
+
+from langchain.docstore.document import Document
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.embeddings import SentenceTransformerEmbeddings
+from langchain.vectorstores import FAISS
 
 EXT_MAP = {
     "python": ".py",           # Python scripts
@@ -162,6 +168,77 @@ def read_file_content(file_path: Union[str, Path], gh_helper=None) -> str | None
         return None
 
 
+def build_sdk_vectorstore(sdk_files_dict: dict, chunk_size: int = 500, chunk_overlap: int = 50):
+    """
+    Build a LangChain FAISS vectorstore from SDK files for RAG.
+
+    Returns: (vectorstore, chunks_info)
+      - vectorstore: the FAISS vectorstore instance or None if something goes wrong
+      - chunks_info: dict mapping file path -> number of chunks indexed
+    """
+    docs = []
+    chunks_info = {}
+    try:
+        splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        for path, content in sdk_files_dict.items():
+            if not content:
+                continue
+            doc = Document(page_content=content, metadata={"path": path})
+            split = splitter.split_documents([doc])
+            # add chunk index metadata so we know ordering/offset per file
+            for idx, d in enumerate(split):
+                if not getattr(d, "metadata", None):
+                    d.metadata = {}
+                d.metadata.setdefault("path", path)
+                d.metadata["chunk_index"] = idx
+            docs.extend(split)
+            chunks_info[path] = len(split)
+
+        if not docs:
+            return None, {}
+
+        embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
+        vectorstore = FAISS.from_documents(docs, embeddings)
+        return vectorstore, chunks_info
+    except Exception as e:
+        print(f"⚠️ Failed to build vectorstore: {e}")
+        return None, {}
+
+
+def retrieve_relevant_sdk_context(query: str, vectorstore, k: int = 50, max_chars: int = 45000) -> str:
+    """
+    Retrieve top-k relevant SDK chunks from vectorstore and concatenate them into a single sdk_context string.
+
+    Stops concatenation once max_chars is reached (default 45000 characters) to keep prompt input within limits.
+    """
+    if not vectorstore:
+        return ""
+    try:
+        docs = vectorstore.similarity_search(query, k=k)
+    except Exception as e:
+        print(f"⚠️ Error during similarity search: {e}")
+        return ""
+    sdk_context_parts = []
+    total_chars = 0
+    for d in docs:
+        meta = getattr(d, "metadata", {}) or {}
+        path = meta.get("path", meta.get("source", "unknown"))
+        chunk_idx = meta.get("chunk_index")
+        content = getattr(d, "page_content", str(d))
+        header = f"# File: {path}"
+        if chunk_idx is not None:
+            header += f" (chunk {chunk_idx})"
+        part = f"{header}\n{content}"
+        # if adding this part exceeds max_chars, stop (but allow at least one chunk)
+        if total_chars + len(part) > max_chars:
+            if not sdk_context_parts:
+                sdk_context_parts.append(part)
+            break
+        sdk_context_parts.append(part)
+        total_chars += len(part)
+    return "\n\n".join(sdk_context_parts)
+
+
 def convert_and_write_sample(
         file_path: Union[str, Path],
         source_code: str,
@@ -170,9 +247,11 @@ def convert_and_write_sample(
         assistant: AzureOpenAIAssistant,
         output_path: Path,
         is_doc: bool = False,
+        sdk_vectorstore=None,
     ) -> str:
     """
     Converts and writes a single sample file to the output directory.
+    If a LangChain vectorstore is provided, uses RAG to retrieve relevant SDK context instead of embedding everything.
     """
     src_path = Path(file_path)
     src_lang = detect_language(src_path.name) or (src_path.suffix[1:] if src_path.suffix else "unknown")
@@ -181,7 +260,12 @@ def convert_and_write_sample(
     dest_file = output_path / src_path.parent / dest_filename
     dest_file.parent.mkdir(parents=True, exist_ok=True)
 
-    sdk_context = "\n\n".join(f"# File: {path}\n{content}" for path, content in sdk_files_dict.items() if content)
+    # Use RAG if vectorstore available
+    if sdk_vectorstore:
+        # retrieve up to 50 candidates but cap concatenated size to ~45000 chars
+        sdk_context = retrieve_relevant_sdk_context(source_code, sdk_vectorstore, k=50, max_chars=45000)
+    else:
+        sdk_context = "\n\n".join(f"# File: {path}\n{content}" for path, content in sdk_files_dict.items() if content)
 
     print(f"🚀 Converting {file_path} → {dest_file}")
     try:
@@ -213,35 +297,70 @@ def convert_and_write_samples(
         assistant: AzureOpenAIAssistant,
         output_path: Path,
         gh_helper=None,
+        sdk_vectorstore=None,
+        sdk_chunks_info: dict | None = None,
+        chunk_size: int = 500,
+        chunk_overlap: int = 50,
     ) -> None:
     """
     Converts and writes multiple files to the output directory,
-    handling different categories differently.
+    handling different categories differently. Accepts optional sdk_vectorstore for RAG.
     """
     # --- 1️⃣ Helpers: Convert, save, and add into sdk_context ---
     for helper in file_categories.helpers:
         source_code = read_file_content(helper, gh_helper)
         if not source_code:
             continue
-        converted_content = convert_and_write_sample(helper, source_code, target_lang, sdk_files_dict, assistant, output_path)
+        converted_content = convert_and_write_sample(helper, source_code, target_lang, sdk_files_dict, assistant, output_path, is_doc=False, sdk_vectorstore=sdk_vectorstore)
         # optionally add helper content to sdk_context
         sdk_files_dict.setdefault("helpers", {})[helper] = converted_content
+
+        # If we have a vectorstore, index the converted helper so retrieval can find it.
+        if sdk_vectorstore and converted_content:
+            try:
+                splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+                docs = splitter.split_documents([Document(page_content=converted_content, metadata={"path": helper})])
+                # add chunk_index metadata
+                for idx, d in enumerate(docs):
+                    if not getattr(d, "metadata", None):
+                        d.metadata = {}
+                    d.metadata.setdefault("path", helper)
+                    d.metadata["chunk_index"] = idx
+                # add to vectorstore and update chunks info
+                sdk_vectorstore.add_documents(docs)
+                if sdk_chunks_info is None:
+                    sdk_chunks_info = {}
+                sdk_chunks_info[helper] = len(docs)
+            except Exception as e:
+                print(f"⚠️ Could not index helper {helper} into vectorstore: {e}")
 
     # --- 2️⃣ Samples: Convert and save ---
     for sample in file_categories.samples:
         source_code = read_file_content(sample, gh_helper)
         if not source_code:
             continue
-        _ = convert_and_write_sample(sample, source_code, target_lang, sdk_files_dict, assistant, output_path)
+        _ = convert_and_write_sample(sample, source_code, target_lang, sdk_files_dict, assistant, output_path, sdk_vectorstore=sdk_vectorstore)
 
     # --- 3️⃣ Docs: Update and save ---
     for doc in file_categories.docs:
         source_code = read_file_content(doc, gh_helper)
         if not source_code:
             continue
-        _ = convert_and_write_sample(sample, source_code, target_lang, sdk_files_dict, assistant, output_path, is_doc=True)
+        _ = convert_and_write_sample(doc, source_code, target_lang, sdk_files_dict, assistant, output_path, is_doc=True, sdk_vectorstore=sdk_vectorstore)
 
     # --- 4️⃣ Other files: Just copy ---
+    # After indexing helpers, optionally persist the vectorstore and updated chunks info
+    if sdk_vectorstore and sdk_chunks_info is not None:
+        try:
+            idx_path = output_path / "faiss_index"
+            sdk_vectorstore.save_local(str(idx_path))
+            # save chunks info (merge with existing chunks_info if present)
+            with open(output_path / "sdk_context_index.json", "w", encoding="utf-8") as jf:
+                json.dump(sdk_chunks_info, jf, indent=2)
+            print(f"✅ Persisted FAISS index to '{idx_path}' and chunks info to 'sdk_context_index.json'.")
+        except Exception as e:
+            print(f"⚠️ Could not persist vectorstore or chunks info: {e}")
+
     for other in file_categories.other_files:
         try:
             src_path = Path(other)
@@ -284,12 +403,27 @@ def convert_folder(
         sdk_files_dict = collect_sdk_context_from_local(Path(sdk_source))
 
     print("✅ SDK context collection complete.\n")
+
+    # Build vectorstore for RAG (if possible)
+    sdk_vectorstore, chunks_info = build_sdk_vectorstore(sdk_files_dict)
+
     # Ensure output directory exists before saving sdk_context
     os.makedirs(output_path, exist_ok=True)
-    # save sdk_context for debugging
-    with open(output_path / "sdk_context.txt", "w", encoding="utf-8") as f:
-        f.write("\n\n".join(f"# File: {path}\n{content}" for path, content in sdk_files_dict.items() if content))
-    print(f"✅ SDK context saved to '{output_path}/sdk_context.txt'.\n")
+
+    # save sdk_context summary for debugging
+    try:
+        if sdk_vectorstore is None:
+            with open(output_path / "sdk_context.txt", "w", encoding="utf-8") as f:
+                f.write("\n\n".join(f"# File: {path}\n{content}" for path, content in sdk_files_dict.items() if content))
+            print(f"✅ SDK context saved to '{output_path}/sdk_context.txt'.\n")
+        else:
+            # Save a summary listing files and chunk counts instead of full content
+            with open(output_path / "sdk_context_index.txt", "w", encoding="utf-8") as f:
+                for p, c in chunks_info.items():
+                    f.write(f"{p}: {c} chunks\n")
+            print(f"✅ SDK index summary saved to '{output_path}/sdk_context_index.txt'.\n")
+    except Exception as e:
+        print(f"⚠️ Could not save SDK context file: {e}")
 
     # Load environment variables from .env file in the same directory as this script
     dotenv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
@@ -312,7 +446,7 @@ def convert_folder(
     file_paths = get_sample_file_paths(folder_path, gh_helper)
     file_categories = aoai_assistant.classify_file_paths(file_paths, target_lang)
     print(f"{file_categories.total_len()} of {len(file_paths)} files was categorized.")
-    convert_and_write_samples(file_categories, target_lang, sdk_files_dict, aoai_assistant, output_path, gh_helper)
+    convert_and_write_samples(file_categories, target_lang, sdk_files_dict, aoai_assistant, output_path, gh_helper, sdk_vectorstore)
 
 
 def parse_args():
