@@ -96,9 +96,9 @@ class DocumentProcessor:
                             pdf_bytes: bytes = f.read()
 
                         print(f"🔍 Analyzing {analyze_item.file_path} with prebuilt-documentAnalyzer...")
-                        poller = await self._client.content_analyzers.begin_analyze_binary(
+                        poller = await self._client.begin_analyze_binary(
                             analyzer_id="prebuilt-documentAnalyzer",
-                            input=pdf_bytes,
+                            binary_input=pdf_bytes,
                             content_type="application/pdf",
                             cls=lambda pipeline_response, deserialized_obj, response_headers: (
                                 deserialized_obj,
