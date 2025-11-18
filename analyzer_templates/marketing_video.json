@@ -1,6 +1,6 @@
 {
   "description": "Sample marketing video analyzer",
-  "baseAnalyzerId": "prebuilt-videoAnalyzer",
+  "baseAnalyzerId": "prebuilt-video",
   "config": {
     "returnDetails": true,
     "segmentationMode": "noSegmentation"
