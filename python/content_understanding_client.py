@@ -360,69 +360,41 @@ class AzureContentUnderstandingClient:
         self._logger.info(f"Analyzer {analyzer_id} deleted.")
         return response
 
-    def begin_analyze(self, analyzer_id: str, file_location: str) -> Response:
+    def begin_analyze_url(self, analyzer_id: str, url: str) -> Response:
         """
-        Begins the analysis of a file or URL using the specified analyzer.
+        Begins the analysis of a document from a URL using the specified analyzer.
+        Uses the :analyze endpoint for URL-based analysis.
 
         Args:
             analyzer_id (str): The ID of the analyzer to use.
-            file_location (str): The local path to the file or the URL to analyze.
+            url (str): The URL of the document to analyze.
 
         Returns:
             Response: The response from the analysis request.
 
         Raises:
-            ValueError: If the file location is not a valid path or URL.
+            ValueError: If the URL is not valid.
             HTTPError: If the HTTP request returned an unsuccessful status code.
         """
-        data = None
-        file_path = Path(file_location)
-        if file_path.exists():
-            if file_path.is_dir():
-                # Only Pro mode supports multiple input files
-                data = {
-                    "inputs": [
-                        {
-                            "name": "_".join(f.relative_to(file_path).parts),  # flatten the relative file path into a single string using underscores
-                            "data": base64.b64encode(f.read_bytes()).decode("utf-8")
-                        }
-                        for f in file_path.rglob("*")
-                        if f.is_file() and self.is_supported_doc_type_by_file_path(f, is_document=True)
-                    ]
-                }
-                headers = {"Content-Type": "application/json"}
-            elif file_path.is_file():
-                # For single file, use begin_analyze_binary() instead
-                raise ValueError("For single file analysis, use begin_analyze_binary() method instead.")
-            else:
-                raise ValueError("File location must be a valid and supported file or directory path.")
-        elif "https://" in file_location or "http://" in file_location:
-            data = {"url": file_location}
-            headers = {"Content-Type": "application/json"}
-        else:
-            raise ValueError("File location must be a valid path or URL.")
-
+        if not (url.startswith("https://") or url.startswith("http://")):
+            raise ValueError("URL must start with http:// or https://")
+        
+        # URL must be wrapped in inputs array
+        data = {"inputs": [{"url": url}]}
+        headers = {"Content-Type": "application/json"}
         headers.update(self._headers)
-        if isinstance(data, dict):
-            response = requests.post(
-                url=self._get_analyze_url(
-                    self._endpoint, self._api_version, analyzer_id
-                ),
-                headers=headers,
-                json=data,
-            )
-        else:
-            response = requests.post(
-                url=self._get_analyze_url(
-                    self._endpoint, self._api_version, analyzer_id
-                ),
-                headers=headers,
-                data=data,
-            )
-
+        
+        response = requests.post(
+            url=self._get_analyze_url(
+                self._endpoint, self._api_version, analyzer_id
+            ),
+            headers=headers,
+            json=data,
+        )
+        
         response.raise_for_status()
         self._logger.info(
-            f"Analyzing file {file_location} with analyzer: {analyzer_id}"
+            f"Analyzing URL {url} with analyzer: {analyzer_id}"
         )
         return response
     
