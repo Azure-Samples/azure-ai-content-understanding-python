@@ -13,17 +13,14 @@ import os
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional, Dict
-from azure.ai.contentunderstanding.models import (
-    ContentField,
-)
 
 
-def get_field_value(fields: Dict[str, ContentField], field_name: str) -> Any:
+def get_field_value(fields: Dict[str, Any], field_name: str) -> Any:
     """
-    Extract the actual value from a ContentField using the unified .value property.
+    Extract the actual value from a field dictionary.
 
     Args:
-        fields: A dictionary of field names to ContentField objects.
+        fields: A dictionary of field names to field data dictionaries.
         field_name: The name of the field to extract.
 
     Returns:
@@ -34,8 +31,10 @@ def get_field_value(fields: Dict[str, ContentField], field_name: str) -> Any:
 
     field_data = fields[field_name]
 
-    # Simply use the .value property which works for all ContentField types
-    return field_data.value  # type: ignore[attr-defined] # pyright: ignore[reportAttributeAccessIssue]
+    # Extract the value from the field dictionary
+    if isinstance(field_data, dict):
+        return field_data.get("value") or field_data.get("valueString") or field_data.get("content")
+    return field_data
 
 
 def save_json_to_file(result, output_dir: str = "test_output", filename_prefix: str = "analysis_result") -> str:

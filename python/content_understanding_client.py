@@ -33,7 +33,7 @@ class ReferenceDocItem:
 
 class AzureContentUnderstandingClient:
 
-    PREBUILT_DOCUMENT_ANALYZER_ID: str = "prebuilt-documentAnalyzer"
+    PREBUILT_DOCUMENT_ANALYZER_ID: str = "prebuilt-documentSearch"
     OCR_RESULT_FILE_SUFFIX: str = ".result.json"
     LABEL_FILE_SUFFIX: str = ".labels.json"
     KNOWLEDGE_SOURCE_LIST_FILE_NAME: str = "sources.jsonl"
@@ -102,6 +102,9 @@ class AzureContentUnderstandingClient:
 
     def _get_analyze_url(self, endpoint: str, api_version: str, analyzer_id: str) -> str:
         return f"{endpoint}/contentunderstanding/analyzers/{analyzer_id}:analyze?api-version={api_version}"  # noqa
+
+    def _get_analyze_binary_url(self, endpoint: str, api_version: str, analyzer_id: str) -> str:
+        return f"{endpoint}/contentunderstanding/analyzers/{analyzer_id}:analyzeBinary?api-version={api_version}"  # noqa
 
     def _get_training_data_config(
         self, storage_container_sas_url: str, storage_container_path_prefix: str
@@ -389,9 +392,8 @@ class AzureContentUnderstandingClient:
                 }
                 headers = {"Content-Type": "application/json"}
             elif file_path.is_file():
-                with open(file_location, "rb") as file:
-                    data = file.read()
-                headers = {"Content-Type": "application/octet-stream"}
+                # For single file, use begin_analyze_binary() instead
+                raise ValueError("For single file analysis, use begin_analyze_binary() method instead.")
             else:
                 raise ValueError("File location must be a valid and supported file or directory path.")
         elif "https://" in file_location or "http://" in file_location:
@@ -424,8 +426,49 @@ class AzureContentUnderstandingClient:
         )
         return response
     
+    def begin_analyze_binary(self, analyzer_id: str, file_location: str) -> Response:
+        """
+        Begins the analysis of a single binary file using the specified analyzer.
+        Uses the :analyzeBinary endpoint required by GA API 2025-11-01.
+
+        Args:
+            analyzer_id (str): The ID of the analyzer to use.
+            file_location (str): The local path to the file to analyze.
+
+        Returns:
+            Response: The response from the analysis request.
+
+        Raises:
+            ValueError: If the file location is not a valid file path.
+            HTTPError: If the HTTP request returned an unsuccessful status code.
+        """
+        file_path = Path(file_location)
+        if not file_path.exists() or not file_path.is_file():
+            raise ValueError("File location must be a valid file path.")
+        
+        with open(file_location, "rb") as file:
+            file_bytes = file.read()
+        
+        headers = {"Content-Type": "application/octet-stream"}
+        headers.update(self._headers)
+        
+        response = requests.post(
+            url=self._get_analyze_binary_url(
+                self._endpoint, self._api_version, analyzer_id
+            ),
+            headers=headers,
+            data=file_bytes,
+        )
+        
+        response.raise_for_status()
+        self._logger.info(
+            f"Analyzing binary file {file_location} with analyzer: {analyzer_id}"
+        )
+        return response
+    
     def get_prebuilt_document_analyze_result(self, file_location: str) -> Dict[str, Any]:
-        response = self.begin_analyze(
+        # Use begin_analyze_binary for single file analysis
+        response = self.begin_analyze_binary(
             analyzer_id=self.PREBUILT_DOCUMENT_ANALYZER_ID,
             file_location=file_location,
         )
@@ -628,31 +671,38 @@ class AzureContentUnderstandingClient:
             await self.upload_jsonl_to_blob(
                 container_client, resources, storage_container_path_prefix + self.KNOWLEDGE_SOURCE_LIST_FILE_NAME)
 
-    def get_image_from_analyze_operation(
-        self, analyze_response: Response, image_id: str
+    def get_result_file(
+        self, analyze_response: Response, file_id: str
     ) -> Optional[bytes]:
-        """Retrieves an image from the analyze operation using the image ID.
+        """Retrieves a result file from the analyze operation using the file ID.
+        
+        This method can be used to retrieve various types of result files including:
+        - Key frame images (e.g., 'keyframes/1000')
+        - Face images (e.g., 'faces/{faceId}')
+        
         Args:
             analyze_response (Response): The response object from the analyze operation.
-            image_id (str): The ID of the image to retrieve.
+            file_id (str): The ID/path of the file to retrieve (e.g., 'keyframes/1000', 'faces/{faceId}').
         Returns:
-            bytes: The image content as a byte string.
+            bytes: The file content as a byte string, or None if retrieval fails.
         """
         operation_location = analyze_response.headers.get("operation-location", "")
         if not operation_location:
             raise ValueError(
                 "Operation location not found in the analyzer response header."
             )
-        operation_location = operation_location.split("?api-version")[0]
-        image_retrieval_url = (
-            f"{operation_location}/files/{image_id}?api-version={self._api_version}"
+        # Extract operation ID from operation-location
+        # Format: {endpoint}/contentunderstanding/analyzerResults/{operationId}?api-version={version}
+        operation_location_without_params = operation_location.split("?api-version")[0]
+        operation_id = operation_location_without_params.split("/")[-1]
+        
+        # Construct file retrieval URL according to TypeSpec: /analyzerResults/{operationId}/files/{+path}
+        file_retrieval_url = (
+            f"{self._endpoint}/contentunderstanding/analyzerResults/{operation_id}/files/{file_id}?api-version={self._api_version}"
         )
         try:
-            response = requests.get(url=image_retrieval_url, headers=self._headers)
+            response = requests.get(url=file_retrieval_url, headers=self._headers)
             response.raise_for_status()
-
-            assert response.headers.get("Content-Type") == "image/jpeg"
-
             return response.content
         except requests.exceptions.RequestException as e:
             print(f"HTTP request failed: {e}")
