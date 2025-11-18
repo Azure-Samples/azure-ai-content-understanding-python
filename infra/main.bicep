@@ -9,8 +9,17 @@ param environmentName string
 @description('Location for the AI resource')
 @allowed([
   'australiaeast'
+  'eastus'
+  'eastus2'
+  'northeurope'
+  'southcentralus'
+  'southeastasia'
   'swedencentral'
+  'uksouth'
+  'westeurope'
   'westus'
+  'westus2'
+  'westus3'
 ])
 @metadata({
   azd: {

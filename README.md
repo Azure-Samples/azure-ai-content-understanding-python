@@ -2,10 +2,13 @@
 
 Welcome! Content Understanding is a solution that analyzes and comprehends various media content—including **documents, images, audio, and video**—and transforms it into structured, organized, and searchable data.
 
-- The samples in this repository default to the latest preview API version: **2025-05-01-preview**.
-- We will provide more samples for new functionalities in Preview.2 **2025-05-01-preview** soon.
-- As of May 2025, the **2025-05-01-preview** API version is available only in the regions listed in [Content Understanding region and language support](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/language-region-support).
-- To access sample code for version **2024-12-01-preview**, please check out the corresponding Git tag `2024-12-01-preview` or download it directly from the [release page](https://github.com/Azure-Samples/azure-ai-content-understanding-python/releases/tag/2024-12-01-preview).
+Content Understanding is now a Generally Available (GA) service with the release of the `2025-11-01` API version. 
+
+- The samples in this repository default to the latest GA API version: `2025-11-01`.
+- We will provide more samples for new functionalities in the GA API versions soon. For details on the updates in the current GA release, see the [Content Understanding What's New Document page](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/whats-new).
+- As of November 2025, the `2025-11-01` API version is now available in a broader range of [regions](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/language-region-support).
+- To access sample code for version `2025-05-01-preview`, please check out the corresponding Git tag `2025-05-01-preview` or download it directly from the [release page](https://github.com/Azure-Samples/azure-ai-content-understanding-python/releases/tag/2025-05-01-preview).
+- To access sample code for version `2024-12-01-preview`, please check out the corresponding Git tag `2024-12-01-preview` or download it directly from the [release page](https://github.com/Azure-Samples/azure-ai-content-understanding-python/releases/tag/2024-12-01-preview).
 
 👉 If you are looking for **.NET samples**, check out [this repo](https://github.com/Azure-Samples/azure-ai-content-understanding-dotnet/).
 
