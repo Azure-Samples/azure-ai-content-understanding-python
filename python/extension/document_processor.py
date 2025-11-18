@@ -2,17 +2,22 @@ from datetime import datetime, timedelta, timezone
 import os
 import json
 import asyncio
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Union
 from pathlib import Path
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob.aio import ContainerClient
-from azure.ai.contentunderstanding.aio import ContentUnderstandingClient
 from azure.storage.blob import (
     BlobServiceClient,
     generate_container_sas,
     ContainerSasPermissions
 )
 from dataclasses import dataclass
+
+# Import the custom client - support both sync and potential future async versions
+try:
+    from content_understanding_client import AzureContentUnderstandingClient
+except ImportError:
+    from python.content_understanding_client import AzureContentUnderstandingClient
 
 @dataclass
 class ReferenceDocItem:
@@ -36,7 +41,7 @@ class DocumentProcessor:
         ".pdf", ".tiff", ".jpg", ".jpeg", ".png", ".bmp", ".heif",
     ]
 
-    def __init__(self, client: ContentUnderstandingClient):
+    def __init__(self, client: AzureContentUnderstandingClient):
         self._client = client
 
     def generate_container_sas_url(
@@ -92,30 +97,30 @@ class DocumentProcessor:
                     try:
                         print(analyze_item.file_path)
 
-                        with open(analyze_item.file_path, "rb") as f:
-                            pdf_bytes: bytes = f.read()
-
-                        print(f"🔍 Analyzing {analyze_item.file_path} with prebuilt-documentAnalyzer...")
-                        poller = await self._client.begin_analyze_binary(
-                            analyzer_id="prebuilt-documentAnalyzer",
-                            binary_input=pdf_bytes,
-                            content_type="application/pdf",
-                            cls=lambda pipeline_response, deserialized_obj, response_headers: (
-                                deserialized_obj,
-                                pipeline_response.http_response,
-                            ),
+                        print(f"🔍 Analyzing {analyze_item.file_path} with prebuilt-documentSearch...")
+                        
+                        # Use the synchronous client's method in an async context
+                        loop = asyncio.get_event_loop()
+                        analyze_response = await loop.run_in_executor(
+                            None,
+                            self._client.begin_analyze_binary,
+                            "prebuilt-documentSearch",
+                            analyze_item.file_path
                         )
-                        _, raw_http_response = await poller.result()
+                        
+                        analyze_result = await loop.run_in_executor(
+                            None,
+                            self._client.poll_result,
+                            analyze_response
+                        )
 
-                        print(f"Analysis completed for {raw_http_response}.")
-                        json_string = json.dumps(raw_http_response.json())
-                        print("json string type:", type(json_string))
-                        print(f"Analysis result: {json_string}")
+                        print(f"Analysis completed for {analyze_item.file_path}.")
+                        print(f"Analysis result type: {type(analyze_result)}")
 
                         result_file_blob_path = storage_container_path_prefix + analyze_item.result_file_name
                         file_blob_path = storage_container_path_prefix + analyze_item.file_name
 
-                        await self._upload_json_to_blob(container_client, json_string, result_file_blob_path)
+                        await self._upload_json_to_blob(container_client, analyze_result, result_file_blob_path)
                         await self._upload_file_to_blob(container_client, analyze_item.file_path, file_blob_path)
 
                         resources.append({
@@ -311,8 +316,12 @@ class DocumentProcessor:
         print(f"Uploaded file to {target_blob_path}")
 
     async def _upload_json_to_blob(
-        self, container_client: ContainerClient, json_string: str, target_blob_path: str
+        self, container_client: ContainerClient, data: Union[str, Dict[str, Any]], target_blob_path: str
     ) -> None:
+        if isinstance(data, dict):
+            json_string = json.dumps(data)
+        else:
+            json_string = data
         json_bytes = json_string.encode('utf-8')
         await container_client.upload_blob(name=target_blob_path, data=json_bytes, overwrite=True)
         print(f"Uploaded json to {target_blob_path}")
