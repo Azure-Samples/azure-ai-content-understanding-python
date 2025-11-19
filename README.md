@@ -84,7 +84,37 @@ After clicking the link above, follow these steps to set up the Codespace:
 
 ## Configure Azure AI Service Resource
 
-### (Option 1) Use `azd` Commands to Automatically Create Temporary Resources and Run Samples
+### Step 1: Create Azure AI Foundry Resource
+
+First, create an Azure AI Foundry resource that will host both the Content Understanding service and the required model deployments.
+
+1. Navigate to [Azure AI Foundry](https://ai.azure.com/)
+2. Create a new project or use an existing one
+3. Note your project's endpoint URL (typically `https://<your-resource-name>.services.ai.azure.com/`)
+
+### Step 2: Deploy Required Models
+
+**⚠️ Important:** The prebuilt analyzers (`prebuilt-documentSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch`) require two model deployments. You must deploy these models before using any prebuilt-*Search analyzers.
+
+1. **Deploy GPT-4.1-mini:**
+   - In Azure AI Foundry, go to **Deployments** > **Deploy model** > **Deploy base model**
+   - Search for and select **gpt-4.1-mini**
+   - Complete the deployment with your preferred settings
+   - Note the deployment name (by convention, use `gpt-4.1-mini`)
+
+2. **Deploy text-embedding-3-large:**
+   - In Azure AI Foundry, go to **Deployments** > **Deploy model** > **Deploy base model**
+   - Search for and select **text-embedding-3-large**
+   - Complete the deployment with your preferred settings
+   - Note the deployment name (by convention, use `text-embedding-3-large`)
+
+For more information on deploying models, see [Deploy models in Azure AI Foundry](https://learn.microsoft.com/en-us/azure/ai-studio/how-to/deploy-models-openai).
+
+### Step 3: Configure Environment Variables
+
+Choose one of the following options to configure your environment:
+
+#### (Option 1) Use `azd` Commands to Automatically Create Temporary Resources and Run Samples
 
 1. Ensure you have permission to grant roles within your subscription.
 2. Log in to Azure:
@@ -93,7 +123,7 @@ After clicking the link above, follow these steps to set up the Codespace:
     azd auth login
     ```
 
-    If this command doesn’t work, try the device code login:
+    If this command doesn't work, try the device code login:
 
     ```bash
     azd auth login --use-device-code
@@ -105,10 +135,12 @@ After clicking the link above, follow these steps to set up the Codespace:
     azd up
     ```
 
-### (Option 2) Manually Create Resources and Set Environment Variables
+4. After the resources are created, you still need to manually deploy the two required models (GPT-4.1-mini and text-embedding-3-large) following Step 2 above, then update the `.env` file with the deployment names.
 
-1. Create an [Azure AI Services resource](docs/create_azure_ai_service.md).
-2. Go to the resource’s **Access Control (IAM)** and assign yourself the role **Cognitive Services User**.  
+#### (Option 2) Manually Create Resources and Set Environment Variables
+
+1. Create an [Azure AI Services resource](docs/create_azure_ai_service.md) if you haven't already.
+2. Go to the resource's **Access Control (IAM)** and assign yourself the role **Cognitive Services User**.  
    - This is necessary even if you are the owner of the resource.
 3. Copy the sample environment file:
 
@@ -116,18 +148,27 @@ After clicking the link above, follow these steps to set up the Codespace:
     cp notebooks/.env.sample notebooks/.env
     ```
 
-4. Open `notebooks/.env` and fill in `AZURE_AI_ENDPOINT` with the endpoint URL from your Azure AI Services resource.
+4. Open `notebooks/.env` and fill in the required values:
+
+    ```env
+    AZURE_AI_ENDPOINT=https://<your-resource-name>.services.ai.azure.com/
+    GPT_4_1_MINI_DEPLOYMENT=gpt-4.1-mini
+    TEXT_EMBEDDING_3_LARGE_DEPLOYMENT=text-embedding-3-large
+    ```
+    
+    Replace `<your-resource-name>` with your actual resource name. If you used different deployment names in Step 2, update the deployment variables accordingly.
+
 5. Log in to Azure:
 
     ```bash
     azd auth login
     ```
 
-### (Option 3) Use Endpoint and API Key (No `azd` Required)
+#### (Option 3) Use Endpoint and API Key (No `azd` Required)
 
 > ⚠️ **Note:** Using a subscription key works, but using a token provider with Azure Active Directory (AAD) is safer and strongly recommended for production environments.
 
-1. Create an [Azure AI Services resource](docs/create_azure_ai_service.md).
+1. Create an [Azure AI Services resource](docs/create_azure_ai_service.md) if you haven't already.
 2. Copy the sample environment file:
 
     ```bash
@@ -139,9 +180,11 @@ After clicking the link above, follow these steps to set up the Codespace:
     ```env
     AZURE_AI_ENDPOINT=https://<your-resource-name>.services.ai.azure.com/
     AZURE_AI_API_KEY=<your-azure-ai-api-key>
+    GPT_4_1_MINI_DEPLOYMENT=gpt-4.1-mini
+    TEXT_EMBEDDING_3_LARGE_DEPLOYMENT=text-embedding-3-large
     ```
 
-    Replace `<your-resource-name>` and `<your-azure-ai-api-key>` with your actual values. These can be found in your AI Services resource under **Resource Management** > **Keys and Endpoint**.
+    Replace `<your-resource-name>` and `<your-azure-ai-api-key>` with your actual values. These can be found in your AI Services resource under **Resource Management** > **Keys and Endpoint**. If you used different deployment names in Step 2, update the deployment variables accordingly.
 
 ## Open a Jupyter Notebook and Follow Step-by-Step Guidance
 

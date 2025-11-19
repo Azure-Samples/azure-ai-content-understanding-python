@@ -131,6 +131,9 @@ class AzureContentUnderstandingClient:
     def _get_classify_url(self, endpoint: str, api_version: str, classifier_id: str) -> str:
         return f"{endpoint}/contentunderstanding/classifiers/{classifier_id}:classify?api-version={api_version}"
 
+    def _get_defaults_url(self, endpoint: str, api_version: str) -> str:
+        return f"{endpoint}/contentunderstanding/defaults?api-version={api_version}"
+
     def _get_headers(
         self, subscription_key: str, api_token: str, x_ms_useragent: str
     ) -> Dict[str, str]:
@@ -149,6 +152,53 @@ class AzureContentUnderstandingClient:
         )
         headers["x-ms-useragent"] = x_ms_useragent
         return headers
+    
+    def _raise_for_status_with_detail(self, response: Response) -> None:
+        """
+        Raises HTTPError with detailed error information from the response.
+        
+        Args:
+            response: The HTTP response object to check
+            
+        Raises:
+            requests.exceptions.HTTPError: If the response status indicates an error,
+                with additional context from the response body
+        """
+        if response.ok:
+            return
+        
+        try:
+            # Try to extract error details from response body
+            error_detail = ""
+            try:
+                error_json = response.json()
+                if "error" in error_json:
+                    error_info = error_json["error"]
+                    error_code = error_info.get("code", "Unknown")
+                    error_message = error_info.get("message", "No message provided")
+                    error_detail = f"\n  Error Code: {error_code}\n  Error Message: {error_message}"
+                    
+                    # Include additional details if available
+                    if "details" in error_info:
+                        error_detail += f"\n  Details: {error_info['details']}"
+                    if "innererror" in error_info:
+                        error_detail += f"\n  Inner Error: {error_info['innererror']}"
+                else:
+                    error_detail = f"\n  Response Body: {json.dumps(error_json, indent=2)}"
+            except (ValueError, json.JSONDecodeError):
+                # If response is not JSON, include raw text
+                if response.text:
+                    error_detail = f"\n  Response Text: {response.text[:500]}"
+        except Exception:
+            # If anything goes wrong parsing the error, just continue with basic error
+            error_detail = ""
+        
+        # Create detailed error message
+        error_msg = f"{response.status_code} {response.reason} for url: {response.url}{error_detail}"
+        
+        # Raise HTTPError with the detailed message
+        http_error = requests.exceptions.HTTPError(error_msg, response=response)
+        raise http_error
     
     @staticmethod
     def is_supported_doc_type_by_file_ext(file_ext: str, is_document: bool=False) -> bool:
@@ -247,7 +297,70 @@ class AzureContentUnderstandingClient:
             url=self._get_analyzer_list_url(self._endpoint, self._api_version),
             headers=self._headers,
         )
-        response.raise_for_status()
+        self._raise_for_status_with_detail(response)
+        return response.json()
+
+    def get_defaults(self) -> Dict[str, Any]:
+        """
+        Retrieves the current default settings for the Content Understanding resource.
+
+        This method sends a GET request to the service endpoint to fetch the default
+        model deployment mappings.
+
+        Returns:
+            dict: A dictionary containing the default settings, including modelDeployments.
+                  Example: {"modelDeployments": {"gpt-4.1": "myGpt41Deployment", ...}}
+
+        Raises:
+            requests.exceptions.HTTPError: If the HTTP request returned an unsuccessful status code.
+        """
+        response = requests.get(
+            url=self._get_defaults_url(self._endpoint, self._api_version),
+            headers=self._headers,
+        )
+        self._raise_for_status_with_detail(response)
+        return response.json()
+
+    def update_defaults(self, model_deployments: Dict[str, Optional[str]]) -> Dict[str, Any]:
+        """
+        Updates the default model deployment mappings for the Content Understanding resource.
+
+        This is a PATCH operation using application/merge-patch+json. You can update individual
+        model deployments without sending the entire object. Any keys you include will be
+        added/updated. You can remove keys by setting them to None.
+
+        Args:
+            model_deployments (Dict[str, Optional[str]]): A dictionary mapping model names to
+                deployment names. Set a value to None to remove that mapping.
+                Example: {"gpt-4.1": "myGpt41Deployment", "gpt-4o": "eastus-gpt4o-deployment"}
+
+        Returns:
+            dict: A dictionary containing the updated default settings.
+
+        Raises:
+            requests.exceptions.HTTPError: If the HTTP request returned an unsuccessful status code.
+
+        Example:
+            # Update specific deployments
+            client.update_defaults({
+                "gpt-4o": "new-deployment-name",
+                "text-embedding-3-large": "myTextEmbedding3LargeDeployment"
+            })
+
+            # Remove a deployment mapping
+            client.update_defaults({"gpt-4.1": None})
+        """
+        headers = self._headers.copy()
+        headers["Content-Type"] = "application/merge-patch+json"
+
+        body = {"modelDeployments": model_deployments}
+
+        response = requests.patch(
+            url=self._get_defaults_url(self._endpoint, self._api_version),
+            headers=headers,
+            json=body,
+        )
+        self._raise_for_status_with_detail(response)
         return response.json()
 
     def get_analyzer_detail_by_id(self, analyzer_id: str) -> Dict[str, Any]:
@@ -268,7 +381,7 @@ class AzureContentUnderstandingClient:
             url=self._get_analyzer_url(self._endpoint, self._api_version, analyzer_id),
             headers=self._headers,
         )
-        response.raise_for_status()
+        self._raise_for_status_with_detail(response)
         return response.json()
 
     def begin_create_analyzer(
@@ -335,7 +448,7 @@ class AzureContentUnderstandingClient:
             headers=headers,
             json=analyzer_template,
         )
-        response.raise_for_status()
+        self._raise_for_status_with_detail(response)
         self._logger.info(f"Analyzer {analyzer_id} create request accepted.")
         return response
 
@@ -356,8 +469,8 @@ class AzureContentUnderstandingClient:
             url=self._get_analyzer_url(self._endpoint, self._api_version, analyzer_id),
             headers=self._headers,
         )
-        response.raise_for_status()
-        self._logger.info(f"Analyzer {analyzer_id} deleted.")
+        self._raise_for_status_with_detail(response)
+        self._logger.info(f"Deleting analyzer: {analyzer_id}")
         return response
 
     def begin_analyze_url(self, analyzer_id: str, url: str) -> Response:
@@ -392,7 +505,7 @@ class AzureContentUnderstandingClient:
             json=data,
         )
         
-        response.raise_for_status()
+        self._raise_for_status_with_detail(response)
         self._logger.info(
             f"Analyzing URL {url} with analyzer: {analyzer_id}"
         )
@@ -432,7 +545,7 @@ class AzureContentUnderstandingClient:
             data=file_bytes,
         )
         
-        response.raise_for_status()
+        self._raise_for_status_with_detail(response)
         self._logger.info(
             f"Analyzing binary file {file_location} with analyzer: {analyzer_id}"
         )
@@ -674,7 +787,7 @@ class AzureContentUnderstandingClient:
         )
         try:
             response = requests.get(url=file_retrieval_url, headers=self._headers)
-            response.raise_for_status()
+            self._raise_for_status_with_detail(response)
             return response.content
         except requests.exceptions.RequestException as e:
             print(f"HTTP request failed: {e}")
@@ -713,7 +826,7 @@ class AzureContentUnderstandingClient:
             headers=headers,
             json=classifier_schema,
         )
-        response.raise_for_status()
+        self._raise_for_status_with_detail(response)
         self._logger.info(f"Classifier {classifier_id} create request accepted.")
         return response
 
@@ -761,7 +874,7 @@ class AzureContentUnderstandingClient:
                 data=data,
             )
 
-        response.raise_for_status()
+        self._raise_for_status_with_detail(response)
         self._logger.info(
             f"Analyzing file {file_location} with classifier_id: {classifier_id}"
         )
@@ -805,7 +918,7 @@ class AzureContentUnderstandingClient:
                 )
 
             response = requests.get(operation_location, headers=self._headers)
-            response.raise_for_status()
+            self._raise_for_status_with_detail(response)
             status = response.json().get("status").lower()
             if status == "succeeded":
                 self._logger.info(
