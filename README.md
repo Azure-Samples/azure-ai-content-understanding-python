@@ -94,15 +94,23 @@ First, create an Azure AI Foundry resource that will host both the Content Under
 
 ### Step 2: Deploy Required Models
 
-**⚠️ Important:** The prebuilt analyzers (`prebuilt-documentSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch`) require two model deployments. You must deploy these models before using any prebuilt-*Search analyzers.
+**⚠️ Important:** The prebuilt analyzers require model deployments. You must deploy these models before using prebuilt analyzers:
+- `prebuilt-documentSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch` require **GPT-4.1-mini** and **text-embedding-3-large**
+- Other prebuilt analyzers like `prebuilt-invoice`, `prebuilt-receipt` require **GPT-4.1**
 
-1. **Deploy GPT-4.1-mini:**
+1. **Deploy GPT-4.1:**
+   - In Azure AI Foundry, go to **Deployments** > **Deploy model** > **Deploy base model**
+   - Search for and select **gpt-4.1**
+   - Complete the deployment with your preferred settings
+   - Note the deployment name (by convention, use `gpt-4.1`)
+
+2. **Deploy GPT-4.1-mini:**
    - In Azure AI Foundry, go to **Deployments** > **Deploy model** > **Deploy base model**
    - Search for and select **gpt-4.1-mini**
    - Complete the deployment with your preferred settings
    - Note the deployment name (by convention, use `gpt-4.1-mini`)
 
-2. **Deploy text-embedding-3-large:**
+3. **Deploy text-embedding-3-large:**
    - In Azure AI Foundry, go to **Deployments** > **Deploy model** > **Deploy base model**
    - Search for and select **text-embedding-3-large**
    - Complete the deployment with your preferred settings
@@ -152,6 +160,7 @@ Choose one of the following options to configure your environment:
 
     ```env
     AZURE_AI_ENDPOINT=https://<your-resource-name>.services.ai.azure.com/
+    GPT_4_1_DEPLOYMENT=gpt-4.1
     GPT_4_1_MINI_DEPLOYMENT=gpt-4.1-mini
     TEXT_EMBEDDING_3_LARGE_DEPLOYMENT=text-embedding-3-large
     ```
@@ -180,6 +189,7 @@ Choose one of the following options to configure your environment:
     ```env
     AZURE_AI_ENDPOINT=https://<your-resource-name>.services.ai.azure.com/
     AZURE_AI_API_KEY=<your-azure-ai-api-key>
+    GPT_4_1_DEPLOYMENT=gpt-4.1
     GPT_4_1_MINI_DEPLOYMENT=gpt-4.1-mini
     TEXT_EMBEDDING_3_LARGE_DEPLOYMENT=text-embedding-3-large
     ```
