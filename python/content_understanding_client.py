@@ -293,17 +293,32 @@ class AzureContentUnderstandingClient:
 
         Raises:
             requests.exceptions.HTTPError: If the HTTP request returned an unsuccessful status code.
+            RuntimeError: If too many pages are encountered (likely indicating a pagination loop).
         """
         all_analyzers = []
         url = self._get_analyzer_list_url(self._endpoint, self._api_version)
+        visited_urls = set()
+        max_pages = 1000  # Safeguard against infinite loops
+        page_count = 0
         
         while url:
+            # Prevent infinite loops from circular pagination links
+            if url in visited_urls:
+                raise RuntimeError(f"Circular pagination detected: {url} was already visited")
+            if page_count >= max_pages:
+                raise RuntimeError(f"Too many pages ({max_pages}) encountered during pagination")
+            
+            visited_urls.add(url)
+            page_count += 1
+            
             response = requests.get(url=url, headers=self._headers)
             self._raise_for_status_with_detail(response)
             response_json = response.json()
             
             # Collect analyzers from current page
             analyzers = response_json.get("value", [])
+            if not isinstance(analyzers, list):
+                raise ValueError(f"Expected 'value' to be a list, got {type(analyzers).__name__}")
             all_analyzers.extend(analyzers)
             
             # Get the next page URL, if it exists
