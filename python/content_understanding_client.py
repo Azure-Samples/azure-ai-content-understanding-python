@@ -284,21 +284,33 @@ class AzureContentUnderstandingClient:
         Retrieves a list of all available analyzers from the content understanding service.
 
         This method sends a GET request to the service endpoint to fetch the list of analyzers.
+        It automatically follows pagination links (nextLink) to retrieve all pages of results.
         It raises an HTTPError if the request fails.
 
         Returns:
             dict: A dictionary containing the JSON response from the service, which includes
-                  the list of available analyzers.
+                  the complete list of available analyzers across all pages in the "value" key.
 
         Raises:
             requests.exceptions.HTTPError: If the HTTP request returned an unsuccessful status code.
         """
-        response = requests.get(
-            url=self._get_analyzer_list_url(self._endpoint, self._api_version),
-            headers=self._headers,
-        )
-        self._raise_for_status_with_detail(response)
-        return response.json()
+        all_analyzers = []
+        url = self._get_analyzer_list_url(self._endpoint, self._api_version)
+        
+        while url:
+            response = requests.get(url=url, headers=self._headers)
+            self._raise_for_status_with_detail(response)
+            response_json = response.json()
+            
+            # Collect analyzers from current page
+            analyzers = response_json.get("value", [])
+            all_analyzers.extend(analyzers)
+            
+            # Get the next page URL, if it exists
+            url = response_json.get("nextLink")
+        
+        # Return in the same format as the original response
+        return {"value": all_analyzers}
 
     def get_defaults(self) -> Dict[str, Any]:
         """
