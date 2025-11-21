@@ -308,14 +308,16 @@ class AzureContentUnderstandingClient:
             # Prevent infinite loops from circular pagination links
             if url in visited_urls:
                 raise RuntimeError(f"Circular pagination detected: {url} was already visited")
-            if page_count >= self.MAX_PAGINATION_PAGES:
-                raise RuntimeError(
-                    f"Too many pages ({self.MAX_PAGINATION_PAGES}) encountered during pagination. "
-                    f"This likely indicates a pagination loop or misconfiguration."
-                )
             
             visited_urls.add(url)
             page_count += 1
+            
+            # Check page count after incrementing to properly enforce limit
+            if page_count > self.MAX_PAGINATION_PAGES:
+                raise RuntimeError(
+                    f"Maximum pagination limit ({self.MAX_PAGINATION_PAGES} pages) exceeded. "
+                    f"This likely indicates a pagination loop or misconfiguration."
+                )
             
             response = requests.get(url=url, headers=self._headers)
             self._raise_for_status_with_detail(response)
@@ -324,9 +326,11 @@ class AzureContentUnderstandingClient:
             # Collect analyzers from current page
             analyzers = response_json.get("value", [])
             if not isinstance(analyzers, list):
+                # Include structure info without potentially sensitive response content
+                structure_keys = list(response_json.keys()) if isinstance(response_json, dict) else []
                 raise ValueError(
                     f"Expected 'value' to be a list, got {type(analyzers).__name__}. "
-                    f"Response structure: {json.dumps(response_json, indent=2)[:500]}"
+                    f"Response contains keys: {structure_keys}"
                 )
             all_analyzers.extend(analyzers)
             
