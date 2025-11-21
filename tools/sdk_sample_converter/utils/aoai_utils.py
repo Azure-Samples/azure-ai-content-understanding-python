@@ -72,7 +72,6 @@ class AzureOpenAIAssistant:
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=messages,
-                temperature=0.0,
             )
             print(f"OpenAI Usage: {response.usage}")
             return response.choices[0].message.content.strip()
@@ -134,9 +133,6 @@ class AzureOpenAIAssistant:
             - Output only {target_lang} source code (no markdown, explanations, or comments outside code).
             - Ensure the code is syntactically correct and runnable.
 
-            4. **Environment Variables**
-            - Include code to load environment variables from a `.env` file where appropriate.
-
             ### SDK Context
             {sdk_context}
 
@@ -171,7 +167,7 @@ class AzureOpenAIAssistant:
             Requirements:
             1. **Content Accuracy**
             - Ensure all instructions, code snippets, and SDK references match the {target_lang} SDK.
-            - Include accurate setup and configuration details, including reading environment variables from a `.env` file where applicable.
+            - Include accurate setup and configuration details.
             - Reflect the correct folder structure, package names, and SDK client initialization.
 
             2. **Structure and Clarity**

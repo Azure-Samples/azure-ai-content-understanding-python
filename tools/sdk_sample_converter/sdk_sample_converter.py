@@ -11,7 +11,6 @@ from utils.aoai_utils import AzureOpenAIAssistant, FileCategories
 from utils.github_utils import GitHubRepoHelper, parse_github_url
 
 from langchain.docstore.document import Document
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import SentenceTransformerEmbeddings
 from langchain.vectorstores import FAISS
 
@@ -168,7 +167,7 @@ def read_file_content(file_path: Union[str, Path], gh_helper=None) -> str | None
         return None
 
 
-def build_sdk_vectorstore(sdk_files_dict: dict, chunk_size: int = 500, chunk_overlap: int = 50):
+def build_sdk_vectorstore(sdk_files_dict: dict, exclude_files: list | None = None):
     """
     Build a LangChain FAISS vectorstore from SDK files for RAG.
 
@@ -182,6 +181,9 @@ def build_sdk_vectorstore(sdk_files_dict: dict, chunk_size: int = 500, chunk_ove
         # Index one document per file (no chunking). This keeps retrieval at the file level.
         for path, content in sdk_files_dict.items():
             if not content:
+                continue
+            # Skip any explicitly excluded files (e.g., always-include files that mustn't be indexed)
+            if exclude_files and path in exclude_files:
                 continue
             d = Document(page_content=content, metadata={"path": path, "chunk_index": 0})
             docs.append(d)
@@ -198,11 +200,11 @@ def build_sdk_vectorstore(sdk_files_dict: dict, chunk_size: int = 500, chunk_ove
         return None, {}
 
 
-def retrieve_relevant_sdk_context(query: str, vectorstore, k: int = 50, max_chars: int = 45000) -> str:
+def retrieve_relevant_sdk_context(query: str, vectorstore, k: int = 100, max_chars: int = 80000) -> str:
     """
     Retrieve top-k relevant SDK chunks from vectorstore and concatenate them into a single sdk_context string.
 
-    Stops concatenation once max_chars is reached (default 45000 characters) to keep prompt input within limits.
+    Stops concatenation once max_chars is reached (default 80000 characters) to keep prompt input within limits.
     """
     if not vectorstore:
         return ""
@@ -241,6 +243,7 @@ def convert_and_write_sample(
         output_path: Path,
         is_doc: bool = False,
         sdk_vectorstore=None,
+        required_files: list | None = None,
     ) -> str:
     """
     Converts and writes a single sample file to the output directory.
@@ -253,12 +256,23 @@ def convert_and_write_sample(
     dest_file = output_path / src_path.parent / dest_filename
     dest_file.parent.mkdir(parents=True, exist_ok=True)
 
-    # Use RAG if vectorstore available
+    # Build sdk_context, always include required_files first if provided
+    required_files = required_files or []
+    required_ctx_parts = []
+    for rf in required_files:
+        rf_content = sdk_files_dict.get(rf)
+        if rf_content:
+            required_ctx_parts.append(f"# File: {rf}\n{rf_content}")
+
     if sdk_vectorstore:
-        # retrieve up to 50 candidates but cap concatenated size to ~45000 chars
-        sdk_context = retrieve_relevant_sdk_context(source_code, sdk_vectorstore, k=50, max_chars=45000)
+        # retrieve up to 50 candidates but cap concatenated size to ~80000 chars
+        retrieved = retrieve_relevant_sdk_context(source_code, sdk_vectorstore, k=100, max_chars=80000)
+        # Prepend required files, but avoid duplicating if retrieval already contains them
+        sdk_context = "\n\n".join(required_ctx_parts + ([retrieved] if retrieved else []))
     else:
-        sdk_context = "\n\n".join(f"# File: {path}\n{content}" for path, content in sdk_files_dict.items() if content)
+        # Full embedding: put required files first, then the rest
+        other_parts = [f"# File: {path}\n{content}" for path, content in sdk_files_dict.items() if content and path not in required_files]
+        sdk_context = "\n\n".join(required_ctx_parts + other_parts)
 
     print(f"🚀 Converting {file_path} → {dest_file}")
     try:
@@ -292,8 +306,7 @@ def convert_and_write_samples(
         gh_helper=None,
         sdk_vectorstore=None,
         sdk_chunks_info: dict | None = None,
-        chunk_size: int = 500,
-        chunk_overlap: int = 50,
+        required_files: list | None = None,
     ) -> None:
     """
     Converts and writes multiple files to the output directory,
@@ -304,35 +317,36 @@ def convert_and_write_samples(
         source_code = read_file_content(helper, gh_helper)
         if not source_code:
             continue
-        converted_content = convert_and_write_sample(helper, source_code, target_lang, sdk_files_dict, assistant, output_path, is_doc=False, sdk_vectorstore=sdk_vectorstore)
+        converted_content = convert_and_write_sample(helper, source_code, target_lang, sdk_files_dict, assistant, output_path, is_doc=False, sdk_vectorstore=sdk_vectorstore, required_files=required_files)
         # optionally add helper content to sdk_context
         sdk_files_dict.setdefault("helpers", {})[helper] = converted_content
 
         # If we have a vectorstore, index the converted helper so retrieval can find it.
-        if sdk_vectorstore and converted_content:
-            try:
-                    # index helper as a single document (file-level indexing)
-                    doc = Document(page_content=converted_content, metadata={"path": helper, "chunk_index": 0})
-                    sdk_vectorstore.add_documents([doc])
-                    if sdk_chunks_info is None:
-                        sdk_chunks_info = {}
-                    sdk_chunks_info[helper] = 1
-            except Exception as e:
-                print(f"⚠️ Could not index helper {helper} into vectorstore: {e}")
+        # Skip indexing if this helper is one of the required_files (we exclude them from the index).
+        if sdk_vectorstore and converted_content and (required_files is None or helper not in required_files):
+             try:
+                # index helper as a single document (file-level indexing)
+                doc = Document(page_content=converted_content, metadata={"path": helper, "chunk_index": 0})
+                sdk_vectorstore.add_documents([doc])
+                if sdk_chunks_info is None:
+                    sdk_chunks_info = {}
+                sdk_chunks_info[helper] = 1
+             except Exception as e:
+                 print(f"⚠️ Could not index helper {helper} into vectorstore: {e}")
 
     # --- 2️⃣ Samples: Convert and save ---
     for sample in file_categories.samples:
         source_code = read_file_content(sample, gh_helper)
         if not source_code:
             continue
-        _ = convert_and_write_sample(sample, source_code, target_lang, sdk_files_dict, assistant, output_path, sdk_vectorstore=sdk_vectorstore)
+        _ = convert_and_write_sample(sample, source_code, target_lang, sdk_files_dict, assistant, output_path, sdk_vectorstore=sdk_vectorstore, required_files=required_files)
 
     # --- 3️⃣ Docs: Update and save ---
     for doc in file_categories.docs:
         source_code = read_file_content(doc, gh_helper)
         if not source_code:
             continue
-        _ = convert_and_write_sample(doc, source_code, target_lang, sdk_files_dict, assistant, output_path, is_doc=True, sdk_vectorstore=sdk_vectorstore)
+        _ = convert_and_write_sample(doc, source_code, target_lang, sdk_files_dict, assistant, output_path, is_doc=True, sdk_vectorstore=sdk_vectorstore, required_files=required_files)
 
     # --- 4️⃣ Other files: Just copy ---
     # After indexing helpers, optionally persist the vectorstore and updated chunks info
@@ -364,6 +378,7 @@ def convert_folder(
         target_lang: str,
         output_path: Path,
         github_token: str | None = None,
+        always_include: str | None = None,
     ):
     """
     Converts all SDK sample files in a folder or GitHub repo into another language.
@@ -388,10 +403,34 @@ def convert_folder(
     else:
         sdk_files_dict = collect_sdk_context_from_local(Path(sdk_source))
 
+    # Process always-include list: ensure these files are present in sdk_files_dict
+    required_files = []
+    if always_include:
+        required_files = [p.strip() for p in always_include.split(",") if p.strip()]
+        for rf in required_files:
+            if rf not in sdk_files_dict:
+                # try to fetch from GitHub if gh_helper available, else read local
+                content = None
+                try:
+                    if gh_helper:
+                        content = gh_helper.fetch_file_content(rf)
+                    else:
+                        # try local path relative to sdk_source
+                        possible = Path(sdk_source) / rf
+                        if possible.exists():
+                            content = possible.read_text(encoding="utf-8", errors="ignore")
+                except Exception as e:
+                    print(f"⚠️ Could not fetch always-include file {rf}: {e}")
+                if content:
+                    sdk_files_dict[rf] = content
+                    print(f"ℹ️ Added always-include file '{rf}' to SDK context.")
+                else:
+                    print(f"⚠️ Always-include file '{rf}' not found.")
+
     print("✅ SDK context collection complete.\n")
 
     # Build vectorstore for RAG (if possible)
-    sdk_vectorstore, chunks_info = build_sdk_vectorstore(sdk_files_dict)
+    sdk_vectorstore, chunks_info = build_sdk_vectorstore(sdk_files_dict, exclude_files=required_files)
 
     # Ensure output directory exists before saving sdk_context
     os.makedirs(output_path, exist_ok=True)
@@ -432,7 +471,7 @@ def convert_folder(
     file_paths = get_sample_file_paths(folder_path, gh_helper)
     file_categories = aoai_assistant.classify_file_paths(file_paths, target_lang)
     print(f"{file_categories.total_len()} of {len(file_paths)} files was categorized.")
-    convert_and_write_samples(file_categories, target_lang, sdk_files_dict, aoai_assistant, output_path, gh_helper, sdk_vectorstore)
+    convert_and_write_samples(file_categories, target_lang, sdk_files_dict, aoai_assistant, output_path, gh_helper, sdk_vectorstore, sdk_chunks_info=chunks_info, required_files=required_files)
 
 
 def parse_args():
@@ -462,6 +501,11 @@ def parse_args():
         default=os.getenv("GITHUB_TOKEN", ""),
         help="Optional GitHub token for accessing private repositories",
     )
+    parser.add_argument(
+        "--always-include",
+        default=None,
+        help="Comma-separated list of files that should always be included in the SDK context, e.g., 'file1.py,file2.py'",
+    )
     return parser.parse_args()
 
 
@@ -473,4 +517,5 @@ if __name__ == "__main__":
         args.target_lang,
         Path(args.output),
         args.github_token,
+        always_include=getattr(args, "always_include", None),
     )
