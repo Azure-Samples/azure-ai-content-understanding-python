@@ -2,16 +2,22 @@
 DI_VERSIONS = ["generative", "neural"]
 CU_API_VERSION = "2025-11-01"
 
+# Models
+COMPLETION_MODEL = "gpt-4.1"
+EMBEDDING_MODEL = "text-embedding-3-large"
+
 # constants
 MAX_FIELD_COUNT = 100
 MAX_FIELD_LENGTH = 64
 
 # standard file names
 FIELDS_JSON = "fields.json"
+ANALYZER_JSON = "analyzer.json"
 LABELS_JSON = ".labels.json"
 VALIDATION_TXT = "validation.txt"
 PDF = ".pdf"
 OCR_JSON = ".ocr.json"
+RESULT_JSON = ".result.json"
 
 # for field type conversion
 SUPPORT_FIELD_TYPE = [

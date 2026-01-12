@@ -14,7 +14,7 @@ from typing import Optional, Tuple
 from rich import print  # For colored output
 
 # imports from same project
-from constants import DI_VERSIONS, FIELDS_JSON, LABELS_JSON, MAX_FIELD_COUNT, OCR_JSON, VALIDATION_TXT
+from constants import DI_VERSIONS, FIELDS_JSON, LABELS_JSON, MAX_FIELD_COUNT, OCR_JSON, VALIDATION_TXT, ANALYZER_JSON, RESULT_JSON
 import cu_converter_neural as cu_converter_neural
 import cu_converter_generative as cu_converter_generative
 from field_definitions import FieldDefinitions
@@ -260,7 +260,7 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
         ocr_files = [] # List to store paths to pdf files to get OCR results from later
         for file in files:
             file_path = root_path / file
-            if (file_path.name == FIELDS_JSON or file_path.name == VALIDATION_TXT):
+            if (file_path.name == FIELDS_JSON or file_path.name == VALIDATION_TXT or file_path.name == ANALYZER_JSON or file.endswith(RESULT_JSON)):
                 continue
             # Converting DI labels to CU labels
             if (file.endswith(LABELS_JSON)):

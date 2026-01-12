@@ -14,6 +14,8 @@ from dotenv import load_dotenv
 import requests
 from rich import print  # For colored output
 import typer
+# imports from same project (in constants.py)
+from constants import CU_API_VERSION, COMPLETION_MODEL, EMBEDDING_MODEL
 
 def is_token_expired(token) -> bool:
     """
@@ -46,78 +48,6 @@ def get_token(credential, current_token = None) -> str:
         print("Successfully refreshed token")
     return current_token
 
-def build_analyzer(credential, current_token, host, api_version, subscriptionKey) -> str:
-    """
-    Function to create an analyzer with empty schema to get CU Layout results
-    Args:
-        credential: The Azure credential object to use for authentication.
-        current_token: The current token object to check for expiration.
-        host: The host URL for the Cognitive Services API.
-        api_version: The API version enviornmental variable to use.
-        subscriptionKey: The subscription key for the Cognitive Services API.
-    Returns:
-        str: The analyzer ID of the created analyzer.
-    """
-    # Get a valid token
-    current_token = get_token(credential, current_token)
-    access_token = current_token.token
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Ocp-Apim-Subscription-Key": f"{subscriptionKey}",
-        "Content-Type": "application/json"
-    }
-    analyzer_id = "sampleAnalyzer" + str(random.randint(0, 1000000))
-    request_body = {
-        "analyzerId": analyzer_id,
-        "description": "Sample analyzer",
-        "baseAnalyzerId": "prebuilt-document",
-        "models": {
-            "completion": "gpt-4.1",
-            "embedding": "text-embedding-3-large"
-        },
-        "config": {
-            "returnDetails": True,
-            "enableOcr": True,
-            "enableLayout": True,
-            "enableFormula": False,
-            "disableContentFiltering": False,
-            "estimateFieldSourceAndConfidence": False
-        },
-        "fieldSchema": {},
-        "warnings": [],
-        "status": "ready",
-        "processingLocation": "geography"
-    }
-    endpoint = f"{host}/contentunderstanding/analyzers/{analyzer_id}?api-version={api_version}"
-    print("[yellow]Creating sample analyzer to attain CU Layout results...[/yellow]")
-    response = requests.put(
-        url=endpoint,
-        headers=headers,
-        json=request_body,
-    )
-    response.raise_for_status()
-    operation_location = response.headers.get("Operation-Location", None)
-    if not operation_location:
-        print("Error: 'Operation-Location' header is missing.")
-
-    while True:
-        poll_response = requests.get(operation_location, headers=headers)
-        poll_response.raise_for_status()
-
-        result = poll_response.json()
-        status = result.get("status", "").lower()
-
-        if status == "succeeded":
-            print(f"[green]Successfully created sample analyzer to gather Layout results[/green]")
-            break
-        elif status == "failed":
-            print(f"[red]Failed: {result}[/red]")
-            break
-        else:
-            print(".", end="", flush=True)
-            time.sleep(0.5)
-    return analyzer_id
-
 def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_key: str) -> None:
     """
     Function to run the CU Layout OCR on the list of pdf files and write to the given output directory
@@ -132,7 +62,9 @@ def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_ke
     load_dotenv()
 
    # Set the global variables
-    api_version = os.getenv("API_VERSION")
+    api_version = CU_API_VERSION
+    if not api_version:
+        api_version = os.getenv("API_VERSION")
     host = os.getenv("HOST")
 
     credential = DefaultAzureCredential()
@@ -141,8 +73,8 @@ def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_ke
     output_dir = Path(output_dir_string)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Use prebuilt-read analyzer directly - no need to create a custom analyzer
-    url = f"{host}/contentunderstanding/analyzers/prebuilt-read:analyze?api-version={api_version}"
+    # Use prebuilt-layout analyzer directly - no need to create a custom analyzer
+    url = f"{host.rstrip('/')}/contentunderstanding/analyzers/prebuilt-layout:analyzeBinary?api-version={api_version}"
 
     for file in input_files:
         try:
@@ -153,7 +85,7 @@ def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_ke
             headers = {
                 "Authorization": f"Bearer {current_token.token}",
                 "Ocp-Apim-Subscription-Key": f"{subscription_key}",
-                "Content-Type": "application/pdf",
+                "Content-Type": "application/octet-stream",
             }
 
             with open(file, "rb") as f:

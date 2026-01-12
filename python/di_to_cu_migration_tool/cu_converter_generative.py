@@ -12,7 +12,7 @@ from typing import Optional, Tuple
 from rich import print  # For colored output
 
 # imports from same project
-from constants import CU_API_VERSION, MAX_FIELD_LENGTH, VALID_CU_FIELD_TYPES
+from constants import CU_API_VERSION, MAX_FIELD_LENGTH, VALID_CU_FIELD_TYPES, COMPLETION_MODEL, EMBEDDING_MODEL
 from field_definitions import FieldDefinitions
 
 # schema constants subject to change
@@ -81,8 +81,8 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
         "analyzerId": analyzer_id,
         "baseAnalyzerId": "prebuilt-document",
         "models": {
-            "completion": "gpt-4.1",
-            "embedding": "text-embedding-3-large"
+            "completion": COMPLETION_MODEL,
+            "embedding": EMBEDDING_MODEL
         },
         "config": {
             "returnDetails": True,
@@ -302,7 +302,11 @@ def recursive_convert_di_label_to_cu_helper(value: dict) -> dict:
                     di_label["valueDate"] = date_string # going with the default
             elif value_type == "number":
                 try:
-                    di_label["valueNumber"] = float(value.get("content"))  # content can be easily converted to a float
+                    content_val = value.get("content")
+                    if not content_val:
+                         di_label["valueNumber"] = None
+                    else:
+                        di_label["valueNumber"] = float(content_val)  # content can be easily converted to a float
                 except Exception as ex:
                     # strip the string of all non-numerical values and periods
                     string_value = value.get("content")
@@ -311,16 +315,27 @@ def recursive_convert_di_label_to_cu_helper(value: dict) -> dict:
                     # if more than one period exists, remove them all
                     if cleaned_string.count('.') > 1:
                         print("More than one decimal point exists, so will be removing them all.")
-                        cleaned_string = cleaned_string = re.sub(r'\.', '', string_value)
-                    di_label["valueNumber"] = float(cleaned_string)
+                        cleaned_string = re.sub(r'\.', '', string_value)
+                    
+                    if not cleaned_string:
+                        di_label["valueNumber"] = None
+                    else:
+                        di_label["valueNumber"] = float(cleaned_string)
             elif value_type == "integer":
                 try:
-                    di_label["valueInteger"] = int(value.get("content"))  # content can be easily converted to an int
+                    content_val = value.get("content")
+                    if not content_val:
+                        di_label["valueInteger"] = None
+                    else:
+                        di_label["valueInteger"] = int(content_val)  # content can be easily converted to an int
                 except Exception as ex:
                      # strip the string of all non-numerical values
                     string_value = value.get("content")
                     cleaned_string = re.sub(r'[^0-9]', '', string_value)
-                    di_label["valueInteger"] = int(cleaned_string)
+                    if not cleaned_string:
+                        di_label["valueInteger"] = None
+                    else:
+                        di_label["valueInteger"] = int(cleaned_string)
             else:
                 di_label[value_part] = value.get("content")
         di_label["spans"] = value.get("spans", [])

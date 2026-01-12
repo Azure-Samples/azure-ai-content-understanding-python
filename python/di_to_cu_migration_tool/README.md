@@ -91,11 +91,8 @@ To obtain SAS URLs for a file or folder for any container URL arguments, please 
 3. Configure permissions and expiry for your SAS URL as follows:
 
    - For the **DI source dataset**, please select permissions: _**Read & List**_  
-https://jfilcikditestdata.blob.core.windows.net/didata?sv=2025-07-05&spr=https&st=2025-12-16T22%3A17%3A06Z&se=2025-12-17T22%3A17%3A06Z&sr=c&sp=rl&sig=nvUIelZQ9yWEJx3jA%2FjUOIdHn6OVnp5gvKSJ3zgzwvE%3D
 
    - For the **CU target dataset**, please select permissions: _**Read, Add, Create, & Write**_  
-
-https://jfilcikditestdata.blob.core.windows.net/cudata?sv=2025-07-05&spr=https&st=2025-12-16T22%3A19%3A39Z&se=2025-12-17T22%3A19%3A39Z&sr=c&sp=racwl&sig=K82dxEFNpYhuf5JRq3xJ4vc5SYE8A7FfsBnTJbB1VJY%3D
 
    After configuring, click **Generate SAS Token and URL** and copy the URL shown under **Blob SAS URL**.  
    
