@@ -12,7 +12,7 @@ from typing import Optional, Tuple
 from rich import print  # For colored output
 
 # imports from same project
-from constants import COMPLETE_DATE_FORMATS, CU_API_VERSION, MAX_FIELD_LENGTH, VALID_CU_FIELD_TYPES
+from constants import COMPLETE_DATE_FORMATS, CU_API_VERSION, MAX_FIELD_LENGTH, VALID_CU_FIELD_TYPES, COMPLETION_MODEL, EMBEDDING_MODEL, ANALYZER_JSON
 from field_definitions import FieldDefinitions
 
 # schema constants subject to change
@@ -37,7 +37,7 @@ def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
     source = f"D({page_number},{polygon_str})"
     return source
 
-def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Optional[Path], field_definitions: FieldDefinitions) -> Tuple[dict, dict]:
+def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Optional[Path], field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None) -> Tuple[dict, dict]:
     """
     Convert DI 3.1/4.0GA Custom Neural fields.json to analyzer.json format.
     Args:
@@ -67,7 +67,11 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
     # Build analyzer.json content
     analyzer_data = {
         "analyzerId": analyzer_prefix,
-        "baseAnalyzerId": "prebuilt-documentAnalyzer",
+        "baseAnalyzerId": "prebuilt-document",
+        "models": {
+            "completion": COMPLETION_MODEL,
+            "embedding": EMBEDDING_MODEL
+        },
         "config": {
             "returnDetails": True,
             # Add the following line as a temp workaround before service issue is fixed.
@@ -128,10 +132,21 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
 
     # Determine output path
     if target_dir:
-        analyzer_json_path = target_dir / 'analyzer.json'
+        analyzer_json_path = target_dir / ANALYZER_JSON
     else:
-        analyzer_json_path = fields_json_path.parent / 'analyzer.json'
+        analyzer_json_path = fields_json_path.parent / ANALYZER_JSON
 
+    # Add knowledgeSources section if container info is provided
+    if target_container_sas_url and target_blob_folder:
+        analyzer_data["knowledgeSources"] = [
+            {
+                "kind": "labeledData",
+                "containerUrl": target_container_sas_url,
+                "prefix": target_blob_folder,
+                "fileListPath": ""
+            }
+        ]
+    
     # Ensure target directory exists
     analyzer_json_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -405,16 +420,25 @@ def creating_cu_label_for_neural(label:dict, label_type: str) -> dict:
             # if more than one period exists, remove them all
             if cleaned_string.count('.') > 1:
                 print("More than one decimal point exists, so will be removing them all.")
-                cleaned_string = cleaned_string = re.sub(r'\.', '', string_value)
-            final_content = float(cleaned_string)
+                cleaned_string = re.sub(r'\.', '', string_value)
+            if not cleaned_string:
+                final_content = None
+            else:
+                final_content = float(cleaned_string)
     elif label_type == "integer":
         try:
-            final_content = int(final_content)
+            if not final_content:
+                final_content = None
+            else:
+                final_content = int(final_content)
         except Exception as ex:
             # strip the string of all non-numerical values
             string_value = final_content
             cleaned_string = re.sub(r'[^0-9]', '', string_value)
-            final_content = int(cleaned_string)
+            if not cleaned_string:
+                final_content = None
+            else:
+                final_content = int(cleaned_string)
     elif label_type == "date":
         # dates can be dmy, mdy, ydm, or not specified
         # for CU, the format of our dates should be "%Y-%m-%d"
