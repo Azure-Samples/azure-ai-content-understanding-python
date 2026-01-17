@@ -21,6 +21,8 @@ from field_definitions import FieldDefinitions
 import field_type_conversion
 from get_ocr import run_cu_layout_ocr
 
+NON_DOCUMENT_FILES = {FIELDS_JSON, VALIDATION_TXT, ANALYZER_JSON}
+
 app = typer.Typer()
 
 def validate_field_count(DI_version, byte_fields) -> Tuple[int, bool]:
@@ -234,7 +236,7 @@ def running_field_type_conversion(temp_source_dir: Path, temp_dir: Path, DI_vers
 
 def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str, analyzer_prefix: Optional[str], removed_signatures: list, target_container_sas_url: str, target_blob_folder: str) -> Tuple[dict, list]:
     """
-    Function to run the CU conversion
+    Function to run the DI to CU conversion
     Args:
         temp_dir (Path): The path to the source directory
         temp_target_dir (Path): The path to the target directory
@@ -260,7 +262,7 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
         ocr_files = [] # List to store paths to pdf files to get OCR results from later
         for file in files:
             file_path = root_path / file
-            if (file_path.name == FIELDS_JSON or file_path.name == VALIDATION_TXT or file_path.name == ANALYZER_JSON or file.endswith(RESULT_JSON)):
+            if file_path.name in NON_DOCUMENT_FILES or file_path.name.endswith(RESULT_JSON):
                 continue
             # Converting DI labels to CU labels
             if (file.endswith(LABELS_JSON)):

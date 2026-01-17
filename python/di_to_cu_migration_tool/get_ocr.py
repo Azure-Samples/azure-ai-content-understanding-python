@@ -62,9 +62,7 @@ def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_ke
     load_dotenv()
 
    # Set the global variables
-    api_version = CU_API_VERSION
-    if not api_version:
-        api_version = os.getenv("API_VERSION")
+    api_version = os.getenv("API_VERSION") or CU_API_VERSION
     host = os.getenv("HOST")
 
     credential = DefaultAzureCredential()
