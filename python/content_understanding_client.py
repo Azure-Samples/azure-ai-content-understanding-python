@@ -40,8 +40,6 @@ class AzureContentUnderstandingClient:
     
     Key features in GA version:
     - Classification is now integrated into analyzers via contentCategories (supports up to 200 categories)
-    - Deprecated: Separate classifier APIs (classifiers endpoints)
-    - Deprecated: Pro mode and cross-file analysis (knowledgeSources)
     - Support for training data configuration
     - Model deployment management via defaults endpoint
     - Async blob storage operations for knowledge base generation

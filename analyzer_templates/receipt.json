@@ -1,7 +1,6 @@
 {
-    "description": "Extract useful information from receipt",
-    "scenario": "document",
-    "baseAnalyzerId": "prebuilt-documentAnalyzer",
+  "description": "Extract useful information from receipt",
+  "baseAnalyzerId": "prebuilt-document",
     "fieldSchema": {
         "fields": {
             "MerchantName": {

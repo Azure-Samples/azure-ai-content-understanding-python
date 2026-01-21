@@ -1,6 +1,6 @@
 {
-  "description": "Sample invoice analyzer",
-  "baseAnalyzerId": "prebuilt-documentAnalyzer",
+    "description": "Sample invoice analyzer",
+    "baseAnalyzerId": "prebuilt-document",
   "config": {
     "returnDetails": true,
     "estimateFieldSourceAndConfidence": true
