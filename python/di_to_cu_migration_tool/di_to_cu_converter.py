@@ -1,6 +1,5 @@
 # imports from built-in packages
-from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobClient, ContainerClient
+from azure.storage.blob import ContainerClient
 from dotenv import load_dotenv
 import json
 import os
@@ -248,6 +247,8 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
     """
     # Creating a FieldDefinitons object to handle the converison of definitions in the fields.json
     field_definitions = FieldDefinitions()
+    field_name_normalizer = None  # Will be set by analyzer conversion
+    
     for root, dirs, files in os.walk(temp_dir):
         root_path = Path(root)  # Convert root to Path object for easier manipulation
         # Converting fields to analyzer
@@ -255,9 +256,9 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
 
         assert fields_path.exists(), "fields.json is needed. Fields.json is missing from the given dataset."
         if DI_version == "generative":
-            analyzer_data = cu_converter_generative.convert_fields_to_analyzer(fields_path, analyzer_prefix, temp_target_dir, field_definitions, target_container_sas_url, target_blob_folder)
+            analyzer_data, field_name_normalizer = cu_converter_generative.convert_fields_to_analyzer(fields_path, analyzer_prefix, temp_target_dir, field_definitions, target_container_sas_url, target_blob_folder)
         elif DI_version == "neural":
-            analyzer_data, fields_dict = cu_converter_neural.convert_fields_to_analyzer_neural(fields_path, analyzer_prefix, temp_target_dir, field_definitions, target_container_sas_url, target_blob_folder)
+            analyzer_data, fields_dict, field_name_normalizer = cu_converter_neural.convert_fields_to_analyzer_neural(fields_path, analyzer_prefix, temp_target_dir, field_definitions, target_container_sas_url, target_blob_folder)
 
         ocr_files = [] # List to store paths to pdf files to get OCR results from later
         for file in files:
@@ -267,9 +268,9 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
             # Converting DI labels to CU labels
             if (file.endswith(LABELS_JSON)):
                 if DI_version == "generative":
-                    cu_converter_generative.convert_di_labels_to_cu(file_path, temp_target_dir)
+                    cu_converter_generative.convert_di_labels_to_cu(file_path, temp_target_dir, field_name_normalizer)
                 elif DI_version == "neural":
-                    cu_labels = cu_converter_neural.convert_di_labels_to_cu_neural(file_path, temp_target_dir, fields_dict, removed_signatures)
+                    cu_labels = cu_converter_neural.convert_di_labels_to_cu_neural(file_path, temp_target_dir, fields_dict, removed_signatures, field_name_normalizer)
                     # run field type conversion of label files here, because will be easier after getting it into CU format
                     field_type_conversion.update_fott_labels(cu_labels, temp_target_dir / file_path.name)
                     print(f"[green]Successfully converted Document Intelligence labels.json to Content Understanding labels.json at {temp_target_dir/file_path.name}[/green]\n")

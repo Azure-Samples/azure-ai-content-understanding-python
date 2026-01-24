@@ -5,7 +5,6 @@ import json
 from pathlib import Path
 import re
 import sys
-import typer
 from typing import Optional, Tuple
 
 # imports from external packages (need to use pip install)
@@ -14,6 +13,7 @@ from rich import print  # For colored output
 # imports from same project
 from constants import CU_API_VERSION, MAX_FIELD_LENGTH, VALID_CU_FIELD_TYPES, COMPLETION_MODEL, EMBEDDING_MODEL
 from field_definitions import FieldDefinitions
+from field_name_utils import FieldNameNormalizer
 
 # schema constants subject to change
 ANALYZER_FIELDS = "fieldSchema"
@@ -48,7 +48,7 @@ def format_angle(angle: float) -> float:
    formatted_num = f"{rounded_angle:.7f}".rstrip('0')  # Remove trailing zeros
    return float(formatted_num)
 
-def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None) -> dict:
+def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None) -> Tuple[dict, FieldNameNormalizer]:
     """
     Convert DI 4.0 preview Custom Document fields.json to analyzer.json format.
     Args:
@@ -56,8 +56,11 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
         analyzer_prefix (Optional(str)): Prefix for the analyzer name.
         target_dir (Optional[Path]): Output directory for the analyzer.json file.
         field_definitions (FieldDefinitions): Field definitions object to store definitions in case of fixed tables.
+        target_container_sas_url (str): Optional target container SAS URL for training data.
+        target_blob_folder (str): Optional target blob folder prefix for training data.
+        field_name_normalizer (FieldNameNormalizer): Optional normalizer instance for field names.
     Returns:
-        dict: The generated analyzer.json data.
+        Tuple[dict, FieldNameNormalizer]: The generated analyzer.json data and the field name normalizer with mappings.
     """
     try:
         with open(fields_json_path, 'r') as f:
@@ -72,6 +75,12 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
     doc_type = fields_data.get('docType')
 
     field_definitions.clear_definitions()
+    
+    # Initialize field name normalizer if not provided
+    if field_name_normalizer is None:
+        field_name_normalizer = FieldNameNormalizer()
+    else:
+        field_name_normalizer.clear()
 
     # Build analyzer.json content
     analyzer_id = f"{analyzer_prefix}_{doc_type}" if analyzer_prefix else doc_type
@@ -109,13 +118,13 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
         print("[red]Error: Fields.json should not be empty.[/red]")
         sys.exit(1)
     for key, value in fields.items():
-        if len(key) > MAX_FIELD_LENGTH:
-            print(f"[red]Error: Field key '{key}' contains {len(key)}, which exceeds the limit of {MAX_FIELD_LENGTH} characters. [/red]")
-            sys.exit(1)
-        analyzer_field = recursive_convert_field_to_analyzer_helper(key, value, field_definitions)
+        # Normalize the field key to match CU API requirements
+        normalized_key = field_name_normalizer.normalize_field_name(key, context="analyzer fields")
+        
+        analyzer_field = recursive_convert_field_to_analyzer_helper(normalized_key, value, field_definitions, field_name_normalizer)
 
-        # Add field to fieldLabels
-        analyzer_data[ANALYZER_FIELDS]["fields"][key] = analyzer_field
+        # Add field to fieldLabels with normalized key
+        analyzer_data[ANALYZER_FIELDS]["fields"][normalized_key] = analyzer_field
 
     # Update defintions accordingly
     analyzer_data[ANALYZER_FIELDS]["definitions"] = field_definitions.get_all_definitions()
@@ -144,15 +153,16 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
         json.dump(analyzer_data, f, indent=4)
 
     print(f"[green]Successfully converted {fields_json_path} to analyzer.json at {analyzer_json_path}[/green]\n")
-    return analyzer_data
+    return analyzer_data, field_name_normalizer
 
-def recursive_convert_field_to_analyzer_helper(key: str, value: dict, field_definitions: FieldDefinitions) -> dict:
+def recursive_convert_field_to_analyzer_helper(key: str, value: dict, field_definitions: FieldDefinitions, field_name_normalizer: FieldNameNormalizer) -> dict:
     """
     Recursively convert each DI field to CU analyzer.json format
     Args:
-        key (str): The field key.
+        key (str): The field key (should already be normalized).
         value (dict): The field value.
         field_definitions (FieldDefinitions): Field definitions object that stores definitions in case of fixed tables.
+        field_name_normalizer (FieldNameNormalizer): Field name normalizer for sub-fields.
     Returns:
         dict: The converted field in analyzer.json format.
     """
@@ -166,7 +176,7 @@ def recursive_convert_field_to_analyzer_helper(key: str, value: dict, field_defi
     if value.get("type") == "array":
         analyzer_field["method"] = value.get("method", "generate")
         analyzer_field["description"] = value.get("description", "")
-        analyzer_field["items"] = recursive_convert_field_to_analyzer_helper(key, value.get("items"), field_definitions)
+        analyzer_field["items"] = recursive_convert_field_to_analyzer_helper(key, value.get("items"), field_definitions, field_name_normalizer)
     elif value.get("type") == "object":
         # if the properties are objects, this is a fixed sized table
         # if the properties are not objects, this is a dynamic sized table
@@ -178,40 +188,52 @@ def recursive_convert_field_to_analyzer_helper(key: str, value: dict, field_defi
         analyzer_field["properties"] = {}
 
         if not fixed_table:
-            for i, (key, item) in enumerate(value.get("properties").items()):
-                analyzer_field["properties"][key] = recursive_convert_field_to_analyzer_helper(key, item, field_definitions)
+            for i, (prop_key, item) in enumerate(value.get("properties").items()):
+                # Normalize property key for dynamic table columns
+                normalized_prop_key = field_name_normalizer.normalize_field_name(prop_key, context=f"table '{key}' column")
+                analyzer_field["properties"][normalized_prop_key] = recursive_convert_field_to_analyzer_helper(normalized_prop_key, item, field_definitions, field_name_normalizer)
         else:
             analyzer_field["method"] = value.get("method", "generate")
             first_row_key = "" # only need to use the first row for creating a definition, since the rest will be the same as it is a fixed table
+            normalized_first_row_key = ""
             for i, (row_key, row_item) in enumerate(value.get("properties").items()):
+                # Normalize row key
+                normalized_row_key = field_name_normalizer.normalize_field_name(row_key, context=f"fixed table '{key}' row")
                 if i == 0:
                     first_row_key = row_key
-                    definitions_key = f"{key}_{row_key}"
+                    normalized_first_row_key = normalized_row_key
+                    definitions_key = f"{key}_{normalized_row_key}"
+                    # Validate definitions key length
                     if len(definitions_key) > MAX_FIELD_LENGTH:
                         print(f"[red]Error: The fixed table definition '{definitions_key}' will contain {len(definitions_key)}, which exceeds the limit of {MAX_FIELD_LENGTH} characters. Please shorten either the table name or row name. [/red]")
                         sys.exit(1)
-                    # need to add methods to all the columns
+                    # need to add methods to all the columns and normalize column keys
+                    normalized_properties = {}
                     for property_key, property_data in row_item["properties"].items():
+                        normalized_property_key = field_name_normalizer.normalize_field_name(property_key, context=f"fixed table '{key}' column")
                         if property_data.get("method") is None:
                             property_data["method"] = "extract"
                         if property_data.get("description") is None:
                             property_data["description"] = ""
+                        normalized_properties[normalized_property_key] = property_data
+                    row_item["properties"] = normalized_properties
                     definitions_value = row_item
                     field_definitions.add_definition(definitions_key, definitions_value)
-                analyzer_field["properties"][row_key] = {}
-                analyzer_field["properties"][row_key]["$ref"] = f"#/$defs/{key}_{first_row_key}"
+                analyzer_field["properties"][normalized_row_key] = {}
+                analyzer_field["properties"][normalized_row_key]["$ref"] = f"#/$defs/{key}_{normalized_first_row_key}"
 
     else:
         analyzer_field["description"] = value.get("description", "")
 
     return analyzer_field
 
-def convert_di_labels_to_cu(di_labels_path: Path, target_dir: Path) -> None:
+def convert_di_labels_to_cu(di_labels_path: Path, target_dir: Path, field_name_normalizer: FieldNameNormalizer = None) -> None:
     """
     Convert DI 4.0 preview Custom Document format labels.json to Content Understanding format labels.json.
     Args:
         di_labels_path (Path): Path to the Document Intelligence labels.json file.
         target_dir (Path): Output directory for the Content Understanding labels.json file.
+        field_name_normalizer (FieldNameNormalizer): Optional normalizer with pre-existing mappings from analyzer conversion.
     """
     try:
         with open(di_labels_path, 'r', encoding="utf-8") as f:
@@ -233,12 +255,17 @@ def convert_di_labels_to_cu(di_labels_path: Path, target_dir: Path) -> None:
 
     field_labels = di_data.get("fieldLabels", {})
     for key, value in field_labels.items():
-        cu_field = recursive_convert_di_label_to_cu_helper(value)
+        # Use the normalized key if normalizer has a mapping, otherwise use original
+        normalized_key = key
+        if field_name_normalizer is not None:
+            normalized_key = field_name_normalizer.get_normalized_name(key)
+        
+        cu_field = recursive_convert_di_label_to_cu_helper(value, field_name_normalizer)
 
         # Include original label in metadata
 
-        # Add field to fieldLabels
-        cu_data["fieldLabels"][key] = cu_field
+        # Add field to fieldLabels with normalized key
+        cu_data["fieldLabels"][normalized_key] = cu_field
 
     # Write Content Understanding labels.json
     target_dir.mkdir(parents=True, exist_ok=True)
@@ -249,11 +276,12 @@ def convert_di_labels_to_cu(di_labels_path: Path, target_dir: Path) -> None:
 
     print(f"[green]Successfully converted Document Intelligence labels.json to Content Understanding labels.json at {cu_labels_path}[/green]\n")
 
-def recursive_convert_di_label_to_cu_helper(value: dict) -> dict:
+def recursive_convert_di_label_to_cu_helper(value: dict, field_name_normalizer: FieldNameNormalizer = None) -> dict:
     """
     Recursively convert each DI field to CU labels.json format
     Args:
         value (dict): The field value.
+        field_name_normalizer (FieldNameNormalizer): Optional normalizer with pre-existing mappings.
     Returns:
         dict: The converted field in labels.json format.
     """
@@ -270,15 +298,19 @@ def recursive_convert_di_label_to_cu_helper(value: dict) -> dict:
     if value_type == "array":
         value_array = value.get("valueArray")
         di_label["kind"] = value.get("kind", "confirmed")
-        di_label["valueArray"] = value_array
+        di_label["valueArray"] = []
         for i, item in enumerate(value_array):
-            value_array[i] = recursive_convert_di_label_to_cu_helper(item)
+            di_label["valueArray"].append(recursive_convert_di_label_to_cu_helper(item, field_name_normalizer))
     elif value_type == "object":
         value_object = value.get("valueObject")
         di_label["kind"] = value.get("kind", "confirmed")
-        di_label["valueObject"] = value_object
-        for i, item in value_object.items():
-            value_object[i] = recursive_convert_di_label_to_cu_helper(item)
+        di_label["valueObject"] = {}
+        for key, item in value_object.items():
+            # Normalize the key if normalizer is provided
+            normalized_key = key
+            if field_name_normalizer is not None:
+                normalized_key = field_name_normalizer.get_normalized_name(key)
+            di_label["valueObject"][normalized_key] = recursive_convert_di_label_to_cu_helper(item, field_name_normalizer)
     else:
         value_part = VALID_CU_FIELD_TYPES[value_type]
         if value.get(value_part) is not None and value.get(value_part) != "":
