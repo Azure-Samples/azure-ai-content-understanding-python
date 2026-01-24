@@ -12,6 +12,9 @@ import typer
 # imports from external packages (in requirements.txt)
 from rich import print  # For colored output
 
+# imports from local packages
+from constants import CU_API_VERSION
+
 app = typer.Typer()
 
 @app.command()
@@ -42,8 +45,7 @@ def main(
     }
 
     host  = os.getenv("HOST")
-    api_version = os.getenv("API_VERSION")
-    endpoint = f"{host}/contentunderstanding/analyzers/{analyzer_id}:analyze?api-version={api_version}"
+    endpoint = f"{host}/contentunderstanding/analyzers/{analyzer_id}:analyze?api-version={CU_API_VERSION}"
 
     blob = BlobClient.from_blob_url(pdf_sas_url)
     blob_data = blob.download_blob().readall()

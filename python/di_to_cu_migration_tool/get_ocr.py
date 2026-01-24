@@ -1,21 +1,18 @@
 # imports from built-in packages
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
-import random
-import sys
 import time
-from typing import Optional
 
 # imports from external packages (in requirements.txt)
 from azure.identity import DefaultAzureCredential
 from dotenv import load_dotenv
 import requests
 from rich import print  # For colored output
-import typer
+
 # imports from same project (in constants.py)
-from constants import CU_API_VERSION, COMPLETION_MODEL, EMBEDDING_MODEL
+from constants import CU_API_VERSION
 
 def is_token_expired(token) -> bool:
     """
@@ -61,10 +58,7 @@ def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_ke
 
     load_dotenv()
 
-   # Set the global variables
-    api_version = os.getenv("API_VERSION") or CU_API_VERSION
     host = os.getenv("HOST")
-
     credential = DefaultAzureCredential()
     current_token = None
 
@@ -72,7 +66,7 @@ def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_ke
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Use prebuilt-layout analyzer directly - no need to create a custom analyzer
-    url = f"{host.rstrip('/')}/contentunderstanding/analyzers/prebuilt-layout:analyzeBinary?api-version={api_version}"
+    url = f"{host.rstrip('/')}/contentunderstanding/analyzers/prebuilt-layout:analyzeBinary?api-version={CU_API_VERSION}"
 
     for file in input_files:
         try:

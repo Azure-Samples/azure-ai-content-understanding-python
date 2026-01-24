@@ -11,6 +11,9 @@ import typer
 # imports from external packages (in requirements.txt)
 from rich import print  # For colored output
 
+# imports from local packages
+from constants import CU_API_VERSION
+
 app = typer.Typer()
 
 @app.command()
@@ -39,8 +42,7 @@ def main(
     load_dotenv()
     analyzer_id = analyzer_json["analyzerId"]
     host = os.getenv("HOST")
-    api_version = os.getenv("API_VERSION")
-    endpoint = f"{host}/contentunderstanding/analyzers/{analyzer_id}?api-version={api_version}"
+    endpoint = f"{host}/contentunderstanding/analyzers/{analyzer_id}?api-version={CU_API_VERSION}"
 
     # Request Header - Content-Type
     # Acquire a token for the desired scope
