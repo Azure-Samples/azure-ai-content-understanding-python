@@ -1,0 +1,326 @@
+{
+    "analyzerId": "mySampleAnalyzer",
+    "baseAnalyzerId": "prebuilt-document",
+    "models": {
+        "completion": "gpt-4.1",
+        "embedding": "text-embedding-3-large"
+    },
+    "config": {
+        "returnDetails": true,
+        "enableLayout": true,
+        "enableBarcode": false,
+        "enableFormula": false,
+        "estimateFieldSourceAndConfidence": true
+    },
+    "fieldSchema": {
+        "name": "mySampleAnalyzer",
+        "description": "1. Define your schema by specifying the fields you want to extract from the input files. Choose clear and simple `field names`. Use `field descriptions` to provide explanations, exceptions, rules of thumb, and other details to clarify the desired behavior.\n\n2. For each field, indicate the `value type` of the desired output. Besides basic types like strings, dates, and numbers, you can define more complex structures such as `tables` (repeated items with subfields) and `fixed tables` (groups of fields with common subfields).",
+        "fields": {
+            "string_field": {
+                "type": "string",
+                "method": "extract",
+                "description": ""
+            },
+            "alphanumeric_field": {
+                "type": "string",
+                "method": "extract",
+                "description": ""
+            },
+            "no_white_space_field": {
+                "type": "string",
+                "method": "extract",
+                "description": ""
+            },
+            "number_field": {
+                "type": "number",
+                "method": "extract",
+                "description": ""
+            },
+            "currency_field": {
+                "type": "number",
+                "method": "extract",
+                "description": ""
+            },
+            "date_field": {
+                "type": "date",
+                "method": "extract",
+                "description": ""
+            },
+            "dmy_field": {
+                "type": "date",
+                "method": "extract",
+                "description": ""
+            },
+            "mdy_field": {
+                "type": "date",
+                "method": "extract",
+                "description": ""
+            },
+            "ymd_field": {
+                "type": "date",
+                "method": "extract",
+                "description": ""
+            },
+            "time_field": {
+                "type": "time",
+                "method": "extract",
+                "description": ""
+            },
+            "integer_Field": {
+                "type": "integer",
+                "method": "extract",
+                "description": ""
+            },
+            "selection_mark_1": {
+                "type": "boolean",
+                "method": "extract",
+                "description": ""
+            },
+            "selection_mark_2": {
+                "type": "boolean",
+                "method": "extract",
+                "description": ""
+            },
+            "dynamic_table": {
+                "type": "array",
+                "method": "generate",
+                "description": "",
+                "items": {
+                    "type": "object",
+                    "method": "extract",
+                    "properties": {
+                        "string": {
+                            "type": "string",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "alphanumeric": {
+                            "type": "string",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "no_whitespaces": {
+                            "type": "string",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "number": {
+                            "type": "string",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "currency": {
+                            "type": "number",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "date": {
+                            "type": "date",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "dmy": {
+                            "type": "date",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "mdy": {
+                            "type": "date",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "ymd": {
+                            "type": "date",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "time": {
+                            "type": "time",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "integer": {
+                            "type": "integer",
+                            "method": "extract",
+                            "description": ""
+                        },
+                        "selectionMark": {
+                            "type": "boolean",
+                            "method": "extract",
+                            "description": ""
+                        }
+                    }
+                }
+            },
+            "fixed_table_column_header": {
+                "type": "object",
+                "method": "generate",
+                "description": "",
+                "properties": {
+                    "ROW1": {
+                        "$ref": "#/$defs/fixed_table_column_header_ROW1"
+                    },
+                    "ROW2": {
+                        "$ref": "#/$defs/fixed_table_column_header_ROW1"
+                    }
+                }
+            },
+            "fixed_table_row_header": {
+                "type": "object",
+                "method": "generate",
+                "description": "",
+                "properties": {
+                    "COLUMN1": {
+                        "$ref": "#/$defs/fixed_table_row_header_COLUMN1"
+                    },
+                    "COLUMN2": {
+                        "$ref": "#/$defs/fixed_table_row_header_COLUMN1"
+                    }
+                }
+            }
+        },
+        "definitions": {
+            "fixed_table_column_header_ROW1": {
+                "type": "object",
+                "properties": {
+                    "string": {
+                        "type": "string",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "alphanumeric": {
+                        "type": "string",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "no_whitespaces": {
+                        "type": "string",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "number": {
+                        "type": "number",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "currency": {
+                        "type": "number",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "date": {
+                        "type": "date",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "dmy": {
+                        "type": "date",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "mdy": {
+                        "type": "date",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "ymd": {
+                        "type": "date",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "time": {
+                        "type": "time",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "integer": {
+                        "type": "integer",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "selectionMark": {
+                        "type": "boolean",
+                        "method": "extract",
+                        "description": ""
+                    }
+                }
+            },
+            "fixed_table_row_header_COLUMN1": {
+                "type": "object",
+                "properties": {
+                    "string": {
+                        "type": "string",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "alphanumeric": {
+                        "type": "string",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "no_whitespaces": {
+                        "type": "string",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "number": {
+                        "type": "string",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "currency": {
+                        "type": "number",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "date": {
+                        "type": "date",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "dmy": {
+                        "type": "date",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "mdy": {
+                        "type": "date",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "ymd": {
+                        "type": "date",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "time": {
+                        "type": "integer",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "integer": {
+                        "type": "integer",
+                        "method": "extract",
+                        "description": ""
+                    },
+                    "selectionMark": {
+                        "type": "boolean",
+                        "method": "extract",
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "warnings": [],
+    "status": "undefined",
+    "templateId": "document-2024-12-01",
+    "knowledgeSources": [
+        {
+            "kind": "labeledData",
+            "containerUrl": "https://mmisamplestorage.blob.core.windows.net/chienyuan?sv=2025-07-05&spr=https&st=2026-01-23T23%3A07%3A42Z&se=2026-01-28T23%3A07%3A00Z&skoid=df7df864-4e6a-4f03-b43d-35e6c28d62ba&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2026-01-23T23%3A07%3A42Z&ske=2026-01-28T23%3A07%3A00Z&sks=b&skv=2025-07-05&sr=c&sp=racwl&sig=NGw5j1oCi5Nt%2BUfpJ0nwDHugEMZ1OXCepHKyPUezqtw%3D",
+            "prefix": "cu_converted",
+            "fileListPath": ""
+        }
+    ]
+}
