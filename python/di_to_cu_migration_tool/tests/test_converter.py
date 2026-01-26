@@ -40,7 +40,7 @@ Key test scenarios:
 - Analyzer and labels field names are aligned after conversion
 
 Note: The CU API rejects hyphens in nested field names even though the documented
-pattern is ^[a-zA-Z0-9._-]{1,64}$. The converter normalizes hyphens to underscores.
+pattern is ^[a-zA-Z0-9._]{1,64}$. The converter normalizes hyphens to underscores.
 """
 
 import json
