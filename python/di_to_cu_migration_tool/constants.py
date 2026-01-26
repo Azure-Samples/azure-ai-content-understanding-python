@@ -10,7 +10,7 @@ EMBEDDING_MODEL = "text-embedding-3-large"
 MAX_FIELD_COUNT = 100
 MAX_FIELD_LENGTH = 64
 # Valid field name pattern for Content Understanding API
-VALID_FIELD_NAME_PATTERN = r'^[a-zA-Z0-9._]{1,64}$'
+VALID_FIELD_NAME_PATTERN = r'^[a-zA-Z_][a-zA-Z0-9_]{0,63}$'
 
 # standard file names
 FIELDS_JSON = "fields.json"

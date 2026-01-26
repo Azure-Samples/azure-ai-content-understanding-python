@@ -7,37 +7,57 @@
 			"fieldFormat": "not-specified"
 		},
 		{
-			"fieldKey": "alphanumeric_field",
+			"fieldKey": "string field",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "string-field",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "999",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "this_is_a_very_long_field_name_that_approaches_the_maximum_len",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "alphanumeric@field",
 			"fieldType": "string",
 			"fieldFormat": "alphanumeric"
 		},
 		{
-			"fieldKey": "no_white_space_field",
+			"fieldKey": "no-white-space-field",
 			"fieldType": "string",
 			"fieldFormat": "no-whitespaces"
 		},
 		{
-			"fieldKey": "number_field",
+			"fieldKey": "123_number_field",
 			"fieldType": "number",
 			"fieldFormat": "not-specified"
 		},
 		{
-			"fieldKey": "currency_field",
+			"fieldKey": "$currency_field",
 			"fieldType": "number",
 			"fieldFormat": "currency"
 		},
 		{
-			"fieldKey": "date_field",
+			"fieldKey": "date___field",
 			"fieldType": "date",
 			"fieldFormat": "not-specified"
 		},
 		{
-			"fieldKey": "dmy_field",
+			"fieldKey": "dmy---field",
 			"fieldType": "date",
 			"fieldFormat": "dmy"
 		},
 		{
-			"fieldKey": "mdy_field",
+			"fieldKey": "mdy...field",
 			"fieldType": "date",
 			"fieldFormat": "mdy"
 		},
@@ -126,7 +146,7 @@
 					"fieldFormat": "not-specified"
 				},
 				{
-					"fieldKey": "alphanumeric",
+					"fieldKey": "_alphanumeric_",
 					"fieldType": "string",
 					"fieldFormat": "alphanumeric"
 				},
@@ -136,12 +156,12 @@
 					"fieldFormat": "no-whitespaces"
 				},
 				{
-					"fieldKey": "number",
+					"fieldKey": "#number",
 					"fieldType": "string",
 					"fieldFormat": "not-specified"
 				},
 				{
-					"fieldKey": "currency",
+					"fieldKey": "currency$",
 					"fieldType": "number",
 					"fieldFormat": "currency"
 				},
@@ -193,7 +213,7 @@
 					"fieldFormat": "not-specified"
 				},
 				{
-					"fieldKey": "alphanumeric",
+					"fieldKey": "_alphanumeric_",
 					"fieldType": "string",
 					"fieldFormat": "alphanumeric"
 				},
@@ -203,12 +223,12 @@
 					"fieldFormat": "no-whitespaces"
 				},
 				{
-					"fieldKey": "number",
+					"fieldKey": "#number",
 					"fieldType": "number",
 					"fieldFormat": "not-specified"
 				},
 				{
-					"fieldKey": "currency",
+					"fieldKey": "currency$",
 					"fieldType": "number",
 					"fieldFormat": "currency"
 				},

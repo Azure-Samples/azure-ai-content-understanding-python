@@ -3,44 +3,7 @@
 	"document": "form_sample_1.pdf",
 	"labels": [
 		{
-			"label": "string_field",
-			"value": [
-				{
-					"page": 1,
-					"text": "Trevor",
-					"boundingBoxes": [
-						[
-							0.13105454545454545,
-							0.2004,
-							0.16671818181818182,
-							0.20027058823529412,
-							0.1666,
-							0.21785882352941174,
-							0.1310090909090909,
-							0.2179529411764706
-						]
-					]
-				},
-				{
-					"page": 1,
-					"text": "Malone",
-					"boundingBoxes": [
-						[
-							0.17052727272727272,
-							0.20027058823529412,
-							0.21288181818181817,
-							0.20021176470588234,
-							0.21288181818181817,
-							0.2175058823529412,
-							0.1703818181818182,
-							0.21783529411764704
-						]
-					]
-				}
-			]
-		},
-		{
-			"label": "no_white_space_field",
+			"label": "no-white-space-field",
 			"value": [
 				{
 					"page": 1,
@@ -61,7 +24,7 @@
 			]
 		},
 		{
-			"label": "alphanumeric_field",
+			"label": "alphanumeric@field",
 			"value": [
 				{
 					"page": 1,
@@ -82,7 +45,7 @@
 			]
 		},
 		{
-			"label": "currency_field",
+			"label": "$currency_field",
 			"value": [
 				{
 					"page": 1,
@@ -103,7 +66,7 @@
 			]
 		},
 		{
-			"label": "number_field",
+			"label": "123_number_field",
 			"value": [
 				{
 					"page": 1,
@@ -124,7 +87,7 @@
 			]
 		},
 		{
-			"label": "dmy_field",
+			"label": "dmy---field",
 			"value": [
 				{
 					"page": 1,
@@ -145,7 +108,7 @@
 			]
 		},
 		{
-			"label": "date_field",
+			"label": "date___field",
 			"value": [
 				{
 					"page": 1,
@@ -166,7 +129,7 @@
 			]
 		},
 		{
-			"label": "mdy_field",
+			"label": "mdy...field",
 			"value": [
 				{
 					"page": 1,
@@ -351,7 +314,7 @@
 			]
 		},
 		{
-			"label": "dynamic_table/0/alphanumeric",
+			"label": "dynamic_table/0/_alphanumeric_",
 			"value": [
 				{
 					"page": 2,
@@ -393,7 +356,7 @@
 			]
 		},
 		{
-			"label": "dynamic_table/0/number",
+			"label": "dynamic_table/0/#number",
 			"value": [
 				{
 					"page": 2,
@@ -430,7 +393,7 @@
 			]
 		},
 		{
-			"label": "dynamic_table/0/currency",
+			"label": "dynamic_table/0/currency$",
 			"value": [
 				{
 					"page": 2,
@@ -635,7 +598,7 @@
 			]
 		},
 		{
-			"label": "dynamic_table/1/alphanumeric",
+			"label": "dynamic_table/1/_alphanumeric_",
 			"value": [
 				{
 					"page": 2,
@@ -679,7 +642,7 @@
 			"labelType": "region"
 		},
 		{
-			"label": "dynamic_table/1/number",
+			"label": "dynamic_table/1/#number",
 			"value": [
 				{
 					"page": 2,
@@ -701,7 +664,7 @@
 			"labelType": "region"
 		},
 		{
-			"label": "dynamic_table/1/currency",
+			"label": "dynamic_table/1/currency$",
 			"value": [
 				{
 					"page": 2,
@@ -914,7 +877,7 @@
 			]
 		},
 		{
-			"label": "dynamic_table/2/alphanumeric",
+			"label": "dynamic_table/2/_alphanumeric_",
 			"value": [
 				{
 					"page": 2,
@@ -956,7 +919,7 @@
 			]
 		},
 		{
-			"label": "dynamic_table/2/number",
+			"label": "dynamic_table/2/#number",
 			"value": [
 				{
 					"page": 2,
@@ -993,7 +956,7 @@
 			]
 		},
 		{
-			"label": "dynamic_table/2/currency",
+			"label": "dynamic_table/2/currency$",
 			"value": [
 				{
 					"page": 2,
@@ -1198,7 +1161,7 @@
 			]
 		},
 		{
-			"label": "fixed_table_column_header/ROW2/alphanumeric",
+			"label": "fixed_table_column_header/ROW2/_alphanumeric_",
 			"value": [
 				{
 					"page": 2,
@@ -1240,7 +1203,7 @@
 			]
 		},
 		{
-			"label": "fixed_table_column_header/ROW2/number",
+			"label": "fixed_table_column_header/ROW2/#number",
 			"value": [
 				{
 					"page": 2,
@@ -1261,7 +1224,7 @@
 			]
 		},
 		{
-			"label": "fixed_table_column_header/ROW2/currency",
+			"label": "fixed_table_column_header/ROW2/currency$",
 			"value": [
 				{
 					"page": 2,
@@ -1517,7 +1480,7 @@
 			"labelType": "region"
 		},
 		{
-			"label": "fixed_table_column_header/ROW1/currency",
+			"label": "fixed_table_column_header/ROW1/currency$",
 			"value": [
 				{
 					"page": 2,
@@ -1605,7 +1568,7 @@
 			"labelType": "region"
 		},
 		{
-			"label": "fixed_table_column_header/ROW1/number",
+			"label": "fixed_table_column_header/ROW1/#number",
 			"value": [
 				{
 					"page": 2,
@@ -1649,7 +1612,7 @@
 			"labelType": "region"
 		},
 		{
-			"label": "fixed_table_column_header/ROW1/alphanumeric",
+			"label": "fixed_table_column_header/ROW1/_alphanumeric_",
 			"value": [
 				{
 					"page": 2,
@@ -2238,6 +2201,65 @@
 							0.9131903551726276,
 							0.34984193888303466,
 							0.9131903551726276
+						]
+					]
+				}
+			],
+			"labelType": "region"
+		},
+		{
+			"label": "string_field",
+			"value": [
+				{
+					"page": 1,
+					"text": "Trevor",
+					"boundingBoxes": [
+						[
+							0.13105454545454545,
+							0.2004,
+							0.16671818181818182,
+							0.20027058823529412,
+							0.1666,
+							0.21785882352941174,
+							0.1310090909090909,
+							0.2179529411764706
+						]
+					]
+				},
+				{
+					"page": 1,
+					"text": "Malone",
+					"boundingBoxes": [
+						[
+							0.17052727272727272,
+							0.20027058823529412,
+							0.21288181818181817,
+							0.20021176470588234,
+							0.21288181818181817,
+							0.2175058823529412,
+							0.1703818181818182,
+							0.21783529411764704
+						]
+					]
+				}
+			]
+		},
+		{
+			"label": "string field",
+			"value": [
+				{
+					"page": 1,
+					"text": "",
+					"boundingBoxes": [
+						[
+							0.0507518796992483,
+							0.19512015332448784,
+							0.12218045112781967,
+							0.19512015332448784,
+							0.12218045112781967,
+							0.21944567300604456,
+							0.0507518796992483,
+							0.21944567300604456
 						]
 					]
 				}

@@ -6,11 +6,9 @@ from rich import print
 
 from constants import MAX_FIELD_LENGTH
 
-# Regex pattern for valid CU field names
-VALID_FIELD_NAME_PATTERN = re.compile(r'^[a-zA-Z0-9._]{1,64}$')
-
-# Characters allowed in field names
-ALLOWED_CHARS = set('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._')
+# Valid CU field name pattern: letters, numbers, underscores only; must start with letter or underscore; max 64 chars
+VALID_FIELD_NAME_PATTERN = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]{0,63}$')
+ALLOWED_CHARS = set('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_')
 
 
 class FieldNameNormalizer:
@@ -48,6 +46,7 @@ class FieldNameNormalizer:
     def is_valid_field_name(self, name: str) -> bool:
         """
         Check if a field name matches the valid pattern.
+        
         Args:
             name (str): The field name to validate.
         Returns:
@@ -59,7 +58,7 @@ class FieldNameNormalizer:
     
     def normalize_field_name(self, original_name: str, context: str = "") -> str:
         """
-        Normalize a field name to match the pattern ^[a-zA-Z0-9._]{1,64}$.
+        Normalize a field name to match the pattern ^[a-zA-Z_][a-zA-Z0-9_]{0,63}$.
         
         This method:
         1. Replaces invalid characters with underscores
@@ -91,7 +90,7 @@ class FieldNameNormalizer:
         if not normalized:
             context_msg = f" in {context}" if context else ""
             print(f"[red]Error: Field name '{original_name}'{context_msg} becomes empty after normalization. "
-                  f"Field names must contain at least one alphanumeric character, dot, underscore, or hyphen.[/red]")
+                  f"Field names must contain at least one letter, number, or underscore.[/red]")
             sys.exit(1)
         
         # Truncate if too long (leave room for potential counter suffix)
@@ -154,10 +153,10 @@ class FieldNameNormalizer:
         
         for char in name:
             if char in ALLOWED_CHARS:
-                result.append(char)
                 prev_was_underscore = (char == '_')
+                result.append(char)
             else:
-                # Replace invalid char with underscore, but avoid consecutive underscores
+                # Replace invalid char with underscore, avoid consecutive underscores
                 if not prev_was_underscore:
                     result.append('_')
                     prev_was_underscore = True
@@ -168,6 +167,10 @@ class FieldNameNormalizer:
         # Remove any remaining consecutive underscores
         while '__' in normalized:
             normalized = normalized.replace('__', '_')
+        
+        # Ensure name starts with letter or underscore (not a number)
+        if normalized and normalized[0].isdigit():
+            normalized = 'f_' + normalized
         
         return normalized
     
@@ -262,8 +265,8 @@ def normalize_field_name_simple(name: str) -> str:
     
     for char in name:
         if char in ALLOWED_CHARS:
-            result.append(char)
             prev_was_underscore = (char == '_')
+            result.append(char)
         else:
             if not prev_was_underscore:
                 result.append('_')
@@ -273,6 +276,10 @@ def normalize_field_name_simple(name: str) -> str:
     
     while '__' in normalized:
         normalized = normalized.replace('__', '_')
+    
+    # Ensure name starts with letter or underscore (not a number)
+    if normalized and normalized[0].isdigit():
+        normalized = 'f_' + normalized
     
     return normalized
 

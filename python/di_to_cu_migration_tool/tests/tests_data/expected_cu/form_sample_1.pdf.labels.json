@@ -2,15 +2,6 @@
     "$schema": "https://schema.ai.azure.com/mmi/2025-11-01/labels.json",
     "fileId": "",
     "fieldLabels": {
-        "string_field": {
-            "type": "string",
-            "valueString": "Trevor Malone",
-            "spans": [],
-            "confidence": null,
-            "source": "D(1,0.1311,0.2004,0.1667,0.2003,0.1666,0.2179,0.131,0.218);D(1,0.1705,0.2003,0.2129,0.2002,0.2129,0.2175,0.1704,0.2178)",
-            "kind": "confirmed",
-            "metadata": {}
-        },
         "no_white_space_field": {
             "type": "string",
             "valueString": "protect",
@@ -38,7 +29,7 @@
             "kind": "confirmed",
             "metadata": {}
         },
-        "number_field": {
+        "f_123_number_field": {
             "type": "number",
             "valueNumber": 378.0,
             "spans": [],
@@ -74,7 +65,7 @@
             "kind": "confirmed",
             "metadata": {}
         },
-        "ymd_field": {
+        "ymd___field": {
             "type": "date",
             "valueDate": "2008-01-21",
             "spans": [],
@@ -136,7 +127,7 @@
                             "kind": "confirmed",
                             "metadata": {}
                         },
-                        "alphanumeric": {
+                        "_alphanumeric_": {
                             "type": "string",
                             "valueString": "UN66AH93",
                             "spans": [],
@@ -250,7 +241,7 @@
                             "kind": "confirmed",
                             "metadata": {}
                         },
-                        "alphanumeric": {
+                        "_alphanumeric_": {
                             "type": "string",
                             "valueString": "",
                             "spans": [],
@@ -364,7 +355,7 @@
                             "kind": "confirmed",
                             "metadata": {}
                         },
-                        "alphanumeric": {
+                        "_alphanumeric_": {
                             "type": "string",
                             "valueString": "Fm88Ku81",
                             "spans": [],
@@ -484,7 +475,7 @@
                             "kind": "confirmed",
                             "metadata": {}
                         },
-                        "alphanumeric": {
+                        "_alphanumeric_": {
                             "type": "string",
                             "valueString": "Ei80Gq42",
                             "spans": [],
@@ -679,7 +670,7 @@
                             "kind": "confirmed",
                             "metadata": {}
                         },
-                        "alphanumeric": {
+                        "_alphanumeric_": {
                             "type": "string",
                             "valueString": "",
                             "spans": [],
@@ -727,7 +718,7 @@
                             "kind": "confirmed",
                             "metadata": {}
                         },
-                        "currency": {
+                        "currency_1": {
                             "type": "number",
                             "valueNumber": 691.88,
                             "spans": [],
@@ -790,7 +781,7 @@
                             "kind": "confirmed",
                             "metadata": {}
                         },
-                        "number": {
+                        "number_1": {
                             "type": "string",
                             "valueString": "",
                             "spans": [],
@@ -832,7 +823,7 @@
                             "kind": "confirmed",
                             "metadata": {}
                         },
-                        "number": {
+                        "number_1": {
                             "type": "string",
                             "valueString": "Harold Hancock",
                             "spans": [],
@@ -913,7 +904,7 @@
                             "kind": "confirmed",
                             "metadata": {}
                         },
-                        "currency": {
+                        "currency_1": {
                             "type": "number",
                             "valueNumber": null,
                             "spans": [],
@@ -934,6 +925,24 @@
                     }
                 }
             }
+        },
+        "string_field": {
+            "type": "string",
+            "valueString": "Trevor Malone",
+            "spans": [],
+            "confidence": null,
+            "source": "D(1,0.1311,0.2004,0.1667,0.2003,0.1666,0.2179,0.131,0.218);D(1,0.1705,0.2003,0.2129,0.2002,0.2129,0.2175,0.1704,0.2178)",
+            "kind": "confirmed",
+            "metadata": {}
+        },
+        "string_field_1": {
+            "type": "string",
+            "valueString": "",
+            "spans": [],
+            "confidence": null,
+            "source": "D(1,0.0508,0.1951,0.1222,0.1951,0.1222,0.2194,0.0508,0.2194)",
+            "kind": "confirmed",
+            "metadata": {}
         }
     },
     "metadata": {}

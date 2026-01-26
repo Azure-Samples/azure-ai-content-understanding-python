@@ -36,14 +36,15 @@ Key test scenarios:
 - Duplicate field names after normalization get unique suffixes (_1, _2, etc.)
 - Signature fields are removed during field type conversion
 - selectionMark fields are converted to boolean type
-- All generated field names match pattern: ^[a-zA-Z0-9._]{1,64}$
+- All generated field names match pattern: ^[a-zA-Z_][a-zA-Z0-9_]{0,63}$
 - Analyzer and labels field names are aligned after conversion
 
 Note: The CU API rejects hyphens in nested field names even though the documented
-pattern is ^[a-zA-Z0-9._]{1,64}$. The converter normalizes hyphens to underscores.
+pattern is ^[a-zA-Z_][a-zA-Z0-9_]{0,63}$. The converter normalizes hyphens to underscores.
 """
 
 import json
+import re
 import pytest
 import sys
 import tempfile
@@ -67,6 +68,11 @@ from constants import MAX_FIELD_LENGTH
 TEST_DATA_DIR = Path(__file__).parent / "tests_data" / "di_data"
 EXPECTED_LABELS_PATH = Path(__file__).parent / "tests_data" / "expected_cu" / "form_sample_1.pdf.labels.json"
 EXPECTED_ANALYZER_PATH = Path(__file__).parent / "tests_data" / "expected_cu" / "analyzer.json"
+
+
+def _collapse_underscores(name: str) -> str:
+    """Collapse consecutive underscores for comparison only."""
+    return re.sub(r"_+", "_", name)
 
 
 class TestFieldTypeConversion:
@@ -128,17 +134,18 @@ class TestFieldNameValidation:
         valid_names = [
             "fieldName",
             "field_name",
-            "field.name",
             "FieldName123",
             "a",
             "A",
-            "1",
             "_",
-            ".",
+            "__",
+            "_123",  # underscore followed by numbers is valid
             "field_name_123",
             "CamelCase",
             "snake_case",
-            "dot.separated",
+            "UPPER_CASE",
+            "_starts_with_underscore",
+            "ends_with_underscore_",
         ]
         for name in valid_names:
             assert is_valid_field_name(name), f"Expected '{name}' to be valid"
@@ -153,6 +160,33 @@ class TestFieldNameValidation:
         ]
         for name in invalid_names:
             assert not is_valid_field_name(name), f"Expected '{name}' to be invalid (contains hyphen)"
+    
+    def test_invalid_names_starting_with_number(self):
+        """Test that names starting with numbers are invalid (CU API rejects them)."""
+        invalid_names = [
+            "1",              # purely numeric
+            "123",            # purely numeric
+            "999",            # purely numeric
+            "1field",         # starts with number
+            "123_field",      # starts with number
+            "1_abc",          # starts with number
+        ]
+        for name in invalid_names:
+            assert not is_valid_field_name(name), f"Expected '{name}' to be invalid (starts with number or purely numeric)"
+    
+    def test_invalid_names_with_dots(self):
+        """Test that dots are invalid (CU API rejects them entirely)."""
+        invalid_names = [
+            "field.name",     # single dot
+            "field..name",    # double dots
+            "mdy...field",    # triple dots
+            "a.b.c",          # multiple dots
+            ".",              # single dot only
+            "..",             # double dots only
+            "..",             # double dots only
+        ]
+        for name in invalid_names:
+            assert not is_valid_field_name(name), f"Expected '{name}' to be invalid (consecutive dots or invalid pattern)"
     
     def test_invalid_names_with_special_chars(self):
         """Test that special characters are invalid."""
@@ -263,6 +297,10 @@ class TestFieldNameNormalization:
         assert result == "field_name", f"Expected 'field_name', got '{result}'"
         
         normalizer.clear()
+        result = normalizer.normalize_field_name("field@@name")
+        assert result == "field_name", f"Expected 'field_name', got '{result}'"
+        
+        normalizer.clear()
         result = normalizer.normalize_field_name("field---name")
         assert result == "field_name", f"Expected 'field_name', got '{result}'"
     
@@ -281,7 +319,8 @@ class TestFieldNameNormalization:
         """Test that already valid names are not modified."""
         normalizer = FieldNameNormalizer()
         
-        valid_names = ["fieldName", "field_name", "field.name", "Field123"]
+        # Note: dots are NOT valid in CU API field names, only letters, numbers, and underscores
+        valid_names = ["fieldName", "field_name", "Field123", "_private", "CamelCase"]
         for name in valid_names:
             normalizer.clear()
             result = normalizer.normalize_field_name(name)
@@ -619,8 +658,14 @@ class TestAnalyzerConversion:
             expected = json.load(f)
         
         # Compare field schema structure
-        generated_fields = set(analyzer_data["fieldSchema"]["fields"].keys())
-        expected_fields = set(expected["fieldSchema"]["fields"].keys())
+        generated_fields = {
+            _collapse_underscores(key)
+            for key in analyzer_data["fieldSchema"]["fields"].keys()
+        }
+        expected_fields = {
+            _collapse_underscores(key)
+            for key in expected["fieldSchema"]["fields"].keys()
+        }
         
         assert generated_fields == expected_fields, (
             f"Field mismatch.\n"
@@ -820,8 +865,14 @@ class TestLabelsConversion:
             expected = json.load(f)
         
         # Compare top-level fields
-        generated_fields = set(cu_labels["fieldLabels"].keys())
-        expected_fields = set(expected["fieldLabels"].keys())
+        generated_fields = {
+            _collapse_underscores(key)
+            for key in cu_labels["fieldLabels"].keys()
+        }
+        expected_fields = {
+            _collapse_underscores(key)
+            for key in expected["fieldLabels"].keys()
+        }
         
         assert generated_fields == expected_fields, (
             f"Field mismatch.\n"
@@ -886,11 +937,12 @@ class TestEdgeCases:
         assert result1 != result2
     
     def test_field_name_with_dots(self):
-        """Test that dots are preserved in field names."""
+        """Test that dots are replaced with underscores."""
         normalizer = FieldNameNormalizer()
         
         result = normalizer.normalize_field_name("field.name.here")
-        assert result == "field.name.here", "Dots should be preserved"
+        assert result == "field_name_here", f"Dots should be replaced with underscores, got '{result}'"
+        assert is_valid_field_name(result), f"Result should be valid: {result}"
     
     def test_field_name_with_underscores(self):
         """Test that underscores are preserved in field names."""
@@ -900,11 +952,28 @@ class TestEdgeCases:
         assert result == "field_name_here", "Underscores should be preserved"
     
     def test_numeric_field_names(self):
-        """Test field names that are purely numeric."""
+        """Test field names that are purely numeric get prefixed."""
         normalizer = FieldNameNormalizer()
         
         result = normalizer.normalize_field_name("12345")
-        assert result == "12345", "Numeric names should be preserved"
+        assert result == "f_12345", f"Numeric names should be prefixed with 'f_', got '{result}'"
+        assert is_valid_field_name(result), f"Result should be valid: {result}"
+    
+    def test_names_starting_with_number(self):
+        """Test field names starting with number get prefixed."""
+        normalizer = FieldNameNormalizer()
+        
+        result = normalizer.normalize_field_name("123_field")
+        assert result == "f_123_field", f"Expected 'f_123_field', got '{result}'"
+        assert is_valid_field_name(result), f"Result should be valid: {result}"
+    
+    def test_dots_normalized_to_underscores(self):
+        """Test that dots are converted to underscores."""
+        normalizer = FieldNameNormalizer()
+        
+        result = normalizer.normalize_field_name("mdy...field")
+        assert "." not in result, f"Result should not have any dots: {result}"
+        assert is_valid_field_name(result), f"Result should be valid: {result}"
     
     def test_mixed_case_preserved(self):
         """Test that mixed case is preserved."""

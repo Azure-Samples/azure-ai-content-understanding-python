@@ -21,6 +21,26 @@
                 "method": "extract",
                 "description": ""
             },
+            "string_field_1": {
+                "type": "string",
+                "method": "extract",
+                "description": ""
+            },
+            "string_field_2": {
+                "type": "string",
+                "method": "extract",
+                "description": ""
+            },
+            "f_999": {
+                "type": "string",
+                "method": "extract",
+                "description": ""
+            },
+            "this_is_a_very_long_field_name_that_approaches_the_maximum_len": {
+                "type": "string",
+                "method": "extract",
+                "description": ""
+            },
             "alphanumeric_field": {
                 "type": "string",
                 "method": "extract",
@@ -31,7 +51,7 @@
                 "method": "extract",
                 "description": ""
             },
-            "number_field": {
+            "f_123_number_field": {
                 "type": "number",
                 "method": "extract",
                 "description": ""
@@ -56,7 +76,7 @@
                 "method": "extract",
                 "description": ""
             },
-            "ymd_field": {
+            "ymd___field": {
                 "type": "date",
                 "method": "extract",
                 "description": ""
@@ -94,7 +114,7 @@
                             "method": "extract",
                             "description": ""
                         },
-                        "alphanumeric": {
+                        "_alphanumeric_": {
                             "type": "string",
                             "method": "extract",
                             "description": ""
@@ -188,7 +208,7 @@
                         "method": "extract",
                         "description": ""
                     },
-                    "alphanumeric": {
+                    "_alphanumeric_": {
                         "type": "string",
                         "method": "extract",
                         "description": ""
@@ -263,12 +283,12 @@
                         "method": "extract",
                         "description": ""
                     },
-                    "number": {
+                    "number_1": {
                         "type": "string",
                         "method": "extract",
                         "description": ""
                     },
-                    "currency": {
+                    "currency_1": {
                         "type": "number",
                         "method": "extract",
                         "description": ""
@@ -319,7 +339,7 @@
         {
             "kind": "labeledData",
             "containerUrl": "https://mmisamplestorage.blob.core.windows.net/chienyuan?sv=2025-07-05&spr=https&st=2026-01-23T23%3A07%3A42Z&se=2026-01-28T23%3A07%3A00Z&skoid=df7df864-4e6a-4f03-b43d-35e6c28d62ba&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2026-01-23T23%3A07%3A42Z&ske=2026-01-28T23%3A07%3A00Z&sks=b&skv=2025-07-05&sr=c&sp=racwl&sig=NGw5j1oCi5Nt%2BUfpJ0nwDHugEMZ1OXCepHKyPUezqtw%3D",
-            "prefix": "cu_converted",
+            "prefix": "cu_converted_20260126",
             "fileListPath": ""
         }
     ]
