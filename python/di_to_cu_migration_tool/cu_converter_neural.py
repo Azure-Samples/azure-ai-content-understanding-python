@@ -37,7 +37,7 @@ def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
     source = f"D({page_number},{polygon_str})"
     return source
 
-def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Optional[Path], field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None) -> Tuple[dict, dict, FieldNameNormalizer]:
+def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Optional[Path], field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None, completion_model: Optional[str] = None, embedding_model: Optional[str] = None) -> Tuple[dict, dict, FieldNameNormalizer]:
     """
     Convert DI 3.1/4.0GA Custom Neural fields.json to analyzer.json format.
     Args:
@@ -76,13 +76,16 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
     # Map from original field names to normalized names for label conversion
     original_to_normalized = {}
 
+    completion_model = completion_model or COMPLETION_MODEL
+    embedding_model = embedding_model or EMBEDDING_MODEL
+
     # Build analyzer.json content
     analyzer_data = {
         "analyzerId": analyzer_prefix,
         "baseAnalyzerId": "prebuilt-document",
         "models": {
-            "completion": COMPLETION_MODEL,
-            "embedding": EMBEDDING_MODEL
+            "completion": completion_model,
+            "embedding": embedding_model
         },
         "config": {
             "returnDetails": True,

@@ -9,6 +9,8 @@ To identify the version of your Document Intelligence dataset, please consult th
 
 For migrating from these DI versions to Content Understanding GA (2025-11-01), this tool first converts the DI dataset into a CU-compatible format. After conversion, you can create a Content Understanding Analyzer trained on your converted CU dataset. Additionally, you have the option to test its quality against any sample documents.
 
+For overall repository setup and broader guidance, see the main README: [README.md](../../README.md).
+
 ## Details About the Tools
 
 Here is a detailed breakdown of the three CLI tools and their functionality:
@@ -20,6 +22,9 @@ Here is a detailed breakdown of the three CLI tools and their functionality:
       - ocr.json → result.json  
     * Depending on the DI version, the tool uses either [cu_converter_neural.py](cu_converter_neural.py) or [cu_converter_generative.py](cu_converter_generative.py) to convert your fields.json and labels.json files.  
     * For OCR data conversion, it creates a sample CU analyzer to extract raw OCR results via an Analyze request for each original file in the DI dataset. Since the sample analyzer contains no fields, the resulting result.json files contain no fields as well. Please refer to [get_ocr.py](get_ocr.py) for more details.
+    * Optional model overrides:
+      - `--completion-model` (defaults to `gpt-4.1`)
+      - `--embedding-model` (defaults to `text-embedding-3-large`)
 
 * **create_analyzer.py**  
     * After converting the dataset to CU format, this CLI tool creates a CU analyzer referring to the converted dataset.
@@ -42,9 +47,11 @@ Here is a detailed breakdown of the three CLI tools and their functionality:
   For more details about defaults checkout this documentation:
    - [Models and Deployments Documentation](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/models-deployments)
 
-2. **Verify you can create and use a basic Content Understanding analyzer** in your Azure AI Foundry resource before attempting migration. This ensures all prerequisites are met.
+2. **Required LLM deployments**: Your Foundry resource must have a **completion** model and an **embedding** model deployed. By default, this tool expects `gpt-4.1` (completion) and `text-embedding-3-large` (embedding). If your deployments use different names, provide them with `--completion-model` and `--embedding-model` when running `di_to_cu_converter.py`.
 
-3. Complete all setup steps outlined in the REST API documentation above, including authentication and model deployment configuration.
+3. **Verify you can create and use a basic Content Understanding analyzer** in your Azure AI Foundry resource before attempting migration. This ensures all prerequisites are met.
+
+4. Complete all setup steps outlined in the REST API documentation above, including authentication and model deployment configuration.
 
 ### Tool Setup
 Please follow these steps to set up the tool:
@@ -115,8 +122,22 @@ If migrating a _DI 3.1/4.0 GA Custom Extraction_ dataset, please run:
 
 ```
 python ./di_to_cu_converter.py --DI-version neural --analyzer-prefix mySampleAnalyzer \
---source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName \
---target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
+--source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" \
+--source-blob-folder diDatasetFolderName \
+--target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" \
+--target-blob-folder cuDatasetFolderName
+```
+
+Optional model overrides (if you deployed custom model names):
+
+```
+python ./di_to_cu_converter.py --DI-version neural --analyzer-prefix mySampleAnalyzer \
+--source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" \
+--source-blob-folder diDatasetFolderName \
+--target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" \
+--target-blob-folder cuDatasetFolderName \
+--completion-model "<your-completion-model>" \
+--embedding-model "<your-embedding-model>"
 ```
 
 For this migration, specifying an analyzer prefix is crucial for creating a CU analyzer. Since the fields.json does not define a "doc_type" for identification, the created analyzer ID will be the specified analyzer prefix.
@@ -127,6 +148,18 @@ If migrating a _DI 4.0 Preview Document Field Extraction_ dataset, please run:
 python ./di_to_cu_converter.py --DI-version generative --analyzer-prefix mySampleAnalyzer \
 --source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName \
 --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
+```
+
+Optional model overrides (if you deployed custom model names):
+
+```
+python ./di_to_cu_converter.py --DI-version generative --analyzer-prefix mySampleAnalyzer \
+--source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" \
+--source-blob-folder diDatasetFolderName \
+--target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" \
+--target-blob-folder cuDatasetFolderName \
+--completion-model "<your-completion-model>" \
+--embedding-model "<your-embedding-model>"
 ```
 
 For this migration, specifying an analyzer prefix is optional. However, to create multiple analyzers from the same analyzer.json, you will need to add an analyzer prefix. If provided, the analyzer ID becomes `analyzer-prefix_doc-type`; otherwise, it remains as the `doc_type` in fields.json.

@@ -2,3 +2,7 @@
 HOST="<fill in your target endpoint here>"
 
 SUBSCRIPTION_KEY = "<fill in your API Key here>" # This is your API Key if you have one or can be your Subscription ID
+
+COMPLETION_MODEL="<your-completion-model>"
+
+EMBEDDING_MODEL="<your-embedding-model>"

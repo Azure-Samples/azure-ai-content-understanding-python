@@ -48,7 +48,7 @@ def format_angle(angle: float) -> float:
    formatted_num = f"{rounded_angle:.7f}".rstrip('0')  # Remove trailing zeros
    return float(formatted_num)
 
-def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None) -> Tuple[dict, FieldNameNormalizer]:
+def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None, completion_model: Optional[str] = None, embedding_model: Optional[str] = None) -> Tuple[dict, FieldNameNormalizer]:
     """
     Convert DI 4.0 preview Custom Document fields.json to analyzer.json format.
     Args:
@@ -85,13 +85,16 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
     # Build analyzer.json content
     analyzer_id = f"{analyzer_prefix}_{doc_type}" if analyzer_prefix else doc_type
 
+    completion_model = completion_model or COMPLETION_MODEL
+    embedding_model = embedding_model or EMBEDDING_MODEL
+
     # build analyzer.json appropriately
     analyzer_data = {
         "analyzerId": analyzer_id,
         "baseAnalyzerId": "prebuilt-document",
         "models": {
-            "completion": COMPLETION_MODEL,
-            "embedding": EMBEDDING_MODEL
+            "completion": completion_model,
+            "embedding": embedding_model
         },
         "config": {
             "returnDetails": True,

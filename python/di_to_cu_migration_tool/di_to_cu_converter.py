@@ -87,6 +87,8 @@ def main(
     source_blob_folder: str = typer.Option("", "--source-blob-folder", help="Source blob storage folder prefix."),
     target_container_sas_url: str = typer.Option("", "--target-container-sas-url", help="Target blob container SAS URL."),
     target_blob_folder: str = typer.Option("", "--target-blob-folder", help="Target blob storage folder prefix."),
+    completion_model: str = typer.Option("", "--completion-model", help="Completion model name override."),
+    embedding_model: str = typer.Option("", "--embedding-model", help="Embedding model name override."),
 ) -> None:
     """
     Wrapper tool to convert an entire DI dataset to CU format
@@ -162,7 +164,17 @@ def main(
         print(f"[yellow]WARNING: The following signatures were removed from the dataset: {removed_signatures}[/yellow]\n")
 
     print("Second: Running DI to CU dataset conversion...")
-    analyzer_data, ocr_files = running_cu_conversion(temp_dir, temp_target_dir, DI_version, analyzer_prefix, removed_signatures, target_container_sas_url, target_blob_folder)
+    analyzer_data, ocr_files = running_cu_conversion(
+        temp_dir,
+        temp_target_dir,
+        DI_version,
+        analyzer_prefix,
+        removed_signatures,
+        target_container_sas_url,
+        target_blob_folder,
+        completion_model,
+        embedding_model,
+    )
 
     # Run OCR on the pdf files
     run_cu_layout_ocr(ocr_files, temp_target_dir, subscription_key)
@@ -233,7 +245,7 @@ def running_field_type_conversion(temp_source_dir: Path, temp_dir: Path, DI_vers
 
     return removed_signatures
 
-def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str, analyzer_prefix: Optional[str], removed_signatures: list, target_container_sas_url: str, target_blob_folder: str) -> Tuple[dict, list]:
+def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str, analyzer_prefix: Optional[str], removed_signatures: list, target_container_sas_url: str, target_blob_folder: str, completion_model: Optional[str] = None, embedding_model: Optional[str] = None) -> Tuple[dict, list]:
     """
     Function to run the DI to CU conversion
     Args:
@@ -256,9 +268,29 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
 
         assert fields_path.exists(), "fields.json is needed. Fields.json is missing from the given dataset."
         if DI_version == "generative":
-            analyzer_data, field_name_normalizer = cu_converter_generative.convert_fields_to_analyzer(fields_path, analyzer_prefix, temp_target_dir, field_definitions, target_container_sas_url, target_blob_folder)
+            analyzer_data, field_name_normalizer = cu_converter_generative.convert_fields_to_analyzer(
+                fields_path,
+                analyzer_prefix,
+                temp_target_dir,
+                field_definitions,
+                target_container_sas_url,
+                target_blob_folder,
+                field_name_normalizer,
+                completion_model,
+                embedding_model,
+            )
         elif DI_version == "neural":
-            analyzer_data, fields_dict, field_name_normalizer = cu_converter_neural.convert_fields_to_analyzer_neural(fields_path, analyzer_prefix, temp_target_dir, field_definitions, target_container_sas_url, target_blob_folder)
+            analyzer_data, fields_dict, field_name_normalizer = cu_converter_neural.convert_fields_to_analyzer_neural(
+                fields_path,
+                analyzer_prefix,
+                temp_target_dir,
+                field_definitions,
+                target_container_sas_url,
+                target_blob_folder,
+                field_name_normalizer,
+                completion_model,
+                embedding_model,
+            )
 
         ocr_files = [] # List to store paths to pdf files to get OCR results from later
         for file in files:
