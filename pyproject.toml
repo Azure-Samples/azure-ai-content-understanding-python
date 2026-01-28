@@ -1,0 +1,20 @@
+[project]
+name = "azure-ai-content-understanding-python"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "aiohttp>=3.13.3",
+    "azure-identity>=1.25.1",
+    "azure-storage-blob>=12.28.0",
+    "pillow>=12.1.0",
+    "python-dotenv>=1.2.1",
+    "requests>=2.32.5",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["content_understanding_client", "extension"]
+package-dir = {"" = "python"}
