@@ -424,7 +424,7 @@ class AzureContentUnderstandingClient:
         self._raise_for_status_with_detail(response)
         return response.json()
 
-    def _create_analyzer(
+    def begin_create_analyzer(
         self,
         analyzer_id: str,
         analyzer_template: dict = None,
