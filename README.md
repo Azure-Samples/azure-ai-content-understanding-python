@@ -34,11 +34,12 @@ The official Azure AI Content Understanding SDKs are now available. **For produc
 
 ### SDK packages
 
-| Language | Package | Install | SDK Repo | SDK Samples |
-|----------|---------|---------|----------|-------------|
-| Python | [`azure-ai-contentunderstanding`](https://pypi.org/project/azure-ai-contentunderstanding/) | `pip install azure-ai-contentunderstanding` | [azure-sdk-for-python](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/contentunderstanding/azure-ai-contentunderstanding) | [samples](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/contentunderstanding/azure-ai-contentunderstanding/samples) |
-| .NET | [`Azure.AI.ContentUnderstanding`](https://www.nuget.org/packages/Azure.AI.ContentUnderstanding) | `dotnet add package Azure.AI.ContentUnderstanding` | [azure-sdk-for-net](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/contentunderstanding/Azure.AI.ContentUnderstanding) | [samples](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/contentunderstanding/Azure.AI.ContentUnderstanding/samples) |
-| JavaScript | [`@azure/ai-content-understanding`](https://www.npmjs.com/package/@azure/ai-content-understanding) | `npm install @azure/ai-content-understanding` | [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding) | [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples) |
+| Language | Package | SDK Samples | Install | SDK Repo |
+|----------|---------|-------------|---------|----------|
+| Python | [`azure-ai-contentunderstanding`](https://pypi.org/project/azure-ai-contentunderstanding/) | [samples](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/contentunderstanding/azure-ai-contentunderstanding/samples) | `pip install azure-ai-contentunderstanding` | [azure-sdk-for-python](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/contentunderstanding/azure-ai-contentunderstanding) |
+| .NET | [`Azure.AI.ContentUnderstanding`](https://www.nuget.org/packages/Azure.AI.ContentUnderstanding) | [samples](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/contentunderstanding/Azure.AI.ContentUnderstanding/samples) | `dotnet add package Azure.AI.ContentUnderstanding` | [azure-sdk-for-net](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/contentunderstanding/Azure.AI.ContentUnderstanding) |
+| JavaScript | [`@azure/ai-content-understanding`](https://www.npmjs.com/package/@azure/ai-content-understanding) | [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1/javascript) | `npm install @azure/ai-content-understanding` | [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding) |
+| TypeScript | [`@azure/ai-content-understanding`](https://www.npmjs.com/package/@azure/ai-content-understanding) | [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1/typescript) | `npm install @azure/ai-content-understanding` | [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding) |
 
 ---
 
@@ -254,11 +255,11 @@ Azure AI Content Understanding is a new Generative AI-based [Azure AI service](h
 
 This sample repository receives minimal maintenance updates. For bugs, feature requests, and questions about Azure AI Content Understanding, please file issues against the **official SDK repositories**:
 
-| Language | Issue Tracker |
+| Language | File an Issue |
 |----------|---------------|
-| Python | [Azure/azure-sdk-for-python — Content Understanding](https://github.com/Azure/azure-sdk-for-python/issues?q=label%3A%22Content+Understanding%22) |
-| .NET | [Azure/azure-sdk-for-net — Content Understanding](https://github.com/Azure/azure-sdk-for-net/issues?q=label%3A%22Content+Understanding%22) |
-| JavaScript | [Azure/azure-sdk-for-js — Content Understanding](https://github.com/Azure/azure-sdk-for-js/issues?q=label%3A%22Content+Understanding%22) |
+| Python | [Azure/azure-sdk-for-python](https://github.com/Azure/azure-sdk-for-python/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
+| .NET | [Azure/azure-sdk-for-net](https://github.com/Azure/azure-sdk-for-net/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
+| JavaScript | [Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
 
 The team will primarily maintain and respond to issues in the SDK repos.
 
