@@ -260,8 +260,8 @@ This sample repository receives minimal maintenance updates. For bugs, feature r
 |----------|---------------|
 | Python | [Azure/azure-sdk-for-python](https://github.com/Azure/azure-sdk-for-python/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
 | .NET | [Azure/azure-sdk-for-net](https://github.com/Azure/azure-sdk-for-net/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
-| JavaScript | [Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
 | Java | [Azure/azure-sdk-for-java](https://github.com/Azure/azure-sdk-for-java/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
+| JavaScript | [Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
 
 The team will primarily maintain and respond to issues in the SDK repos.
 
