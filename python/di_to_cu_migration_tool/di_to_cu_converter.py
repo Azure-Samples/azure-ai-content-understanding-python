@@ -13,7 +13,7 @@ from typing import Optional, Tuple
 from rich import print  # For colored output
 
 # imports from same project
-from constants import DI_VERSIONS, FIELDS_JSON, LABELS_JSON, MAX_FIELD_COUNT, OCR_JSON, VALIDATION_TXT, ANALYZER_JSON, RESULT_JSON
+from constants import DI_MODEL_TYPES, FIELDS_JSON, LABELS_JSON, MAX_FIELD_COUNT, OCR_JSON, VALIDATION_TXT, ANALYZER_JSON, RESULT_JSON
 import cu_converter_neural as cu_converter_neural
 import cu_converter_generative as cu_converter_generative
 from field_definitions import FieldDefinitions
@@ -24,12 +24,12 @@ NON_DOCUMENT_FILES = {FIELDS_JSON, VALIDATION_TXT, ANALYZER_JSON}
 
 app = typer.Typer()
 
-def validate_field_count(DI_version, byte_fields) -> Tuple[int, bool]:
+def validate_field_count(di_model_type, byte_fields) -> Tuple[int, bool]:
     """
     Function to check if the fields.json is valid
     Checking to see if the number of fields is less than or equal to 100
     Args:
-        DI_version (str): The version of DI being used
+        di_model_type (str): The DI custom model type (generative or neural)
         byte_fields (bytes): The fields.json file in bytes
     Returns:
         field_count (int): The number of fields in the fields.json file
@@ -39,7 +39,7 @@ def validate_field_count(DI_version, byte_fields) -> Tuple[int, bool]:
     fields = json.loads(string_fields)
 
     field_count = 0
-    if DI_version == "generative":
+    if di_model_type == "generative":
         field_schema = fields["fieldSchema"]
         if len(field_schema) > MAX_FIELD_COUNT:
             return len(field_schema), False
@@ -82,27 +82,27 @@ def validate_field_count(DI_version, byte_fields) -> Tuple[int, bool]:
 @app.command()
 def main(
     analyzer_prefix: str = typer.Option("", "--analyzer-prefix", help="Prefix for analyzer name."),
-    DI_version: str = typer.Option("generative", "--DI-version", help="DI versions: generative, neural"),
+    di_model_type: str = typer.Option("generative", "--di-model-type", help="DI custom model type: generative or neural."),
     source_container_sas_url: str = typer.Option("", "--source-container-sas-url", help="Source blob container SAS URL."),
     source_blob_folder: str = typer.Option("", "--source-blob-folder", help="Source blob storage folder prefix."),
     target_container_sas_url: str = typer.Option("", "--target-container-sas-url", help="Target blob container SAS URL."),
-    target_blob_folder: str = typer.Option("", "--target-blob-folder", help="Target blob storage folder prefix."),
-    completion_model: str = typer.Option("", "--completion-model", help="Completion model name override."),
-    embedding_model: str = typer.Option("", "--embedding-model", help="Embedding model name override."),
+    target_blob_folder: str = typer.Option("", "--target-blob-folder", help="Target blob storage prefix."),
+    completion_deployment: str = typer.Option("", "--completion-deployment", help="Completion language model deployment name override (default: gpt-4.1)."),
+    embedding_deployment: str = typer.Option("", "--embedding-deployment", help="Embedding model deployment name override (default: text-embedding-3-large)."),
 ) -> None:
     """
     Wrapper tool to convert an entire DI dataset to CU format
     """
 
-    assert DI_version in DI_VERSIONS, f"Please provide a valid DI version out of {DI_VERSIONS}."
+    assert di_model_type in DI_MODEL_TYPES, f"Please provide a valid DI model type out of {DI_MODEL_TYPES}."
     assert source_container_sas_url != "" and target_container_sas_url != "", "Please provide a valid source and target blob container SAS URL."
     assert source_blob_folder != "", "Please provide a valid source blob storage folder prefix to specify your DI dataset name."
     assert target_blob_folder != "", "Please provide a valid target blob storage folder prefix to specify your CU dataset name."
 
-    print(f"[yellow]You have specified the following DI version: {DI_version} out of {DI_VERSIONS}.If this is not expected, feel free to change this with the --DI-version parameter.\n[/yellow]")
+    print(f"[yellow]You have specified the following DI model type: {di_model_type} out of {DI_MODEL_TYPES}. If this is not expected, feel free to change this with the --di-model-type parameter.\n[/yellow]")
 
-    # if DI_version 3.1/4.0 GA Custom Neural, then analyzer prefix needs to be set
-    if DI_version == "neural":
+    # if DI 3.1/4.0 GA Custom Neural, then analyzer prefix needs to be set
+    if di_model_type == "neural":
         assert analyzer_prefix != "", "Please provide a valid analyzer prefix, since you are using DI 3.1/4.0 GA Custom Neural."
 
     # Getting the environmental variables
@@ -131,7 +131,7 @@ def main(
 
         if filename == FIELDS_JSON:
             print(f"[yellow]Checking if fields.json is valid for being able to create an analyzer.[/yellow]")
-            fields_count, is_valid = validate_field_count(DI_version, content)
+            fields_count, is_valid = validate_field_count(di_model_type, content)
             assert is_valid, f"Too many fields in fields.json, we only support up to {MAX_FIELD_COUNT} fields. Right now, you have {fields_count} fields."
 
         # Write to file
@@ -158,22 +158,22 @@ def main(
     print("First: Running valid field type conversion...")
     print("[yellow]WARNING: if any signature fields are present, they will be skipped...[/yellow]\n")
     # Taking the input source dir, and converting the valid field types into temp_dir
-    removed_signatures = running_field_type_conversion(temp_source_dir, temp_dir, DI_version)
+    removed_signatures = run_field_type_conversion(temp_source_dir, temp_dir, di_model_type)
 
     if len(removed_signatures) > 0:
         print(f"[yellow]WARNING: The following signatures were removed from the dataset: {removed_signatures}[/yellow]\n")
 
     print("Second: Running DI to CU dataset conversion...")
-    analyzer_data, ocr_files = running_cu_conversion(
+    analyzer_data, ocr_files = run_cu_conversion(
         temp_dir,
         temp_target_dir,
-        DI_version,
+        di_model_type,
         analyzer_prefix,
         removed_signatures,
         target_container_sas_url,
         target_blob_folder,
-        completion_model,
-        embedding_model,
+        completion_deployment,
+        embedding_deployment,
     )
 
     # Run OCR on the pdf files
@@ -186,8 +186,8 @@ def main(
     for item in temp_target_dir.rglob("*"):  # Recursively iterate through all files and directories
         if item.is_file():  # Only upload files
             # Create the blob path by preserving the relative path structure
-            blobPath = str(item.relative_to(temp_target_dir)).replace('\\', '/') # Ensure path uses forward slashes
-            blob_path = target_blob_folder + "/" + blobPath
+            blob_relative_path = str(item.relative_to(temp_target_dir)).replace('\\', '/') # Ensure path uses forward slashes
+            blob_path = target_blob_folder + "/" + blob_relative_path
             print(f"Uploading {item} to blob path {blob_path}...")
 
             # Create a BlobClient for the target blob
@@ -199,13 +199,13 @@ def main(
 
     print("[green]Successfully uploaded all files to target blob storage.[/green]")
 
-def running_field_type_conversion(temp_source_dir: Path, temp_dir: Path, DI_version: str) -> list:
+def run_field_type_conversion(temp_source_dir: Path, temp_dir: Path, di_model_type: str) -> list:
     """
     Function to run the field type conversion
     Args:
         temp_source_dir (Path): The path to the source directory
         temp_dir (Path): The path to the target directory
-        DI_version (str): The version of DI being used
+        di_model_type (str): The DI custom model type (generative or neural)
     Returns:
         removed_signatures (list): The list of removed signatures as they will not be used in the CU converter
     """
@@ -222,18 +222,18 @@ def running_field_type_conversion(temp_source_dir: Path, temp_dir: Path, DI_vers
         with fields_path.open("r", encoding="utf-8") as fp: # running field type conversion for fields.json
             fields = json.load(fp)
 
-        if DI_version == "generative":
+        if di_model_type == "generative":
             converted_fields, converted_field_keys = field_type_conversion.update_unified_schema_fields(fields)
             with open(str(temp_dir / FIELDS_JSON), "w", encoding="utf-8") as fp:
                 json.dump(converted_fields, fp, ensure_ascii=False, indent=4)
             print("[yellow]Successfully handled field type conversion for DI 4.0 preview Custom Document fields.json[/yellow]\n")
-        elif DI_version == "neural":
+        elif di_model_type == "neural":
             removed_signatures, converted_fields = field_type_conversion.update_fott_fields(fields)
             with open(str(temp_dir / FIELDS_JSON), "w", encoding="utf-8") as fp:
                 json.dump(converted_fields, fp, ensure_ascii=False, indent=4)
             print("[yellow]Successfully handled field type conversion for DI 3.1/4.0 GA Custom Document fields.json[/yellow]\n")
 
-        if DI_version == "generative":
+        if di_model_type == "generative":
             for file in files:
                 file_path = root_path / file
                 if (file.endswith(LABELS_JSON)):
@@ -245,17 +245,19 @@ def running_field_type_conversion(temp_source_dir: Path, temp_dir: Path, DI_vers
 
     return removed_signatures
 
-def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str, analyzer_prefix: Optional[str], removed_signatures: list, target_container_sas_url: str, target_blob_folder: str, completion_model: Optional[str] = None, embedding_model: Optional[str] = None) -> Tuple[dict, list]:
+def run_cu_conversion(temp_dir: Path, temp_target_dir: Path, di_model_type: str, analyzer_prefix: Optional[str], removed_signatures: list, target_container_sas_url: str, target_blob_folder: str, completion_deployment: Optional[str] = None, embedding_deployment: Optional[str] = None) -> Tuple[dict, list]:
     """
     Function to run the DI to CU conversion
     Args:
         temp_dir (Path): The path to the source directory
         temp_target_dir (Path): The path to the target directory
-        DI_version (str): The version of DI being used
+        di_model_type (str): The DI custom model type (generative or neural)
         analyzer_prefix (str): The prefix for the analyzer name
         removed_signatures (list): The list of removed signatures that will not be used in the CU converter
         target_container_sas_url (str): The target container SAS URL for training data
         target_blob_folder (str): The target blob folder prefix for training data
+        completion_deployment (str): Optional completion model deployment name override
+        embedding_deployment (str): Optional embedding model deployment name override
     """
     # Creating a FieldDefinitons object to handle the converison of definitions in the fields.json
     field_definitions = FieldDefinitions()
@@ -267,7 +269,7 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
         fields_path = root_path / FIELDS_JSON
 
         assert fields_path.exists(), "fields.json is needed. Fields.json is missing from the given dataset."
-        if DI_version == "generative":
+        if di_model_type == "generative":
             analyzer_data, field_name_normalizer = cu_converter_generative.convert_fields_to_analyzer(
                 fields_path,
                 analyzer_prefix,
@@ -276,10 +278,10 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
                 target_container_sas_url,
                 target_blob_folder,
                 field_name_normalizer,
-                completion_model,
-                embedding_model,
+                completion_deployment,
+                embedding_deployment,
             )
-        elif DI_version == "neural":
+        elif di_model_type == "neural":
             analyzer_data, fields_dict, field_name_normalizer = cu_converter_neural.convert_fields_to_analyzer_neural(
                 fields_path,
                 analyzer_prefix,
@@ -288,8 +290,8 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
                 target_container_sas_url,
                 target_blob_folder,
                 field_name_normalizer,
-                completion_model,
-                embedding_model,
+                completion_deployment,
+                embedding_deployment,
             )
 
         ocr_files = [] # List to store paths to pdf files to get OCR results from later
@@ -299,14 +301,14 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
                 continue
             # Converting DI labels to CU labels
             if (file.endswith(LABELS_JSON)):
-                if DI_version == "generative":
+                if di_model_type == "generative":
                     cu_converter_generative.convert_di_labels_to_cu(file_path, temp_target_dir, field_name_normalizer)
-                elif DI_version == "neural":
+                elif di_model_type == "neural":
                     cu_labels = cu_converter_neural.convert_di_labels_to_cu_neural(file_path, temp_target_dir, fields_dict, removed_signatures, field_name_normalizer)
                     # run field type conversion of label files here, because will be easier after getting it into CU format
                     field_type_conversion.update_fott_labels(cu_labels, temp_target_dir / file_path.name)
                     print(f"[green]Successfully converted Document Intelligence labels.json to Content Understanding labels.json at {temp_target_dir/file_path.name}[/green]\n")
-            elif not file.endswith(OCR_JSON): # skipping over .orc.json files
+            elif not file.endswith(OCR_JSON): # skipping over .ocr.json files
                 shutil.copy(file_path, temp_target_dir) # Copying over main file
                 ocr_files.append(file_path) # Adding to list of files to run OCR on
     return analyzer_data, ocr_files

@@ -11,7 +11,7 @@ from typing import Optional, Tuple
 from rich import print  # For colored output
 
 # imports from same project
-from constants import CU_API_VERSION, MAX_FIELD_LENGTH, VALID_CU_FIELD_TYPES, COMPLETION_MODEL, EMBEDDING_MODEL
+from constants import CU_API_VERSION, MAX_FIELD_LENGTH, VALID_CU_FIELD_TYPES, COMPLETION_DEPLOYMENT, EMBEDDING_DEPLOYMENT
 from field_definitions import FieldDefinitions
 from field_name_utils import FieldNameNormalizer
 
@@ -19,7 +19,7 @@ from field_name_utils import FieldNameNormalizer
 ANALYZER_FIELDS = "fieldSchema"
 # REPLACE THIS WITH YOUR OWN DESCRIPTION IF NEEDED
 # Remember that dynamic tables are arrays and fixed tables are objects
-ANALYZER_DESCRIPTION = "1. Define your schema by specifying the fields you want to extract from the input files. Choose clear and simple `field names`. Use `field descriptions` to provide explanations, exceptions, rules of thumb, and other details to clarify the desired behavior.\n\n2. For each field, indicate the `value type` of the desired output. Besides basic types like strings, dates, and numbers, you can define more complex structures such as `tables` (repeated items with subfields) and `fixed tables` (groups of fields with common subfields)."
+DEFAULT_ANALYZER_DESCRIPTION = "1. Define your schema by specifying the fields you want to extract from the input files. Choose clear and simple `field names`. Use `field descriptions` to provide explanations, exceptions, rules of thumb, and other details to clarify the desired behavior.\n\n2. For each field, indicate the `value type` of the desired output. Besides basic types like strings, dates, and numbers, you can define more complex structures such as `tables` (repeated items with subfields) and `fixed tables` (groups of fields with common subfields)."
 CU_LABEL_SCHEMA = f"https://schema.ai.azure.com/mmi/{CU_API_VERSION}/labels.json"
 
 def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
@@ -48,7 +48,7 @@ def format_angle(angle: float) -> float:
    formatted_num = f"{rounded_angle:.7f}".rstrip('0')  # Remove trailing zeros
    return float(formatted_num)
 
-def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None, completion_model: Optional[str] = None, embedding_model: Optional[str] = None) -> Tuple[dict, FieldNameNormalizer]:
+def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None, completion_deployment: Optional[str] = None, embedding_deployment: Optional[str] = None) -> Tuple[dict, FieldNameNormalizer]:
     """
     Convert DI 4.0 preview Custom Document fields.json to analyzer.json format.
     Args:
@@ -85,16 +85,16 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
     # Build analyzer.json content
     analyzer_id = f"{analyzer_prefix}_{doc_type}" if analyzer_prefix else doc_type
 
-    completion_model = completion_model or COMPLETION_MODEL
-    embedding_model = embedding_model or EMBEDDING_MODEL
+    completion_deployment = completion_deployment or COMPLETION_DEPLOYMENT
+    embedding_deployment = embedding_deployment or EMBEDDING_DEPLOYMENT
 
     # build analyzer.json appropriately
     analyzer_data = {
         "analyzerId": analyzer_id,
         "baseAnalyzerId": "prebuilt-document",
         "models": {
-            "completion": completion_model,
-            "embedding": embedding_model
+            "completion": completion_deployment,
+            "embedding": embedding_deployment
         },
         "config": {
             "returnDetails": True,
@@ -106,13 +106,10 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
         },
         ANALYZER_FIELDS: {
             "name": doc_type,
-            "description": ANALYZER_DESCRIPTION,
+            "description": DEFAULT_ANALYZER_DESCRIPTION,
             "fields": {},
             "definitions": {}
-        },
-        "warnings": fields_data.get("warnings", []),
-        "status": fields_data.get("status", "undefined"),
-        "templateId": fields_data.get("templateId", "document-2024-12-01")
+        }
     }
 
     # Update field schema to be in CU format

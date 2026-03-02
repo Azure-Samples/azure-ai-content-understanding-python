@@ -1,10 +1,10 @@
-# Supported DI versions
-DI_VERSIONS = ["generative", "neural"]
+# Supported DI custom model types
+DI_MODEL_TYPES = ["generative", "neural"]
 CU_API_VERSION = "2025-11-01"
 
 # Models
-COMPLETION_MODEL = "gpt-4.1"
-EMBEDDING_MODEL = "text-embedding-3-large"
+COMPLETION_DEPLOYMENT = "gpt-4.1"
+EMBEDDING_DEPLOYMENT = "text-embedding-3-large"
 
 # constants
 MAX_FIELD_COUNT = 100

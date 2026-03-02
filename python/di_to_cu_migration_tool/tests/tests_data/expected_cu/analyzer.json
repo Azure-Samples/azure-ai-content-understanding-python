@@ -332,9 +332,6 @@
             }
         }
     },
-    "warnings": [],
-    "status": "undefined",
-    "templateId": "document-2024-12-01",
     "knowledgeSources": [
         {
             "kind": "labeledData",

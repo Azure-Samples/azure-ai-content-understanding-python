@@ -620,7 +620,7 @@ class TestAnalyzerConversion:
                     # Check if this key is a field name (not a reserved key)
                     if key not in ["fieldSchema", "fields", "definitions", "properties", 
                                    "items", "analyzerId", "baseAnalyzerId", "models", 
-                                   "config", "warnings", "status", "templateId",
+                                   "config",
                                    "knowledgeSources", "name"]:
                         if "-" in key and key != "text-embedding-3-large":
                             return False, f"Key '{key}' at {path} contains hyphen"
