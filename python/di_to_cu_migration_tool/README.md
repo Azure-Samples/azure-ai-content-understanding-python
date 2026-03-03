@@ -79,7 +79,7 @@ This migration tool consists of three CLI scripts, intended to be run in order:
      - Do not include a trailing slash (`/`).  
        ![Microsoft Foundry](assets/sample-azure-resource.png)  
        ![Microsoft Foundry Endpoints](assets/endpoint.png)  
-   - **CONTENTUNDERSTANDING_KEY** *(optional)*: Your API key for authentication. If not set, the tool falls back to `DefaultAzureCredential` (Azure CLI `az login`, VS Code, Managed Identity).  
+   - **CONTENTUNDERSTANDING_KEY** *(optional)*: By default, the tool uses `DefaultAzureCredential` for authentication (Azure CLI `az login`, VS Code, Managed Identity), which is the **recommended** approach. If you prefer API key authentication instead, set this variable to your API key.  
      - Locate your API Key here: ![Microsoft Foundry Endpoints With Keys](assets/endpoint-with-keys.png)
 
 ### Configuration Reference
@@ -91,7 +91,7 @@ Set these once in your `.env` file. All three scripts read them automatically.
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `CONTENTUNDERSTANDING_ENDPOINT` | **Yes** | Your Microsoft Foundry resource endpoint (e.g., `https://your-resource.services.ai.azure.com`) |
-| `CONTENTUNDERSTANDING_KEY` | No | API key for authentication. If not set, `DefaultAzureCredential` is used (Azure CLI, VS Code, Managed Identity) |
+| `CONTENTUNDERSTANDING_KEY` | No | API key for authentication. If not set, `DefaultAzureCredential` is used (recommended). Supports Azure CLI, VS Code, and Managed Identity |
 
 CLI flags for each script are documented in their respective [How to Run](#how-to-run) sections below.
 
