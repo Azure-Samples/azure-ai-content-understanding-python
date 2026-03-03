@@ -517,7 +517,7 @@ class TestAnalyzerConversion:
         
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=fields_json_path,
-            analyzer_prefix="testAnalyzer",
+            analyzer_id="testAnalyzer",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -545,7 +545,7 @@ class TestAnalyzerConversion:
         # Convert using the pre-processed fields
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=converted_path,
-            analyzer_prefix="testAnalyzer",
+            analyzer_id="testAnalyzer",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -564,7 +564,7 @@ class TestAnalyzerConversion:
         
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=converted_path,
-            analyzer_prefix="testAnalyzer",
+            analyzer_id="testAnalyzer",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -584,7 +584,7 @@ class TestAnalyzerConversion:
         
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=fields_json_path,
-            analyzer_prefix="testAnalyzer",
+            analyzer_id="testAnalyzer",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -602,7 +602,7 @@ class TestAnalyzerConversion:
         
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=fields_json_path,
-            analyzer_prefix="testAnalyzer",
+            analyzer_id="testAnalyzer",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -649,7 +649,7 @@ class TestAnalyzerConversion:
         
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=converted_path,
-            analyzer_prefix="mySampleAnalyzer",
+            analyzer_id="mySampleAnalyzer",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -731,7 +731,7 @@ class TestLabelsConversion:
         # First convert the analyzer to get fields_dict
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=converted_path,
-            analyzer_prefix="testAnalyzer",
+            analyzer_id="testAnalyzer",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -762,7 +762,7 @@ class TestLabelsConversion:
         # Convert analyzer
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=converted_path,
-            analyzer_prefix="testAnalyzer",
+            analyzer_id="testAnalyzer",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -796,7 +796,7 @@ class TestLabelsConversion:
         # Convert analyzer
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=converted_path,
-            analyzer_prefix="testAnalyzer",
+            analyzer_id="testAnalyzer",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -846,7 +846,7 @@ class TestLabelsConversion:
         # Convert
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=fields_json_path,
-            analyzer_prefix="mySampleAnalyzer",
+            analyzer_id="mySampleAnalyzer",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -1032,7 +1032,7 @@ class TestIntegration:
         # Convert analyzer
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=converted_path,
-            analyzer_prefix="integrationTest",
+            analyzer_id="integrationTest",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -1074,7 +1074,7 @@ class TestIntegration:
         # Convert
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=fields_json_path,
-            analyzer_prefix="testAnalyzer",
+            analyzer_id="testAnalyzer",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -1155,7 +1155,7 @@ class TestSyntheticDuplicateFields:
         # Convert to analyzer
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=fields_path,
-            analyzer_prefix="duplicateTest",
+            analyzer_id="duplicateTest",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )
@@ -1209,7 +1209,7 @@ class TestSyntheticDuplicateFields:
         # Convert to analyzer
         analyzer_data, fields_dict, normalizer = convert_fields_to_analyzer_neural(
             fields_json_path=fields_path,
-            analyzer_prefix="tableTest",
+            analyzer_id="tableTest",
             target_dir=temp_dir,
             field_definitions=field_definitions,
         )

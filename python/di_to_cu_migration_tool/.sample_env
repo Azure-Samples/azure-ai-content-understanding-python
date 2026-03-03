@@ -15,7 +15,7 @@ CONTENTUNDERSTANDING_ENDPOINT=https://your-resource.services.ai.azure.com
 # ============================================================================
 
 # Option 1: API Key Authentication (Recommended for quick setup)
-# Set your Azure AI Service API key below
+# Set your Microsoft Foundry API key below
 # Find it in Azure Portal > Your AI Resource > Keys and Endpoint
 CONTENTUNDERSTANDING_KEY=
 

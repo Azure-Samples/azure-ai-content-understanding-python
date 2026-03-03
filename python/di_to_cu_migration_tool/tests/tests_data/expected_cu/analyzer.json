@@ -14,7 +14,7 @@
     },
     "fieldSchema": {
         "name": "mySampleAnalyzer",
-        "description": "1. Define your schema by specifying the fields you want to extract from the input files. Choose clear and simple `field names`. Use `field descriptions` to provide explanations, exceptions, rules of thumb, and other details to clarify the desired behavior.\n\n2. For each field, indicate the `value type` of the desired output. Besides basic types like strings, dates, and numbers, you can define more complex structures such as `tables` (repeated items with subfields) and `fixed tables` (groups of fields with common subfields).",
+        "description": "",
         "fields": {
             "string_field": {
                 "type": "string",

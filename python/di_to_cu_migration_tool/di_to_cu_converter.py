@@ -81,7 +81,7 @@ def validate_field_count(di_model_type, byte_fields) -> Tuple[int, bool]:
 
 @app.command()
 def main(
-    analyzer_prefix: str = typer.Option("", "--analyzer-prefix", help="Prefix for analyzer name."),
+    analyzer_id: str = typer.Option("", "--analyzer-id", help="Analyzer ID for the created CU analyzer."),
     di_model_type: str = typer.Option("generative", "--di-model-type", help="DI custom model type: generative or neural."),
     source_container_sas_url: str = typer.Option("", "--source-container-sas-url", help="Source blob container SAS URL."),
     source_blob_folder: str = typer.Option("", "--source-blob-folder", help="Source blob storage folder prefix."),
@@ -101,9 +101,9 @@ def main(
 
     print(f"[yellow]You have specified the following DI model type: {di_model_type} out of {DI_MODEL_TYPES}. If this is not expected, feel free to change this with the --di-model-type parameter.\n[/yellow]")
 
-    # if DI 3.1/4.0 GA Custom Neural, then analyzer prefix needs to be set
+    # if DI 3.1/4.0 GA Custom Neural, then analyzer ID needs to be set
     if di_model_type == "neural":
-        assert analyzer_prefix != "", "Please provide a valid analyzer prefix, since you are using DI 3.1/4.0 GA Custom Neural."
+        assert analyzer_id != "", "Please provide a valid analyzer ID with --analyzer-id, since you are using DI 3.1/4.0 GA Custom Neural."
 
     # Getting the environmental variables
     load_dotenv()
@@ -168,7 +168,7 @@ def main(
         temp_dir,
         temp_target_dir,
         di_model_type,
-        analyzer_prefix,
+        analyzer_id,
         removed_signatures,
         target_container_sas_url,
         target_blob_folder,
@@ -245,14 +245,14 @@ def run_field_type_conversion(temp_source_dir: Path, temp_dir: Path, di_model_ty
 
     return removed_signatures
 
-def run_cu_conversion(temp_dir: Path, temp_target_dir: Path, di_model_type: str, analyzer_prefix: Optional[str], removed_signatures: list, target_container_sas_url: str, target_blob_folder: str, completion_deployment: Optional[str] = None, embedding_deployment: Optional[str] = None) -> Tuple[dict, list]:
+def run_cu_conversion(temp_dir: Path, temp_target_dir: Path, di_model_type: str, analyzer_id: Optional[str], removed_signatures: list, target_container_sas_url: str, target_blob_folder: str, completion_deployment: Optional[str] = None, embedding_deployment: Optional[str] = None) -> Tuple[dict, list]:
     """
     Function to run the DI to CU conversion
     Args:
         temp_dir (Path): The path to the source directory
         temp_target_dir (Path): The path to the target directory
         di_model_type (str): The DI custom model type (generative or neural)
-        analyzer_prefix (str): The prefix for the analyzer name
+        analyzer_id (str): The analyzer ID for the created CU analyzer
         removed_signatures (list): The list of removed signatures that will not be used in the CU converter
         target_container_sas_url (str): The target container SAS URL for training data
         target_blob_folder (str): The target blob folder prefix for training data
@@ -272,7 +272,7 @@ def run_cu_conversion(temp_dir: Path, temp_target_dir: Path, di_model_type: str,
         if di_model_type == "generative":
             analyzer_data, field_name_normalizer = cu_converter_generative.convert_fields_to_analyzer(
                 fields_path,
-                analyzer_prefix,
+                analyzer_id,
                 temp_target_dir,
                 field_definitions,
                 target_container_sas_url,
@@ -284,7 +284,7 @@ def run_cu_conversion(temp_dir: Path, temp_target_dir: Path, di_model_type: str,
         elif di_model_type == "neural":
             analyzer_data, fields_dict, field_name_normalizer = cu_converter_neural.convert_fields_to_analyzer_neural(
                 fields_path,
-                analyzer_prefix,
+                analyzer_id,
                 temp_target_dir,
                 field_definitions,
                 target_container_sas_url,

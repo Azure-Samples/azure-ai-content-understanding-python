@@ -17,9 +17,10 @@ from field_name_utils import FieldNameNormalizer
 
 # schema constants subject to change
 ANALYZER_FIELDS = "fieldSchema"
-# REPLACE THIS WITH YOUR OWN DESCRIPTION IF NEEDED
-# Remember that dynamic tables are arrays and fixed tables are objects
-DEFAULT_ANALYZER_DESCRIPTION = "1. Define your schema by specifying the fields you want to extract from the input files. Choose clear and simple `field names`. Use `field descriptions` to provide explanations, exceptions, rules of thumb, and other details to clarify the desired behavior.\n\n2. For each field, indicate the `value type` of the desired output. Besides basic types like strings, dates, and numbers, you can define more complex structures such as `tables` (repeated items with subfields) and `fixed tables` (groups of fields with common subfields)."
+# The analyzer description is left empty by default.
+# Please review the converted analyzer.json and provide a meaningful description
+# that helps Content Understanding extract your fields accurately.
+DEFAULT_ANALYZER_DESCRIPTION = ""
 CU_LABEL_SCHEMA = f"https://schema.ai.azure.com/mmi/{CU_API_VERSION}/labels.json"
 
 def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
@@ -37,12 +38,12 @@ def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
     source = f"D({page_number},{polygon_str})"
     return source
 
-def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Optional[Path], field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None, completion_deployment: Optional[str] = None, embedding_deployment: Optional[str] = None) -> Tuple[dict, dict, FieldNameNormalizer]:
+def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_id: Optional[str], target_dir: Optional[Path], field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None, completion_deployment: Optional[str] = None, embedding_deployment: Optional[str] = None) -> Tuple[dict, dict, FieldNameNormalizer]:
     """
     Convert DI 3.1/4.0GA Custom Neural fields.json to analyzer.json format.
     Args:
         fields_json_path (Path): Path to the input fields.json file.
-        analyzer_prefix (Optional(str)): Prefix for the analyzer name.
+        analyzer_id (Optional(str)): The analyzer ID for the created CU analyzer.
         target_dir (Optional[Path]): Output directory for the analyzer.json file.
         field_definitions (FieldDefinitions): Field definitions object to store field definitions for analyzer.json if there are any fixed tables.
         target_container_sas_url (str): Optional target container SAS URL for training data.
@@ -81,7 +82,7 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
 
     # Build analyzer.json content
     analyzer_data = {
-        "analyzerId": analyzer_prefix,
+        "analyzerId": analyzer_id,
         "baseAnalyzerId": "prebuilt-document",
         "models": {
             "completion": completion_deployment,
@@ -96,7 +97,7 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
             "estimateFieldSourceAndConfidence": True
         },
         ANALYZER_FIELDS: {
-            "name": analyzer_prefix,
+            "name": analyzer_id,
             "description": DEFAULT_ANALYZER_DESCRIPTION,
             "fields": {},
             "definitions": {}

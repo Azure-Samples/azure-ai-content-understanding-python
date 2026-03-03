@@ -17,9 +17,10 @@ from field_name_utils import FieldNameNormalizer
 
 # schema constants subject to change
 ANALYZER_FIELDS = "fieldSchema"
-# REPLACE THIS WITH YOUR OWN DESCRIPTION IF NEEDED
-# Remember that dynamic tables are arrays and fixed tables are objects
-DEFAULT_ANALYZER_DESCRIPTION = "1. Define your schema by specifying the fields you want to extract from the input files. Choose clear and simple `field names`. Use `field descriptions` to provide explanations, exceptions, rules of thumb, and other details to clarify the desired behavior.\n\n2. For each field, indicate the `value type` of the desired output. Besides basic types like strings, dates, and numbers, you can define more complex structures such as `tables` (repeated items with subfields) and `fixed tables` (groups of fields with common subfields)."
+# The analyzer description is left empty by default.
+# Please review the converted analyzer.json and provide a meaningful description
+# that helps Content Understanding extract your fields accurately.
+DEFAULT_ANALYZER_DESCRIPTION = ""
 CU_LABEL_SCHEMA = f"https://schema.ai.azure.com/mmi/{CU_API_VERSION}/labels.json"
 
 def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
@@ -48,12 +49,12 @@ def format_angle(angle: float) -> float:
    formatted_num = f"{rounded_angle:.7f}".rstrip('0')  # Remove trailing zeros
    return float(formatted_num)
 
-def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None, completion_deployment: Optional[str] = None, embedding_deployment: Optional[str] = None) -> Tuple[dict, FieldNameNormalizer]:
+def convert_fields_to_analyzer(fields_json_path: Path, analyzer_id: Optional[str], target_dir: Path, field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None, completion_deployment: Optional[str] = None, embedding_deployment: Optional[str] = None) -> Tuple[dict, FieldNameNormalizer]:
     """
     Convert DI 4.0 preview Custom Document fields.json to analyzer.json format.
     Args:
         fields_json_path (Path): Path to the input DI fields.json file.
-        analyzer_prefix (Optional(str)): Prefix for the analyzer name.
+        analyzer_id (Optional(str)): The analyzer ID (used as a prefix before doc_type for generative models).
         target_dir (Optional[Path]): Output directory for the analyzer.json file.
         field_definitions (FieldDefinitions): Field definitions object to store definitions in case of fixed tables.
         target_container_sas_url (str): Optional target container SAS URL for training data.
@@ -83,14 +84,14 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
         field_name_normalizer.clear()
 
     # Build analyzer.json content
-    analyzer_id = f"{analyzer_prefix}_{doc_type}" if analyzer_prefix else doc_type
+    resolved_analyzer_id = f"{analyzer_id}_{doc_type}" if analyzer_id else doc_type
 
     completion_deployment = completion_deployment or COMPLETION_DEPLOYMENT
     embedding_deployment = embedding_deployment or EMBEDDING_DEPLOYMENT
 
     # build analyzer.json appropriately
     analyzer_data = {
-        "analyzerId": analyzer_id,
+        "analyzerId": resolved_analyzer_id,
         "baseAnalyzerId": "prebuilt-document",
         "models": {
             "completion": completion_deployment,
