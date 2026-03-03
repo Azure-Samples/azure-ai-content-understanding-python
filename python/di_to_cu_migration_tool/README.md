@@ -1,15 +1,15 @@
 # Document Intelligence to Content Understanding Migration Tool (Python)
 
-This tool converts labeled datasets from Document Intelligence (DI) custom extraction models into the Content Understanding (CU) **GA** 2025-11-01 format, enabling you to migrate your existing DI models to Content Understanding on Azure AI Foundry.
+This tool converts labeled datasets from Document Intelligence (DI) custom extraction models into the Content Understanding (CU) **GA** 2025-11-01 format. The converted labeled data can then be used as a training knowledge source when creating Content Understanding analyzers on Microsoft Foundry, improving field extraction accuracy through in-context learning examples.
 
 ### Supported DI Model Types
 
 | Source DI Version | --di-model-type Flag | Original UI |
 |---|---|---|
 | Custom Extraction Model DI 3.1 GA (2023-07-31) to DI 4.0 GA (2024-11-30) | `neural` | [Document Intelligence Studio](https://documentintelligence.ai.azure.com/studio) |
-| Document Field Extraction Model 4.0 Preview (2024-07-31-preview) | `generative` | [Azure AI Foundry](https://ai.azure.com/explore/aiservices/vision/document/extraction) |
+| Document Field Extraction Model 4.0 Preview (2024-07-31-preview) | `generative` | [Microsoft Foundry](https://ai.azure.com/explore/aiservices/vision/document/extraction) |
 
-To identify which model type your dataset uses, check where your project was created: Custom Extraction DI 3.1/4.0 GA appears in [Document Intelligence Studio](https://documentintelligence.ai.azure.com/studio), while Document Field Extraction DI 4.0 Preview is available in [Azure AI Foundry](https://ai.azure.com/explore/aiservices/vision/document/extraction). You can also compare your dataset files against the sample documents in this folder.
+To identify which model type your dataset uses, check where your project was created: Custom Extraction DI 3.1/4.0 GA appears in [Document Intelligence Studio](https://documentintelligence.ai.azure.com/studio), while Document Field Extraction DI 4.0 Preview is available in [Microsoft Foundry](https://ai.azure.com/explore/aiservices/vision/document/extraction). You can also compare your dataset files against the sample documents in this folder.
 
 ### Migration Workflow
 
@@ -31,7 +31,7 @@ This migration tool consists of three CLI scripts, intended to be run in order:
       - `ocr.json` → `result.json` (OCR / layout results)  
     * Depending on the DI version, the tool uses either [cu_converter_neural.py](cu_converter_neural.py) or [cu_converter_generative.py](cu_converter_generative.py) for the conversion logic.  
     * For OCR data conversion, it creates a temporary CU analyzer (with no fields) to re-extract raw OCR/layout results for each document. See [get_ocr.py](get_ocr.py) for details.
-    * **Language model deployment overrides**: By default, the tool uses deployment names `gpt-4.1` for the completion (large language model) deployment and `text-embedding-3-large` for the embedding deployment. If your Azure AI Foundry deployments use different names, specify them with:
+    * **Language model deployment overrides**: By default, the tool uses deployment names `gpt-4.1` for the completion (large language model) deployment and `text-embedding-3-large` for the embedding deployment. If your Microsoft Foundry deployments use different names, specify them with:
       - `--completion-deployment <name>` (defaults to `gpt-4.1`)
       - `--embedding-deployment <name>` (defaults to `text-embedding-3-large`)
 
@@ -46,7 +46,7 @@ This migration tool consists of three CLI scripts, intended to be run in order:
 
 ### Prerequisites
 
-⚠️ **IMPORTANT: Before using this migration tool**, ensure your Azure AI Foundry resource is properly configured for Content Understanding:
+⚠️ **IMPORTANT: Before using this migration tool**, ensure your Microsoft Foundry resource is properly configured for Content Understanding:
 
 1. **Configure default model deployments**: You must set default model deployments in your Content Understanding resource before creating or running analyzers.
    - Follow the prerequisites in the [REST API Quickstart Guide](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/quickstart/use-rest-api?tabs=portal%2Cdocument)
@@ -54,7 +54,7 @@ This migration tool consists of three CLI scripts, intended to be run in order:
 
 2. **Required language model deployments**: Your Foundry resource must have a **completion** (large language model) deployment and an **embedding** model deployment. By default, this tool expects deployments named `gpt-4.1` (completion) and `text-embedding-3-large` (embedding). If your deployments use different names, provide them with `--completion-deployment` and `--embedding-deployment` when running `di_to_cu_converter.py`.
 
-3. **Verify your setup**: Confirm you can create and use a basic Content Understanding analyzer in your Azure AI Foundry resource before attempting migration. This ensures all prerequisites (authentication, model deployments, permissions) are met.
+3. **Verify your setup**: Confirm you can create and use a basic Content Understanding analyzer in your Microsoft Foundry resource before attempting migration. This ensures all prerequisites (authentication, model deployments, permissions) are met.
 
 4. Complete all setup steps in the REST API documentation above, including authentication and model deployment configuration.
 
@@ -78,7 +78,7 @@ This migration tool consists of three CLI scripts, intended to be run in order:
 
 ## How to Locate Your Document Field Extraction Dataset for Migration
 
-To migrate your Document Field Extraction dataset from AI Foundry, please follow these steps:
+To migrate your Document Field Extraction dataset from Microsoft Foundry, please follow these steps:
 
 1. On the bottom-left of your Document Field Extraction project page, please select **Management Center**.  
    ![Management Center](assets/management-center.png)  
@@ -216,12 +216,12 @@ After creating the analyzer, use this command to verify the migration by analyzi
 
 ```
 python ./call_analyze.py --analyzer-id mySampleAnalyzer \
---pdf-sas-url "https://storageAccount.blob.core.windows.net/container/folder/sample.pdf?SASToken" \
+--document-sas-url "https://storageAccount.blob.core.windows.net/container/folder/sample.pdf?SASToken" \
 --output-json "./desired-path-to-analyzer-results.json"
 ```
 
 - `--analyzer-id`: The analyzer ID created in the previous step.
-- `--pdf-sas-url`: A SAS URL pointing to the document you want to analyze.
+- `--document-sas-url`: A SAS URL pointing to the document you want to analyze (PDF, image, etc.).
 - `--output-json` *(optional)*: Path for the output JSON file. Defaults to `./sample_documents/analyzer_result.json` if omitted.
 
 Review the output to verify that the extracted fields match your expectations. If field accuracy is low, consider [reviewing and updating the analyzer and field descriptions](#2-create-an-analyzer) in `analyzer.json`, then re-create the analyzer.
