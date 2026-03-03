@@ -1,6 +1,6 @@
 # Supported DI versions
 DI_VERSIONS = ["generative", "neural"]
-CU_API_VERSION = "2025-05-01-preview"
+CU_API_VERSION = "2025-11-01"
 
 # constants
 MAX_FIELD_COUNT = 100

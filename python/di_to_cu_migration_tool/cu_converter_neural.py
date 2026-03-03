@@ -37,7 +37,7 @@ def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
     source = f"D({page_number},{polygon_str})"
     return source
 
-def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Optional[Path], field_definitions: FieldDefinitions) -> Tuple[dict, dict]:
+def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Optional[Path], field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None) -> Tuple[dict, dict]:
     """
     Convert DI 3.1/4.0GA Custom Neural fields.json to analyzer.json format.
     Args:
@@ -67,7 +67,11 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
     # Build analyzer.json content
     analyzer_data = {
         "analyzerId": analyzer_prefix,
-        "baseAnalyzerId": "prebuilt-documentAnalyzer",
+        "baseAnalyzerId": "prebuilt-document",
+        "models": {
+            "completion": "gpt-4.1",
+            "embedding": "text-embedding-3-large"
+        },
         "config": {
             "returnDetails": True,
             # Add the following line as a temp workaround before service issue is fixed.
@@ -132,6 +136,17 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
     else:
         analyzer_json_path = fields_json_path.parent / 'analyzer.json'
 
+    # Add knowledgeSources section if container info is provided
+    if target_container_sas_url and target_blob_folder:
+        analyzer_data["knowledgeSources"] = [
+            {
+                "kind": "labeledData",
+                "containerUrl": target_container_sas_url,
+                "prefix": target_blob_folder,
+                "fileListPath": ""
+            }
+        ]
+    
     # Ensure target directory exists
     analyzer_json_path.parent.mkdir(parents=True, exist_ok=True)
 

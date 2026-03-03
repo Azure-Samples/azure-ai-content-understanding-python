@@ -1,13 +1,13 @@
 # Document Intelligence to Content Understanding Migration Tool (Python)
 
-Welcome! This tool helps convert your Document Intelligence (DI) datasets to the Content Understanding (CU) **Preview.2** 2025-05-01-preview format, as used in AI Foundry. The following DI versions are supported:
+Welcome! This tool helps convert your Document Intelligence (DI) datasets to the Content Understanding (CU) **GA** 2025-11-01 format, as used in AI Foundry. The following DI versions are supported:
 
 - Custom Extraction Model DI 3.1 GA (2023-07-31) to DI 4.0 GA (2024-11-30) (Document Intelligence Studio) → DI-version = neural  
 - Document Field Extraction Model 4.0 Preview (2024-07-31-preview) (AI Foundry / AI Services / Vision + Document / Document Field Extraction) → DI-version = generative
 
 To identify the version of your Document Intelligence dataset, please consult the sample documents in this folder to match your format. You can also verify the version by reviewing your DI project's user experience. For instance, Custom Extraction DI 3.1/4.0 GA appears in Document Intelligence Studio (https://documentintelligence.ai.azure.com/studio), whereas Document Field Extraction DI 4.0 Preview is only available on Azure AI Foundry's preview service (https://ai.azure.com/explore/aiservices/vision/document/extraction).
 
-For migrating from these DI versions to Content Understanding Preview.2, this tool first converts the DI dataset into a CU-compatible format. After conversion, you can create a Content Understanding Analyzer trained on your converted CU dataset. Additionally, you have the option to test its quality against any sample documents.
+For migrating from these DI versions to Content Understanding GA (2025-11-01), this tool first converts the DI dataset into a CU-compatible format. After conversion, you can create a Content Understanding Analyzer trained on your converted CU dataset. Additionally, you have the option to test its quality against any sample documents.
 
 ## Details About the Tools
 
@@ -27,8 +27,26 @@ Here is a detailed breakdown of the three CLI tools and their functionality:
 * **call_analyze.py**  
     * This CLI tool verifies that the migration completed successfully and assesses the quality of the created analyzer.
 
+
 ## Setup
 
+## Prerequisites
+
+⚠️ **IMPORTANT: Before using this migration tool**, ensure your Azure AI Foundry resource is properly configured for Content Understanding:
+
+1. **Configure Default Model Deployments**: You must set default model deployments in your Content Understanding in your Foundry Resource before creating or running analyzers. 
+   
+   To do this walk through the prerequisites here:
+   - [REST API Quickstart Guide](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/quickstart/use-rest-api?tabs=portal%2Cdocument)
+
+  For more details about defaults checkout this documentation:
+   - [Models and Deployments Documentation](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/models-deployments)
+
+2. **Verify you can create and use a basic Content Understanding analyzer** in your Azure AI Foundry resource before attempting migration. This ensures all prerequisites are met.
+
+3. Complete all setup steps outlined in the REST API documentation above, including authentication and model deployment configuration.
+
+### Tool Setup
 Please follow these steps to set up the tool:
 
 1. Install dependencies by running:  
@@ -43,7 +61,7 @@ Please follow these steps to set up the tool:
    - **SUBSCRIPTION_KEY:** Update to your Azure AI Service API Key or Subscription ID to authenticate the API requests.  
      - Locate your API Key here: ![Azure AI Service Endpoints With Keys](assets/endpoint-with-keys.png)  
      - If using Azure Active Directory (AAD), please refer to your Subscription ID: ![Azure AI Service Subscription ID](assets/subscription-id.png)  
-   - **API_VERSION:** This is preset to the CU Preview.2 version; no changes are needed.
+   - **API_VERSION:** This is preset to the CU GA version (2025-11-01); no changes are needed.
 
 ## How to Locate Your Document Field Extraction Dataset for Migration
 
@@ -73,7 +91,11 @@ To obtain SAS URLs for a file or folder for any container URL arguments, please 
 3. Configure permissions and expiry for your SAS URL as follows:
 
    - For the **DI source dataset**, please select permissions: _**Read & List**_  
+https://jfilcikditestdata.blob.core.windows.net/didata?sv=2025-07-05&spr=https&st=2025-12-16T22%3A17%3A06Z&se=2025-12-17T22%3A17%3A06Z&sr=c&sp=rl&sig=nvUIelZQ9yWEJx3jA%2FjUOIdHn6OVnp5gvKSJ3zgzwvE%3D
+
    - For the **CU target dataset**, please select permissions: _**Read, Add, Create, & Write**_  
+
+https://jfilcikditestdata.blob.core.windows.net/cudata?sv=2025-07-05&spr=https&st=2025-12-16T22%3A19%3A39Z&se=2025-12-17T22%3A19%3A39Z&sr=c&sp=racwl&sig=K82dxEFNpYhuf5JRq3xJ4vc5SYE8A7FfsBnTJbB1VJY%3D
 
    After configuring, click **Generate SAS Token and URL** and copy the URL shown under **Blob SAS URL**.  
    
@@ -155,7 +177,7 @@ Below are common issues you might encounter when creating an analyzer or running
 - **400 Bad Request** errors:  
   Please validate the following:  
   - The endpoint URL is valid. Example:  
-    `https://yourEndpoint/contentunderstanding/analyzers/yourAnalyzerID?api-version=2025-05-01-preview`  
+    `https://yourEndpoint/contentunderstanding/analyzers/yourAnalyzerID?api-version=2025-11-01`  
   - Your converted CU dataset respects the naming constraints below. If needed, please manually correct the `analyzer.json` fields:  
     - Field names start with a letter or underscore  
     - Field name length must be between 1 and 64 characters  
@@ -174,7 +196,7 @@ Below are common issues you might encounter when creating an analyzer or running
 
 - **400 Bad Request**:  
   This implies that you might have an incorrect endpoint or SAS URL. Please ensure that your endpoint is valid and that you are using the correct SAS URL for the document:  
-  `https://yourendpoint/contentunderstanding/analyzers/yourAnalyzerID:analyze?api-version=2025-05-01-preview`  
+  `https://yourendpoint/contentunderstanding/analyzers/yourAnalyzerID:analyze?api-version=2025-11-01`  
   Confirm you are using the correct SAS URL for the document.
 
 - **401 Unauthorized**:  
@@ -189,4 +211,4 @@ Below are common issues you might encounter when creating an analyzer or running
 2. Signature field types (e.g., in previous DI versions) are not yet supported in Content Understanding. These will be ignored during migration when creating the analyzer.  
 3. The content of your training documents is retained in the CU model's metadata, under storage specifically. You can find more details at:  
    https://learn.microsoft.com/en-us/legal/cognitive-services/content-understanding/transparency-note?toc=%2Fazure%2Fai-services%2Fcontent-understanding%2Ftoc.json&bc=%2Fazure%2Fai-services%2Fcontent-understanding%2Fbreadcrumb%2Ftoc.json  
-4. All conversions are for Content Understanding preview.2 version only.
+4. All conversions are for Content Understanding GA (2025-11-01) version.

@@ -48,7 +48,7 @@ def format_angle(angle: float) -> float:
    formatted_num = f"{rounded_angle:.7f}".rstrip('0')  # Remove trailing zeros
    return float(formatted_num)
 
-def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions) -> dict:
+def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Path, field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None) -> dict:
     """
     Convert DI 4.0 preview Custom Document fields.json to analyzer.json format.
     Args:
@@ -79,7 +79,11 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
     # build analyzer.json appropriately
     analyzer_data = {
         "analyzerId": analyzer_id,
-        "baseAnalyzerId": "prebuilt-documentAnalyzer",
+        "baseAnalyzerId": "prebuilt-document",
+        "models": {
+            "completion": "gpt-4.1",
+            "embedding": "text-embedding-3-large"
+        },
         "config": {
             "returnDetails": True,
             # Add the following line as a temp workaround before service issue is fixed.
@@ -121,6 +125,17 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_prefix: Optional
     else:
         analyzer_json_path = fields_json_path.parent / 'analyzer.json'
 
+    # Add knowledgeSources section if container info is provided
+    if target_container_sas_url and target_blob_folder:
+        analyzer_data["knowledgeSources"] = [
+            {
+                "kind": "labeledData",
+                "containerUrl": target_container_sas_url,
+                "prefix": target_blob_folder,
+                "fileListPath": ""
+            }
+        ]
+    
     # Ensure target directory exists
     analyzer_json_path.parent.mkdir(parents=True, exist_ok=True)
 

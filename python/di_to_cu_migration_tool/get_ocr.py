@@ -70,7 +70,11 @@ def build_analyzer(credential, current_token, host, api_version, subscriptionKey
     request_body = {
         "analyzerId": analyzer_id,
         "description": "Sample analyzer",
-        "baseAnalyzerId": "prebuilt-documentAnalyzer",
+        "baseAnalyzerId": "prebuilt-document",
+        "models": {
+            "completion": "gpt-4.1",
+            "embedding": "text-embedding-3-large"
+        },
         "config": {
             "returnDetails": True,
             "enableOcr": True,
@@ -82,8 +86,7 @@ def build_analyzer(credential, current_token, host, api_version, subscriptionKey
         "fieldSchema": {},
         "warnings": [],
         "status": "ready",
-        "processingLocation": "geography",
-        "mode": "standard"
+        "processingLocation": "geography"
     }
     endpoint = f"{host}/contentunderstanding/analyzers/{analyzer_id}?api-version={api_version}"
     print("[yellow]Creating sample analyzer to attain CU Layout results...[/yellow]")
@@ -138,9 +141,8 @@ def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_ke
     output_dir = Path(output_dir_string)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Need to create analyzer with empty schema
-    analyzer_id = build_analyzer(credential, current_token, host, api_version, subscription_key)
-    url = f"{host}/contentunderstanding/analyzers/{analyzer_id}:analyze?api-version={api_version}"
+    # Use prebuilt-read analyzer directly - no need to create a custom analyzer
+    url = f"{host}/contentunderstanding/analyzers/prebuilt-read:analyze?api-version={api_version}"
 
     for file in input_files:
         try:
@@ -150,7 +152,7 @@ def run_cu_layout_ocr(input_files: list, output_dir_string: str, subscription_ke
             current_token = get_token(credential, current_token)
             headers = {
                 "Authorization": f"Bearer {current_token.token}",
-                "Apim-Subscription-id": f"{subscription_key}",
+                "Ocp-Apim-Subscription-Key": f"{subscription_key}",
                 "Content-Type": "application/pdf",
             }
 

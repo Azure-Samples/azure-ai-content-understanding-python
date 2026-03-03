@@ -8,7 +8,7 @@ from pathlib import Path
 import shutil
 import tempfile
 import typer
-from typing import Tuple
+from typing import Optional, Tuple
 
 # imports from external packages (in requirements.txt)
 from rich import print  # For colored output
@@ -161,7 +161,7 @@ def main(
         print(f"[yellow]WARNING: The following signatures were removed from the dataset: {removed_signatures}[/yellow]\n")
 
     print("Second: Running DI to CU dataset conversion...")
-    analyzer_data, ocr_files = running_cu_conversion(temp_dir, temp_target_dir, DI_version, analyzer_prefix, removed_signatures)
+    analyzer_data, ocr_files = running_cu_conversion(temp_dir, temp_target_dir, DI_version, analyzer_prefix, removed_signatures, target_container_sas_url, target_blob_folder)
 
     # Run OCR on the pdf files
     run_cu_layout_ocr(ocr_files, temp_target_dir, subscription_key)
@@ -232,15 +232,17 @@ def running_field_type_conversion(temp_source_dir: Path, temp_dir: Path, DI_vers
 
     return removed_signatures
 
-def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str, analyzer_prefix: str, removed_signatures: list) -> Tuple[dict, list]:
+def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str, analyzer_prefix: Optional[str], removed_signatures: list, target_container_sas_url: str, target_blob_folder: str) -> Tuple[dict, list]:
     """
-    Function to run the DI to CU conversion
+    Function to run the CU conversion
     Args:
         temp_dir (Path): The path to the source directory
         temp_target_dir (Path): The path to the target directory
         DI_version (str): The version of DI being used
         analyzer_prefix (str): The prefix for the analyzer name
         removed_signatures (list): The list of removed signatures that will not be used in the CU converter
+        target_container_sas_url (str): The target container SAS URL for training data
+        target_blob_folder (str): The target blob folder prefix for training data
     """
     # Creating a FieldDefinitons object to handle the converison of definitions in the fields.json
     field_definitions = FieldDefinitions()
@@ -251,9 +253,9 @@ def running_cu_conversion(temp_dir: Path, temp_target_dir: Path, DI_version: str
 
         assert fields_path.exists(), "fields.json is needed. Fields.json is missing from the given dataset."
         if DI_version == "generative":
-            analyzer_data = cu_converter_generative.convert_fields_to_analyzer(fields_path, analyzer_prefix, temp_target_dir, field_definitions)
+            analyzer_data = cu_converter_generative.convert_fields_to_analyzer(fields_path, analyzer_prefix, temp_target_dir, field_definitions, target_container_sas_url, target_blob_folder)
         elif DI_version == "neural":
-            analyzer_data, fields_dict = cu_converter_neural.convert_fields_to_analyzer_neural(fields_path, analyzer_prefix, temp_target_dir, field_definitions)
+            analyzer_data, fields_dict = cu_converter_neural.convert_fields_to_analyzer_neural(fields_path, analyzer_prefix, temp_target_dir, field_definitions, target_container_sas_url, target_blob_folder)
 
         ocr_files = [] # List to store paths to pdf files to get OCR results from later
         for file in files:

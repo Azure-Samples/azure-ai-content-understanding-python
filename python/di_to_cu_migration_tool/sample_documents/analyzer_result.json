@@ -3,7 +3,7 @@
     "status": "Succeeded",
     "result": {
         "analyzerId": "mySampleAnalyzer",
-        "apiVersion": "2025-05-01-preview",
+        "apiVersion": "2025-11-01",
         "createdAt": "2025-05-30T15:47:15Z",
         "warnings": [],
         "contents": [
