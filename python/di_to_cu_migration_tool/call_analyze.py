@@ -1,18 +1,16 @@
 # imports from built-in packages
-from azure.identity import DefaultAzureCredential
-from dotenv import load_dotenv
 import json
 import os
 from pathlib import Path
-import requests
-import time
 import typer
 
 # imports from external packages (in requirements.txt)
+from azure.ai.contentunderstanding import ContentUnderstandingClient
+from azure.ai.contentunderstanding.models import AnalysisInput
+from azure.core.credentials import AzureKeyCredential
+from azure.identity import DefaultAzureCredential
+from dotenv import load_dotenv
 from rich import print  # For colored output
-
-# imports from local packages
-from constants import CU_API_VERSION
 
 app = typer.Typer()
 
@@ -23,7 +21,7 @@ def main(
         output_json: str = typer.Option("./sample_documents/analyzer_result.json", "--output-json", help="Output JSON file for the analyze result")
 ):
     """
-    Main function to call the analyze API.
+    Main function to call the analyze API using the Content Understanding Python SDK.
 
     Sends the document URL to the Content Understanding analyze endpoint.
     Supports any document type accepted by the service (PDF, JPEG, PNG, TIFF, etc.).
@@ -32,64 +30,33 @@ def main(
     assert document_sas_url != "", "Please provide the SAS URL for the document you wish to analyze"
 
     load_dotenv()
-    # Acquire a token for the desired scope
-    credential = DefaultAzureCredential()
-    token = credential.get_token("https://cognitiveservices.azure.com/.default")
 
-    # Extract the access token
-    access_token = token.token
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json"
-    }
+    # Set up credentials and client
+    endpoint = os.environ["CONTENTUNDERSTANDING_ENDPOINT"]
+    key = os.getenv("CONTENTUNDERSTANDING_KEY")
+    credential = AzureKeyCredential(key) if key else DefaultAzureCredential()
 
-    # Only include subscription key header if provided
-    subscription_key = os.getenv("SUBSCRIPTION_KEY")
-    if subscription_key:
-        headers["Ocp-Apim-Subscription-Key"] = subscription_key
+    client = ContentUnderstandingClient(endpoint=endpoint, credential=credential)
 
-    host = os.getenv("HOST")
-    endpoint = f"{host}/contentunderstanding/analyzers/{analyzer_id}:analyze?api-version={CU_API_VERSION}&stringEncoding=codePoint"
-
-    # Send the document URL to the service
-    request_body = {
-        "inputs": [
-            {"url": document_sas_url}
-        ]
-    }
-    response = requests.post(url=endpoint, data=json.dumps(request_body), headers=headers)
-
-    if not response.ok:
-        print(f"[red]Error {response.status_code}: {response.text}[/red]")
-    response.raise_for_status()
     print(f"[yellow]Analyzing document with analyzer {analyzer_id}...[/yellow]")
 
-    operation_location = response.headers.get("Operation-Location", None)
-    if not operation_location:
-        print("[red]Error: 'Operation-Location' header is missing.[/red]")
-        return
+    # Call the analyze API with the document URL
+    poller = client.begin_analyze(
+        analyzer_id=analyzer_id,
+        inputs=[AnalysisInput(url=document_sas_url)],
+    )
+    result = poller.result()
 
-    while True:
-        poll_response = requests.get(operation_location, headers=headers)
-        poll_response.raise_for_status()
+    # Save the result as JSON
+    analyze_result_file = Path(output_json)
+    analyze_result_file.parent.mkdir(parents=True, exist_ok=True)
+    # Convert the SDK model to a dict for JSON serialization
+    result_dict = result.as_dict()
+    with open(analyze_result_file, "w") as f:
+        json.dump(result_dict, f, indent=4)
 
-        result = poll_response.json()
-        status = result.get("status", "").lower()
-
-        if status == "succeeded":
-            print(f"\n[green]Successfully analyzed document with analyzer {analyzer_id}.[/green]")
-            analyze_result_file = Path(output_json)
-            analyze_result_file.parent.mkdir(parents=True, exist_ok=True)
-            with open(analyze_result_file, "w") as f:
-                json.dump(result, f, indent=4)
-            print(f"[green]Analyze result saved to {analyze_result_file}[/green]")
-            break
-        elif status == "failed":
-            print(f"[red]Failed: {result}[/red]")
-            break
-        else:
-            print(".", end="", flush=True)
-            time.sleep(0.5)
+    print(f"[green]Successfully analyzed document with analyzer {analyzer_id}.[/green]")
+    print(f"[green]Analyze result saved to {analyze_result_file}[/green]")
 
 if __name__ == "__main__":
     app()

@@ -1,18 +1,15 @@
 # imports from built-in packages
-from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobClient
-from dotenv import load_dotenv
 import json
 import os
-import requests
-import time
 import typer
 
 # imports from external packages (in requirements.txt)
+from azure.ai.contentunderstanding import ContentUnderstandingClient
+from azure.core.credentials import AzureKeyCredential
+from azure.identity import DefaultAzureCredential
+from azure.storage.blob import BlobClient
+from dotenv import load_dotenv
 from rich import print  # For colored output
-
-# imports from local packages
-from constants import CU_API_VERSION
 
 app = typer.Typer()
 
@@ -23,14 +20,13 @@ def main(
     target_blob_folder: str = typer.Option("", "--target-blob-folder", help="Target blob storage folder prefix."),
 ):
     """
-    Main function to create the CU analyzer
+    Main function to create the CU analyzer using the Content Understanding Python SDK.
     """
     assert analyzer_sas_url != "", "Please provide the SAS URL for the created CU analyzer.json so we are able to call the Build Analyzer API"
     assert target_container_sas_url != "", "Please provide the SAS URL for the target blob container so we are able to refer to the created CU dataset"
     assert target_blob_folder != "", "Please provide the target blob folder so we are able to refer to the created CU dataset"
 
-
-    # Load the analyzer.json file
+    # Load the analyzer.json file from blob storage
     print(f"Loading analyzer.json from...")
     blob_client = BlobClient.from_blob_url(analyzer_sas_url)
     analyzer_json = blob_client.download_blob().readall()
@@ -38,54 +34,27 @@ def main(
     analyzer_json = json.loads(analyzer_json)
     print("[yellow]Finished loading analyzer.json.[/yellow]\n")
 
-    # URI Parameters - analyzerId, endpoint, & api-version
+    # Set up credentials and client
     load_dotenv()
+    endpoint = os.environ["CONTENTUNDERSTANDING_ENDPOINT"]
+    key = os.getenv("CONTENTUNDERSTANDING_KEY")
+    credential = AzureKeyCredential(key) if key else DefaultAzureCredential()
+
+    client = ContentUnderstandingClient(endpoint=endpoint, credential=credential)
+
     analyzer_id = analyzer_json["analyzerId"]
-    host = os.getenv("HOST")
-    endpoint = f"{host}/contentunderstanding/analyzers/{analyzer_id}?api-version={CU_API_VERSION}"
-
-    # Request Header - Content-Type
-    # Acquire a token for the desired scope
-    credential = DefaultAzureCredential()
-    token = credential.get_token("https://cognitiveservices.azure.com/.default")
-
-    # Extract the access token
-    access_token = token.token
-    subscription_key = os.getenv("SUBSCRIPTION_KEY")
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Ocp-Apim-Subscription-Key": f"{subscription_key}",
-        "Content-Type": "application/json"
-    }
-
-
     print(f"[yellow]Creating analyzer with analyzer ID: {analyzer_id}...[/yellow]")
-    response = requests.put(
-        url=endpoint,
-        headers=headers,
-        json=analyzer_json,
+
+    # Use SDK's begin_create_analyzer with the raw JSON dict
+    poller = client.begin_create_analyzer(
+        analyzer_id=analyzer_id,
+        resource=analyzer_json,
+        allow_replace=True,
     )
-    response.raise_for_status()
-    operation_location = response.headers.get("Operation-Location", None)
-    if not operation_location:
-        print("Error: 'Operation-Location' header is missing.")
+    result = poller.result()
 
-    while True:
-        poll_response = requests.get(operation_location, headers=headers)
-        poll_response.raise_for_status()
-
-        result = poll_response.json()
-        status = result.get("status", "").lower()
-
-        if status == "succeeded":
-            print(f"\n[green]Successfully created analyzer with ID: {analyzer_id}[/green]")
-            break
-        elif status == "failed":
-            print(f"[red]Failed: {result}[/red]")
-            break
-        else:
-            print(".", end="", flush=True)
-            time.sleep(0.5)
+    field_count = len(result.field_schema.fields) if result.field_schema and result.field_schema.fields else 0
+    print(f"\n[green]Successfully created analyzer with ID: {analyzer_id} ({field_count} fields)[/green]")
 
 if __name__ == "__main__":
     app()

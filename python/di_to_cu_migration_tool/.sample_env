@@ -1,8 +1,27 @@
-# Rename to .env
-HOST="<fill in your target endpoint here>"
+# DI to CU Migration Tool Configuration
+# Copy this file to .env and fill in your actual values
 
-SUBSCRIPTION_KEY = "<fill in your API Key here>" # This is your API Key if you have one or can be your Subscription ID
+# ============================================================================
+# Required Configuration
+# ============================================================================
 
-COMPLETION_MODEL="<your-completion-model>"
+# The endpoint URL of your Microsoft Foundry resource
+# Example: https://your-resource.services.ai.azure.com
+# Do not include a trailing slash
+CONTENTUNDERSTANDING_ENDPOINT=https://your-resource.services.ai.azure.com
 
-EMBEDDING_MODEL="<your-embedding-model>"
+# ============================================================================
+# Authentication Configuration
+# ============================================================================
+
+# Option 1: API Key Authentication (Recommended for quick setup)
+# Set your Azure AI Service API key below
+# Find it in Azure Portal > Your AI Resource > Keys and Endpoint
+CONTENTUNDERSTANDING_KEY=
+
+# Option 2: DefaultAzureCredential (Recommended for production)
+# If CONTENTUNDERSTANDING_KEY is not set, the tools will use DefaultAzureCredential
+# Make sure you are logged in via one of:
+#   - Azure CLI: az login
+#   - Visual Studio Code Azure extension
+#   - Managed Identity (when running in Azure)

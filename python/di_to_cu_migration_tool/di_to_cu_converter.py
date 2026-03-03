@@ -107,7 +107,7 @@ def main(
 
     # Getting the environmental variables
     load_dotenv()
-    subscription_key = os.getenv("SUBSCRIPTION_KEY")
+    subscription_key = os.getenv("CONTENTUNDERSTANDING_KEY")
 
     print("Creating a temporary directory for storing source blob storage content...")
     temp_source_dir = Path(tempfile.mkdtemp())
