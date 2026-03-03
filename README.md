@@ -1,16 +1,48 @@
 # Azure AI Content Understanding Samples (Python)
 
-Welcome! Content Understanding is a solution that analyzes and comprehends various media content—including **documents, images, audio, and video**—and transforms it into structured, organized, and searchable data.
+> [!IMPORTANT]
+> **For production applications, we recommend using the official Azure AI Content Understanding SDK** instead of the lightweight REST API wrappers in this repository. The official GA SDKs are now available for [Python](https://pypi.org/project/azure-ai-contentunderstanding/), [.NET](https://www.nuget.org/packages/Azure.AI.ContentUnderstanding), [Java](https://central.sonatype.com/artifact/com.azure/azure-ai-contentunderstanding), and [JavaScript](https://www.npmjs.com/package/@azure/ai-content-understanding), and offer strongly-typed models, built-in LRO polling, authentication integration, automatic retries, and full consistency with other Azure SDKs. See [Official GA SDK Packages](#official-ga-sdk-packages) below for details.
 
-Content Understanding is now a Generally Available (GA) service with the release of the `2025-11-01` API version. 
+Welcome! This repository contains **REST API tutorial samples** that demonstrate how to use the Azure AI Content Understanding service directly via HTTP calls with thin Python convenience wrappers. These samples are useful for **learning concepts** and understanding the underlying API, but they are **not** idiomatic SDK usage.
+
+Content Understanding is a Generally Available (GA) service (API version `2025-11-01`) that analyzes and comprehends various media content—including **documents, images, audio, and video**—and transforms it into structured, organized, and searchable data.
 
 - The samples in this repository default to the latest GA API version: `2025-11-01`.
-- We will provide more samples for new functionalities in the GA API versions soon. For details on the updates in the current GA release, see the [Content Understanding What's New Document page](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/whats-new).
+- For details on the updates in the current GA release, see the [Content Understanding What's New Document page](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/whats-new).
 - As of November 2025, the `2025-11-01` API version is now available in a broader range of [regions](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/language-region-support).
 - To access sample code for version `2025-05-01-preview`, please check out the corresponding Git tag `2025-05-01-preview` or download it directly from the [release page](https://github.com/Azure-Samples/azure-ai-content-understanding-python/releases/tag/2025-05-01-preview).
 - To access sample code for version `2024-12-01-preview`, please check out the corresponding Git tag `2024-12-01-preview` or download it directly from the [release page](https://github.com/Azure-Samples/azure-ai-content-understanding-python/releases/tag/2024-12-01-preview).
 
 👉 If you are looking for **.NET samples**, check out [this repo](https://github.com/Azure-Samples/azure-ai-content-understanding-dotnet/).
+
+---
+
+## Official GA SDK Packages
+
+The official Azure AI Content Understanding SDKs are now available. **For production applications, we strongly recommend using these SDKs** instead of the raw REST wrappers in this sample repo.
+
+### Why use the official SDKs?
+
+- **Strongly-typed models** — full IntelliSense/autocomplete, compile-time type checking, and discoverable APIs instead of hand-crafted JSON payloads
+- **Built-in polling & LRO handling** — the SDK manages long-running operation polling (e.g., `begin_analyze`) automatically, eliminating manual retry/poll loops
+- **Authentication integration** — native support for `DefaultAzureCredential` / `TokenCredential` and API keys through the standard Azure Identity stack
+- **Retry & error handling** — automatic transient-fault retries, exponential backoff, and structured error responses out of the box
+- **Consistent with other Azure SDKs** — follows the same [Azure SDK design guidelines](https://azure.github.io/azure-sdk/), so patterns for client creation, configuration, authentication, and error handling are identical to other Azure services (e.g., Azure OpenAI, Azure AI Search, Azure Storage)
+- **Versioning & compatibility** — SDK releases are pinned to API versions and follow Azure SDK lifecycle policies, reducing breaking-change risk
+- **Logging & diagnostics** — built-in Azure SDK pipeline logging and distributed tracing support
+- **Community & support** — published on PyPI / NuGet / npm with official Microsoft support, issue tracking, and regular updates
+
+### SDK packages
+
+| Language | Package | SDK Samples | Install | SDK Repo |
+|----------|---------|-------------|---------|----------|
+| Python | [`azure-ai-contentunderstanding`](https://pypi.org/project/azure-ai-contentunderstanding/) | [samples](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/contentunderstanding/azure-ai-contentunderstanding/samples) | `pip install azure-ai-contentunderstanding` | [azure-sdk-for-python](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/contentunderstanding/azure-ai-contentunderstanding) |
+| .NET | [`Azure.AI.ContentUnderstanding`](https://www.nuget.org/packages/Azure.AI.ContentUnderstanding) | [samples](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/contentunderstanding/Azure.AI.ContentUnderstanding/samples) | `dotnet add package Azure.AI.ContentUnderstanding` | [azure-sdk-for-net](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/contentunderstanding/Azure.AI.ContentUnderstanding) |
+| Java | [`azure-ai-contentunderstanding`](https://central.sonatype.com/artifact/com.azure/azure-ai-contentunderstanding) | [samples](https://github.com/Azure/azure-sdk-for-java/tree/main/sdk/contentunderstanding/azure-ai-contentunderstanding/src/samples) | See [Maven Central](https://central.sonatype.com/artifact/com.azure/azure-ai-contentunderstanding) | [azure-sdk-for-java](https://github.com/Azure/azure-sdk-for-java/tree/main/sdk/contentunderstanding/azure-ai-contentunderstanding) |
+| JavaScript | [`@azure/ai-content-understanding`](https://www.npmjs.com/package/@azure/ai-content-understanding) | [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1/javascript) | `npm install @azure/ai-content-understanding` | [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding) |
+| TypeScript | [`@azure/ai-content-understanding`](https://www.npmjs.com/package/@azure/ai-content-understanding) | [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1/typescript) | `npm install @azure/ai-content-understanding` | [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding) |
+
+---
 
 ## Getting Started
 
@@ -219,6 +251,19 @@ Azure AI Content Understanding is a new Generative AI-based [Azure AI service](h
 
 - [Azure Search with Content Understanding](https://github.com/Azure-Samples/azure-ai-search-with-content-understanding-python)
 - [Azure Content Understanding with OpenAI](https://github.com/Azure-Samples/azure-ai-content-understanding-with-azure-openai-python)
+
+## Issues and Feedback
+
+This sample repository receives minimal maintenance updates. For bugs, feature requests, and questions about Azure AI Content Understanding, please file issues against the **official SDK repositories**:
+
+| Language | File an Issue |
+|----------|---------------|
+| Python | [Azure/azure-sdk-for-python](https://github.com/Azure/azure-sdk-for-python/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
+| .NET | [Azure/azure-sdk-for-net](https://github.com/Azure/azure-sdk-for-net/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
+| Java | [Azure/azure-sdk-for-java](https://github.com/Azure/azure-sdk-for-java/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
+| JavaScript | [Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js/issues/new?labels=Cognitive%20-%20Content%20Understanding&title=[ContentUnderstanding]%20&body=%23%23%20Library%20Version%0A%0A%23%23%20Repro%20Steps%0A%0A%23%23%20Expected%20Result%0A%0A%23%23%20Actual%20Result) |
+
+The team will primarily maintain and respond to issues in the SDK repos.
 
 ## Notes
 
