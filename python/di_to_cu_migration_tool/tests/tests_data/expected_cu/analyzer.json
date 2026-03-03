@@ -335,7 +335,7 @@
     "knowledgeSources": [
         {
             "kind": "labeledData",
-            "containerUrl": "https://mmisamplestorage.blob.core.windows.net/chienyuan?sv=2025-07-05&spr=https&st=2026-01-23T23%3A07%3A42Z&se=2026-01-28T23%3A07%3A00Z&skoid=df7df864-4e6a-4f03-b43d-35e6c28d62ba&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2026-01-23T23%3A07%3A42Z&ske=2026-01-28T23%3A07%3A00Z&sks=b&skv=2025-07-05&sr=c&sp=racwl&sig=NGw5j1oCi5Nt%2BUfpJ0nwDHugEMZ1OXCepHKyPUezqtw%3D",
+            "containerUrl": "https://fakestorageaccount.blob.core.windows.net/fakecontainer?sv=2025-07-05&spr=https&st=2026-01-01T00%3A00%3A00Z&se=2026-12-31T23%3A59%3A59Z&sr=c&sp=racwl&sig=fakesignature",
             "prefix": "cu_converted_20260126",
             "fileListPath": ""
         }
