@@ -1,17 +1,25 @@
-# Supported DI versions
-DI_VERSIONS = ["generative", "neural"]
-CU_API_VERSION = "2025-05-01-preview"
+# Supported DI custom model types
+DI_MODEL_TYPES = ["generative", "neural"]
+CU_API_VERSION = "2025-11-01"
+
+# Models
+COMPLETION_DEPLOYMENT = "gpt-4.1"
+EMBEDDING_DEPLOYMENT = "text-embedding-3-large"
 
 # constants
 MAX_FIELD_COUNT = 100
 MAX_FIELD_LENGTH = 64
+# Valid field name pattern for Content Understanding API
+VALID_FIELD_NAME_PATTERN = r'^[a-zA-Z_][a-zA-Z0-9_]{0,63}$'
 
 # standard file names
 FIELDS_JSON = "fields.json"
+ANALYZER_JSON = "analyzer.json"
 LABELS_JSON = ".labels.json"
 VALIDATION_TXT = "validation.txt"
 PDF = ".pdf"
 OCR_JSON = ".ocr.json"
+RESULT_JSON = ".result.json"
 
 # for field type conversion
 SUPPORT_FIELD_TYPE = [

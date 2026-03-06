@@ -1,0 +1,340 @@
+{
+	"$schema": "https://schema.cognitiveservices.azure.com/formrecognizer/2021-03-01/fields.json",
+	"fields": [
+		{
+			"fieldKey": "string_field",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "string field",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "string-field",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "999",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "this_is_a_very_long_field_name_that_approaches_the_maximum_len",
+			"fieldType": "string",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "alphanumeric@field",
+			"fieldType": "string",
+			"fieldFormat": "alphanumeric"
+		},
+		{
+			"fieldKey": "no-white-space-field",
+			"fieldType": "string",
+			"fieldFormat": "no-whitespaces"
+		},
+		{
+			"fieldKey": "123_number_field",
+			"fieldType": "number",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "$currency_field",
+			"fieldType": "number",
+			"fieldFormat": "currency"
+		},
+		{
+			"fieldKey": "date___field",
+			"fieldType": "date",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "dmy---field",
+			"fieldType": "date",
+			"fieldFormat": "dmy"
+		},
+		{
+			"fieldKey": "mdy...field",
+			"fieldType": "date",
+			"fieldFormat": "mdy"
+		},
+		{
+			"fieldKey": "ymd_field",
+			"fieldType": "date",
+			"fieldFormat": "ymd"
+		},
+		{
+			"fieldKey": "time_field",
+			"fieldType": "time",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "integer_Field",
+			"fieldType": "integer",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "selection_mark_1",
+			"fieldType": "selectionMark",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "selection_mark_2",
+			"fieldType": "selectionMark",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "signature_field",
+			"fieldType": "signature",
+			"fieldFormat": "not-specified"
+		},
+		{
+			"fieldKey": "dynamic_table",
+			"fieldFormat": "not-specified",
+			"fieldType": "array",
+			"itemType": "dynamic_table_object"
+		},
+		{
+			"fieldKey": "fixed_table_column_header",
+			"fieldFormat": "not-specified",
+			"fieldType": "object",
+			"fields": [
+				{
+					"fieldKey": "ROW1",
+					"fieldType": "fixed_table_column_header_object",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "ROW2",
+					"fieldType": "fixed_table_column_header_object",
+					"fieldFormat": "not-specified"
+				}
+			],
+			"visualizationHint": "vertical"
+		},
+		{
+			"fieldKey": "fixed_table_row_header",
+			"fieldFormat": "not-specified",
+			"fieldType": "object",
+			"fields": [
+				{
+					"fieldKey": "COLUMN1",
+					"fieldType": "fixed_table_row_header_object",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "COLUMN2",
+					"fieldType": "fixed_table_row_header_object",
+					"fieldFormat": "not-specified"
+				}
+			],
+			"visualizationHint": "horizontal"
+		}
+	],
+	"definitions": {
+		"dynamic_table_object": {
+			"fieldKey": "dynamic_table_object",
+			"fieldType": "object",
+			"fieldFormat": "not-specified",
+			"fields": [
+				{
+					"fieldKey": "string",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "_alphanumeric_",
+					"fieldType": "string",
+					"fieldFormat": "alphanumeric"
+				},
+				{
+					"fieldKey": "no-whitespaces",
+					"fieldType": "string",
+					"fieldFormat": "no-whitespaces"
+				},
+				{
+					"fieldKey": "#number",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "currency$",
+					"fieldType": "number",
+					"fieldFormat": "currency"
+				},
+				{
+					"fieldKey": "date",
+					"fieldType": "date",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "dmy",
+					"fieldType": "date",
+					"fieldFormat": "dmy"
+				},
+				{
+					"fieldKey": "mdy",
+					"fieldType": "date",
+					"fieldFormat": "mdy"
+				},
+				{
+					"fieldKey": "ymd",
+					"fieldType": "date",
+					"fieldFormat": "ymd"
+				},
+				{
+					"fieldKey": "time",
+					"fieldType": "time",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "integer",
+					"fieldType": "integer",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "selectionMark",
+					"fieldType": "selectionMark",
+					"fieldFormat": "not-specified"
+				}
+			]
+		},
+		"fixed_table_column_header_object": {
+			"fieldKey": "fixed_table_column_header_object",
+			"fieldType": "object",
+			"fieldFormat": "not-specified",
+			"fields": [
+				{
+					"fieldKey": "string",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "_alphanumeric_",
+					"fieldType": "string",
+					"fieldFormat": "alphanumeric"
+				},
+				{
+					"fieldKey": "no-whitespaces",
+					"fieldType": "string",
+					"fieldFormat": "no-whitespaces"
+				},
+				{
+					"fieldKey": "#number",
+					"fieldType": "number",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "currency$",
+					"fieldType": "number",
+					"fieldFormat": "currency"
+				},
+				{
+					"fieldKey": "date",
+					"fieldType": "date",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "dmy",
+					"fieldType": "date",
+					"fieldFormat": "dmy"
+				},
+				{
+					"fieldKey": "mdy",
+					"fieldType": "date",
+					"fieldFormat": "mdy"
+				},
+				{
+					"fieldKey": "ymd",
+					"fieldType": "date",
+					"fieldFormat": "ymd"
+				},
+				{
+					"fieldKey": "time",
+					"fieldType": "time",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "integer",
+					"fieldType": "integer",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "selectionMark",
+					"fieldType": "selectionMark",
+					"fieldFormat": "not-specified"
+				}
+			]
+		},
+		"fixed_table_row_header_object": {
+			"fieldKey": "fixed_table_row_header_object",
+			"fieldType": "object",
+			"fieldFormat": "not-specified",
+			"fields": [
+				{
+					"fieldKey": "string",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "alphanumeric",
+					"fieldType": "string",
+					"fieldFormat": "alphanumeric"
+				},
+				{
+					"fieldKey": "no-whitespaces",
+					"fieldType": "string",
+					"fieldFormat": "no-whitespaces"
+				},
+				{
+					"fieldKey": "number",
+					"fieldType": "string",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "currency",
+					"fieldType": "number",
+					"fieldFormat": "currency"
+				},
+				{
+					"fieldKey": "date",
+					"fieldType": "date",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "dmy",
+					"fieldType": "date",
+					"fieldFormat": "dmy"
+				},
+				{
+					"fieldKey": "mdy",
+					"fieldType": "date",
+					"fieldFormat": "mdy"
+				},
+				{
+					"fieldKey": "ymd",
+					"fieldType": "date",
+					"fieldFormat": "ymd"
+				},
+				{
+					"fieldKey": "time",
+					"fieldType": "integer",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "integer",
+					"fieldType": "integer",
+					"fieldFormat": "not-specified"
+				},
+				{
+					"fieldKey": "selectionMark",
+					"fieldType": "selectionMark",
+					"fieldFormat": "not-specified"
+				}
+			]
+		}
+	}
+}

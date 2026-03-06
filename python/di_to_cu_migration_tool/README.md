@@ -1,53 +1,103 @@
 # Document Intelligence to Content Understanding Migration Tool (Python)
 
-Welcome! This tool helps convert your Document Intelligence (DI) datasets to the Content Understanding (CU) **Preview.2** 2025-05-01-preview format, as used in AI Foundry. The following DI versions are supported:
+This tool converts labeled datasets from Document Intelligence (DI) custom extraction models into the Content Understanding (CU) **GA** 2025-11-01 format. The converted labeled data can then be used as a training knowledge source when creating Content Understanding analyzers on Microsoft Foundry, improving field extraction accuracy through in-context learning examples.
 
-- Custom Extraction Model DI 3.1 GA (2023-07-31) to DI 4.0 GA (2024-11-30) (Document Intelligence Studio) → DI-version = neural  
-- Document Field Extraction Model 4.0 Preview (2024-07-31-preview) (AI Foundry / AI Services / Vision + Document / Document Field Extraction) → DI-version = generative
+## Supported DI Model Types
 
-To identify the version of your Document Intelligence dataset, please consult the sample documents in this folder to match your format. You can also verify the version by reviewing your DI project's user experience. For instance, Custom Extraction DI 3.1/4.0 GA appears in Document Intelligence Studio (https://documentintelligence.ai.azure.com/studio), whereas Document Field Extraction DI 4.0 Preview is only available on Azure AI Foundry's preview service (https://ai.azure.com/explore/aiservices/vision/document/extraction).
+| Source DI Version | --di-model-type Flag | Original UI |
+|---|---|---|
+| Custom Extraction Model DI 3.1 GA (2023-07-31) to DI 4.0 GA (2024-11-30) | `neural` | [Document Intelligence Studio](https://documentintelligence.ai.azure.com/studio) |
+| Document Field Extraction Model 4.0 Preview (2024-07-31-preview) | `generative` | [Microsoft Foundry](https://ai.azure.com/explore/aiservices/vision/document/extraction) |
 
-For migrating from these DI versions to Content Understanding Preview.2, this tool first converts the DI dataset into a CU-compatible format. After conversion, you can create a Content Understanding Analyzer trained on your converted CU dataset. Additionally, you have the option to test its quality against any sample documents.
+To identify which model type your dataset uses, check where your project was created: Custom Extraction DI 3.1/4.0 GA appears in [Document Intelligence Studio](https://documentintelligence.ai.azure.com/studio), while Document Field Extraction DI 4.0 Preview is available in [Microsoft Foundry](https://ai.azure.com/explore/aiservices/vision/document/extraction). You can also compare your dataset files against the sample documents in this folder.
+
+## Migration Workflow
+
+The migration is a **4-step pipeline**. Each step is run in order:
+
+| Step | Script / Action | What It Does |
+|------|--------|--------------|
+| 1. **Convert** | `di_to_cu_converter.py` | Convert DI schema and label files into CU knowledge base format (`analyzer.json` + labels + OCR results) |
+| 2. **Review & Add Descriptions** | Edit `analyzer.json` | Review and improve CU analyzer/field descriptions to help the language model understand your extraction task |
+| 3. **Create** | `create_analyzer.py` | Upload the updated `analyzer.json` to the Content Understanding service to create an analyzer |
+| 4. **Verify** | `call_analyze.py` | Analyze a sample document with the created analyzer to verify extraction quality |
+
+For overall repository setup and broader guidance, see the main [README.md](../../README.md).
 
 ## Details About the Tools
 
-Here is a detailed breakdown of the three CLI tools and their functionality:
+This migration tool consists of three CLI scripts, intended to be run in order:
 
-* **di_to_cu_converter.py**  
-    * This CLI tool performs the first migration step. It converts your labeled Document Intelligence dataset into a CU-compatible dataset. The tool maps the following files accordingly:  
-      - fields.json → analyzer.json  
-      - DI labels.json → CU labels.json  
-      - ocr.json → result.json  
-    * Depending on the DI version, the tool uses either [cu_converter_neural.py](cu_converter_neural.py) or [cu_converter_generative.py](cu_converter_generative.py) to convert your fields.json and labels.json files.  
-    * For OCR data conversion, it creates a sample CU analyzer to extract raw OCR results via an Analyze request for each original file in the DI dataset. Since the sample analyzer contains no fields, the resulting result.json files contain no fields as well. Please refer to [get_ocr.py](get_ocr.py) for more details.
+* **di_to_cu_converter.py** — Converts a DI labeled dataset to CU format  
+    * Converts the labeled data for a DI custom extraction model into labeled data (a knowledge base) for Content Understanding. The tool maps DI files to CU equivalents:  
+      - `fields.json` → `analyzer.json` (analyzer definition with field schemas)  
+      - DI `labels.json` → CU `labels.json` (labeled training data)  
+      - `ocr.json` → `result.json` (OCR / layout results)  
+    * Depending on the DI version, the tool uses either [cu_converter_neural.py](cu_converter_neural.py) or [cu_converter_generative.py](cu_converter_generative.py) for the conversion logic.  
+    * For OCR data conversion, it uses the Content Understanding Python SDK to run the `prebuilt-layout` analyzer on each document, re-extracting raw OCR/layout results. See [get_ocr.py](get_ocr.py) for details.
+    * **Language model deployment overrides**: By default, the tool uses deployment names `gpt-4.1` for the completion (large language model) deployment and `text-embedding-3-large` for the embedding deployment. If your Microsoft Foundry deployments use different names, specify them with:
+      - `--completion-deployment <name>` (defaults to `gpt-4.1`)
+      - `--embedding-deployment <name>` (defaults to `text-embedding-3-large`)
 
-* **create_analyzer.py**  
-    * After converting the dataset to CU format, this CLI tool creates a CU analyzer referring to the converted dataset.
+* **create_analyzer.py** — Creates a CU analyzer from the converted dataset (Step 3)  
+    * Downloads the `analyzer.json` generated in Step 1 (and updated in Step 2) from blob storage (via `--analyzer-sas-url`) and submits it to the Content Understanding service using the Python SDK.  
+    * Uses the SDK's `begin_create_analyzer()` long-running operation, which handles polling automatically until the analyzer is ready.  
+    * Passes `allow_replace=True`, so re-running the command with the same analyzer ID will overwrite the existing analyzer — useful when iterating on descriptions.  
+    * Prints the created analyzer ID and field count on success. Use this analyzer ID as input to the next step.
 
-* **call_analyze.py**  
-    * This CLI tool verifies that the migration completed successfully and assesses the quality of the created analyzer.
+* **call_analyze.py** — Tests the created analyzer (Step 4)  
+    * Sends a document (via `--document-sas-url`) to the Content Understanding service and extracts fields using the analyzer created in Step 3.  
+    * Uses the SDK's `begin_analyze()` long-running operation with an `AnalysisInput(url=...)`.  
+    * Saves the full analysis result as JSON to `--output-json` (defaults to `./sample_documents/analyzer_result.json`).  
+    * Review the output to verify that extracted fields match your expectations. If accuracy is low, revisit the analyzer and field descriptions in `analyzer.json` (Step 2), re-create the analyzer (Step 3), and re-run this step.
+
 
 ## Setup
 
-Please follow these steps to set up the tool:
+### Prerequisites
 
-1. Install dependencies by running:  
-   `pip install -r ./requirements.txt`
-2. Rename the file **.sample_env** to **.env**
-3. Edit the **.env** file to update the following values:  
-   - **HOST:** Update to your Azure AI service endpoint.  
+⚠️ **IMPORTANT: Before using this migration tool**, ensure your Microsoft Foundry resource is properly configured for Content Understanding:
+
+1. **Configure default model deployments**: You must set default model deployments in your Content Understanding resource before creating or running analyzers.
+   - Follow the prerequisites in the [REST API Quickstart Guide](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/quickstart/use-rest-api?tabs=portal%2Cdocument)
+   - For more details, see the [Models and Deployments Documentation](https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/models-deployments)
+
+2. **Required language model deployments**: Your Foundry resource must have a **completion** (large language model) deployment and an **embedding** model deployment. By default, this tool expects deployments named `gpt-4.1` (completion) and `text-embedding-3-large` (embedding). If your deployments use different names, provide them with `--completion-deployment` and `--embedding-deployment` when running `di_to_cu_converter.py`.
+
+3. **Verify your setup**: Confirm you can create and use a basic Content Understanding analyzer in your Microsoft Foundry resource before attempting migration. This ensures all prerequisites (authentication, model deployments, permissions) are met.
+
+### Tool Setup
+
+1. Install dependencies:
+   ```bash
+   pip install -r ./requirements.txt
+   ```
+2. Rename **.sample_env** to **.env**.
+3. Edit the **.env** file with your resource details:  
+   - **CONTENTUNDERSTANDING_ENDPOINT:** Update to your Microsoft Foundry endpoint.  
      - Example: `"https://sample-azure-ai-resource.services.ai.azure.com"`  
      - Do not include a trailing slash (`/`).  
-       ![Azure AI Service](assets/sample-azure-resource.png)  
-       ![Azure AI Service Endpoints](assets/endpoint.png)  
-   - **SUBSCRIPTION_KEY:** Update to your Azure AI Service API Key or Subscription ID to authenticate the API requests.  
-     - Locate your API Key here: ![Azure AI Service Endpoints With Keys](assets/endpoint-with-keys.png)  
-     - If using Azure Active Directory (AAD), please refer to your Subscription ID: ![Azure AI Service Subscription ID](assets/subscription-id.png)  
-   - **API_VERSION:** This is preset to the CU Preview.2 version; no changes are needed.
+       ![Microsoft Foundry](assets/sample-azure-resource.png)  
+       ![Microsoft Foundry Endpoints](assets/endpoint.png)  
+   - **CONTENTUNDERSTANDING_KEY** *(optional)*: By default, the tool uses `DefaultAzureCredential` for authentication (Azure CLI `az login`, VS Code, Managed Identity), which is the **recommended** approach. If you prefer API key authentication instead, set this variable to your API key.  
+     - Locate your API Key here: ![Microsoft Foundry Endpoints With Keys](assets/endpoint-with-keys.png)
+
+### Configuration Reference
+
+#### Environment Variables (`.env`)
+
+Set these once in your `.env` file. All three scripts read them automatically.
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `CONTENTUNDERSTANDING_ENDPOINT` | **Yes** | Your Microsoft Foundry resource endpoint (e.g., `https://your-resource.services.ai.azure.com`) |
+| `CONTENTUNDERSTANDING_KEY` | No | API key for authentication. If not set, `DefaultAzureCredential` is used (recommended). Supports Azure CLI, VS Code, and Managed Identity |
+
+CLI flags for each script are documented in their respective [How to Run](#how-to-run) sections below.
 
 ## How to Locate Your Document Field Extraction Dataset for Migration
 
-To migrate your Document Field Extraction dataset from AI Foundry, please follow these steps:
+To migrate your Document Field Extraction dataset from Microsoft Foundry, please follow these steps:
 
 1. On the bottom-left of your Document Field Extraction project page, please select **Management Center**.  
    ![Management Center](assets/management-center.png)  
@@ -62,9 +112,11 @@ Example of a sample Document Field Extraction project location:
 
 ## How to Find Your Source and Target SAS URLs
 
-To run migration, you need to specify the source SAS URL (location of your Document Intelligence dataset) and the target SAS URL (location for your Content Understanding dataset).
+The migration tool requires two SAS URLs:
+- **Source SAS URL**: Points to the blob container holding your Document Intelligence labeled dataset.
+- **Target SAS URL**: Points to the blob container where the converted Content Understanding dataset will be stored.
 
-To obtain SAS URLs for a file or folder for any container URL arguments, please follow these steps:
+To generate SAS URLs:
 
 1. In the Azure Portal, navigate to your storage account and select **Storage Browser** from the left pane.  
    ![Storage Browser](assets/storage-browser.png)  
@@ -73,6 +125,7 @@ To obtain SAS URLs for a file or folder for any container URL arguments, please 
 3. Configure permissions and expiry for your SAS URL as follows:
 
    - For the **DI source dataset**, please select permissions: _**Read & List**_  
+
    - For the **CU target dataset**, please select permissions: _**Read, Add, Create, & Write**_  
 
    After configuring, click **Generate SAS Token and URL** and copy the URL shown under **Blob SAS URL**.  
@@ -80,113 +133,210 @@ To obtain SAS URLs for a file or folder for any container URL arguments, please 
    ![Generate SAS Pop-Up](assets/generate-sas-pop-up.png)
 
 **Notes:**  
-- SAS URLs do not specify a specific folder. To ensure the correct paths for source and target datasets, please specify the dataset folder using `--source-blob-folder` and `--target-blob-folder`.  
+- SAS URLs point to the container level, not a specific prefix (folder path). To specify the exact prefix within the container where your source or target dataset resides, use `--source-blob-folder` and `--target-blob-folder`.  
 - To generate a SAS URL for a specific file, navigate directly to that file and repeat the process, for example:  
   ![Generate SAS for Individual File](assets/individual-file-generate-sas.png)
 
-## How to Run 
+## How to Run
 
-Below are example commands to run the three tools. For readability, commands are split across multiple lines; please remove line breaks before execution.
+Below are example commands for each of the three tools. Commands are split across multiple lines using `\` for readability.
 
-_**NOTE:** Always enclose URLs in double quotes (`""`)._
+_**NOTE:** Always enclose SAS URLs in double quotes (`""`) to prevent shell interpretation of special characters._
 
-### 1. Convert Document Intelligence to Content Understanding Dataset
+### 1. Convert Document Intelligence Labeled Data to Content Understanding Knowledge Base
 
-If migrating a _DI 3.1/4.0 GA Custom Extraction_ dataset, please run:
+This command converts the labeled data from a Document Intelligence (DI) custom extraction model into a Content Understanding (CU) knowledge base format. After conversion, you can use the converted labeled data to create a Content Understanding analyzer with training data.
+
+- **Source**: The DI labeled dataset located in the blob container specified by `--source-container-sas-url`, under the blob prefix specified by `--source-blob-folder` (e.g., `myDIProject/data`).
+- **Target**: The converted CU knowledge base will be written to the blob container specified by `--target-container-sas-url`, under the blob prefix specified by `--target-blob-folder` (e.g., `myCUDataset`).
+
+#### CLI Flags
+
+| Flag | Required | Description |
+|------|----------|-------------|
+| `--di-model-type` | **Yes** | DI model type: `neural` or `generative` |
+| `--analyzer-id` | Neural: **Yes**, Generative: No | Analyzer ID for the created CU analyzer. Required when converting from a Neural model (`--di-model-type neural`). Not required when converting from a Generative model, where the `doc_type` from `fields.json` is used by default. |
+| `--source-container-sas-url` | **Yes** | SAS URL for the source blob container (Read + List permissions) |
+| `--source-blob-folder` | **Yes** | Blob prefix (folder) within the source container where the DI dataset resides |
+| `--target-container-sas-url` | **Yes** | SAS URL for the target blob container (Read + Add + Create + Write permissions) |
+| `--target-blob-folder` | **Yes** | Blob prefix (folder) within the target container for the CU dataset |
+| `--completion-deployment` | No | Completion model deployment name (default: `gpt-4.1`) |
+| `--embedding-deployment` | No | Embedding model deployment name (default: `text-embedding-3-large`) |
+
+#### Migrating a DI 3.1/4.0 GA Custom Neural Extraction dataset
 
 ```
-python ./di_to_cu_converter.py --DI-version neural --analyzer-prefix mySampleAnalyzer \
---source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName \
---target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
+python ./di_to_cu_converter.py --di-model-type neural --analyzer-id mySampleAnalyzer \
+--source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" \
+--source-blob-folder diDatasetPrefix \
+--target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" \
+--target-blob-folder cuDatasetPrefix
 ```
 
-For this migration, specifying an analyzer prefix is crucial for creating a CU analyzer. Since the fields.json does not define a "doc_type" for identification, the created analyzer ID will be the specified analyzer prefix.
-
-If migrating a _DI 4.0 Preview Document Field Extraction_ dataset, please run:
+If your large language model or embedding deployment names differ from the defaults (`gpt-4.1` and `text-embedding-3-large`), specify them explicitly:
 
 ```
-python ./di_to_cu_converter.py --DI-version generative --analyzer-prefix mySampleAnalyzer \
---source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" --source-blob-folder diDatasetFolderName \
---target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" --target-blob-folder cuDatasetFolderName
+python ./di_to_cu_converter.py --di-model-type neural --analyzer-id mySampleAnalyzer \
+--source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" \
+--source-blob-folder diDatasetPrefix \
+--target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" \
+--target-blob-folder cuDatasetPrefix \
+--completion-deployment "<your-completion-deployment-name>" \
+--embedding-deployment "<your-embedding-deployment-name>"
 ```
 
-For this migration, specifying an analyzer prefix is optional. However, to create multiple analyzers from the same analyzer.json, you will need to add an analyzer prefix. If provided, the analyzer ID becomes `analyzer-prefix_doc-type`; otherwise, it remains as the `doc_type` in fields.json.
+For this migration, specifying an `--analyzer-id` is **required**. Since the DI 3.1/4.0 GA `fields.json` does not define a `doc_type`, the value you provide becomes the analyzer ID directly.
+
+#### Migrating a DI 4.0 Preview Document Field Extraction dataset
+
+```
+python ./di_to_cu_converter.py --di-model-type generative --analyzer-id mySampleAnalyzer \
+--source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" \
+--source-blob-folder diDatasetPrefix \
+--target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" \
+--target-blob-folder cuDatasetPrefix
+```
+
+If your large language model or embedding deployment names differ from the defaults (`gpt-4.1` and `text-embedding-3-large`), specify them explicitly:
+
+```
+python ./di_to_cu_converter.py --di-model-type generative --analyzer-id mySampleAnalyzer \
+--source-container-sas-url "https://sourceStorageAccount.blob.core.windows.net/sourceContainer?sourceSASToken" \
+--source-blob-folder diDatasetPrefix \
+--target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" \
+--target-blob-folder cuDatasetPrefix \
+--completion-deployment "<your-completion-deployment-name>" \
+--embedding-deployment "<your-embedding-deployment-name>"
+```
+
+For this migration, specifying an `--analyzer-id` is optional. If provided, the final analyzer ID becomes `analyzer-id_doc-type`; otherwise, it defaults to the `doc_type` defined in `fields.json`. To create multiple analyzers from the same `analyzer.json`, you must provide an analyzer ID.
 
 _**NOTE:** Only one analyzer can be created per analyzer ID._
 
-### 2. Create an Analyzer
+### 2. Review and Add Descriptions to `analyzer.json`
 
-After converting the CU analyzer.json, please run:
+The Document Intelligence format **does not include descriptions** for the analyzer or individual fields. As a result, the converted `analyzer.json` will have an **empty** analyzer description and **empty** field descriptions.
+
+The accuracy of your Content Understanding analyzer depends significantly on the quality of these descriptions. **We strongly recommend reviewing and adding meaningful descriptions before creating the analyzer.**
+
+You can edit `analyzer.json` directly in blob storage or download it, edit locally, and re-upload.
+
+#### What to Update
+
+**1. Analyzer description** — the `"description"` field inside `"fieldSchema"` at the top of `analyzer.json`:
+
+Provide a clear summary of what the analyzer extracts and what types of documents it processes.
+
+```json
+"fieldSchema": {
+    "name": "myInvoiceAnalyzer",
+    "description": "Extract key fields from supplier invoices, including invoice number, date, vendor name, line items, and total amount.",
+    "fields": { ... }
+}
+```
+
+**2. Field descriptions** — the `"description"` on each field inside `"fields"`:
+
+Write a specific description for each field explaining what it represents, where it appears in the document, and any rules or exceptions.
+
+```json
+"fields": {
+    "invoice_number": {
+        "type": "string",
+        "method": "extract",
+        "description": "The unique invoice identifier, usually found in the top-right corner of the first page. May be labeled 'Invoice #', 'Invoice No.', or 'Inv'."
+    },
+    "total_amount": {
+        "type": "number",
+        "method": "extract",
+        "description": "The final total amount due, including tax. Located at the bottom of the invoice, typically labeled 'Total', 'Amount Due', or 'Grand Total'."
+    }
+}
+```
+
+Well-crafted descriptions help Content Understanding's language model better understand the extraction task, leading to higher accuracy. Take a few minutes to review each field — this is the most impactful step for improving results.
+
+### 3. Create an Analyzer
+
+After reviewing and updating descriptions (Step 2), use this command to create a Content Understanding analyzer from the `analyzer.json`. The command sends the analyzer definition—including field schemas, descriptions, and training data references—to the Content Understanding service.
+
+#### CLI Flags
+
+| Flag | Required | Description |
+|------|----------|-------------|
+| `--analyzer-sas-url` | **Yes** | SAS URL pointing to the `analyzer.json` file in blob storage |
+| `--target-container-sas-url` | **Yes** | SAS URL for the target blob container (same as in Step 1) |
+| `--target-blob-folder` | **Yes** | Blob prefix (folder) within the target container (same as in Step 1) |
 
 ```
 python ./create_analyzer.py \
---analyzer-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer/cuDatasetFolderName/analyzer.json?targetSASToken" \
+--analyzer-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer/cuDatasetPrefix/analyzer.json?targetSASToken" \
 --target-container-sas-url "https://targetStorageAccount.blob.core.windows.net/targetContainer?targetSASToken" \
---target-blob-folder cuDatasetFolderName
+--target-blob-folder cuDatasetPrefix
 ```
 
-The `analyzer.json` file is located in the specified target blob container and folder. Please obtain the SAS URL for `analyzer.json` from there.
+The `analyzer.json` file is located in the target blob container under the prefix you specified during conversion. Obtain its SAS URL from there.
 
-Use the analyzer ID output here for the next step when running `call_analyze.py`.
+Use the analyzer ID printed in the output for the next step when running `call_analyze.py`.
 
 Example:  
 ![Sample Analyzer Creation](assets/analyzer.png)
 
-### 3. Run Analyze
+### 4. Run Analyze
 
-To analyze a specific PDF or original file, please run:
+After creating the analyzer, use this command to verify the migration by analyzing a sample document. This sends the document to the Content Understanding service and returns the extracted fields, allowing you to assess the quality of the migrated analyzer.
+
+#### CLI Flags
+
+| Flag | Required | Description |
+|------|----------|-------------|
+| `--analyzer-id` | **Yes** | The analyzer ID created in Step 3 |
+| `--document-sas-url` | **Yes** | SAS URL for the document to analyze (PDF, image, etc.) |
+| `--output-json` | No | Output path for the analysis result JSON (default: `./sample_documents/analyzer_result.json`) |
 
 ```
 python ./call_analyze.py --analyzer-id mySampleAnalyzer \
---pdf-sas-url "https://storageAccount.blob.core.windows.net/container/folder/sample.pdf?SASToken" \
+--document-sas-url "https://storageAccount.blob.core.windows.net/container/folder/sample.pdf?SASToken" \
 --output-json "./desired-path-to-analyzer-results.json"
 ```
 
-For `--analyzer-id`, please use the analyzer ID created in the prior step.
-
-Specifying `--output-json` is optional; if omitted, the default output location is `./sample_documents/analyzer_result.json`.
+Review the output to verify that the extracted fields match your expectations. If field accuracy is low, consider [reviewing and updating the analyzer and field descriptions](#2-review-and-add-descriptions-to-analyzerjson) in `analyzer.json`, then re-create the analyzer (Step 3).
 
 ## Possible Issues
 
-Below are common issues you might encounter when creating an analyzer or running analysis.
+Below are common issues you may encounter during migration.
 
 ### Creating an Analyzer
 
-- **400 Bad Request** errors:  
-  Please validate the following:  
-  - The endpoint URL is valid. Example:  
-    `https://yourEndpoint/contentunderstanding/analyzers/yourAnalyzerID?api-version=2025-05-01-preview`  
-  - Your converted CU dataset respects the naming constraints below. If needed, please manually correct the `analyzer.json` fields:  
-    - Field names start with a letter or underscore  
+- **400 Bad Request**:  
+  Validate the following:  
+  - The `CONTENTUNDERSTANDING_ENDPOINT` in your `.env` file is correct (e.g., `https://your-resource.services.ai.azure.com`).  
+  - Your converted CU dataset respects the field naming constraints. If needed, manually correct the `analyzer.json` fields:  
+    - Field names must start with a letter or underscore  
     - Field name length must be between 1 and 64 characters  
     - Only letters, numbers, and underscores are allowed  
-  - Your Analyzer ID meets these naming requirements:  
-    - ID length must be between 1 and 64 characters  
+  - Your Analyzer ID meets these requirements:  
+    - Length must be between 1 and 64 characters  
     - Contains only letters, numbers, dots, underscores, and hyphens
 
 - **401 Unauthorized**:  
-  This implies an authentication failure. Please verify that your API Key and/or Subscription ID are correct and that you have access to the specified endpoint.
-
-- **409 Conflict**:  
-  This implies that an analyzer has already been created with this analyzer ID. Please try using a different analyzer ID.
+  Authentication failure. Verify that your `CONTENTUNDERSTANDING_KEY` is correct, or that you are logged in via Azure CLI (`az login`) if using `DefaultAzureCredential`.
 
 ### Calling Analyze
 
 - **400 Bad Request**:  
-  This implies that you might have an incorrect endpoint or SAS URL. Please ensure that your endpoint is valid and that you are using the correct SAS URL for the document:  
-  `https://yourendpoint/contentunderstanding/analyzers/yourAnalyzerID:analyze?api-version=2025-05-01-preview`  
-  Confirm you are using the correct SAS URL for the document.
+  Verify that your `CONTENTUNDERSTANDING_ENDPOINT` is correct and that the `--document-sas-url` is a valid, unexpired SAS URL.
 
 - **401 Unauthorized**:  
-  This implies an authentication failure. Please verify your API Key and/or your Subscription ID.
+  Authentication failure. Verify your `CONTENTUNDERSTANDING_KEY` or `DefaultAzureCredential` login.
 
 - **404 Not Found**:  
-  This implies that the analyzer with the specified ID does not exist. Please use the correct analyzer ID or create an analyzer with the specified ID.
+  The specified analyzer ID does not exist. Use the correct analyzer ID or create the analyzer first (Step 3).
 
 ## Points to Note
 
-1. Use Python version 3.9 or higher.  
-2. Signature field types (e.g., in previous DI versions) are not yet supported in Content Understanding. These will be ignored during migration when creating the analyzer.  
-3. The content of your training documents is retained in the CU model's metadata, under storage specifically. You can find more details at:  
-   https://learn.microsoft.com/en-us/legal/cognitive-services/content-understanding/transparency-note?toc=%2Fazure%2Fai-services%2Fcontent-understanding%2Ftoc.json&bc=%2Fazure%2Fai-services%2Fcontent-understanding%2Fbreadcrumb%2Ftoc.json  
-4. All conversions are for Content Understanding preview.2 version only.
+1. **Python version**: Use Python 3.9 or higher.  
+2. **Signature fields not supported**: Signature field types from previous DI versions are not yet supported in Content Understanding. These fields will be skipped during migration.  
+3. **Review analyzer and field descriptions**: The DI format does not include descriptions, so the converted `analyzer.json` will have empty analyzer and field descriptions. Adding meaningful descriptions significantly improves extraction accuracy. See [Step 2: Review and Add Descriptions](#2-review-and-add-descriptions-to-analyzerjson) for details.  
+4. **Training data retention**: The content of your training documents is retained in the CU model's metadata under storage. For more details, see the [Content Understanding Transparency Note](https://learn.microsoft.com/en-us/legal/cognitive-services/content-understanding/transparency-note?toc=%2Fazure%2Fai-services%2Fcontent-understanding%2Ftoc.json&bc=%2Fazure%2Fai-services%2Fcontent-understanding%2Fbreadcrumb%2Ftoc.json).  
+5. **API version**: All conversions target the Content Understanding GA (2025-11-01) API version.

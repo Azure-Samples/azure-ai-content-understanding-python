@@ -5,21 +5,22 @@ import json
 from pathlib import Path
 import re
 import sys
-import typer
 from typing import Optional, Tuple
 
 # imports from external packages (need to use pip install)
 from rich import print  # For colored output
 
 # imports from same project
-from constants import COMPLETE_DATE_FORMATS, CU_API_VERSION, MAX_FIELD_LENGTH, VALID_CU_FIELD_TYPES
+from constants import COMPLETE_DATE_FORMATS, CU_API_VERSION, MAX_FIELD_LENGTH, VALID_CU_FIELD_TYPES, COMPLETION_DEPLOYMENT, EMBEDDING_DEPLOYMENT, ANALYZER_JSON
 from field_definitions import FieldDefinitions
+from field_name_utils import FieldNameNormalizer
 
 # schema constants subject to change
 ANALYZER_FIELDS = "fieldSchema"
-# REPLACE THIS WITH YOUR OWN DESCRIPTION IF NEEDED
-# Remember that dynamic tables are arrays and fixed tables are objects
-ANALYZER_DESCRIPTION = "1. Define your schema by specifying the fields you want to extract from the input files. Choose clear and simple `field names`. Use `field descriptions` to provide explanations, exceptions, rules of thumb, and other details to clarify the desired behavior.\n\n2. For each field, indicate the `value type` of the desired output. Besides basic types like strings, dates, and numbers, you can define more complex structures such as `tables` (repeated items with subfields) and `fixed tables` (groups of fields with common subfields)."
+# The analyzer description is left empty by default.
+# Please review the converted analyzer.json and provide a meaningful description
+# that helps Content Understanding extract your fields accurately.
+DEFAULT_ANALYZER_DESCRIPTION = ""
 CU_LABEL_SCHEMA = f"https://schema.ai.azure.com/mmi/{CU_API_VERSION}/labels.json"
 
 def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
@@ -37,16 +38,19 @@ def convert_bounding_regions_to_source(page_number: int, polygon: list) -> str:
     source = f"D({page_number},{polygon_str})"
     return source
 
-def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: Optional[str], target_dir: Optional[Path], field_definitions: FieldDefinitions) -> Tuple[dict, dict]:
+def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_id: Optional[str], target_dir: Optional[Path], field_definitions: FieldDefinitions, target_container_sas_url: str = None, target_blob_folder: str = None, field_name_normalizer: FieldNameNormalizer = None, completion_deployment: Optional[str] = None, embedding_deployment: Optional[str] = None) -> Tuple[dict, dict, FieldNameNormalizer]:
     """
     Convert DI 3.1/4.0GA Custom Neural fields.json to analyzer.json format.
     Args:
         fields_json_path (Path): Path to the input fields.json file.
-        analyzer_prefix (Optional(str)): Prefix for the analyzer name.
+        analyzer_id (Optional(str)): The analyzer ID for the created CU analyzer.
         target_dir (Optional[Path]): Output directory for the analyzer.json file.
         field_definitions (FieldDefinitions): Field definitions object to store field definitions for analyzer.json if there are any fixed tables.
+        target_container_sas_url (str): Optional target container SAS URL for training data.
+        target_blob_folder (str): Optional target blob folder prefix for training data.
+        field_name_normalizer (FieldNameNormalizer): Optional normalizer instance for field names.
     Returns:
-        Tuple[dict, dict]: The analyzer data and a dictionary of the fields and their types for label conversion.
+        Tuple[dict, dict, FieldNameNormalizer]: The analyzer data, a dictionary of the fields and their types for label conversion, and the field name normalizer.
     """
     try:
         with open(fields_json_path, 'r', encoding="utf-8") as f:
@@ -60,14 +64,30 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
 
     # Good to do before each analyzer.json conversion
     field_definitions.clear_definitions()
+    
+    # Initialize field name normalizer if not provided
+    if field_name_normalizer is None:
+        field_name_normalizer = FieldNameNormalizer()
+    else:
+        field_name_normalizer.clear()
 
     # Need to store the fields and types, so that we can access them when converting the labels.json files
+    # Keys in fields_dict use ORIGINAL names for label lookup, but we also track normalized names
     fields_dict = {}
+    # Map from original field names to normalized names for label conversion
+    original_to_normalized = {}
+
+    completion_deployment = completion_deployment or COMPLETION_DEPLOYMENT
+    embedding_deployment = embedding_deployment or EMBEDDING_DEPLOYMENT
 
     # Build analyzer.json content
     analyzer_data = {
-        "analyzerId": analyzer_prefix,
-        "baseAnalyzerId": "prebuilt-documentAnalyzer",
+        "analyzerId": analyzer_id,
+        "baseAnalyzerId": "prebuilt-document",
+        "models": {
+            "completion": completion_deployment,
+            "embedding": embedding_deployment
+        },
         "config": {
             "returnDetails": True,
             # Add the following line as a temp workaround before service issue is fixed.
@@ -77,14 +97,11 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
             "estimateFieldSourceAndConfidence": True
         },
         ANALYZER_FIELDS: {
-            "name": analyzer_prefix,
-            "description": ANALYZER_DESCRIPTION,
+            "name": analyzer_id,
+            "description": DEFAULT_ANALYZER_DESCRIPTION,
             "fields": {},
             "definitions": {}
-        },
-        "warnings": fields_data.get("warnings", []),
-        "status": fields_data.get("status", "undefined"),
-        "templateId": fields_data.get("templateId", "document-2024-12-01")
+        }
     }
 
     # Update field schema to be in CU format
@@ -96,10 +113,10 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
         sys.exit(1)
 
     for field in fields:
-        analyzer_key = field.get("fieldKey")
-        if len(analyzer_key) > MAX_FIELD_LENGTH:
-            print(f"[red]Error: Field key '{analyzer_key}' contains {len(analyzer_key)}, which exceeds the limit of {MAX_FIELD_LENGTH} characters. [/red]")
-            sys.exit(1)
+        original_key = field.get("fieldKey")
+        # Normalize the field key to match CU API requirements
+        analyzer_key = field_name_normalizer.normalize_field_name(original_key, context="analyzer fields")
+        
         analyzer_type = field.get("fieldType")
         analyzer_field = {
             "type": analyzer_type,
@@ -107,31 +124,44 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
             "description": field.get("description", "")
         }
 
-        fields_dict[analyzer_key] = analyzer_type # Adds the field type to our dictionary
+        # Store mapping from original to normalized for label conversion
+        original_to_normalized[original_key] = analyzer_key
+        fields_dict[original_key] = analyzer_type # Adds the field type to our dictionary using ORIGINAL key
 
         if analyzer_type == "array": # for dynamic tables
             analyzer_field["method"] = "generate"
             # need to get the items from the definition
             item_definition = definitions.get(field.get("itemType"))
-            array_fields_dict, analyzer_field["items"] = convert_array_items(analyzer_key, item_definition)
+            array_fields_dict, analyzer_field["items"] = convert_array_items(analyzer_key, item_definition, field_name_normalizer, original_key, original_to_normalized)
             fields_dict.update(array_fields_dict)
 
         elif analyzer_type == "object": # for fixed tables
             analyzer_field["method"] = "generate"
-            object_fields_dict, analyzer_field["properties"] = convert_object_properties(field, definitions, analyzer_key, field_definitions)
+            object_fields_dict, analyzer_field["properties"] = convert_object_properties(field, definitions, analyzer_key, field_definitions, field_name_normalizer, original_key, original_to_normalized)
             fields_dict.update(object_fields_dict)
 
-        # Add to analyzer fields
+        # Add to analyzer fields with normalized key
         analyzer_data[ANALYZER_FIELDS]["fields"][analyzer_key] = analyzer_field
 
     analyzer_data[ANALYZER_FIELDS]["definitions"] = field_definitions.get_all_definitions()
 
     # Determine output path
     if target_dir:
-        analyzer_json_path = target_dir / 'analyzer.json'
+        analyzer_json_path = target_dir / ANALYZER_JSON
     else:
-        analyzer_json_path = fields_json_path.parent / 'analyzer.json'
+        analyzer_json_path = fields_json_path.parent / ANALYZER_JSON
 
+    # Add knowledgeSources section if container info is provided
+    if target_container_sas_url and target_blob_folder:
+        analyzer_data["knowledgeSources"] = [
+            {
+                "kind": "labeledData",
+                "containerUrl": target_container_sas_url,
+                "prefix": target_blob_folder,
+                "fileListPath": ""
+            }
+        ]
+    
     # Ensure target directory exists
     analyzer_json_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -141,18 +171,21 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_prefix: O
 
     print(f"[green]Successfully converted {fields_json_path} to analyzer.json at {analyzer_json_path}[/green]\n")
 
-    return analyzer_data, fields_dict
+    return analyzer_data, fields_dict, field_name_normalizer
 
-def convert_array_items(analyzer_key: str, item_definition: dict) -> Tuple[dict, dict]:
+def convert_array_items(analyzer_key: str, item_definition: dict, field_name_normalizer: FieldNameNormalizer, original_table_key: str, original_to_normalized: dict) -> Tuple[dict, dict]:
     """
     Helper function to convert array items for the analyzer.
     Args:
-        analyzer_key (str): The dictionary key for the array item (i.e., the name of the dynamic table).
+        analyzer_key (str): The normalized dictionary key for the array item (i.e., the name of the dynamic table).
         item_definition (dict): The item definition from the fields.json file (i.e. the itemType value)
+        field_name_normalizer (FieldNameNormalizer): Field name normalizer for column names.
+        original_table_key (str): The original table key before normalization.
+        original_to_normalized (dict): Mapping from original to normalized field names.
     Returns:
         Tuple[dict, dict]: A tuple containing two dictionaries:
-            - The first dictionary contains the field names and types for the array items.
-            - The second dictionary contains the items or rows within the dynamic table
+            - The first dictionary contains the field names and types for the array items (using original keys for label lookup).
+            - The second dictionary contains the items or rows within the dynamic table (using normalized keys)
     """
     array_fields_dict = {}
     items = {
@@ -162,27 +195,34 @@ def convert_array_items(analyzer_key: str, item_definition: dict) -> Tuple[dict,
     }
 
     for column in item_definition.get("fields", []):
-        column_key = column.get("fieldKey")
+        original_column_key = column.get("fieldKey")
+        # Normalize the column key
+        normalized_column_key = field_name_normalizer.normalize_field_name(original_column_key, context=f"array '{analyzer_key}' column")
         column_type = column.get("fieldType")
-        items["properties"][column_key] = {
+        items["properties"][normalized_column_key] = {
             "type": column_type,
             "method": column.get("method", "extract"),
             "description": column.get("description", ""),
         }
-        if column.get("fieldFormat") != "not-specified":
-            items["properties"][column_key]["format"] = column.get("fieldFormat")
-        array_fields_dict[f"{analyzer_key}/{column_key}"] = column_type
+        # Note: fieldFormat is not included in CU output - it's a DI-only field
+        # Store with ORIGINAL key for label lookup (using original table name and column name)
+        array_fields_dict[f"{original_table_key}/{original_column_key}"] = column_type
+        # Track the normalized name mapping
+        original_to_normalized[f"{original_table_key}/{original_column_key}"] = f"{analyzer_key}/{normalized_column_key}"
 
     return array_fields_dict, items
 
-def convert_object_properties(field: dict, definitions: dict, analyzer_key: str, field_definitions: FieldDefinitions) -> Tuple[dict, dict]:
+def convert_object_properties(field: dict, definitions: dict, analyzer_key: str, field_definitions: FieldDefinitions, field_name_normalizer: FieldNameNormalizer, original_table_key: str, original_to_normalized: dict) -> Tuple[dict, dict]:
     """
     Helper function to convert object properties for the analyzer.
     Args:
         field (dict): The field from the fields.json file for the fixed table.
         definitions (dict): The definitions from the fields.json file definitions section for the fixed table.
-        analyzer_key (str): The dictionary key for the object (i.e., the name of the fixed table).
+        analyzer_key (str): The normalized dictionary key for the object (i.e., the name of the fixed table).
         field_definitions (FieldDefinitions): Field definitions object to store field definitions for analyzer.json if there are any fixed tables.
+        field_name_normalizer (FieldNameNormalizer): Field name normalizer for row and column names.
+        original_table_key (str): The original table key before normalization.
+        original_to_normalized (dict): Mapping from original to normalized field names.
     Returns:
         Tuple[dict, dict]: A tuple containing two dictionaries:
             - The first dictionary contains the field names in fott format and types for the object properties.
@@ -191,62 +231,76 @@ def convert_object_properties(field: dict, definitions: dict, analyzer_key: str,
     object_fields_dict = {}
     properties = {}
     di_rows = field.get("fields", [])
-    first_row_name = di_rows[0].get("fieldKey") if di_rows else ""
+    original_first_row_name = di_rows[0].get("fieldKey") if di_rows else ""
+    normalized_first_row_name = field_name_normalizer.normalize_field_name(original_first_row_name, context=f"fixed table '{analyzer_key}' first row") if original_first_row_name else ""
 
     for i, di_row in enumerate(di_rows):
+        original_row_name = di_row.get("fieldKey")
+        normalized_row_name = field_name_normalizer.normalize_field_name(original_row_name, context=f"fixed table '{analyzer_key}' row")
         if i == 0:
             row_definition = definitions.get(di_row.get("fieldType"))
-            column_fields_dict = _add_object_definition(row_definition, analyzer_key, first_row_name, field_definitions)
-        row_name = di_row.get("fieldKey")
-        properties[row_name] = {"$ref": f"#/$defs/{analyzer_key}_{first_row_name}"}
-        for column_name, column_type in column_fields_dict.items():
-            object_fields_dict[f"{analyzer_key}\\{row_name}\\{column_name}"] = column_type # we're flipping the direction of the slash (from / to \) to cause a miss in the dictionary when looking up the field
+            column_fields_dict = _add_object_definition(row_definition, analyzer_key, normalized_first_row_name, field_definitions, field_name_normalizer, original_table_key, original_first_row_name, original_to_normalized)
+        properties[normalized_row_name] = {"$ref": f"#/$defs/{analyzer_key}_{normalized_first_row_name}"}
+        for original_column_name, column_type in column_fields_dict.items():
+            # Store with ORIGINAL key pattern for label lookup (using backslash as in original code)
+            object_fields_dict[f"{original_table_key}\\{original_row_name}\\{original_column_name}"] = column_type
+            # Track the normalized name mapping
+            normalized_column_name = field_name_normalizer.get_normalized_name(original_column_name)
+            original_to_normalized[f"{original_table_key}\\{original_row_name}\\{original_column_name}"] = f"{analyzer_key}/{normalized_row_name}/{normalized_column_name}"
 
     return object_fields_dict, properties
 
-def _add_object_definition(row_definition: dict, analyzer_key: str, first_row_name: str, field_definitions: FieldDefinitions) -> dict:
+def _add_object_definition(row_definition: dict, analyzer_key: str, first_row_name: str, field_definitions: FieldDefinitions, field_name_normalizer: FieldNameNormalizer, original_table_key: str, original_first_row_name: str, original_to_normalized: dict) -> dict:
     """
     Helper function to add object definitions to the analyzer.
     Args:
         row_definition (dict): The row definition from the fields.json file for the fixed table.
-        analyzer_key (str): The dictionary key for the object (i.e., the name of the fixed table).
-        first_row_name (str): The name of the first row in the fixed table.
+        analyzer_key (str): The normalized dictionary key for the object (i.e., the name of the fixed table).
+        first_row_name (str): The normalized name of the first row in the fixed table.
         field_definitions (FieldDefinitions): Field definitions object to store field definitions for analyzer.json if there are any fixed tables.
+        field_name_normalizer (FieldNameNormalizer): Field name normalizer for column names.
+        original_table_key (str): The original table key before normalization.
+        original_first_row_name (str): The original first row name before normalization.
+        original_to_normalized (dict): Mapping from original to normalized field names.
     Returns:
-        dict: A dictionary containing the field names and types for the object properties.
+        dict: A dictionary containing the ORIGINAL field names and types for the object properties (for label lookup).
     """
-    column_fields_dict = {}
+    column_fields_dict = {}  # Maps original column names to types
     definition = {
         "type": "object",
         "properties": {}
     }
 
     for column in row_definition.get("fields", []):
-        column_key = column.get("fieldKey")
+        original_column_key = column.get("fieldKey")
+        # Normalize the column key
+        normalized_column_key = field_name_normalizer.normalize_field_name(original_column_key, context=f"fixed table '{analyzer_key}' column")
         column_type = column.get("fieldType")
-        definition["properties"][column_key] = {
+        definition["properties"][normalized_column_key] = {
             "type": column_type,
             "method": column.get("method", "extract"),
             "description": column.get("description", ""),
         }
-        if column.get("fieldFormat") != "not-specified":
-            definition["properties"][column_key]["format"] = column.get("fieldFormat")
-        column_fields_dict[column_key] = column_type
-        definitions_key = f"{analyzer_key}_{first_row_name}"
-        if len(definitions_key) > MAX_FIELD_LENGTH:
-            print(f"[red]Error: The fixed table definition '{definitions_key}' will contain {len(definitions_key)}, which exceeds the limit of {MAX_FIELD_LENGTH} characters. Please shorten either the table name or row name. [/red]")
-            sys.exit(1)
+        # Note: fieldFormat is not included in CU output - it's a DI-only field
+        # Store ORIGINAL column key for label lookup
+        column_fields_dict[original_column_key] = column_type
+    
+    definitions_key = f"{analyzer_key}_{first_row_name}"
+    if len(definitions_key) > MAX_FIELD_LENGTH:
+        print(f"[red]Error: The fixed table definition '{definitions_key}' will contain {len(definitions_key)}, which exceeds the limit of {MAX_FIELD_LENGTH} characters. Please shorten either the table name or row name. [/red]")
+        sys.exit(1)
     field_definitions.add_definition(definitions_key, definition)
     return column_fields_dict
 
-def convert_di_labels_to_cu_neural(di_labels_path: Path, target_dir: Path, fields_dict: dict, removed_signatures: list) -> dict:
+def convert_di_labels_to_cu_neural(di_labels_path: Path, target_dir: Path, fields_dict: dict, removed_signatures: list, field_name_normalizer: FieldNameNormalizer = None) -> dict:
     """
     Convert DI 3.1/4.0 GA Custom Neural format labels.json to Content Understanding format labels.json.
     Args:
         di_labels_path (Path): Path to the Document Intelligence labels.json file.
         target_dir (Path): Output directory for the Content Understanding labels.json file.
-        fields_dict (dict): Dictionary of field names and types for the labels.json conversion.
+        fields_dict (dict): Dictionary of field names and types for the labels.json conversion (uses original keys).
         removed_signatures (list): List of removed signatures that we will skip when converting the labels.json file.
+        field_name_normalizer (FieldNameNormalizer): Optional normalizer with pre-existing mappings from analyzer conversion.
     Returns:
         dict: The Content Understanding labels.json data.
     """
@@ -292,6 +346,16 @@ def convert_di_labels_to_cu_neural(di_labels_path: Path, target_dir: Path, field
             table_name = parts[0].replace("~1", "/").replace("~0", "~")
             row = parts[1].replace("~1", "/").replace("~0", "~")
             column_name = parts[2].replace("~1", "/").replace("~0", "~")
+            
+            # Get normalized names if normalizer is provided
+            normalized_table_name = table_name
+            normalized_row = row
+            normalized_column_name = column_name
+            if field_name_normalizer is not None:
+                normalized_table_name = field_name_normalizer.get_normalized_name(table_name)
+                # For dynamic tables, row is a number index so don't normalize
+                # For fixed tables, row is a name so normalize
+                normalized_column_name = field_name_normalizer.get_normalized_name(column_name)
 
             # determine if the table is a fixed or dynamic table
             table_type = fields_dict.get(table_name)
@@ -299,65 +363,73 @@ def convert_di_labels_to_cu_neural(di_labels_path: Path, target_dir: Path, field
 
             if label_type == "array": # for dynamic tables
                 # need to check if the table already exists & if it doesnt, need to create the cu_label for the table
-                if table_name not in cu_data["fieldLabels"]:
+                if normalized_table_name not in cu_data["fieldLabels"]:
                     cu_label = {
                         "type": label_type,
                         "kind": label.get("kind", "confirmed"),
                         "valueArray": []
                     }
-                    # Add table to fieldLabels
-                    cu_data["fieldLabels"][table_name] = cu_label
+                    # Add table to fieldLabels with normalized name
+                    cu_data["fieldLabels"][normalized_table_name] = cu_label
                 # need to check if any rows have been defined yet in valueArray
-                if len(cu_data["fieldLabels"][table_name]["valueArray"]) == 0:
+                if len(cu_data["fieldLabels"][normalized_table_name]["valueArray"]) == 0:
                     value_object = {
                         "type": "object",
                         "kind": label.get("kind", "confirmed"),
                         "valueObject": {}
                     }
-                    cu_data["fieldLabels"][table_name]["valueArray"].append(value_object)
+                    cu_data["fieldLabels"][normalized_table_name]["valueArray"].append(value_object)
                 # check if the amount of valueObjects match the rowNumber, if not --> add that many rows
                 # this is because sometimes the first label for that table is not for the first row
-                if len(cu_data["fieldLabels"][table_name]["valueArray"]) <= int(row):
+                if len(cu_data["fieldLabels"][normalized_table_name]["valueArray"]) <= int(row):
                     value_object = {
                         "type": "object",
                         "kind": label.get("kind", "confirmed"),
                         "valueObject": {}
                     }
-                    number_of_rows_missing = int(row) - len(cu_data["fieldLabels"][table_name]["valueArray"]) + 1
+                    number_of_rows_missing = int(row) - len(cu_data["fieldLabels"][normalized_table_name]["valueArray"]) + 1
                     for i in range(number_of_rows_missing):
-                        cu_data["fieldLabels"][table_name]["valueArray"].append(value_object)
+                        cu_data["fieldLabels"][normalized_table_name]["valueArray"].append(value_object)
 
-                # actually need to add the column to the valueObject
+                # actually need to add the column to the valueObject with normalized column name
                 label_type = fields_dict.get(f"{table_name}/{column_name}")
-                cu_data["fieldLabels"][table_name]["valueArray"][int(row)]["valueObject"][column_name] = creating_cu_label_for_neural(label, label_type)
+                cu_data["fieldLabels"][normalized_table_name]["valueArray"][int(row)]["valueObject"][normalized_column_name] = creating_cu_label_for_neural(label, label_type)
 
             elif label_type == "object": # for fixed tables
+                # For fixed tables, normalize row name as well
+                if field_name_normalizer is not None:
+                    normalized_row = field_name_normalizer.get_normalized_name(row)
+                
                 # need to check if the table already exists & if it doesnt, need to create the cu_label for the table
-                if table_name not in cu_data["fieldLabels"]:
+                if normalized_table_name not in cu_data["fieldLabels"]:
                     cu_label = {
                         "type": label_type,
                         "kind": label.get("kind", "confirmed"),
                         "valueObject": {}
                     }
-                    # Add table to fieldLabels
-                    cu_data["fieldLabels"][table_name] = cu_label
-                # need to check if row has been defined, if not define it
-                if (cu_data["fieldLabels"][table_name]["valueObject"].get(row) is None):
+                    # Add table to fieldLabels with normalized name
+                    cu_data["fieldLabels"][normalized_table_name] = cu_label
+                # need to check if row has been defined, if not define it (using normalized row name)
+                if (cu_data["fieldLabels"][normalized_table_name]["valueObject"].get(normalized_row) is None):
                     value_object = {
                         "type": "object",
                         "kind": label.get("kind", "confirmed"),
                         "valueObject": {}
                     }
-                    cu_data["fieldLabels"][table_name]["valueObject"][row] = value_object
+                    cu_data["fieldLabels"][normalized_table_name]["valueObject"][normalized_row] = value_object
 
-                # actually need to add the column to the valueObject
+                # actually need to add the column to the valueObject with normalized names
                 label_type = fields_dict.get(f"{table_name}\\{row}\\{column_name}")
-                cu_data["fieldLabels"][table_name]["valueObject"][row]["valueObject"][column_name] = creating_cu_label_for_neural(label, label_type)
+                cu_data["fieldLabels"][normalized_table_name]["valueObject"][normalized_row]["valueObject"][normalized_column_name] = creating_cu_label_for_neural(label, label_type)
         else:
-            # Add field to fieldLabels
-            label_name = converted_label_name
+            # Add field to fieldLabels with normalized name
+            original_label_name = converted_label_name
             label_type = converted_label_type
-            cu_data["fieldLabels"][label_name] = creating_cu_label_for_neural(label, label_type)
+            # Get normalized name if normalizer is provided
+            normalized_label_name = original_label_name
+            if field_name_normalizer is not None:
+                normalized_label_name = field_name_normalizer.get_normalized_name(original_label_name)
+            cu_data["fieldLabels"][normalized_label_name] = creating_cu_label_for_neural(label, label_type)
 
     return cu_data
 
@@ -405,16 +477,25 @@ def creating_cu_label_for_neural(label:dict, label_type: str) -> dict:
             # if more than one period exists, remove them all
             if cleaned_string.count('.') > 1:
                 print("More than one decimal point exists, so will be removing them all.")
-                cleaned_string = cleaned_string = re.sub(r'\.', '', string_value)
-            final_content = float(cleaned_string)
+                cleaned_string = re.sub(r'\.', '', string_value)
+            if not cleaned_string:
+                final_content = None
+            else:
+                final_content = float(cleaned_string)
     elif label_type == "integer":
         try:
-            final_content = int(final_content)
+            if not final_content:
+                final_content = None
+            else:
+                final_content = int(final_content)
         except Exception as ex:
             # strip the string of all non-numerical values
             string_value = final_content
             cleaned_string = re.sub(r'[^0-9]', '', string_value)
-            final_content = int(cleaned_string)
+            if not cleaned_string:
+                final_content = None
+            else:
+                final_content = int(cleaned_string)
     elif label_type == "date":
         # dates can be dmy, mdy, ydm, or not specified
         # for CU, the format of our dates should be "%Y-%m-%d"
