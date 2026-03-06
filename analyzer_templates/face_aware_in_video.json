@@ -1,8 +1,7 @@
 {
     "description": "Generate face-aware content understanding from video.",
-    "baseAnalyzerId": "prebuilt-videoAnalyzer",
+    "baseAnalyzerId": "prebuilt-video",
     "config": {
-        "enableFace": true,
         "returnDetails": true,
         "locales": [
             "en-US",
@@ -18,7 +17,7 @@
         ]
     },
     "fieldSchema": {
-        "description": "Analyze videos to extract faces",
+        "description": "Analyze videos to extract visual descriptions including people",
         "fields": {
             "description": {
                 "type": "string",
@@ -35,6 +34,5 @@
                 ]
             }
         }
-    },
-    "scenario": "videoShot"
+    }
 }
