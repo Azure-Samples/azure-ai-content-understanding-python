@@ -252,6 +252,14 @@ Azure AI Content Understanding is a new Generative AI-based [Azure AI service](h
 - [Azure Search with Content Understanding](https://github.com/Azure-Samples/azure-ai-search-with-content-understanding-python)
 - [Azure Content Understanding with OpenAI](https://github.com/Azure-Samples/azure-ai-content-understanding-with-azure-openai-python)
 
+## DI-to-CU Migration Tool
+
+If you have existing **Document Intelligence (DI) custom extraction models** and want to migrate them to Content Understanding, see the [DI-to-CU Migration Tool](python/di_to_cu_migration_tool/). It converts labeled datasets from DI custom models into the CU GA 2025-11-01 format, so you can use your existing training data as a knowledge base when creating CU analyzers.
+
+- **Supported sources:** DI 3.1/4.0 GA Custom Neural, DI 4.0 Preview Document Field Extraction (generative)
+- **Pipeline:** Convert → Review descriptions → Create analyzer → Verify extraction
+- **Details:** See the [migration tool README](python/di_to_cu_migration_tool/README.md)
+
 ## Issues and Feedback
 
 This sample repository receives minimal maintenance updates. For bugs, feature requests, and questions about Azure AI Content Understanding, please file issues against the **official SDK repositories**:
