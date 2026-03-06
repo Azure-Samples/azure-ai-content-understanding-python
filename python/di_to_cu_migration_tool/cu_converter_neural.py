@@ -90,9 +90,7 @@ def convert_fields_to_analyzer_neural(fields_json_path: Path, analyzer_id: Optio
         },
         "config": {
             "returnDetails": True,
-            # Add the following line as a temp workaround before service issue is fixed.
             "enableLayout": True,
-            "enableBarcode": False,
             "enableFormula": False,
             "estimateFieldSourceAndConfidence": True
         },
