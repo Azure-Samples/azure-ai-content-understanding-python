@@ -11,7 +11,7 @@ from typing import Optional, Tuple
 from rich import print  # For colored output
 
 # imports from same project
-from constants import COMPLETE_DATE_FORMATS, CU_API_VERSION, MAX_FIELD_LENGTH, VALID_CU_FIELD_TYPES, COMPLETION_DEPLOYMENT, EMBEDDING_DEPLOYMENT, ANALYZER_JSON
+from constants import COMPLETE_DATE_FORMATS, CONVERT_TYPE_MAP, CU_API_VERSION, MAX_FIELD_LENGTH, TIME_FORMATS, VALID_CU_FIELD_TYPES, COMPLETION_DEPLOYMENT, EMBEDDING_DEPLOYMENT, ANALYZER_JSON
 from field_definitions import FieldDefinitions
 from field_name_utils import FieldNameNormalizer
 
@@ -442,6 +442,11 @@ def creating_cu_label_for_neural(label:dict, label_type: str) -> dict:
     Returns:
         dict: The converted CU label.
     """
+    # Defensive coercion: DI types that CU does not support (phoneNumber, address, currency)
+    # must be mapped to their CU-supported equivalents. The field-level pre-conversion in
+    # update_fott_fields handles most cases, but nested column types may bypass it.
+    if label_type in CONVERT_TYPE_MAP:
+        label_type = CONVERT_TYPE_MAP[label_type]
     label_value = VALID_CU_FIELD_TYPES[label_type]
     label_spans = label.get("spans", [])
     label_confidence = label.get("confidence", None)
@@ -524,6 +529,22 @@ def creating_cu_label_for_neural(label:dict, label_type: str) -> dict:
                     continue
             if not finished_date_normalization:
                 final_content = original_date # going with the default
+    elif label_type == "time":
+        # CU requires ISO 8601 (HH:MM:SS); DI can emit raw values like "3:15 PM" or "15:30".
+        original_time = final_content
+        normalized_time = None
+        for fmt in TIME_FORMATS:
+            try:
+                normalized_time = datetime.strptime(original_time, fmt).strftime("%H:%M:%S")
+                break # going with the first format that works
+            except ValueError:
+                continue
+        if normalized_time is None:
+            try:
+                normalized_time = parse(original_time).time().strftime("%H:%M:%S")
+            except Exception:
+                normalized_time = original_time # going with the default
+        final_content = normalized_time
 
     # Convert bounding_regions to source
     sources = []
