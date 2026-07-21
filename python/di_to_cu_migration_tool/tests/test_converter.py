@@ -125,6 +125,202 @@ class TestFieldTypeConversion:
         
         assert converted["fields"][0]["fieldType"] == "number"
 
+    def test_phone_number_to_string(self):
+        """Test that phoneNumber is converted to string (CU has no phoneNumber type)."""
+        fields_data = {
+            "$schema": "https://schema.cognitiveservices.azure.com/formrecognizer/2021-03-01/fields.json",
+            "fields": [
+                {"fieldKey": "phone", "fieldType": "phoneNumber", "fieldFormat": "not-specified"},
+            ]
+        }
+
+        _, converted = update_fott_fields(fields_data)
+
+        assert converted["fields"][0]["fieldType"] == "string"
+
+    def test_address_to_string(self):
+        """Test that address is converted to string (CU has no address type)."""
+        fields_data = {
+            "$schema": "https://schema.cognitiveservices.azure.com/formrecognizer/2021-03-01/fields.json",
+            "fields": [
+                {"fieldKey": "mailingAddress", "fieldType": "address", "fieldFormat": "not-specified"},
+            ]
+        }
+
+        _, converted = update_fott_fields(fields_data)
+
+        assert converted["fields"][0]["fieldType"] == "string"
+
+
+class TestUnsupportedCuTypesRejection:
+    """Tests that the CU converters never emit phoneNumber or address types/values."""
+
+    def test_valid_cu_field_types_excludes_phone_number(self):
+        """VALID_CU_FIELD_TYPES must not include phoneNumber (not in CU's ContentFieldType)."""
+        from constants import VALID_CU_FIELD_TYPES
+
+        assert "phoneNumber" not in VALID_CU_FIELD_TYPES, \
+            "phoneNumber is not part of the CU ContentFieldType union"
+        assert "address" not in VALID_CU_FIELD_TYPES, \
+            "address is not part of the CU ContentFieldType union"
+
+    def test_generative_label_coerces_phone_number_to_string(self):
+        """recursive_convert_di_label_to_cu_helper must never emit valuePhoneNumber."""
+        from cu_converter_generative import recursive_convert_di_label_to_cu_helper
+
+        di_label = {
+            "type": "phoneNumber",
+            "valuePhoneNumber": "+15551234567",
+            "content": "555-123-4567",
+            "spans": [],
+            "boundingRegions": [],
+        }
+
+        cu_label = recursive_convert_di_label_to_cu_helper(di_label)
+
+        assert cu_label["type"] == "string", "phoneNumber label must become string"
+        assert "valuePhoneNumber" not in cu_label
+        assert cu_label["valueString"] == "555-123-4567"
+
+    def test_generative_label_coerces_address_to_string(self):
+        """recursive_convert_di_label_to_cu_helper must never emit valueAddress."""
+        from cu_converter_generative import recursive_convert_di_label_to_cu_helper
+
+        di_label = {
+            "type": "address",
+            "valueAddress": {"streetAddress": "1 Microsoft Way"},
+            "content": "1 Microsoft Way, Redmond WA",
+            "spans": [],
+            "boundingRegions": [],
+        }
+
+        cu_label = recursive_convert_di_label_to_cu_helper(di_label)
+
+        assert cu_label["type"] == "string", "address label must become string"
+        assert "valueAddress" not in cu_label
+        assert cu_label["valueString"] == "1 Microsoft Way, Redmond WA"
+
+    def test_neural_label_coerces_phone_number_to_string(self):
+        """creating_cu_label_for_neural must never emit valuePhoneNumber."""
+        from cu_converter_neural import creating_cu_label_for_neural
+
+        di_label = {
+            "value": [{"page": 1, "text": "555-123-4567", "boundingBoxes": [[0.0]*8]}],
+            "spans": [],
+        }
+
+        cu_label = creating_cu_label_for_neural(di_label, "phoneNumber")
+
+        assert cu_label["type"] == "string", "phoneNumber label must become string"
+        assert "valuePhoneNumber" not in cu_label
+        assert cu_label["valueString"] == "555-123-4567"
+
+    def test_neural_label_coerces_address_to_string(self):
+        """creating_cu_label_for_neural must never emit valueAddress."""
+        from cu_converter_neural import creating_cu_label_for_neural
+
+        di_label = {
+            "value": [{"page": 1, "text": "1 Microsoft Way", "boundingBoxes": [[0.0]*8]}],
+            "spans": [],
+        }
+
+        cu_label = creating_cu_label_for_neural(di_label, "address")
+
+        assert cu_label["type"] == "string", "address label must become string"
+        assert "valueAddress" not in cu_label
+        assert cu_label["valueString"] == "1 Microsoft Way"
+
+
+class TestTimeNormalization:
+    """Tests that DI time values are normalized to CU's required ISO 8601 (HH:MM:SS)."""
+
+    @pytest.mark.parametrize("raw,expected", [
+        ("05:32:20", "05:32:20"),        # already ISO
+        ("15:30", "15:30:00"),           # 24-hour, no seconds
+        ("3:15 PM", "15:15:00"),         # 12-hour with meridiem
+        ("03:15 AM", "03:15:00"),        # 12-hour with leading zero
+        ("11:45:30 PM", "23:45:30"),     # 12-hour with seconds
+    ])
+    def test_generative_time_content_normalized(self, raw, expected):
+        """Generative converter normalizes raw time content to HH:MM:SS."""
+        from cu_converter_generative import recursive_convert_di_label_to_cu_helper
+
+        di_label = {
+            "type": "time",
+            "content": raw,
+            "spans": [],
+            "boundingRegions": [],
+        }
+
+        cu_label = recursive_convert_di_label_to_cu_helper(di_label)
+
+        assert cu_label["type"] == "time"
+        assert cu_label["valueTime"] == expected
+
+    def test_generative_time_value_time_normalized(self):
+        """Even when DI provides valueTime, the generative converter normalizes it."""
+        from cu_converter_generative import recursive_convert_di_label_to_cu_helper
+
+        di_label = {
+            "type": "time",
+            "valueTime": "3:15 PM",  # DI occasionally emits non-ISO
+            "content": "3:15 PM",
+            "spans": [],
+            "boundingRegions": [],
+        }
+
+        cu_label = recursive_convert_di_label_to_cu_helper(di_label)
+
+        assert cu_label["valueTime"] == "15:15:00"
+
+    def test_generative_time_unparseable_falls_back(self):
+        """Unparseable time strings fall back to the raw content."""
+        from cu_converter_generative import recursive_convert_di_label_to_cu_helper
+
+        di_label = {
+            "type": "time",
+            "content": "not-a-time",
+            "spans": [],
+            "boundingRegions": [],
+        }
+
+        cu_label = recursive_convert_di_label_to_cu_helper(di_label)
+
+        assert cu_label["valueTime"] == "not-a-time"
+
+    @pytest.mark.parametrize("raw,expected", [
+        ("05:32:20", "05:32:20"),
+        ("15:30", "15:30:00"),
+        ("3:15 PM", "15:15:00"),
+        ("11:45:30 PM", "23:45:30"),
+    ])
+    def test_neural_time_content_normalized(self, raw, expected):
+        """Neural converter normalizes DI text to HH:MM:SS."""
+        from cu_converter_neural import creating_cu_label_for_neural
+
+        di_label = {
+            "value": [{"page": 1, "text": raw, "boundingBoxes": [[0.0]*8]}],
+            "spans": [],
+        }
+
+        cu_label = creating_cu_label_for_neural(di_label, "time")
+
+        assert cu_label["type"] == "time"
+        assert cu_label["valueTime"] == expected
+
+    def test_neural_time_unparseable_falls_back(self):
+        """Neural converter falls back to raw content when time is unparseable."""
+        from cu_converter_neural import creating_cu_label_for_neural
+
+        di_label = {
+            "value": [{"page": 1, "text": "not-a-time", "boundingBoxes": [[0.0]*8]}],
+            "spans": [],
+        }
+
+        cu_label = creating_cu_label_for_neural(di_label, "time")
+
+        assert cu_label["valueTime"] == "not-a-time"
+
 
 class TestFieldNameValidation:
     """Tests for field name validation."""

@@ -11,7 +11,7 @@ from typing import Optional, Tuple
 from rich import print  # For colored output
 
 # imports from same project
-from constants import CU_API_VERSION, MAX_FIELD_LENGTH, VALID_CU_FIELD_TYPES, COMPLETION_DEPLOYMENT, EMBEDDING_DEPLOYMENT
+from constants import CONVERT_TYPE_MAP, CU_API_VERSION, MAX_FIELD_LENGTH, TIME_FORMATS, VALID_CU_FIELD_TYPES, COMPLETION_DEPLOYMENT, EMBEDDING_DEPLOYMENT
 from field_definitions import FieldDefinitions
 from field_name_utils import FieldNameNormalizer
 
@@ -277,6 +277,27 @@ def convert_di_labels_to_cu(di_labels_path: Path, target_dir: Path, field_name_n
 
     print(f"[green]Successfully converted Document Intelligence labels.json to Content Understanding labels.json at {cu_labels_path}[/green]\n")
 
+def _normalize_time_string(time_string: str) -> Optional[str]:
+    """
+    Best-effort normalization of a raw time string to ISO 8601 (HH:MM:SS).
+    Args:
+        time_string (str): The raw time string, e.g. "3:15 PM", "15:30", "05:32:20".
+    Returns:
+        Optional[str]: The normalized ISO 8601 time, or None if parsing failed.
+    """
+    if not time_string:
+        return None
+    candidate = time_string.strip()
+    for fmt in TIME_FORMATS:
+        try:
+            return datetime.strptime(candidate, fmt).strftime("%H:%M:%S")
+        except ValueError:
+            continue
+    try:
+        return parse(candidate).time().strftime("%H:%M:%S")
+    except Exception:
+        return None
+
 def recursive_convert_di_label_to_cu_helper(value: dict, field_name_normalizer: FieldNameNormalizer = None) -> dict:
     """
     Recursively convert each DI field to CU labels.json format
@@ -288,6 +309,11 @@ def recursive_convert_di_label_to_cu_helper(value: dict, field_name_normalizer: 
     """
     
     value_type = value.get("type")
+    # Defensive coercion: DI types that CU does not support (phoneNumber, address, currency)
+    # should be mapped to their CU-supported equivalents. The field-level pre-conversion
+    # handles the common top-level case, but nested labels may bypass it.
+    if value_type in CONVERT_TYPE_MAP:
+        value_type = CONVERT_TYPE_MAP[value_type]
     if(value_type not in VALID_CU_FIELD_TYPES and value_type != "selectionMark"):
         print(f"[red]Unexpected field type: {value_type}. Please refer to the specification for valid field types.[/red]")
         sys.exit(1)
@@ -314,8 +340,14 @@ def recursive_convert_di_label_to_cu_helper(value: dict, field_name_normalizer: 
             di_label["valueObject"][normalized_key] = recursive_convert_di_label_to_cu_helper(item, field_name_normalizer)
     else:
         value_part = VALID_CU_FIELD_TYPES[value_type]
-        if value.get(value_part) is not None and value.get(value_part) != "":
-            di_label[value_part] = value.get(value_part)
+        raw_value = value.get(value_part)
+        if raw_value is not None and raw_value != "":
+            if value_type == "time":
+                # CU requires ISO 8601 (HH:MM:SS); normalize whatever DI provided.
+                normalized = _normalize_time_string(raw_value)
+                di_label[value_part] = normalized if normalized is not None else raw_value
+            else:
+                di_label[value_part] = raw_value
         else:
             if value_type == "date":
                 date_string = value.get("content")
@@ -333,6 +365,10 @@ def recursive_convert_di_label_to_cu_helper(value: dict, field_name_normalizer: 
                         continue
                 if not finished_date_normalization:
                     di_label["valueDate"] = date_string # going with the default
+            elif value_type == "time":
+                time_string = value.get("content")
+                normalized = _normalize_time_string(time_string)
+                di_label["valueTime"] = normalized if normalized is not None else time_string
             elif value_type == "number":
                 try:
                     content_val = value.get("content")
