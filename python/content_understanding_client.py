@@ -551,14 +551,15 @@ class AzureContentUnderstandingClient:
         )
         return response
     
-    def begin_analyze_binary(self, analyzer_id: str, file_location: str) -> Response:
+    def begin_analyze_binary(self, analyzer_id: str, file_location: Optional[str] = None, data: Optional[bytes] = None) -> Response:
         """
         Begins the analysis of a single binary file using the specified analyzer.
         Uses the :analyzeBinary endpoint required by GA API 2025-11-01.
 
         Args:
             analyzer_id (str): The ID of the analyzer to use.
-            file_location (str): The local path to the file to analyze.
+            file_location (Optional[str]): Local path to the file to analyze.
+            data (Optional[bytes]): In-memory file bytes to analyze.
 
         Returns:
             Response: The response from the analysis request.
@@ -567,12 +568,20 @@ class AzureContentUnderstandingClient:
             ValueError: If the file location is not a valid file path.
             HTTPError: If the HTTP request returned an unsuccessful status code.
         """
-        file_path = Path(file_location)
-        if not file_path.exists() or not file_path.is_file():
-            raise ValueError("File location must be a valid file path.")
-        
-        with open(file_location, "rb") as file:
-            file_bytes = file.read()
+        if (file_location is None and data is None) or (file_location is not None and data is not None):
+            raise ValueError("Provide exactly one of: file_location or data.")
+
+        if file_location is not None:
+            file_path = Path(file_location)
+            if not file_path.exists() or not file_path.is_file():
+                raise ValueError("File location must be a valid file path.")
+            with open(file_path, "rb") as file:
+                file_bytes = file.read()
+        else:
+            # Use in-memory bytes
+            if not isinstance(data, (bytes, bytearray)) or len(data) == 0:
+                raise ValueError("data must be non-empty bytes.")
+            file_bytes = bytes(data)
         
         headers = {"Content-Type": "application/octet-stream"}
         headers.update(self._headers)
