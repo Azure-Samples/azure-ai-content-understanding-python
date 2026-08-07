@@ -1,6 +1,6 @@
 {
     "description": "Sample video content analyzer",
-    "baseAnalyzerId": "prebuilt-videoAnalyzer",
+    "baseAnalyzerId": "prebuilt-video",
     "config": {
         "returnDetails": true,
         "locales": [
@@ -14,9 +14,7 @@
             "ko-KR",
             "pt-BR",
             "zh-CN"
-        ],
-        "enableFace": false
+        ]
     },
-    "fieldSchema": {
-    }
+    "fieldSchema": {}
 }

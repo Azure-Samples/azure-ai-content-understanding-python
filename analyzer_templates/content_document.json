@@ -1,5 +1,5 @@
 {
     "description": "Sample document content analyzer",
-    "baseAnalyzerId": "prebuilt-documentAnalyzer",
+    "baseAnalyzerId": "prebuilt-document",
     "fieldSchema": {}
 }

@@ -1,6 +1,6 @@
 {
     "description": "Sample audio transcription",
-    "baseAnalyzerId": "prebuilt-audioAnalyzer",
+    "baseAnalyzerId": "prebuilt-audio",
     "config": {
       "returnDetails": true,
       "locales": ["en-US"]
