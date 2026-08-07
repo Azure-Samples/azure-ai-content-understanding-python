@@ -99,9 +99,7 @@ def convert_fields_to_analyzer(fields_json_path: Path, analyzer_id: Optional[str
         },
         "config": {
             "returnDetails": True,
-            # Add the following line as a temp workaround before service issue is fixed.
             "enableLayout": True,
-            "enableBarcode": False,
             "enableFormula": False,
             "estimateFieldSourceAndConfidence": True
         },
