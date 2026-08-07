@@ -1,0 +1,235 @@
+{
+    "description": "Analyze commercial contracts to extract core party details and identify general contractual risk points.",
+    "baseAnalyzerId": "prebuilt-document",
+    "fieldSchema": {
+        "name": "ContractRiskAnalysis",
+        "description": "Extract buyer and seller information, key terms, and generally identified contractual risk points.",
+        "fields": {
+            "ContractTitle": {
+                "type": "string",
+                "method": "extract",
+                "description": "Title or heading of the contract."
+            },
+            "ContractNumber": {
+                "type": "string",
+                "method": "extract",
+                "description": "Contract, agreement, or reference number if stated."
+            },
+            "ContractType": {
+                "type": "string",
+                "method": "classify",
+                "description": "General type of contract.",
+                "enum": [
+                    "Sales",
+                    "Service",
+                    "Purchase",
+                    "Supply",
+                    "NDA",
+                    "MSA",
+                    "SOW",
+                    "Lease",
+                    "Employment",
+                    "Other"
+                ]
+            },
+            "BuyerCompanyName": {
+                "type": "string",
+                "method": "extract",
+                "description": "Legal name of the buyer, customer, or purchasing party."
+            },
+            "SellerCompanyName": {
+                "type": "string",
+                "method": "extract",
+                "description": "Legal name of the seller, supplier, or service provider."
+            },
+            "BuyerAddress": {
+                "type": "string",
+                "method": "extract",
+                "description": "Registered or stated address of the buyer if present."
+            },
+            "SellerAddress": {
+                "type": "string",
+                "method": "extract",
+                "description": "Registered or stated address of the seller if present."
+            },
+            "EffectiveDate": {
+                "type": "date",
+                "method": "extract",
+                "description": "Date the contract becomes effective."
+            },
+            "ExecutionDate": {
+                "type": "date",
+                "method": "extract",
+                "description": "Date the contract was signed or executed."
+            },
+            "ExpirationDate": {
+                "type": "date",
+                "method": "extract",
+                "description": "End or expiration date of the contract if specified."
+            },
+            "AutoRenewal": {
+                "type": "boolean",
+                "method": "classify",
+                "description": "Whether the contract contains an automatic renewal clause."
+            },
+            "Currency": {
+                "type": "string",
+                "method": "extract",
+                "description": "Currency used for fees, charges, or contract value."
+            },
+            "ContractValue": {
+                "type": "number",
+                "method": "extract",
+                "description": "Total stated contract value when explicitly available."
+            },
+            "PaymentTerms": {
+                "type": "string",
+                "method": "extract",
+                "description": "Payment term language, such as due dates, milestones, or net payment days."
+            },
+            "GoverningLaw": {
+                "type": "string",
+                "method": "extract",
+                "description": "Governing law or jurisdiction stated in the contract."
+            },
+            "TerminationNoticePeriod": {
+                "type": "string",
+                "method": "extract",
+                "description": "Required notice period for termination if stated."
+            },
+            "LiabilityCap": {
+                "type": "string",
+                "method": "extract",
+                "description": "Any clause text or amount that limits liability."
+            },
+            "OverallRiskLevel": {
+                "type": "string",
+                "method": "classify",
+                "description": "Overall general contractual risk level inferred from the document.",
+                "enum": [
+                    "Low",
+                    "Medium",
+                    "High",
+                    "Critical"
+                ]
+            },
+            "RiskSummary": {
+                "type": "string",
+                "method": "generate",
+                "description": "Short summary of the main contract risks and why they matter."
+            },
+            "RiskPoints": {
+                "type": "array",
+                "method": "generate",
+                "description": "List of generally identified contractual risk points.",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "RiskCategory": {
+                            "type": "string",
+                            "method": "classify",
+                            "description": "Category of the identified contract risk.",
+                            "enum": [
+                                "Payment",
+                                "Liability",
+                                "Termination",
+                                "AutoRenewal",
+                                "Indemnity",
+                                "Confidentiality",
+                                "DataProtection",
+                                "IntellectualProperty",
+                                "Compliance",
+                                "ServiceLevel",
+                                "Exclusivity",
+                                "DisputeResolution",
+                                "ChangeControl",
+                                "Other"
+                            ]
+                        },
+                        "RiskTitle": {
+                            "type": "string",
+                            "method": "generate",
+                            "description": "Short label for the risk point."
+                        },
+                        "RiskDescription": {
+                            "type": "string",
+                            "method": "generate",
+                            "description": "Explanation of the risk and the clause concern."
+                        },
+                        "AffectedParty": {
+                            "type": "string",
+                            "method": "classify",
+                            "description": "Party most impacted by the risk.",
+                            "enum": [
+                                "Buyer",
+                                "Seller",
+                                "Both",
+                                "Unknown"
+                            ]
+                        },
+                        "Severity": {
+                            "type": "string",
+                            "method": "classify",
+                            "description": "Severity of this specific risk point.",
+                            "enum": [
+                                "Low",
+                                "Medium",
+                                "High",
+                                "Critical"
+                            ]
+                        },
+                        "ClauseReference": {
+                            "type": "string",
+                            "method": "extract",
+                            "description": "Clause title, section number, or nearby quoted text associated with the risk if available."
+                        },
+                        "MitigationSuggestion": {
+                            "type": "string",
+                            "method": "generate",
+                            "description": "Suggested mitigation, clarification, or negotiation point for the risk."
+                        }
+                    }
+                }
+            },
+            "KeyObligations": {
+                "type": "array",
+                "method": "generate",
+                "description": "Major obligations of the parties identified from the contract.",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "Party": {
+                            "type": "string",
+                            "method": "classify",
+                            "description": "Party that owns the obligation.",
+                            "enum": [
+                                "Buyer",
+                                "Seller",
+                                "Both",
+                                "Unknown"
+                            ]
+                        },
+                        "Obligation": {
+                            "type": "string",
+                            "method": "generate",
+                            "description": "Summary of the obligation."
+                        },
+                        "DueDate": {
+                            "type": "date",
+                            "method": "extract",
+                            "description": "Due date for the obligation if one is explicitly stated."
+                        }
+                    }
+                }
+            },
+            "MissingOrAmbiguousTerms": {
+                "type": "array",
+                "method": "generate",
+                "description": "Terms that appear missing, vague, or ambiguous and may increase legal or commercial risk.",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
